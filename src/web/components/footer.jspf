@@ -1,0 +1,7 @@
+<%@ page pageEncoding="UTF-8" %>
+
+<footer class="footer py-3  border-top border-thin">
+        <span class="text-left mx-5">Copyright &copy; 2020 eFake Inc. All Rights Reserved.</span>
+</footer>
+
+

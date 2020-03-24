@@ -35,16 +35,10 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Usuario.findByNombre", query = "SELECT u FROM Usuario u WHERE u.nombre = :nombre")
     , @NamedQuery(name = "Usuario.findByApellidos", query = "SELECT u FROM Usuario u WHERE u.apellidos = :apellidos")
     , @NamedQuery(name = "Usuario.findByEdad", query = "SELECT u FROM Usuario u WHERE u.edad = :edad")
-    , @NamedQuery(name = "Usuario.findByTelefono", query = "SELECT u FROM Usuario u WHERE u.telefono = :telefono")})
+    , @NamedQuery(name = "Usuario.findByTelefono", query = "SELECT u FROM Usuario u WHERE u.telefono = :telefono")
+    , @NamedQuery(name = "Usuario.findByImagen", query = "SELECT u FROM Usuario u WHERE u.imagen = :imagen")
+    , @NamedQuery(name = "Usuario.findByEsAdmin", query = "SELECT u FROM Usuario u WHERE u.esAdmin = :esAdmin")})
 public class Usuario implements Serializable {
-
-    @Size(max = 100)
-    @Column(name = "Imagen")
-    private String imagen;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "esAdmin")
-    private short esAdmin;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -75,6 +69,13 @@ public class Usuario implements Serializable {
     @Size(max = 13)
     @Column(name = "Telefono")
     private String telefono;
+    @Size(max = 100)
+    @Column(name = "Imagen")
+    private String imagen;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "esAdmin")
+    private short esAdmin;
     @OneToMany(mappedBy = "cliente")
     private List<Valoracion> valoracionList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
@@ -87,12 +88,13 @@ public class Usuario implements Serializable {
         this.correo = correo;
     }
 
-    public Usuario(String correo, String password, String nombre, String apellidos, int edad) {
+    public Usuario(String correo, String password, String nombre, String apellidos, int edad, short esAdmin) {
         this.correo = correo;
         this.password = password;
         this.nombre = nombre;
         this.apellidos = apellidos;
         this.edad = edad;
+        this.esAdmin = esAdmin;
     }
 
     public String getCorreo() {
@@ -143,6 +145,22 @@ public class Usuario implements Serializable {
         this.telefono = telefono;
     }
 
+    public String getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
+    }
+
+    public short getEsAdmin() {
+        return esAdmin;
+    }
+
+    public void setEsAdmin(short esAdmin) {
+        this.esAdmin = esAdmin;
+    }
+
     @XmlTransient
     public List<Valoracion> getValoracionList() {
         return valoracionList;
@@ -184,22 +202,6 @@ public class Usuario implements Serializable {
     @Override
     public String toString() {
         return "com.efake.entity.Usuario[ correo=" + correo + " ]";
-    }
-
-    public String getImagen() {
-        return imagen;
-    }
-
-    public void setImagen(String imagen) {
-        this.imagen = imagen;
-    }
-
-    public short getEsAdmin() {
-        return esAdmin;
-    }
-
-    public void setEsAdmin(short esAdmin) {
-        this.esAdmin = esAdmin;
     }
     
 }

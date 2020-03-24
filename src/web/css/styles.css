@@ -1,0 +1,67 @@
+/* 
+    Created on : 24-mar-2020, 22:14:55
+    Author     : PedroArenas
+*/
+html{
+    position: relative;
+    min-height: 100%;
+    min-width: 100%;
+}
+
+body{
+    background-color: #f4f4f4;
+}
+
+a {
+    color: #000;
+}
+
+a:hover{
+    text-decoration: none;
+    color: #0064d3;
+}
+    
+.footer{
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+}
+
+.border-thin{
+    border-width: 1px;
+    border-color: #fefefe;
+}
+
+.btn-primary{
+    background-color: #0064d3;
+    border-color: #0064d3;
+}
+
+
+#navBarSearchForm{
+    width: 40em;
+}
+
+@media(min-width: 375px){
+    #navBarSearchForm{
+        width: 15em;
+    }
+}
+
+@media(min-width: 768px){
+    #navBarSearchForm{
+        width: 25em;
+    }
+}
+
+@media(min-width: 1024px){
+    #navBarSearchForm{
+        width: 15em;
+    }
+}
+
+@media(min-width: 1366px){
+    #navBarSearchForm{
+        width: 30em;
+    }
+}

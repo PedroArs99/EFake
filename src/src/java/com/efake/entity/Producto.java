@@ -44,9 +44,6 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Producto.findByFecha", query = "SELECT p FROM Producto p WHERE p.fecha = :fecha")})
 public class Producto implements Serializable {
 
-    @ManyToMany(mappedBy = "productoList")
-    private List<Keywords> keywordsList;
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -59,7 +56,7 @@ public class Producto implements Serializable {
     @Column(name = "Nombre")
     private String nombre;
     @Lob
-    @Size(max = 65535)
+    @Size(max = 2147483647)
     @Column(name = "Descripcion")
     private String descripcion;
     @Basic(optional = false)
@@ -70,15 +67,13 @@ public class Producto implements Serializable {
     @Size(max = 65535)
     @Column(name = "Imagen")
     private String imagen;
-    @Lob
-    @Size(max = 65535)
-    @Column(name = "Keywords")
-    private String keywords;
     @Basic(optional = false)
     @NotNull
     @Column(name = "Fecha")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fecha;
+    @ManyToMany(mappedBy = "productoList")
+    private List<Keywords> keywordsList;
     @OneToMany(mappedBy = "productoValorado")
     private List<Valoracion> valoracionList;
     @JoinColumn(name = "Categoria", referencedColumnName = "ID")
@@ -145,20 +140,21 @@ public class Producto implements Serializable {
         this.imagen = imagen;
     }
 
-    public String getKeywords() {
-        return keywords;
-    }
-
-    public void setKeywords(String keywords) {
-        this.keywords = keywords;
-    }
-
     public Date getFecha() {
         return fecha;
     }
 
     public void setFecha(Date fecha) {
         this.fecha = fecha;
+    }
+
+    @XmlTransient
+    public List<Keywords> getKeywordsList() {
+        return keywordsList;
+    }
+
+    public void setKeywordsList(List<Keywords> keywordsList) {
+        this.keywordsList = keywordsList;
     }
 
     @XmlTransient
@@ -217,15 +213,6 @@ public class Producto implements Serializable {
     @Override
     public String toString() {
         return "com.efake.entity.Producto[ id=" + id + " ]";
-    }
-
-    @XmlTransient
-    public List<Keywords> getKeywordsList() {
-        return keywordsList;
-    }
-
-    public void setKeywordsList(List<Keywords> keywordsList) {
-        this.keywordsList = keywordsList;
     }
     
 }

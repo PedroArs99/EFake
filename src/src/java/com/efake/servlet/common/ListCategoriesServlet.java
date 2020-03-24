@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author carlo
  */
-@WebServlet(name = "ListCategoriesServlet", urlPatterns = {"/"})
+@WebServlet(name = "ListCategoriesServlet", urlPatterns = {"/ListCategoriesServlet"})
 public class ListCategoriesServlet extends HttpServlet {
     @EJB
     CategoriaFacade categoriaFacade;

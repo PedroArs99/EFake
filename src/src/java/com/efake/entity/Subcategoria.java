@@ -50,7 +50,7 @@ public class Subcategoria implements Serializable {
     @Column(name = "Nombre")
     private String nombre;
     @Lob
-    @Size(max = 65535)
+    @Size(max = 2147483647)
     @Column(name = "Descripcion")
     private String descripcion;
     @OneToMany(mappedBy = "subcategoria")
