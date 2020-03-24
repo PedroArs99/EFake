@@ -8,20 +8,6 @@ SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 
 -- -----------------------------------------------------
--- Schema mydb
--- -----------------------------------------------------
--- -----------------------------------------------------
--- Schema Efake
--- -----------------------------------------------------
-DROP SCHEMA IF EXISTS `Efake` ;
-
--- -----------------------------------------------------
--- Schema Efake
--- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `Efake` DEFAULT CHARACTER SET utf8mb4 ;
-USE `Efake` ;
-
--- -----------------------------------------------------
 -- Table `Efake`.`CATEGORIA`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `Efake`.`CATEGORIA` ;
@@ -31,9 +17,7 @@ CREATE TABLE IF NOT EXISTS `Efake`.`CATEGORIA` (
   `Nombre` VARCHAR(45) NOT NULL,
   `Descripcion` LONGTEXT NULL DEFAULT NULL,
   PRIMARY KEY (`ID`))
-ENGINE = InnoDB
-AUTO_INCREMENT = 6
-DEFAULT CHARACTER SET = utf8mb4;
+CHARACTER SET 'utf8';
 
 
 -- -----------------------------------------------------
@@ -41,11 +25,10 @@ DEFAULT CHARACTER SET = utf8mb4;
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `Efake`.`Keywords` ;
 
-CREATE TABLE IF NOT EXISTS `Efake`.`Keywords` (
+CREATE TABLE IF NOT EXISTS `Efake`.`KEYWORDS` (
   `Palabra` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`Palabra`))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4;
+CHARACTER SET 'utf8';
 
 
 -- -----------------------------------------------------
@@ -63,9 +46,8 @@ CREATE TABLE IF NOT EXISTS `Efake`.`USUARIO` (
   `Imagen` VARCHAR(100) NULL DEFAULT 'https://lifeatbrio.com/wp-content/uploads/2016/11/user-placeholder.jpg',
   `esAdmin` TINYINT(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`Correo`),
-  UNIQUE INDEX `Correo_UNIQUE` (`Correo` ASC) VISIBLE)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4;
+  UNIQUE INDEX `Correo_UNIQUE` (`Correo` ASC))
+CHARACTER SET 'utf8';
 
 
 -- -----------------------------------------------------
@@ -83,9 +65,9 @@ CREATE TABLE IF NOT EXISTS `Efake`.`SUBCATEGORIA` (
   CONSTRAINT `categoria`
     FOREIGN KEY (`Categoria`)
     REFERENCES `Efake`.`CATEGORIA` (`ID`))
-ENGINE = InnoDB
+
 AUTO_INCREMENT = 2
-DEFAULT CHARACTER SET = utf8mb4;
+CHARACTER SET 'utf8';
 
 
 -- -----------------------------------------------------
@@ -104,9 +86,9 @@ CREATE TABLE IF NOT EXISTS `Efake`.`PRODUCTO` (
   `Subcategoria` INT(11) NULL DEFAULT NULL,
   `Owner` VARCHAR(100) NOT NULL,
   PRIMARY KEY (`ID`),
-  INDEX `categoria_producto_idx` (`Categoria` ASC) VISIBLE,
-  INDEX `owner_idx` (`Owner` ASC) VISIBLE,
-  INDEX `subcategoria_idx` (`Subcategoria` ASC) VISIBLE,
+  INDEX `categoria_producto_idx` (`Categoria` ASC),
+  INDEX `owner_idx` (`Owner` ASC),
+  INDEX `subcategoria_idx` (`Subcategoria` ASC),
   CONSTRAINT `categoria_producto`
     FOREIGN KEY (`Categoria`)
     REFERENCES `Efake`.`CATEGORIA` (`ID`),
@@ -116,9 +98,7 @@ CREATE TABLE IF NOT EXISTS `Efake`.`PRODUCTO` (
   CONSTRAINT `subcategoria`
     FOREIGN KEY (`Subcategoria`)
     REFERENCES `Efake`.`SUBCATEGORIA` (`ID`))
-ENGINE = InnoDB
-AUTO_INCREMENT = 4
-DEFAULT CHARACTER SET = utf8mb4;
+CHARACTER SET 'utf8';
 
 
 -- -----------------------------------------------------
@@ -135,16 +115,15 @@ CREATE TABLE IF NOT EXISTS `Efake`.`VALORACION` (
   `Cliente` VARCHAR(100) NULL DEFAULT NULL,
   `ProductoValorado` INT(11) NULL DEFAULT NULL,
   PRIMARY KEY (`ID`),
-  INDEX `cliente_idx` (`Cliente` ASC) VISIBLE,
-  INDEX `producto_idx` (`ProductoValorado` ASC) VISIBLE,
+  INDEX `cliente_idx` (`Cliente` ASC),
+  INDEX `producto_idx` (`ProductoValorado` ASC) ,
   CONSTRAINT `cliente`
     FOREIGN KEY (`Cliente`)
     REFERENCES `Efake`.`USUARIO` (`Correo`),
   CONSTRAINT `producto`
     FOREIGN KEY (`ProductoValorado`)
     REFERENCES `Efake`.`PRODUCTO` (`ID`))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4;
+CHARACTER SET 'utf8';
 
 
 -- -----------------------------------------------------
@@ -156,8 +135,8 @@ CREATE TABLE IF NOT EXISTS `Efake`.`PRODUCTO_KEYWORDS` (
   `Producto` INT(11) NOT NULL,
   `Palabra` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`Producto`, `Palabra`),
-  INDEX `fk_PRODUCTO_has_Keywords_Keywords1_idx` (`Palabra` ASC) VISIBLE,
-  INDEX `fk_PRODUCTO_has_Keywords_PRODUCTO1_idx` (`Producto` ASC) VISIBLE,
+  INDEX `fk_PRODUCTO_has_Keywords_Keywords1_idx` (`Palabra` ASC) ,
+  INDEX `fk_PRODUCTO_has_Keywords_PRODUCTO1_idx` (`Producto` ASC) ,
   CONSTRAINT `fk_PRODUCTO_has_Keywords_PRODUCTO1`
     FOREIGN KEY (`Producto`)
     REFERENCES `Efake`.`PRODUCTO` (`ID`)
@@ -165,11 +144,11 @@ CREATE TABLE IF NOT EXISTS `Efake`.`PRODUCTO_KEYWORDS` (
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_PRODUCTO_has_Keywords_Keywords1`
     FOREIGN KEY (`Palabra`)
-    REFERENCES `Efake`.`Keywords` (`Palabra`)
+    REFERENCES `Efake`.`KEYWORDS` (`Palabra`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4;
+
+CHARACTER SET 'utf8';
 
 
 SET SQL_MODE=@OLD_SQL_MODE;

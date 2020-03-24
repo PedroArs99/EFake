@@ -16,6 +16,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -42,6 +43,9 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Producto.findByPrecio", query = "SELECT p FROM Producto p WHERE p.precio = :precio")
     , @NamedQuery(name = "Producto.findByFecha", query = "SELECT p FROM Producto p WHERE p.fecha = :fecha")})
 public class Producto implements Serializable {
+
+    @ManyToMany(mappedBy = "productoList")
+    private List<Keywords> keywordsList;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -213,6 +217,15 @@ public class Producto implements Serializable {
     @Override
     public String toString() {
         return "com.efake.entity.Producto[ id=" + id + " ]";
+    }
+
+    @XmlTransient
+    public List<Keywords> getKeywordsList() {
+        return keywordsList;
+    }
+
+    public void setKeywordsList(List<Keywords> keywordsList) {
+        this.keywordsList = keywordsList;
     }
     
 }

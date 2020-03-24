@@ -38,6 +38,14 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Usuario.findByTelefono", query = "SELECT u FROM Usuario u WHERE u.telefono = :telefono")})
 public class Usuario implements Serializable {
 
+    @Size(max = 100)
+    @Column(name = "Imagen")
+    private String imagen;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "esAdmin")
+    private short esAdmin;
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -176,6 +184,22 @@ public class Usuario implements Serializable {
     @Override
     public String toString() {
         return "com.efake.entity.Usuario[ correo=" + correo + " ]";
+    }
+
+    public String getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
+    }
+
+    public short getEsAdmin() {
+        return esAdmin;
+    }
+
+    public void setEsAdmin(short esAdmin) {
+        this.esAdmin = esAdmin;
     }
     
 }
