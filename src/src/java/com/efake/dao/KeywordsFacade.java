@@ -5,7 +5,7 @@
  */
 package com.efake.dao;
 
-import com.efake.entity.Administrador;
+import com.efake.entity.Keywords;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -15,7 +15,7 @@ import javax.persistence.PersistenceContext;
  * @author PedroArenas
  */
 @Stateless
-public class AdministradorFacade extends AbstractFacade<Administrador> {
+public class KeywordsFacade extends AbstractFacade<Keywords> {
 
     @PersistenceContext(unitName = "EfakePU")
     private EntityManager em;
@@ -25,8 +25,8 @@ public class AdministradorFacade extends AbstractFacade<Administrador> {
         return em;
     }
 
-    public AdministradorFacade() {
-        super(Administrador.class);
+    public KeywordsFacade() {
+        super(Keywords.class);
     }
     
 }

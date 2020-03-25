@@ -16,6 +16,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -55,7 +56,7 @@ public class Producto implements Serializable {
     @Column(name = "Nombre")
     private String nombre;
     @Lob
-    @Size(max = 65535)
+    @Size(max = 2147483647)
     @Column(name = "Descripcion")
     private String descripcion;
     @Basic(optional = false)
@@ -66,15 +67,13 @@ public class Producto implements Serializable {
     @Size(max = 65535)
     @Column(name = "Imagen")
     private String imagen;
-    @Lob
-    @Size(max = 65535)
-    @Column(name = "Keywords")
-    private String keywords;
     @Basic(optional = false)
     @NotNull
     @Column(name = "Fecha")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fecha;
+    @ManyToMany(mappedBy = "productoList")
+    private List<Keywords> keywordsList;
     @OneToMany(mappedBy = "productoValorado")
     private List<Valoracion> valoracionList;
     @JoinColumn(name = "Categoria", referencedColumnName = "ID")
@@ -143,20 +142,21 @@ public class Producto implements Serializable {
         this.imagen = imagen;
     }
 
-    public String getKeywords() {
-        return keywords;
-    }
-
-    public void setKeywords(String keywords) {
-        this.keywords = keywords;
-    }
-
     public Date getFecha() {
         return fecha;
     }
 
     public void setFecha(Date fecha) {
         this.fecha = fecha;
+    }
+
+    @XmlTransient
+    public List<Keywords> getKeywordsList() {
+        return keywordsList;
+    }
+
+    public void setKeywordsList(List<Keywords> keywordsList) {
+        this.keywordsList = keywordsList;
     }
 
     @XmlTransient

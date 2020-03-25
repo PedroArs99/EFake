@@ -14,6 +14,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -35,7 +36,6 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Valoracion.findAll", query = "SELECT v FROM Valoracion v")
     , @NamedQuery(name = "Valoracion.findById", query = "SELECT v FROM Valoracion v WHERE v.id = :id")
     , @NamedQuery(name = "Valoracion.findByPuntuacion", query = "SELECT v FROM Valoracion v WHERE v.puntuacion = :puntuacion")
-    , @NamedQuery(name = "Valoracion.findByComentario", query = "SELECT v FROM Valoracion v WHERE v.comentario = :comentario")
     , @NamedQuery(name = "Valoracion.findByFecha", query = "SELECT v FROM Valoracion v WHERE v.fecha = :fecha")
     , @NamedQuery(name = "Valoracion.findByHora", query = "SELECT v FROM Valoracion v WHERE v.hora = :hora")})
 public class Valoracion implements Serializable {
@@ -50,7 +50,8 @@ public class Valoracion implements Serializable {
     @NotNull
     @Column(name = "Puntuacion")
     private int puntuacion;
-    @Size(max = 255)
+    @Lob
+    @Size(max = 2147483647)
     @Column(name = "Comentario")
     private String comentario;
     @Basic(optional = false)
