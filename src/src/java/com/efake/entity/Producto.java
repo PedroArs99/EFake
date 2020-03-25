@@ -11,6 +11,7 @@ import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -72,9 +73,9 @@ public class Producto implements Serializable {
     @Column(name = "Fecha")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fecha;
-    @ManyToMany(mappedBy = "productoList")
+    @ManyToMany(mappedBy = "productoList", fetch = FetchType.LAZY)
     private List<Keywords> keywordsList;
-    @OneToMany(mappedBy = "productoValorado")
+    @OneToMany(mappedBy = "productoValorado", fetch = FetchType.LAZY)
     private List<Valoracion> valoracionList;
     @JoinColumn(name = "Categoria", referencedColumnName = "ID")
     @ManyToOne(optional = false)

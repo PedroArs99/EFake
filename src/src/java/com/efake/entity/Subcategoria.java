@@ -10,6 +10,7 @@ import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -53,7 +54,7 @@ public class Subcategoria implements Serializable {
     @Size(max = 2147483647)
     @Column(name = "Descripcion")
     private String descripcion;
-    @OneToMany(mappedBy = "subcategoria")
+    @OneToMany(mappedBy = "subcategoria", fetch = FetchType.LAZY)
     private List<Producto> productoList;
     @JoinColumn(name = "Categoria", referencedColumnName = "ID")
     @ManyToOne(optional = false)
