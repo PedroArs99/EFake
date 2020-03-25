@@ -99,6 +99,8 @@ public class Producto implements Serializable {
         this.nombre = nombre;
         this.precio = precio;
         this.fecha = fecha;
+        
+                
     }
 
     public Integer getId() {

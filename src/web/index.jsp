@@ -12,6 +12,58 @@
         <link rel="stylesheet" href="css/styles.css">
     </head>
     <body>
+      <div class="mx-5">
+        <nav class="navbar navbar-expand-lg navbar-light bg-transparent border-bottom border-secondary">
+          <a class="navbar-brand" href="#">
+              <img src="https://raw.githubusercontent.com/PedroArs99/EFake/master/img/logo.png" height="30" class="d-inline-block align-top" alt="">
+            </a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+        
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+              <li class="nav-item dropdown mr-3">
+                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Categories
+                  </a>
+                  <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <%for(Categoria c : categoryList) {%>
+                    <a class="dropdown-item" href="#"><%= c.getNombre() %></a>
+                    <% } %>
+                  </div>
+              </li>
+              
+              <form class="form-inline my-2 my-lg-0">
+                  <div class= "form-group">
+                      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                      <button class="btn btn-primary my-2 my-sm-0" type="submit">Search</button>
+                  </div>
+              </form>
+            </ul>
+
+            <a href="#" class="mr-3">I don't have an account</a>
+            <a href="#" class="btn btn-secondary">Login</a>
+          </div>
+        </nav>
+        <div class= "p-5">
+
+        </div>
+        <footer class="footer mt-auto py-3 border-top border-secondary">
+          <div class="container">
+            <span class="text-muted">Copyright &copy; 2020 eFake Inc. All Rights Reserved.</span>
+          </div>
+        </footer>
+         <hr>
+        <a  class="btn btn-secondary" href="<%=request.getContextPath() %>/CreateProducts.jsp">Crear producto</a>
+        <br
+      </div>  
+      
+        
+        
+        
+        
+        
         <%@include file="components/navbar.jspf"%>
         <%@include file="components/footer.jspf"%>
         
