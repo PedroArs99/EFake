@@ -72,7 +72,9 @@
             <span class="text-muted">Copyright &copy; 2020 eFake Inc. All Rights Reserved.</span>
           </div>
         </footer>
-
+         <hr>
+        <a  class="btn btn-secondary" href="<%=request.getContextPath() %>/CreateProducts.jsp">Crear producto</a>
+        <br
       </div>  
       
         
