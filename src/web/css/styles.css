@@ -37,10 +37,17 @@ a:hover{
     border-color: #0064d3;
 }
 
+.multi-columns-3{
+    min-width: 600px;
+}
 
+.nav-link{
+    color: #000;
+}
 #navBarSearchForm{
     width: 40em;
 }
+
 
 @media(min-width: 375px){
     #navBarSearchForm{

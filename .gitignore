@@ -3,8 +3,8 @@
 
 #Netbeans
 src/nbproject/
-src/build
-src/dist
+src/build/
+src/dist/
 
 #java
-.class
+*.class

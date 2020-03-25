@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.efake.servlet.common;
+package com.efake.servlet.components;
 
 import com.efake.dao.CategoriaFacade;
 import com.efake.entity.Categoria;
@@ -16,21 +16,24 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author carlo
+ * @author carlos
  */
-@WebServlet(name = "ListCategoriesServlet", urlPatterns = {"/ListCategoriesServlet"})
-public class ListCategoriesServlet extends HttpServlet {
+@WebServlet(name = "ListNavCategories", urlPatterns = {"/NavCategories"})
+public class ListNavCategories extends HttpServlet {
     @EJB
     CategoriaFacade categoriaFacade;
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
         List<Categoria> categoryList = categoriaFacade.findAll();
+        String redirectTo = (String) request.getAttribute("referer");
         
-        request.setAttribute("categoryList", categoryList);
-        RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
+        session.setAttribute("categoryList", categoryList);
+        RequestDispatcher rd = request.getRequestDispatcher(redirectTo);
         rd.forward(request, response);
     }
 

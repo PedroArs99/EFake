@@ -1,7 +1,10 @@
 <%@ page pageEncoding="UTF-8" %>
 
 <footer class="footer py-3  border-top border-thin">
-        <span class="text-left mx-5">Copyright &copy; 2020 eFake Inc. All Rights Reserved.</span>
+        <span class="text-left ml-5 mr-3">Copyright &copy; 2020 eFake Inc. All Rights Reserved.</span>
+        <a href="https://github.com/PedroArs99/EFake">
+                <i class="fab fa-github"></i>
+        </a>
 </footer>
 
 
