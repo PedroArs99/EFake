@@ -21,11 +21,11 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-        <link rel="stylesheet" href="/efake/css/styles.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/styles.css">
     </head>
-    <body>
-        <%@include file="components/navbar.jspf"%>
-        <%@include file="components/footer.jspf"%>
+    <body class="d-flex flex-column h-100">
+        <%@include file="/components/navbar.jspf"%>
+        <%@include file="/components/footer.jspf"%>
     
     <!--Font Awesome-->
     <script src="https://kit.fontawesome.com/998261dc3d.js" crossorigin="anonymous"></script>

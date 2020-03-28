@@ -9,23 +9,24 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>JSP Page</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Efake</title>
     <!--Bootstrap -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link rel="stylesheet" href="/efake/css/styles.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/styles.css">
 </head>
 
-<body>
+<body class="d-flex flex-column ">
     <%@include file="/components/navbar.jspf"%>
-    <div class="container-sm mt-3">
+    <div class="container-md mt-3">
         <h5 class="text-left py-3">User Management</h5>
         <div class="row p-3 ">
             <div class="col-md-4">
                 <div class="card text-center bg-transparent border-0">
                     <i class="fas fa-users fa-7x"></i>
                     <div class="card-body">
-                        <a href="#" class="btn btn-primary">User List</a>
+                        <a href="${pageContext.request.contextPath}/ListUsers?list=all" class="btn btn-primary">User List</a>
                     </div>
                 </div>
             </div>
@@ -66,7 +67,16 @@
                         </div>
                     </div>
                 </div>
-            </div>
+                
+                <div class="col-md-4">
+                    <div class="card text-center bg-transparent border-0">
+                        <i class="fas fa-comment-slash fa-7x"></i>
+                        <div class="card-body">
+                            <a href="#" class="btn btn-primary">Reported Comments</a>
+                        </div>
+                    </div>
+                </div>
+            </div>     
     </div>
     <%@include file="/components/footer.jspf"%>
 
@@ -82,7 +92,6 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
         crossorigin="anonymous"></script>
-
     <body>
 
 </html

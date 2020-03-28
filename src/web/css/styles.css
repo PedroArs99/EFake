@@ -23,8 +23,6 @@ a:hover{
     
 .footer{
     width: 100%;
-    position: absolute;
-    bottom: 0;
 }
 
 .border-thin{
@@ -44,6 +42,12 @@ a:hover{
 .nav-link{
     color: #000;
 }
+
+#footer-text{
+    margin-left: 3em;
+    margin-right: 1em;
+}
+
 #navBarSearchForm{
     width: 40em;
 }
@@ -53,12 +57,34 @@ a:hover{
     #navBarSearchForm{
         width: 15em;
     }
+    
+    #footer-text{
+        margin-left: 5px;
+        margin-right: 5px;
+    }
+}
+
+@media(min-width: 480px){
+    #navBarSearchForm{
+        width: 20em;
+    }
+    
+    #footer-text{
+        margin-left: 10px;
+        margin-right: 10px;
+    }
 }
 
 @media(min-width: 768px){
     #navBarSearchForm{
         width: 25em;
     }
+    
+    #footer-text{
+        margin-left: 1em;
+        margin-right: 1em;
+    }
+    
 }
 
 @media(min-width: 1024px){
@@ -70,5 +96,10 @@ a:hover{
 @media(min-width: 1366px){
     #navBarSearchForm{
         width: 30em;
+    }
+    
+    .footer{
+        position: absolute;
+        bottom: 0;
     }
 }

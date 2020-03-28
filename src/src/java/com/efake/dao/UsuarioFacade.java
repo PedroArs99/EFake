@@ -6,9 +6,11 @@
 package com.efake.dao;
 
 import com.efake.entity.Usuario;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -27,6 +29,18 @@ public class UsuarioFacade extends AbstractFacade<Usuario> {
 
     public UsuarioFacade() {
         super(Usuario.class);
+    }
+    
+    //Self Queries
+    public List<Usuario> findByEsAdmin(boolean esAdmin){
+        Query q; 
+        List<Usuario> userList;
+        
+        q = this.getEntityManager().createNamedQuery("Usuario.findByEsAdmin");
+        q.setParameter("esAdmin", esAdmin);
+        userList = (List<Usuario>) q.getResultList();
+        
+        return userList;
     }
     
 }
