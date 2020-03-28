@@ -45,6 +45,11 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Producto.findByFecha", query = "SELECT p FROM Producto p WHERE p.fecha = :fecha")})
 public class Producto implements Serializable {
 
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "Reportado")
+    private short reportado;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -216,6 +221,14 @@ public class Producto implements Serializable {
     @Override
     public String toString() {
         return "com.efake.entity.Producto[ id=" + id + " ]";
+    }
+
+    public short getReportado() {
+        return reportado;
+    }
+
+    public void setReportado(short reportado) {
+        this.reportado = reportado;
     }
     
 }

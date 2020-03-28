@@ -32,13 +32,13 @@ public class UsuarioFacade extends AbstractFacade<Usuario> {
     }
     
     //Self Queries
-    public List<Usuario> findByEsAdmin(boolean esAdmin){
-        Query q; 
+    public List<Usuario> findByEsAdmin(int esAdmin){
+        Query q;
         List<Usuario> userList;
         
         q = this.getEntityManager().createNamedQuery("Usuario.findByEsAdmin");
         q.setParameter("esAdmin", esAdmin);
-        userList = (List<Usuario>) q.getResultList();
+        userList = q.getResultList();
         
         return userList;
     }

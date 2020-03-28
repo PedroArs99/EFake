@@ -1,14 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.efake.servlet.admin;
 
 import com.efake.dao.UsuarioFacade;
 import com.efake.entity.Usuario;
 import java.io.IOException;
-import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -21,8 +15,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author PedroArenas
  */
-@WebServlet(name = "ListUsers", urlPatterns = {"/ListUsers"})
-public class ListUsers extends HttpServlet {
+@WebServlet(name = "DeleteUser", urlPatterns = {"/DeleteUser"})
+public class DeleteUser extends HttpServlet {
     @EJB
     UsuarioFacade userFacade;
     /**
@@ -36,18 +30,13 @@ public class ListUsers extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        List<Usuario> userList = null;
-        String whichList = request.getParameter("list");
+        String userEmail = request.getParameter("user");
+        Usuario user = userFacade.find(userEmail); //Email is primary key
+        userFacade.remove(user);
         
-        switch(whichList){
-            case "all": 
-                userList = userFacade.findByEsAdmin(0);
-                break;
-        }
-        
-        request.setAttribute("userList", userList);
-        RequestDispatcher rd = request.getRequestDispatcher("adminPages/userList.jsp");
-        rd.forward(request,response);
+        request.setAttribute("status", "success");
+        RequestDispatcher rd = request.getRequestDispatcher("ListUsers?list=all");
+        rd.forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -1,11 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.efake.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -13,10 +9,13 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -37,9 +36,21 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Usuario.findByApellidos", query = "SELECT u FROM Usuario u WHERE u.apellidos = :apellidos")
     , @NamedQuery(name = "Usuario.findByEdad", query = "SELECT u FROM Usuario u WHERE u.edad = :edad")
     , @NamedQuery(name = "Usuario.findByTelefono", query = "SELECT u FROM Usuario u WHERE u.telefono = :telefono")
-    , @NamedQuery(name = "Usuario.findByImagen", query = "SELECT u FROM Usuario u WHERE u.imagen = :imagen")
     , @NamedQuery(name = "Usuario.findByEsAdmin", query = "SELECT u FROM Usuario u WHERE u.esAdmin = :esAdmin")})
 public class Usuario implements Serializable {
+
+    @Basic(optional = false)
+    @NotNull
+    @Lob
+    @Column(name = "Password")
+    private byte[] password;
+    @Column(name = "UltimaEntrada")
+    @Temporal(TemporalType.DATE)
+    private Date ultimaEntrada;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "Reportado")
+    private short reportado;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -48,11 +59,6 @@ public class Usuario implements Serializable {
     @Size(min = 1, max = 100)
     @Column(name = "Correo")
     private String correo;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 45)
-    @Column(name = "Password")
-    private String password;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 45)
@@ -70,9 +76,6 @@ public class Usuario implements Serializable {
     @Size(max = 13)
     @Column(name = "Telefono")
     private String telefono;
-    @Size(max = 100)
-    @Column(name = "Imagen")
-    private String imagen;
     @Basic(optional = false)
     @NotNull
     @Column(name = "esAdmin")
@@ -89,7 +92,7 @@ public class Usuario implements Serializable {
         this.correo = correo;
     }
 
-    public Usuario(String correo, String password, String nombre, String apellidos, int edad, short esAdmin) {
+    public Usuario(String correo, byte[] password, String nombre, String apellidos, int edad, short esAdmin) {
         this.correo = correo;
         this.password = password;
         this.nombre = nombre;
@@ -106,13 +109,6 @@ public class Usuario implements Serializable {
         this.correo = correo;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 
     public String getNombre() {
         return nombre;
@@ -144,14 +140,6 @@ public class Usuario implements Serializable {
 
     public void setTelefono(String telefono) {
         this.telefono = telefono;
-    }
-
-    public String getImagen() {
-        return imagen;
-    }
-
-    public void setImagen(String imagen) {
-        this.imagen = imagen;
     }
 
     public short getEsAdmin() {
@@ -203,6 +191,30 @@ public class Usuario implements Serializable {
     @Override
     public String toString() {
         return "com.efake.entity.Usuario[ correo=" + correo + " ]";
+    }
+
+    public byte[] getPassword() {
+        return password;
+    }
+
+    public void setPassword(byte[] password) {
+        this.password = password;
+    }
+
+    public Date getUltimaEntrada() {
+        return ultimaEntrada;
+    }
+
+    public void setUltimaEntrada(Date ultimaEntrada) {
+        this.ultimaEntrada = ultimaEntrada;
+    }
+
+    public short getReportado() {
+        return reportado;
+    }
+
+    public void setReportado(short reportado) {
+        this.reportado = reportado;
     }
     
 }
