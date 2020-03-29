@@ -36,7 +36,7 @@ public class UsuarioFacade extends AbstractFacade<Usuario> {
         Query q;
         List<Usuario> userList;
         
-        q = this.getEntityManager().createNamedQuery("Usuario.findByEsAdmin");
+        q= this.getEntityManager().createNamedQuery("Usuario.findByEsAdmin");
         q.setParameter("esAdmin", esAdmin);
         userList = q.getResultList();
         

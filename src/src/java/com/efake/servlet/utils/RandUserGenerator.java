@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.efake.servlet.admin;
+package com.efake.servlet.utils;
 
 import com.efake.dao.UsuarioFacade;
 import com.efake.entity.Usuario;

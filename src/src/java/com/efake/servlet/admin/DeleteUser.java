@@ -1,7 +1,9 @@
 package com.efake.servlet.admin;
 
+import com.efake.servlet.utils.EmailSessionBean;
 import com.efake.dao.UsuarioFacade;
 import com.efake.entity.Usuario;
+import com.efake.servlet.utils.TemplatesEnum;
 import java.io.IOException;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
@@ -10,6 +12,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -17,8 +20,12 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "DeleteUser", urlPatterns = {"/DeleteUser"})
 public class DeleteUser extends HttpServlet {
+
     @EJB
     UsuarioFacade userFacade;
+    @EJB
+    EmailSessionBean emailBean;
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -30,13 +37,23 @@ public class DeleteUser extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String userEmail = request.getParameter("user");
-        Usuario user = userFacade.find(userEmail); //Email is primary key
+        HttpSession session = request.getSession();
+
+        //Delete Account
+        Integer userId = Integer.parseInt(request.getParameter("user"));
+        Usuario user = userFacade.find(userId); //Email is primary key
         userFacade.remove(user);
+
+        //Send mail notifiying the user 
+        String emailTo = user.getCorreo();
+        String emailSubject = "Efake account Deleted";
+        String emailUserName = user.getNombre();
+        String emailBody = request.getParameter("emailBody");
+        emailBean.sendEmail(emailTo, emailSubject,emailUserName, emailBody,TemplatesEnum.DELETE_USER);
         
-        request.setAttribute("status", "success");
-        RequestDispatcher rd = request.getRequestDispatcher("ListUsers?list=all");
-        rd.forward(request, response);
+        session.setAttribute("status", "success");
+        response.sendRedirect("ListUsers?list=all");
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -10,7 +10,8 @@
 
 <%
     List<Usuario> userList = (List<Usuario>) request.getAttribute("userList");
-    String status = (String) request.getAttribute("status");
+    String status = (String) session.getAttribute("status");
+    session.removeAttribute("status");
 %>
 <!DOCTYPE html>
 <html>
@@ -138,15 +139,17 @@
                                     <td><%= u.getTelefono()%></td>
                                     <td><%= u.getUltimaEntrada()%></td>
                                     <td>
-                                        <button type="button" class="bg-transparent border-0" data-toggle="modal" data-target="#deleteConfirmationModal">
+                                        <a href="#">
                                             <i class="fas fa-edit"></i>
-                                        </button>
+                                        </a>
+                                            
                                     </td>
                                     <td>
                                         <button type="button" class="bg-transparent border-0" 
                                                 data-toggle="modal" 
                                                 data-target="#deleteConfirmationModal"
-                                                data-email="<%= u.getCorreo()%>">
+                                                data-user="<%= u.getCorreo() %>>"
+                                                data-id="<%= u.getId()%>">
                                             <i class="fas fa-trash"></i>
                                         </button>
                                     </td>
@@ -173,7 +176,7 @@
                             <input id="modal-form-user" type="hidden" name="user">
                             <div class="form-group">
                                 <label for="message-text" class="col-form-label">Please leave a message telling the user why you are deleting his account:</label>
-                                <textarea class="form-control" id="message-text"></textarea>
+                                <textarea class="form-control" id="message-text" name="emailBody"></textarea>
                             </div>
 
                         </div>

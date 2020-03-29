@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.efake.servlet.components;
+package com.efake.servlet.utils;
 
 import com.efake.dao.CategoriaFacade;
 import com.efake.entity.Categoria;

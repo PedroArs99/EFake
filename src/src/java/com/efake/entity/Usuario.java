@@ -8,6 +8,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
@@ -39,11 +41,20 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Usuario.findByEsAdmin", query = "SELECT u FROM Usuario u WHERE u.esAdmin = :esAdmin")})
 public class Usuario implements Serializable {
 
+    @Id()
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "ID")
+    private Integer id;
     @Basic(optional = false)
     @NotNull
     @Lob
     @Column(name = "Password")
     private byte[] password;
+    @Lob
+    @Size(max = 2147483647)
+    @Column(name = "Motivo")
+    private String motivo;
     @Column(name = "UltimaEntrada")
     @Temporal(TemporalType.DATE)
     private Date ultimaEntrada;
@@ -53,7 +64,6 @@ public class Usuario implements Serializable {
     private short reportado;
 
     private static final long serialVersionUID = 1L;
-    @Id
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 100)
@@ -168,39 +178,6 @@ public class Usuario implements Serializable {
         this.productoList = productoList;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (correo != null ? correo.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Usuario)) {
-            return false;
-        }
-        Usuario other = (Usuario) object;
-        if ((this.correo == null && other.correo != null) || (this.correo != null && !this.correo.equals(other.correo))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "com.efake.entity.Usuario[ correo=" + correo + " ]";
-    }
-
-    public byte[] getPassword() {
-        return password;
-    }
-
-    public void setPassword(byte[] password) {
-        this.password = password;
-    }
-
     public Date getUltimaEntrada() {
         return ultimaEntrada;
     }
@@ -215,6 +192,64 @@ public class Usuario implements Serializable {
 
     public void setReportado(short reportado) {
         this.reportado = reportado;
+    }
+
+    public Usuario(Integer id) {
+        this.id = id;
+    }
+
+    public Usuario(Integer id, byte[] password) {
+        this.id = id;
+        this.password = password;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public byte[] getPassword() {
+        return password;
+    }
+
+    public void setPassword(byte[] password) {
+        this.password = password;
+    }
+
+    public String getMotivo() {
+        return motivo;
+    }
+
+    public void setMotivo(String motivo) {
+        this.motivo = motivo;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (id != null ? id.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof Usuario)) {
+            return false;
+        }
+        Usuario other = (Usuario) object;
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "com.efake.entity.Usuario[ id=" + id + " ]";
     }
     
 }
