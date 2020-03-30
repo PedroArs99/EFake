@@ -51,7 +51,7 @@ public class DeleteUser extends HttpServlet {
         String emailBody = request.getParameter("emailBody");
         emailBean.sendEmail(emailTo, emailSubject,emailUserName, emailBody,TemplatesEnum.DELETE_USER);
         
-        session.setAttribute("status", "success");
+        session.setAttribute("status", "User Deleted");
         response.sendRedirect("ListUsers?list=all");
 
     }
