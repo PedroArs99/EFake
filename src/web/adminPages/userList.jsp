@@ -112,7 +112,7 @@
                     </div>
                     <% if (status != null) {%>
                         <div class="alert alert-success" role="alert">
-                            <span class="fas fa-check"></span> User Deleted.
+                            <i class="fas fa-check"></i> <%= status %>
                         </div>
                         <% } %>
                     <div class="table-responsive">
