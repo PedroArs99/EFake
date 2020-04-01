@@ -6,6 +6,11 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="com.efake.entity.Producto"%>
+<%@page import="java.util.List" %>
+
+<%
+    List<Producto> productsList = (List<Producto>) request.getAttribute("productsList");
+%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -21,6 +26,9 @@
         <div class="container">
             <br>
             <h2>All Products</h2>
+            <% for(Producto p : productsList){ %>
+            <li><%= p.getNombre() %></li>
+            <% } %>
             <hr></hr> 
         </div>
         
