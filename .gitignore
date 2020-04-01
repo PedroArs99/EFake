@@ -2,6 +2,7 @@
 .DS_Store
 
 #Netbeans
+src/nbproject/
 src/build/
 src/dist/
 

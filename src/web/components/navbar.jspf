@@ -2,17 +2,10 @@
 <%@page import="com.efake.entity.Categoria"%>
 <%@ page pageEncoding="UTF-8" %>
 
-<% 
-  List<Categoria> categoryList = (List<Categoria>) session.getAttribute("categoryList");
-  if(categoryList == null){
-      RequestDispatcher rd = request.getRequestDispatcher("/NavCategories");
-      rd.forward(request,response);
-  }
-%>
-
 <nav class="navbar navbar-expand-lg navbar-light bg-transparent border-bottom border-thin">
     <a class="navbar-brand" href="${pageContext.request.contextPath}">
-        <img src="${pageContext.request.contextPath}/img/logo.png" height="30" class="d-inline-block align-top" alt="logo">
+        <img src="${pageContext.request.contextPath}/img/logo.png" height="30" class="d-inline-block align-top"
+            alt="logo">
     </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -22,14 +15,12 @@
     <div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
         <ul class="navbar-nav">
             <li class="nav-item dropdown mr-3">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-                    aria-haspopup="true" aria-expanded="false">
+                <a class="nav-link dropdown-toggle" href="#" id="categoriesDropdown" role="button"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Categories
                 </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <% for(Categoria c: categoryList){ %>
-                            <a href="#" class="dropdown-item"><%= c.getNombre() %></a>
-                        <% } %>
+                <div id="categoriesDiv" class="dropdown-menu" aria-labelledby="categoriesDropdown">
+                    
                 </div>
             </li>
 
@@ -46,4 +37,6 @@
             <a href="#" class="btn btn-secondary">Login</a>
         </div>
     </div>
+
+    <script src="${pageContext.request.contextPath}/js/nav.js"></script>
 </nav>

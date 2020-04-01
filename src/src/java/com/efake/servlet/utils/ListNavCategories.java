@@ -8,15 +8,18 @@ package com.efake.servlet.utils;
 import com.efake.dao.CategoriaFacade;
 import com.efake.entity.Categoria;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 import javax.ejb.EJB;
-import javax.servlet.RequestDispatcher;
+import javax.json.Json;
+import javax.json.JsonArrayBuilder;
+import javax.json.JsonObjectBuilder;
+import javax.json.JsonWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -28,13 +31,25 @@ public class ListNavCategories extends HttpServlet {
     CategoriaFacade categoriaFacade;
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession session = request.getSession();
+        //Get Categories
         List<Categoria> categoryList = categoriaFacade.findAll();
-        String redirectTo = (String) request.getAttribute("referer");
         
-        session.setAttribute("categoryList", categoryList);
-        RequestDispatcher rd = request.getRequestDispatcher(redirectTo);
-        rd.forward(request, response);
+        // Build Json
+        JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();        
+        categoryList.forEach((c) -> {
+            jsonArrayBuilder.add(c.getNombre());
+        });
+        //Wrap array into JsonObject
+        JsonObjectBuilder jsonBuilder = Json.createObjectBuilder();
+        jsonBuilder.add("categories", jsonArrayBuilder);
+        
+        //Send Json
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        PrintWriter out = response.getWriter();
+        try (JsonWriter jsonWriter = Json.createWriter(out)) {
+            jsonWriter.writeObject(jsonBuilder.build());
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

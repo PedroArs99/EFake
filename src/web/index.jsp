@@ -2,18 +2,6 @@
 <%@page import="com.efake.entity.Categoria"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
-<% 
-    /**
-     * This block is required for loading categories into the navbar. 
-     * First thing the user sees in the webpage is index, or maybe login, 
-     * so this block is only required in these pages. For the rest of the pages
-     * we're sure that the user has been in the index or either in the login, 
-     * so we know the list is loaded in the session.
-     */
-   if(session.getAttribute("categories") == null){
-       request.setAttribute("referer", "index.jsp");
-   }
-%>
 <!DOCTYPE html>
 <html>
     <head>
