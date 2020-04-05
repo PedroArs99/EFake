@@ -3,17 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.efake.valoraciones;
+package com.efake.servlet.productos;
 
 import com.efake.dao.ProductoFacade;
-import com.efake.dao.UsuarioFacade;
 import com.efake.dao.ValoracionFacade;
 import com.efake.entity.Producto;
 import com.efake.entity.Valoracion;
 import java.io.IOException;
-import java.sql.Time;
-import java.util.Date;
+import java.io.PrintWriter;
+import java.util.List;
 import javax.ejb.EJB;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -24,12 +24,10 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author carlo
  */
-@WebServlet(name = "doReview", urlPatterns = {"/doReview"})
-public class doReview extends HttpServlet {
+@WebServlet(name = "ShowProduct", urlPatterns = {"/ShowProduct"})
+public class ShowProduct extends HttpServlet {
     @EJB
-    UsuarioFacade usuarioFacade;
-    @EJB
-    ValoracionFacade valoracionFacade;
+    ValoracionFacade valoricionFacade;
     @EJB
     ProductoFacade productoFacade;
     /**
@@ -42,50 +40,16 @@ public class doReview extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Integer idUsuario = Integer.parseInt(request.getParameter("user"));
-        Integer rating = Integer.parseInt(request.getParameter("estrellas"));
-        String comment = request.getParameter("comment");
-        Date date = new Date();
-        Integer idProducto = Integer.parseInt(request.getParameter("product"));
+        Integer idProducto = Integer.parseInt(request.getParameter("idProducto"));
+        Producto productoBuscado = productoFacade.find(idProducto);
+        List<Valoracion> listValoraciones = productoBuscado.getValoracionList();
         
-        Valoracion review = new Valoracion();
-        review.setCliente(usuarioFacade.find(idUsuario));
-        review.setProductoValorado(productoFacade.find(idProducto));
-        review.setPuntuacion(rating);
-        review.setComentario(comment);
-        review.setFecha(date);
-        review.setHora(date);
+        request.setAttribute("listValoraciones", listValoraciones);
+        RequestDispatcher rd = request.getRequestDispatcher("selected_product.jsp");
         
-        valoracionFacade.create(review);
-        response.sendRedirect("/efake/ShowProduct?idProducto=" + idProducto);
+        rd.forward(request, response);
     }
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
