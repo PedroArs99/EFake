@@ -8,90 +8,89 @@ and open the template in the editor.
     Author     : carlo
 */
 
-        .imagen {
-            float: left;
-            margin: 20px;
-            margin-right: 100px;
-            margin-bottom: 50px;
-        }
+      .container {
+        margin: 0 auto;
+      }
+
+      .ratings {
+        float:left;
+        height:480px;
+        padding:20px;
+        width:350px;
+      }
+      
+      .reviews {
+        float:right;
+        height:500px;
+        padding:10px;
+        width:700px;
+      }
+
+      .progress-bar {
+        background-color: orange;
+      }
+
+      .titles {
+          margin-bottom: 20px;
+      }
+
+      .imagen {
+          float: left;
+          margin: 20px;
+          margin-right: 100px;
+          margin-bottom: 50px;
+      }
         
-        p {
-            text-align: justify;
-            margin-right: 100px;
-            margin-bottom: 0;
-        }
+      p {
+          text-align: justify;
+          margin-right: 100px;
+          margin-bottom: 0;
+      }
 
-        .valoracion-titulo {
-            margin-left: 50px;
-        }
+      .valoracion-titulo {
+          margin-left: 50px;
+      }
 
-        label {
-            color: grey;
-            font-size: 2em;
-        }
+      label {
+          color: grey;
+          font-size: 2em;
+      }
 
-        input[type="radio"] {
-            display: none;
-        }
+      input[type="radio"] {
+          display: none;
+      }
 
-        .clasificacion {
-            text-align: left;
-            direction: rtl;
-            margin-left: 50px
-        }
+      .clasificacion {
+          text-align: left;
+          direction: rtl;
+          margin-left: 50px
+      }
 
-        label:hover {
-            color: orange;
-        }
+      label:hover {
+          color: orange;
+      }
 
-        label:hover~label {
-            color: orange;
-        }
+      label:hover~label {
+          color: orange;
+      }
 
-        input[type="radio"]:checked~label {
-            color: orange;
-        }
+      input[type="radio"]:checked~label {
+          color: orange;
+      }
 
-        .line {
-            border: none;
-            background: transparent;
-            color: #103567;
-        }
+      .line {
+          border: none;
+          background: transparent;
+          color: #103567;
+      }
 
-        .star {
-            color: orange;
-        }
+      .star {
+          color: orange;
+      }
 
-        .roundImage {
-            margin-top: 5px;
-            border-radius: 50%;
-            border: 1px solid #103567;
-        }
+      .roundImage {
+          margin-top: 5px;
+          border-radius: 50%;
+          border: 1px solid #103567;
+      }
 
-        .margen {
-            margin-left: 50px;
-        }
-
-        .alert {
-            margin-left: 0px;
-        }
-
-        .margen-derecha {
-            margin-right: 0px;
-        }
-
-        .separacion-letra {
-            margin-right: 10px;
-        }
-
-        .margen-barra {
-            margin-right: 12px
-        }
-
-        .table-spacing {
-            margin-right: 140px;
-        }
-
-        .progress-bar {
-            background-color: orange;
-        }
