@@ -4,9 +4,18 @@
     Author     : JuMed
 --%>
 
+<%@page import="com.efake.entity.Subcategoria"%>
+<%@page import="com.efake.entity.Categoria"%>
+<%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<%
+  List<Categoria> categorias = (List<Categoria>) request.getAttribute("categoriaList"); 
+  List<Subcategoria> subcategorias = (List<Subcategoria>) request.getAttribute("subcategoriasList"); 
+%>
+
 <html>
+    
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
@@ -42,10 +51,19 @@
             <input type="text" name="textKeywords"/><br/>
             Fecha:
             <input type="datetime" name="fecha"/><br/>
+
             Categoria:
-            <input type="number" name="numberCategoria"/><br/>
+            <select name="Categoria">
+            <%for(Categoria c: categorias){ %>
+            <option value=<%=c.getId()%>> <%=c.getNombre()%></option>
+            <% ;} %>
+            </select><br/>
             Subcategoria:
-            <input type="number" name="numberSubcategoria"/><br/>
+            <select name="Subcategoria">
+            <%for(Subcategoria c: subcategorias){ %>
+            <option value=<%=c.getId()%>> <%=c.getNombre()%></option>
+            <% ;} %>
+            </select><br/>
             Owner:
             <input type="text" name="textOwner"/><br/>
             <input type="submit" name="Guardar"
