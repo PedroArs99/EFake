@@ -34,7 +34,7 @@
         </ul>
         <div>
             <a href="#" class="mr-3 text-darkgrey">I don't have an account</a>
-            <a href="#" class="btn btn-secondary">Login</a>
+            <a href="LoginServlet" class="btn btn-secondary">Login</a>
         </div>
     </div>
 
