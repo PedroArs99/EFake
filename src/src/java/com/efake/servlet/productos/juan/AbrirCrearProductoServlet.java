@@ -3,17 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.efake.servlet.productos;
+package com.efake.servlet.productos.juan;
 
+import com.efake.dao.CategoriaFacade;
 import com.efake.dao.ProductoFacade;
+import com.efake.dao.SubcategoriaFacade;
 import com.efake.entity.Categoria;
-import com.efake.entity.Producto;
 import com.efake.entity.Subcategoria;
-import com.efake.entity.Usuario;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -26,10 +25,13 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author JuMed
  */
-@WebServlet(name = "CreateProductsServlet", urlPatterns = {"/CreateProductsServlet"})
-public class CreateProductsServlet extends HttpServlet {
+@WebServlet(name = "AbrirCrearProductoServlet", urlPatterns = {"/AbrirCrearProductoServlet"})
+public class AbrirCrearProductoServlet extends HttpServlet {
 @EJB
-ProductoFacade productoFacade;
+CategoriaFacade categoriaFacade;
+@EJB
+SubcategoriaFacade subcategoriaFacade;
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -41,42 +43,14 @@ ProductoFacade productoFacade;
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        String nombre = request.getParameter("textNombre");
-        String descripcion = request.getParameter("textDescripcion");
-        Double precio =Double.parseDouble(request.getParameter("textPrecio"));
-        String imagen = request.getParameter("textImagen");
-        String keywords = request.getParameter("textKeywords");
-        Date now = new Date();
-        String pattern = "yyyy-MM-dd";
-        SimpleDateFormat formatter = new SimpleDateFormat(pattern);
-        Date fecha = now;
-        Integer categoria =Integer.parseInt(request.getParameter("Categoria"));
-        Integer subcategoria =Integer.parseInt(request.getParameter("Subcategoria"));
-        String owner = request.getParameter("textowner");
-        Producto p = new Producto();
-        Categoria c = new Categoria(categoria);
-        Subcategoria s = new Subcategoria(subcategoria);
-        Usuario u = new Usuario("juan@efake.com");
-        p.setNombre(nombre);
-        p.setDescripcion(descripcion);
-        p.setPrecio(precio);
-        p.setFecha(fecha);
-        //p.setKeywords(keywords);
-        p.setCategoria(c);
-        p.setSubcategoria(s);
-        p.setNombre(nombre);
-        p.setOwner(u);
-        p.setReportado(Short.parseShort("0"));
-        System.out.println(p.getFecha());
-        System.out.println("aqui llega");
-        productoFacade.create(p);
-        
-        request.setAttribute("producto", p);
-        
-        
-        RequestDispatcher rd = request.getRequestDispatcher("VisualizacionProducto.jsp");
-        response.setContentType("text/html;charset=UTF-8");
+        List<Categoria> categorias = categoriaFacade.findAll();
+
+        List<Subcategoria> subcategorias = subcategoriaFacade.findAll();
+      
+        request.setAttribute("categoriaList", categorias);
+        request.setAttribute("subcategoriasList", subcategorias);
+        RequestDispatcher rd = request.getRequestDispatcher("CreateProducts.jsp");
+        rd.forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
