@@ -8,12 +8,14 @@ package com.efake.servlet.productos;
 import com.efake.dao.ProductoFacade;
 import com.efake.entity.Categoria;
 import com.efake.entity.Producto;
+import com.efake.entity.Subcategoria;
 import com.efake.entity.Usuario;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.ejb.EJB;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -49,36 +51,32 @@ ProductoFacade productoFacade;
         String pattern = "yyyy-MM-dd";
         SimpleDateFormat formatter = new SimpleDateFormat(pattern);
         Date fecha = now;
-        Integer categoria =Integer.parseInt(request.getParameter("numberCategoria"));
-        String subcategoria = request.getParameter("numberSubcategoria");
+        Integer categoria =Integer.parseInt(request.getParameter("Categoria"));
+        Integer subcategoria =Integer.parseInt(request.getParameter("Subcategoria"));
         String owner = request.getParameter("textowner");
-        
         Producto p = new Producto();
         Categoria c = new Categoria(categoria);
-        Usuario u = new Usuario("chelseydietrich@efake.com");
+        Subcategoria s = new Subcategoria(subcategoria);
+        Usuario u = new Usuario("juan@efake.com");
         p.setNombre(nombre);
         p.setDescripcion(descripcion);
         p.setPrecio(precio);
         p.setFecha(fecha);
         //p.setKeywords(keywords);
         p.setCategoria(c);
+        p.setSubcategoria(s);
         p.setNombre(nombre);
         p.setOwner(u);
+        p.setReportado(Short.parseShort("0"));
+        System.out.println(p.getFecha());
+        System.out.println("aqui llega");
         productoFacade.create(p);
         
+        request.setAttribute("producto", p);
+        
+        
+        RequestDispatcher rd = request.getRequestDispatcher("VisualizacionProducto.jsp");
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Producto creado con éxito</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet CreateProductsServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

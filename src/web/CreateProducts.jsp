@@ -17,21 +17,16 @@
 <html>
     
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
-         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-        <style>
-            body {
-                background-color: #f4f4f4;
-            }
-
-            .form-inline .form-control {
-                display: inline-block;
-                width: 40em;
-                vertical-align: middle;
-            }  
-            
-        </style>
+        <title>EFake</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/styles.css">
+    </head>
+    <body class="d-flex flex-column h-100">
+        <%@include file="/components/navbar.jspf"%>
+    <!--Font Awesome-->
+   
     </head>
     <body>
         <div>
@@ -66,8 +61,9 @@
             </select><br/>
             Owner:
             <input type="text" name="textOwner"/><br/>
-            <input type="submit" name="Guardar"
-            
+            <p>
+            <input type="submit" name="Guardar" 
+            <p>
         </form>
         </div>
     </body>
