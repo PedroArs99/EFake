@@ -94,20 +94,21 @@ and open the template in the editor.
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
   </head>
   <body class="text-center">
-    <form class="form-signin">
+    <form class="form-signin" action="AutenticarServlet">
   <img class="d-inline-block align-top" src="https://raw.githubusercontent.com/PedroArs99/EFake/master/img/logo.png" alt="" width="72" height="30">
   <h1 class="h5 mb-3 font-weight-normal">Please sign in</h1>
   <label for="inputEmail" class="sr-only">Email address</label>
-  <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required="" autofocus="">
+  <input type="email" id="inputEmail" name="correo" class="form-control" placeholder="Email address" required="" autofocus="">
   <label for="inputPassword" class="sr-only">Password</label>
-  <input type="password" id="inputPassword" class="form-control" placeholder="Password" required="">
+  <input type="password" id="inputPassword" class="form-control" placeholder="Password" required="" name="contrasena">
   <div class="checkbox mb-3">
     <label>
       <input type="checkbox" value="remember-me"> Remember me
     </label>
   </div>
-  <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-  <button class="btn btn-lg btn-primary btn-block" type="submit">You don't have an account?</button>
+  <!--button href="LoginServlet" class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button-->
+  <input type="submit" class="btn btn-lg btn-primary btn-block" value="Sign in"><br/>
+  <button href="signup.jsp" class="btn btn-lg btn-primary btn-block" type="submit">You don't have an account?</button>
   <p class="mt-5 mb-3 text-muted">Copyright &copy; 2020 eFake Inc. All Rights Reserved.</p>
 </form>
 

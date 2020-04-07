@@ -88,21 +88,7 @@
         <button class="btn btn-info my-4 btn-block" type="submit">Sign up</button>
 
         <div class="text-center">
-            <p>or sign up with:</p>
-
-            <a type="button" class="light-blue-text mx-2">
-                <i class="fab fa-facebook-f"></i>
-            </a>
-            <a type="button" class="light-blue-text mx-2">
-                <i class="fab fa-twitter"></i>
-            </a>
-            <a type="button" class="light-blue-text mx-2">
-                <i class="fab fa-linkedin-in"></i>
-            </a>
-            <a type="button" class="light-blue-text mx-2">
-                <i class="fab fa-github"></i>
-            </a>
-
+            
             <hr>
 
             <p>By clicking

@@ -5,22 +5,30 @@
  */
 package com.efake.servlet.login;
 
+import com.efake.dao.UsuarioFacade;
+import com.efake.entity.Usuario;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
+import javax.ejb.EJB;
+import javax.ejb.EJBException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author laura
  */
-@WebServlet(name = "LoginServlet", urlPatterns = {"/LoginServlet"})
-public class LoginServlet extends HttpServlet {
+@WebServlet(name = "AutenticarServlet", urlPatterns = {"/AutenticarServlet"})
+public class AutenticarServlet extends HttpServlet {
 
+    @EJB
+    UsuarioFacade usuarioFacade;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -33,8 +41,37 @@ public class LoginServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
-        rd.forward(request, response);
+        String correo, status = "Todo correcto", goTo = "index.jsp", contrasena, contrasenaDelUsuario = "";
+        correo = request.getParameter("correo");
+        contrasena = request.getParameter("contrasena");
+        
+        RequestDispatcher rd;
+        Usuario user;
+        
+        try{
+           user = usuarioFacade.findByCorreo(correo);
+           contrasenaDelUsuario = new String(user.getPassword());
+        }
+        catch(EJBException ex){
+            user = null;
+        }
+        
+        if(user == null){
+           status = "El usuario no se encuentra en la base de datos";
+           request.setAttribute("status", status);
+           goTo = "login.jsp";
+        }else if(!contrasena.equals("lauraroson")){
+           status = "La clave es incorrecta";
+           request.setAttribute("status", status);
+           goTo = "login.jsp";
+        }else{
+            HttpSession session = request.getSession();
+            session.setAttribute("usuario", user);
+        }
+        
+        System.out.println(status);
+        rd = request.getRequestDispatcher(goTo);
+        rd.forward(request, response); 
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
