@@ -5,10 +5,11 @@
  */
 package com.efake.servlet.productos;
 
+import com.efake.dao.CategoriaFacade;
 import com.efake.dao.ProductoFacade;
+import com.efake.entity.Categoria;
 import com.efake.entity.Producto;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
@@ -27,6 +28,8 @@ import javax.servlet.http.HttpServletResponse;
 public class ShowProductsCategory extends HttpServlet {
     @EJB
     ProductoFacade productoFacade;
+    @EJB
+    CategoriaFacade categoriaFacade;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -36,16 +39,10 @@ public class ShowProductsCategory extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String category = request.getParameter("categoriesDiv");
-        List<Producto> listaProducto = productoFacade.findAll();
-        List<Producto> listaProductoCategoria = new ArrayList<>();
-        
-        for(Producto p : listaProducto) {
-            if(p.getCategoria().equals(category)){
-                listaProductoCategoria.add(p);
-            }
-        }
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {      
+        String category = request.getParameter("categories");
+        Categoria c = categoriaFacade.findByName(category);
+        List<Producto> listaProductoCategoria = productoFacade.findByCategoria(c);
         
         request.setAttribute("listaProductoCategoria", listaProductoCategoria);
         request.setAttribute("category", category);

@@ -6,6 +6,7 @@
 package com.efake.servlet.productos;
 
 import com.efake.dao.ProductoFacade;
+import com.efake.dao.UsuarioFacade;
 import com.efake.entity.Categoria;
 import com.efake.entity.Producto;
 import com.efake.entity.Subcategoria;
@@ -30,6 +31,8 @@ import javax.servlet.http.HttpServletResponse;
 public class CreateProductsServlet extends HttpServlet {
 @EJB
 ProductoFacade productoFacade;
+@EJB
+UsuarioFacade usuarioFacade;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -43,7 +46,7 @@ ProductoFacade productoFacade;
             throws ServletException, IOException {
         
         String nombre = request.getParameter("textNombre");
-        String descripcion = request.getParameter("textDescripcion");
+        String descripcion = request.getParameter("descripcion");
         Double precio =Double.parseDouble(request.getParameter("textPrecio"));
         String imagen = request.getParameter("textImagen");
         String keywords = request.getParameter("textKeywords");
@@ -53,29 +56,30 @@ ProductoFacade productoFacade;
         Date fecha = now;
         Integer categoria =Integer.parseInt(request.getParameter("Categoria"));
         Integer subcategoria =Integer.parseInt(request.getParameter("Subcategoria"));
-        String owner = request.getParameter("textowner");
+        
         Producto p = new Producto();
         Categoria c = new Categoria(categoria);
         Subcategoria s = new Subcategoria(subcategoria);
-        Usuario u = new Usuario("juan@efake.com");
+       
+        Usuario u = usuarioFacade.find(26);
+        
         p.setNombre(nombre);
         p.setDescripcion(descripcion);
         p.setPrecio(precio);
         p.setFecha(fecha);
+        p.setImagen(imagen);
         //p.setKeywords(keywords);
         p.setCategoria(c);
         p.setSubcategoria(s);
         p.setNombre(nombre);
         p.setOwner(u);
+        
         p.setReportado(Short.parseShort("0"));
-        System.out.println(p.getFecha());
-        System.out.println("aqui llega");
         productoFacade.create(p);
         
         request.setAttribute("producto", p);
-        
-        
         RequestDispatcher rd = request.getRequestDispatcher("VisualizacionProducto.jsp");
+        rd.forward(request, response);
         response.setContentType("text/html;charset=UTF-8");
     }
 
