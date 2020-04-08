@@ -69,7 +69,6 @@ public class AutenticarServlet extends HttpServlet {
             session.setAttribute("usuario", user);
         }
         
-        System.out.println(status);
         rd = request.getRequestDispatcher(goTo);
         rd.forward(request, response); 
     }
