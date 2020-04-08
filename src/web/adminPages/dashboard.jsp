@@ -3,10 +3,19 @@
     Created on : 25-mar-2020, 16:24:17
     Author     : PedroArenas
 --%>
+
+<%@page import="com.efake.entity.Usuario"%>
+<% 
+    Usuario admin = (Usuario) session.getAttribute("usuario");
+    if(admin != null && admin.getEsAdmin() == 0){// The user is logged in, but he's not an admin
+        response.sendRedirect("/efake/");
+    }else if (admin == null){ //The user is not logged in
+        response.sendRedirect("/efake/login.jsp");
+    }
+%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
-
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">

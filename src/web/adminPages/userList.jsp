@@ -8,7 +8,16 @@
 <%@page import="com.efake.entity.Categoria"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
-<%
+<% //Check Login
+    Usuario admin = (Usuario) session.getAttribute("usuario");
+    if(admin != null && admin.getEsAdmin() == 0){// The user is logged in, but he's not an admin
+        response.sendRedirect("/efake/");
+    }else if (admin == null){ //The user is not logged in
+        response.sendRedirect("/efake/login.jsp");
+    }
+%>
+
+<% //Load Attributes
     List<Usuario> userList = (List<Usuario>) request.getAttribute("userList");
     String status = (String) session.getAttribute("status");
     session.removeAttribute("status");
@@ -197,7 +206,8 @@
                             <label for="lastLogin">Last Log In</label>
                             <input id="modal-form-lastLogin" class="form-control" type="date" name="lastLogin" disabled>
                         </div>
-                        <div class="form-group">
+                        
+                        <div id="password-group" class="form-group">
                             <label for="password">Password</label>
                             <div class="input-group">
                                 <input id="modal-form-password" class="form-control" type="password" name="password">
