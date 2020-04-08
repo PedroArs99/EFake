@@ -6,10 +6,10 @@
 package com.efake.servlet.productos;
 
 import com.efake.dao.ProductoFacade;
-import com.efake.dao.ValoracionFacade;
 import com.efake.entity.Producto;
-import com.efake.entity.Valoracion;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
@@ -23,10 +23,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author carlo
  */
-@WebServlet(name = "ShowProduct", urlPatterns = {"/ShowProduct"})
-public class ShowProduct extends HttpServlet {
-    @EJB
-    ValoracionFacade valoricionFacade;
+@WebServlet(name = "ShowProductsCategory", urlPatterns = {"/ShowProductsCategory"})
+public class ShowProductsCategory extends HttpServlet {
     @EJB
     ProductoFacade productoFacade;
     /**
@@ -39,13 +37,19 @@ public class ShowProduct extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Integer idProducto = Integer.parseInt(request.getParameter("idProducto"));
-        Producto productoBuscado = productoFacade.find(idProducto);
-        List<Valoracion> listValoraciones = productoBuscado.getValoracionList();
+        String category = request.getParameter("categoriesDiv");
+        List<Producto> listaProducto = productoFacade.findAll();
+        List<Producto> listaProductoCategoria = new ArrayList<>();
         
-        request.setAttribute("listValoraciones", listValoraciones);
-        RequestDispatcher rd = request.getRequestDispatcher("selected_product.jsp");
+        for(Producto p : listaProducto) {
+            if(p.getCategoria().equals(category)){
+                listaProductoCategoria.add(p);
+            }
+        }
         
+        request.setAttribute("listaProductoCategoria", listaProductoCategoria);
+        request.setAttribute("category", category);
+        RequestDispatcher rd = request.getRequestDispatcher("showProductsCategories.jsp");
         rd.forward(request, response);
     }
 
