@@ -4,12 +4,17 @@
     Author     : carlo
 --%>
 
+<%@page import="java.util.Map"%>
+<%@page import="com.efake.entity.Usuario"%>
 <%@page import="com.efake.entity.Valoracion"%>
 <%@page import="com.efake.entity.Producto"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <%
-  List<Valoracion> listValoracion = (List<Valoracion>) request.getAttribute("listValoraciones");  
+  List<Valoracion> listValoracion = (List<Valoracion>) request.getAttribute("listValoraciones");
+  Usuario usuario = (Usuario) session.getAttribute("usuario");
+  int valorado = (Integer) request.getAttribute("valorado");
+  Map<Integer, Double> ratings = (Map<Integer, Double>) request.getAttribute("ratings");
 %>
 
 <!DOCTYPE html>
@@ -26,49 +31,35 @@
 
     <%@include file="/components/navbar.jspf"%>
 
-    <div style="height: 400px;"></div>
+    <div style="height: 400px;">
+        
+        
+    </div>
     
     <div class="row mb-3">
         <div class="col-4">
             <h2 class="titles">Ratings</h2>
-            <div class="progress margen-barras">
-                <div class="progress-bar bg-color" role="progressbar" aria-valuenow="70"
-                aria-valuemin="0" aria-valuemax="100" style="width:70%">
-                    5 stars
-                </div>
-            </div>
+            <% for(Map.Entry<Integer, Double> entry: ratings.entrySet()) { 
+                Integer key = entry.getKey();
+                Double value = entry.getValue();%>
+                
                 <div class="progress margen-barras">
-                    <div class="progress-bar bg-color" role="progressbar" aria-valuenow="70"
-                    aria-valuemin="0" aria-valuemax="100" style="width:70%">
-                        4 stars
+                    <div class="progress-bar bg-color text-center" role="progressbar" aria-valuenow="<%= value %>"
+                    aria-valuemin="0" aria-valuemax="100" style="width: <%= value %>%; color: black; overflow: visible;">
+                        <%= key %> stars
                     </div>
                 </div>
-                <div class="progress margen-barras">
-                    <div class="progress-bar bg-color" role="progressbar" aria-valuenow="70"
-                    aria-valuemin="0" aria-valuemax="100" style="width:70%">
-                        3 stars
-                    </div>
-                </div>
-                <div class="progress margen-barras">
-                    <div class="progress-bar bg-color" role="progressbar" aria-valuenow="70"
-                    aria-valuemin="0" aria-valuemax="100" style="width:70%">
-                        2 stars
-                    </div>
-                </div>
-                <div class="progress margen-barras">
-                    <div class="progress-bar bg-color" role="progressbar" aria-valuenow="70"
-                    aria-valuemin="0" aria-valuemax="100" style="width:70%">
-                        1 star
-                    </div>
-                </div>
+            <% } %>
             <br>
-            <div class="row">
-                <div class="col">
-                    <button type="button" class="btn rounded btn-primary margen-boton" data-toggle="modal" data-target="#review">
-                        Review
-                    </button>
+            <% if(usuario != null && usuario.getEsAdmin() == 0 && valorado == 1) { %>
+                <div class="row">
+                    <div class="col">
+                        <button type="button" class="btn rounded btn-primary margen-boton" data-toggle="modal" data-target="#review">
+                            Review
+                        </button>
+                    </div>
                 </div>
-            </div>
+            <% } %>
         </div>
         <div class="col-8">
             <h2>Customer Reviews</h2>
@@ -87,41 +78,42 @@
 
     <%@include file="/components/footer.jspf"%>
 
-    <div class="modal fade" id="review" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <form class="w-100" method="POST" action="/efake/doReview">
-                <input type="hidden" name="user" value="33">
-                <input type="hidden" name="product" value="2">
-                <div class="modal-content">
-                    <div class="modal-body">
-                        <input id="modal-form-user" type="hidden" name="user">
-                        <div class="form-group">
-                            <label class="col-form-label">Rating</label>
-                                <p class='clasificacion'>
-                                    <input id='radio1' type='radio' name='estrellas' value='5'>
-                                    <label for='radio1'>★</label>
-                                    <input id='radio2' type='radio' name='estrellas' value='4'>
-                                    <label for='radio2'>★</label>
-                                    <input id='radio3' type='radio' name='estrellas' value='3'>
-                                    <label for='radio3'>★</label>
-                                    <input id='radio4' type='radio' name='estrellas' value='2'>
-                                    <label for='radio4'>★</label>
-                                    <input id='radio5' type='radio' name='estrellas' value='1'>
-                                    <label for='radio5'>★</label>
-                                </p>
-                            <label class="col-form-label">Comments</label>
-                            <textarea class="form-control" name="comment"></textarea>
-                        </div>
+    <% if(usuario != null && usuario.getEsAdmin() == 0 && valorado == 1) { %>
+        <div class="modal fade" id="review" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <form class="w-100" method="POST" action="/efake/doReview">
+                    <input type="hidden" name="product" value="112">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <input id="modal-form-user" type="hidden" name="user">
+                            <div class="form-group">
+                                <label class="col-form-label">Rating</label>
+                                    <p class='clasificacion'>
+                                        <input id='radio1' type='radio' name='estrellas' value='5'>
+                                        <label for='radio1'>★</label>
+                                        <input id='radio2' type='radio' name='estrellas' value='4'>
+                                        <label for='radio2'>★</label>
+                                        <input id='radio3' type='radio' name='estrellas' value='3'>
+                                        <label for='radio3'>★</label>
+                                        <input id='radio4' type='radio' name='estrellas' value='2'>
+                                        <label for='radio4'>★</label>
+                                        <input id='radio5' type='radio' name='estrellas' value='1'>
+                                        <label for='radio5'>★</label>
+                                    </p>
+                                <label class="col-form-label">Comments</label>
+                                <textarea class="form-control" name="comment"></textarea>
+                            </div>
 
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="border-0 background-transparent" data-dismiss="modal">Cancel</button>
+                            <input type="submit" class="btn btn-primary" value="Send">
+                        </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="border-0 background-transparent" data-dismiss="modal">Cancel</button>
-                        <input type="submit" class="btn btn-primary" value="Send">
-                    </div>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
-    </div>
+    <% } %>
 
     <!--Font Awesome-->
     <script src="https://kit.fontawesome.com/998261dc3d.js" crossorigin="anonymous"></script>

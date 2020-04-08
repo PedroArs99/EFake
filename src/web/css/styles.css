@@ -43,6 +43,23 @@ a:hover{
     color: #000;
 }
 
+.jumbotron{
+  background-image: url("/efake/img/jumbotron_bg.png");
+  background-position: bottom;
+  background-repeat: no-repeat;
+
+  height: 93vh;
+  font-family:'Montserrat', sans-serif;
+}
+
+.landing-box{
+    height: 50vh;
+}
+.card{
+    width: 16rem;
+    margin-top: 1em;
+}
+
 #navBarSearchForm{
     width: 40em;
 }

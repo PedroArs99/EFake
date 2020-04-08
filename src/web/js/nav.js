@@ -5,6 +5,7 @@ const categories = fetch("/efake/NavCategories")
         data.categories.forEach(element => {
             var node = document.createElement('a');
             node.className = "dropdown-item";
+            node.href = "/efake/ShowProductsCategory?categories=" + element;
             var textNode = document.createTextNode(element);
             node.appendChild(textNode);
             categoriesDropDown.appendChild(node);

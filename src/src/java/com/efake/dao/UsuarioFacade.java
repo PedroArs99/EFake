@@ -43,4 +43,15 @@ public class UsuarioFacade extends AbstractFacade<Usuario> {
         return userList;
     }
     
+    public Usuario findByCorreo(String correo){
+        Query q;
+        Usuario res;
+        
+        q = this.getEntityManager().createNamedQuery("Usuario.findByCorreo");
+        q.setParameter("correo", correo);
+        res = (Usuario) q.getSingleResult();
+        
+        return res;
+    }
+    
 }
