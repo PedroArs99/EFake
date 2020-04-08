@@ -85,7 +85,7 @@ public class Producto implements Serializable {
     @JoinColumn(name = "Categoria", referencedColumnName = "ID")
     @ManyToOne(optional = false)
     private Categoria categoria;
-    @JoinColumn(name = "Owner", referencedColumnName = "Correo")
+    @JoinColumn(name = "Owner", referencedColumnName = "ID")
     @ManyToOne(optional = false)
     private Usuario owner;
     @JoinColumn(name = "Subcategoria", referencedColumnName = "ID")
