@@ -26,7 +26,10 @@
 
     <%@include file="/components/navbar.jspf"%>
 
-    <div style="height: 400px;"></div>
+    <div style="height: 400px;">
+        
+        
+    </div>
     
     <div class="row mb-3">
         <div class="col-4">
