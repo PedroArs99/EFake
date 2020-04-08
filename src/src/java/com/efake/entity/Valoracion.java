@@ -37,7 +37,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Valoracion.findById", query = "SELECT v FROM Valoracion v WHERE v.id = :id")
     , @NamedQuery(name = "Valoracion.findByPuntuacion", query = "SELECT v FROM Valoracion v WHERE v.puntuacion = :puntuacion")
     , @NamedQuery(name = "Valoracion.findByFecha", query = "SELECT v FROM Valoracion v WHERE v.fecha = :fecha")
-    , @NamedQuery(name = "Valoracion.findByHora", query = "SELECT v FROM Valoracion v WHERE v.hora = :hora")})
+    , @NamedQuery(name = "Valoracion.findByHora", query = "SELECT v FROM Valoracion v WHERE v.hora = :hora")
+    , @NamedQuery(name = "Valoracion.findByProducto", query = "SELECT v FROM Valoracion v WHERE v.productoValorado = :productoValorado")})
 public class Valoracion implements Serializable {
 
     @Basic(optional = false)
@@ -69,7 +70,7 @@ public class Valoracion implements Serializable {
     @Column(name = "Hora")
     @Temporal(TemporalType.TIME)
     private Date hora;
-    @JoinColumn(name = "Cliente", referencedColumnName = "Correo")
+    @JoinColumn(name = "Cliente", referencedColumnName = "ID")
     @ManyToOne
     private Usuario cliente;
     @JoinColumn(name = "ProductoValorado", referencedColumnName = "ID")

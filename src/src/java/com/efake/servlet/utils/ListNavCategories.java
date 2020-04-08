@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author carlos
+ * @author Pedro
  */
 @WebServlet(name = "ListNavCategories", urlPatterns = {"/NavCategories"})
 public class ListNavCategories extends HttpServlet {

@@ -5,10 +5,13 @@
  */
 package com.efake.dao;
 
+import com.efake.entity.Categoria;
 import com.efake.entity.Producto;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -27,6 +30,14 @@ public class ProductoFacade extends AbstractFacade<Producto> {
 
     public ProductoFacade() {
         super(Producto.class);
+    }
+    
+    public List<Producto> findByCategoria(Categoria categoria){
+        List<Producto> listaProducto;
+        Query q = this.getEntityManager().createNamedQuery("Producto.findByCategoria");
+        q.setParameter("categoria", categoria);
+        listaProducto = q.getResultList();
+        return listaProducto;
     }
     
 }
