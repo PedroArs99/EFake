@@ -96,28 +96,30 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
   </head>
   <body class="text-center">
-    <form class="form-signin">
+  <form class="form-signin" action="SignupServlet" method="post">
   <img class="d-inline-block align-top" src="https://raw.githubusercontent.com/PedroArs99/EFake/master/img/logo.png" alt="" width="72" height="30">
   <h1 class="h3 mb-3 font-weight-normal">Please sign up</h1>
 
   <input type="text" name="nombre" id="defaultRegisterFormFirstName" class="form-control" placeholder="First name">
 
-  <input type="text" id="defaultRegisterFormLastName" class="form-control" placeholder="Last name"><br/>
+  <input type="text" name="apellidos" id="defaultRegisterFormLastName" class="form-control" placeholder="Last name"><br/>
 
   <label for="inputEmail" class="sr-only">Email address</label>
-  <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required="" autofocus="">
+  <input type="email" name="correo" id="inputEmail" class="form-control" placeholder="Email address" required="" autofocus="">
 
   <label for="inputPassword" class="sr-only">Password</label>
-  <input type="password" id="inputPassword" class="form-control" placeholder="Password" required=""><br/>
+  <input type="password" name="contrasena" id="inputPassword" class="form-control" placeholder="Password" required=""><br/>
+  
+  <input type="date" name="edad" class="form-control" id="inputEdad" placeholder="Birth date" required=""><br/>
 
-  <input type="text" id="defaultRegisterPhonePassword" class="form-control" placeholder="Phone number" aria-describedby="defaultRegisterFormPhoneHelpBlock"><br/>
+  <input type="text" name="telefono" id="defaultRegisterPhonePassword" class="form-control" placeholder="Phone number" aria-describedby="defaultRegisterFormPhoneHelpBlock"><br/>
 
   <div class="input-group mb-4">
       <div class="input-group-prepend">
           <span class="input-group-text">Upload</span>
       </div>
       <div class="custom-file">
-          <input type="file" class="custom-file-input" id="defaultRegisterFormProfile" aria-describedby="defaultRegisterFormProfile">
+          <input type="file" name="foto" class="custom-file-input" id="defaultRegisterFormProfile" aria-describedby="defaultRegisterFormProfile">
           <label class="custom-file-label" for="defaultRegisterFormProfile">Profile</label>
       </div>
   </div>
@@ -130,7 +132,7 @@
       <a href="" target="_blank">terms of service</a>.
   </p>
 
-  <p class="mt-5 mb-3 text-muted">Cpyrigth © 2020 eFake Inc. All Rights Reserved.</p>
+  <p class="mt-5 mb-3 text-muted">Copyrigth © 2020 eFake Inc. All Rights Reserved.</p>
 </form>
 
 

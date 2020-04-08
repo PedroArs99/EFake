@@ -9,6 +9,7 @@ import com.efake.entity.Usuario;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
@@ -49,7 +50,12 @@ public class UsuarioFacade extends AbstractFacade<Usuario> {
         
         q = this.getEntityManager().createNamedQuery("Usuario.findByCorreo");
         q.setParameter("correo", correo);
-        res = (Usuario) q.getSingleResult();
+        try{
+            res = (Usuario) q.getSingleResult();
+        }
+        catch(NoResultException ex){
+            res = null;
+        }
         
         return res;
     }

@@ -8,10 +8,9 @@ package com.efake.servlet.valoraciones;
 import com.efake.dao.ProductoFacade;
 import com.efake.dao.UsuarioFacade;
 import com.efake.dao.ValoracionFacade;
-import com.efake.entity.Producto;
+import com.efake.entity.Usuario;
 import com.efake.entity.Valoracion;
 import java.io.IOException;
-import java.sql.Time;
 import java.util.Date;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -19,6 +18,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -42,14 +42,15 @@ public class doReview extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Integer idUsuario = Integer.parseInt(request.getParameter("user"));
+        HttpSession session = request.getSession();
         Integer rating = Integer.parseInt(request.getParameter("estrellas"));
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
         String comment = request.getParameter("comment");
         Date date = new Date();
         Integer idProducto = Integer.parseInt(request.getParameter("product"));
         
         Valoracion review = new Valoracion();
-        review.setCliente(usuarioFacade.find(idUsuario));
+        review.setCliente(usuario);
         review.setProductoValorado(productoFacade.find(idProducto));
         review.setPuntuacion(rating);
         review.setComentario(comment);
