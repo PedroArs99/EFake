@@ -108,7 +108,7 @@ and open the template in the editor.
   </div>
   <!--button href="LoginServlet" class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button-->
   <input type="submit" class="btn btn-lg btn-primary btn-block" value="Sign in"><br/>
-  <button href="signup.jsp" class="btn btn-lg btn-primary btn-block" type="submit">You don't have an account?</button>
+  <a href="signup.jsp" type="submit">Don't you have an account?</a>
   <p class="mt-5 mb-3 text-muted">Copyright &copy; 2020 eFake Inc. All Rights Reserved.</p>
 </form>
 
