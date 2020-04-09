@@ -100,12 +100,12 @@
   <img class="d-inline-block align-top" src="https://raw.githubusercontent.com/PedroArs99/EFake/master/img/logo.png" alt="" width="72" height="30">
   <h1 class="h3 mb-3 font-weight-normal">Please sign up</h1>
 
-  <input type="text" name="nombre" id="defaultRegisterFormFirstName" class="form-control" placeholder="First name">
+  <input type="text" name="nombre" id="defaultRegisterFormFirstName" class="form-control" placeholder="First name" autofocus="">
 
   <input type="text" name="apellidos" id="defaultRegisterFormLastName" class="form-control" placeholder="Last name"><br/>
 
   <label for="inputEmail" class="sr-only">Email address</label>
-  <input type="email" name="correo" id="inputEmail" class="form-control" placeholder="Email address" required="" autofocus="">
+  <input type="email" name="correo" id="inputEmail" class="form-control" placeholder="Email address" required="">
 
   <label for="inputPassword" class="sr-only">Password</label>
   <input type="password" name="contrasena" id="inputPassword" class="form-control" placeholder="Password" required=""><br/>

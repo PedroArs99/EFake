@@ -66,7 +66,7 @@ public class SignupServlet extends HttpServlet {
         byte[] contrasenaCifrada;
         boolean esMenor = edad < 18;
         
-        if(edad == 17){
+        if(edad == 18){
             mes = fechaSistema.getMonth() - fechaNacimiento.getMonth();
             if(mes == 0){
                 dia = fechaSistema.getDay() - fechaNacimiento.getDay();
