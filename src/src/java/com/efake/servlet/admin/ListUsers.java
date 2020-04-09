@@ -16,6 +16,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -23,8 +24,10 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "ListUsers", urlPatterns = {"/ListUsers"})
 public class ListUsers extends HttpServlet {
+
     @EJB
     UsuarioFacade userFacade;
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -36,18 +39,29 @@ public class ListUsers extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        //Check if the user is logged in as admin
+        HttpSession session = request.getSession();
+        Usuario admin = (Usuario) session.getAttribute("usuario");
+        if (admin != null && admin.getEsAdmin() == 0) {// The user is logged in, but he's not an admin
+            response.sendRedirect("/efake/");
+        } else if (admin == null) { //The user is not logged in
+            response.sendRedirect("/efake/login.jsp");
+        }
+        
+        //Load Attributes from request
         List<Usuario> userList = null;
         String whichList = request.getParameter("list");
-        
-        switch(whichList){
-            case "all": 
+
+        switch (whichList) {
+            case "all":
                 userList = userFacade.findByEsAdmin(0);
                 break;
         }
         
+        //Load List on request and redirect
         request.setAttribute("userList", userList);
         RequestDispatcher rd = request.getRequestDispatcher("adminPages/userList.jsp");
-        rd.forward(request,response);
+        rd.forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

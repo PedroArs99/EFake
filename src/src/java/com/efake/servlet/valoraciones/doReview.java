@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.efake.valoraciones;
+package com.efake.servlet.valoraciones;
 
 import com.efake.dao.ProductoFacade;
 import com.efake.dao.UsuarioFacade;

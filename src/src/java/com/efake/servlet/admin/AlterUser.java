@@ -1,14 +1,12 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.efake.servlet.admin;
 
 import com.efake.dao.UsuarioFacade;
 import com.efake.entity.Usuario;
+import com.efake.service.EmailService;
+import com.efake.service.UsuarioService;
+import com.efake.service.TemplatesEnum;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.Properties;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -26,6 +24,10 @@ public class AlterUser extends HttpServlet {
     
     @EJB
     UsuarioFacade userFacade;
+    @EJB
+    UsuarioService userService;
+    @EJB
+    EmailService emailService;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -37,6 +39,16 @@ public class AlterUser extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        //Check if the user is logged in as admin
+        HttpSession session = request.getSession();
+        Usuario admin = (Usuario) session.getAttribute("usuario");
+        if (admin != null && admin.getEsAdmin() == 0) {// The user is logged in, but he's not an admin
+            response.sendRedirect("/efake/");
+        } else if (admin == null) { //The user is not logged in
+            response.sendRedirect("/efake/login.jsp");
+        }
+        
+        //Load Attributtes from the form
         Integer id = Integer.parseInt(request.getParameter("user"));
         String email = request.getParameter("email");
         String fname = request.getParameter("fname");
@@ -45,16 +57,32 @@ public class AlterUser extends HttpServlet {
         String phone = request.getParameter("phone");
         String password = request.getParameter("password");
         
-        
+        //Alter User
         Usuario alteredUser = userFacade.find(id);
         alteredUser.setCorreo(email);
         alteredUser.setNombre(fname);
         alteredUser.setApellidos(sname);
         alteredUser.setEdad(age);
         alteredUser.setTelefono(phone);
-        alteredUser.setPassword(password.getBytes());
+        if(!password.equals("")){ //The password is going to be modified
+            byte[] hashedPassword = userService.hashPassword(password);
+            alteredUser.setPassword(hashedPassword);
+        }
+        userFacade.edit(alteredUser);
         
-        HttpSession session = request.getSession();
+        //Send mail Notifiying changes
+        Properties mailProperties = new Properties();
+        mailProperties.setProperty("to", email);
+        mailProperties.setProperty("subject", "Your Efake account has been modified");
+        mailProperties.setProperty("email", email);
+        mailProperties.setProperty("password", password);
+        mailProperties.setProperty("fname", fname);
+        mailProperties.setProperty("sname", sname);
+        mailProperties.setProperty("age", age.toString());
+        mailProperties.setProperty("phone", phone);
+        mailProperties.setProperty("template", TemplatesEnum.EDIT_USER.toString());
+        emailService.sendEmail(mailProperties);
+        //Save status & redirect
         session.setAttribute("status", "User Edited");
         response.sendRedirect("ListUsers?list=all");
     }

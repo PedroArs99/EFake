@@ -8,8 +8,6 @@ package com.efake.servlet.login;
 import com.efake.dao.UsuarioFacade;
 import com.efake.entity.Usuario;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.servlet.RequestDispatcher;
@@ -40,7 +38,6 @@ public class AutenticarServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
         String correo, status = "Todo correcto", goTo = "index.jsp", contrasena, contrasenaDelUsuario = "";
         correo = request.getParameter("correo");
         contrasena = request.getParameter("contrasena");
