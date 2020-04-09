@@ -7,7 +7,9 @@ package com.efake.servlet.login;
 
 import com.efake.dao.UsuarioFacade;
 import com.efake.entity.Usuario;
+import com.efake.service.UsuarioService;
 import java.io.IOException;
+import java.util.Arrays;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.servlet.RequestDispatcher;
@@ -27,6 +29,8 @@ public class AutenticarServlet extends HttpServlet {
 
     @EJB
     UsuarioFacade usuarioFacade;
+    @EJB
+    UsuarioService usuarioService;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -38,16 +42,16 @@ public class AutenticarServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String correo, status = "Todo correcto", goTo = "index.jsp", contrasena, contrasenaDelUsuario = "";
+        String correo, status = "Todo correcto", goTo = "index.jsp", contrasena;
         correo = request.getParameter("correo");
         contrasena = request.getParameter("contrasena");
+        byte[] contrasenaIntroducida = usuarioService.hashPassword(contrasena);
         
         RequestDispatcher rd;
         Usuario user;
         
         try{
            user = usuarioFacade.findByCorreo(correo);
-           contrasenaDelUsuario = new String(user.getPassword());
         }
         catch(EJBException ex){
             user = null;
@@ -57,7 +61,7 @@ public class AutenticarServlet extends HttpServlet {
            status = "El usuario no se encuentra en la base de datos";
            request.setAttribute("status", status);
            goTo = "login.jsp";
-        }else if(!contrasena.equals("lauraroson")){
+        }else if(!Arrays.equals(contrasenaIntroducida,user.getPassword())){
            status = "La clave es incorrecta";
            request.setAttribute("status", status);
            goTo = "login.jsp";
@@ -66,6 +70,7 @@ public class AutenticarServlet extends HttpServlet {
             session.setAttribute("usuario", user);
         }
         
+        System.out.print(status);
         rd = request.getRequestDispatcher(goTo);
         rd.forward(request, response); 
     }

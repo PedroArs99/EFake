@@ -113,6 +113,7 @@ public class SignupServlet extends HttpServlet {
            HttpSession session = request.getSession();
            session.setAttribute("usuario", newUser);
         }
+        
         System.out.println(status);
         rd = request.getRequestDispatcher(goTo);
         rd.forward(request, response);         
