@@ -44,14 +44,14 @@
               <span class="sr-only">Toggle Dropdown</span>
             </button>
             <div class="dropdown-menu dropdown-menu-right">
-              <a class="dropdown-item" href="#">My profile</a>
+              <a class="dropdown-item" href="#">Profile</a>
               
               <%if(user.getEsAdmin()==0){//No es admin%>              
               <a class="dropdown-item" href="#">My products</a>
               <a class="dropdown-item" href="#">Something else here</a>
               
               <%}else{%>
-              <a class="dropdown-item" href="#">User's list</a>
+              <a class="dropdown-item" href="ListUsers">User's list</a>
               <%}%>
               <div class="dropdown-divider"></div>
               <a class="dropdown-item" href="SignOut">Sign Out</a>              

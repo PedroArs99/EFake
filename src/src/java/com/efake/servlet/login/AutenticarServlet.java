@@ -7,9 +7,12 @@ package com.efake.servlet.login;
 
 import com.efake.dao.UsuarioFacade;
 import com.efake.entity.Usuario;
+import com.efake.service.EmailService;
+import com.efake.service.TemplatesEnum;
 import com.efake.service.UsuarioService;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Properties;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.servlet.RequestDispatcher;
@@ -31,6 +34,8 @@ public class AutenticarServlet extends HttpServlet {
     UsuarioFacade usuarioFacade;
     @EJB
     UsuarioService usuarioService;
+    @EJB
+    EmailService emailService;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -69,6 +74,14 @@ public class AutenticarServlet extends HttpServlet {
             HttpSession session = request.getSession();
             session.setAttribute("usuario", user);
         }
+        
+        Properties mailProperties = new Properties();
+        mailProperties.setProperty("to", user.getCorreo());
+        mailProperties.setProperty("subject", "Welcome to Efake");
+        mailProperties.setProperty("userName", user.getNombre());
+        mailProperties.setProperty("template", TemplatesEnum.REGISTER_USER.toString());
+                
+        emailService.sendEmail(mailProperties);
         
         System.out.print(status);
         response.sendRedirect(goTo);
