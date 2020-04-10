@@ -119,6 +119,10 @@ public class EmailService {
                 break;
             case EDIT_USER:
                 HTMLCode = getEditHTMLTemplate(mailProperties);
+                break;
+            case REGISTER_USER:
+                HTMLCode = getRegisterHTMLTemplate(mailProperties);
+                break;
         }
 
         return HTMLCode;
@@ -144,7 +148,7 @@ public class EmailService {
     }
 
     private String getEditHTMLTemplate(Properties mailProperties) {
-        String deleteAccountHTMLTemplate = "<html>\n"
+        String editAccountHTMLTemplate = "<html>\n"
                 + "<img src='https://github.com/PedroArs99/EFake/raw/master/img/logo.png'>\n"
                 + "\n"
                 + "<hr>\n"
@@ -171,7 +175,26 @@ public class EmailService {
                 + "\n"
                 + "</html>;";
 
-        return deleteAccountHTMLTemplate;
+        return editAccountHTMLTemplate;
+    }
+
+    private String getRegisterHTMLTemplate(Properties mailProperties) {
+        String registerAccountHTMLTemplate = "<html>\n"
+                + "<img src='https://github.com/PedroArs99/EFake/raw/master/img/logo.png'>\n"
+                + "<hr>\n"
+                + "<p>\n"
+                + "    Dear"+ mailProperties.getProperty("fname") + ", <br>\n"
+                + "    As a new member of our great community we would like to give you a warm welcome from the Efake team!<br>\n"
+                + "    Since now you can announce your products and other users can tell you their opinion about it,\n"
+                + "    as well as you can give your opinion about other users products, isn't it great? :) \n"
+                + "    (And best of all, it's completely free!)<br>\n"
+                + "    Yours trully, Efake Inc.<br>\n"
+                + "</p>\n"
+                + "<hr>\n"
+                + "<span>Copyright &copy 2020 eFake Inc. All Rights Reserved.</span>\n"
+                + "</html>";
+
+        return registerAccountHTMLTemplate;
     }
 
 }

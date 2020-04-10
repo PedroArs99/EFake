@@ -32,10 +32,33 @@
                 </div>
             </form>
         </ul>
+        <%if(user == null){%>
         <div>
             <a href="signup.jsp" class="mr-3 text-darkgrey">I don't have an account</a>
             <a href="login.jsp" class="btn btn-secondary">Login</a>
         </div>
+        <%}else{%>
+        <div class="btn-group">
+            <button type="button" class="btn btn-primary"><%=user.getNombre()%></button>
+            <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <span class="sr-only">Toggle Dropdown</span>
+            </button>
+            <div class="dropdown-menu dropdown-menu-right">
+              <a class="dropdown-item" href="#">Profile</a>
+              
+              <%if(user.getEsAdmin()==0){//No es admin%>              
+              <a class="dropdown-item" href="#">My products</a>
+              <a class="dropdown-item" href="#">Something else here</a>
+              
+              <%}else{%>
+              <a class="dropdown-item" href="ListUsers">User's list</a>
+              <%}%>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="SignOut">Sign Out</a>              
+            </div>
+          </div>
+        
+        <%}%>
     </div>
 
     <script src="${pageContext.request.contextPath}/js/nav.js"></script>

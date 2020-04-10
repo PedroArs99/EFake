@@ -115,8 +115,7 @@ public class SignupServlet extends HttpServlet {
         }
         
         System.out.println(status);
-        rd = request.getRequestDispatcher(goTo);
-        rd.forward(request, response);         
+        response.sendRedirect(goTo);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
