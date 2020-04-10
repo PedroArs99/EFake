@@ -6,10 +6,10 @@
 
 <%@page import="com.efake.entity.Usuario"%>
 <% 
-    Usuario admin = (Usuario) session.getAttribute("usuario");
-    if(admin != null && admin.getEsAdmin() == 0){// The user is logged in, but he's not an admin
+    Usuario user = (Usuario) session.getAttribute("usuario");
+    if(user != null && user.getEsAdmin() == 0){// The user is logged in, but he's not an admin
         response.sendRedirect("/efake/");
-    }else if (admin == null){ //The user is not logged in
+    }else if (user == null){ //The user is not logged in
         response.sendRedirect("/efake/login.jsp");
     }
 %>
@@ -35,7 +35,7 @@
                 <div class="card text-center bg-transparent border-0">
                     <i class="fas fa-users fa-7x"></i>
                     <div class="card-body">
-                        <a href="${pageContext.request.contextPath}/ListUsers?list=all" class="btn btn-primary">User List</a>
+                        <a href="${pageContext.request.contextPath}/ListUsers?list=all&page=1" class="btn btn-primary">User List</a>
                     </div>
                 </div>
             </div>
