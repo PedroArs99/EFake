@@ -4,6 +4,7 @@
     Author     : carlo
 --%>
 
+<%@page import="com.efake.entity.Usuario"%>
 <%@page import="java.util.List"%>
 <%@page import="com.efake.entity.Producto"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -11,6 +12,7 @@
 <%
     List<Producto> listaProductos = (List<Producto>) request.getAttribute("listaProductoCategoria");
     String category = (String) request.getAttribute("category");
+    Usuario user = (Usuario) request.getAttribute("usuario");
 %>
 <html>
     <head>

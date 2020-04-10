@@ -3,15 +3,8 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/laura/OneDrive/Documentos/GitHub/EFake/src/web/components/navbar.jspf</file>
-            <file>file:/C:/Users/laura/OneDrive/Documentos/GitHub/EFake/src/src/java/com/efake/entity/Usuario.java</file>
-            <file>file:/C:/Users/laura/OneDrive/Documentos/GitHub/EFake/src/src/java/com/efake/service/UsuarioService.java</file>
-            <file>file:/C:/Users/laura/OneDrive/Documentos/GitHub/EFake/src/web/login.jsp</file>
-            <file>file:/C:/Users/laura/OneDrive/Documentos/GitHub/EFake/src/web/index.jsp</file>
-            <file>file:/C:/Users/laura/OneDrive/Documentos/GitHub/EFake/src/src/java/com/efake/dao/UsuarioFacade.java</file>
-            <file>file:/C:/Users/laura/OneDrive/Documentos/GitHub/EFake/src/src/java/com/efake/servlet/login/AutenticarServlet.java</file>
-            <file>file:/C:/Users/laura/OneDrive/Documentos/GitHub/EFake/src/web/signup.jsp</file>
-            <file>file:/C:/Users/laura/OneDrive/Documentos/GitHub/EFake/src/src/java/com/efake/servlet/login/SignupServlet.java</file>
+            <file>file:/C:/Users/carlo/Documents/NetBeansProjects/EFake/src/web/components/navbar.jspf</file>
+            <file>file:/C:/Users/carlo/Documents/NetBeansProjects/EFake/src/src/java/com/efake/servlet/productos/ShowProductsCategory.java</file>
         </group>
     </open-files>
 </project-private>

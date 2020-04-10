@@ -8,10 +8,12 @@ package com.efake.servlet.valoraciones;
 import com.efake.dao.ProductoFacade;
 import com.efake.dao.UsuarioFacade;
 import com.efake.dao.ValoracionFacade;
+import com.efake.entity.Producto;
 import com.efake.entity.Usuario;
 import com.efake.entity.Valoracion;
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -48,16 +50,20 @@ public class doReview extends HttpServlet {
         String comment = request.getParameter("comment");
         Date date = new Date();
         Integer idProducto = Integer.parseInt(request.getParameter("product"));
+        Producto producto = productoFacade.find(idProducto);
+        List<Valoracion> listaValoraciones = producto.getValoracionList();
         
         Valoracion review = new Valoracion();
         review.setCliente(usuario);
-        review.setProductoValorado(productoFacade.find(idProducto));
+        review.setProductoValorado(producto);
         review.setPuntuacion(rating);
         review.setComentario(comment);
         review.setFecha(date);
         review.setHora(date);
         
         valoracionFacade.create(review);
+        listaValoraciones.add(review);
+        productoFacade.edit(producto);
         response.sendRedirect("/efake/ShowProduct?idProducto=" + idProducto);
     }
 
