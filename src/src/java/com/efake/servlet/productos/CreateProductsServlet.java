@@ -78,7 +78,7 @@ UsuarioFacade usuarioFacade;
         p.setReportado(Short.parseShort("0"));
         productoFacade.create(p);
         int idProducto= p.getId();
-        response.sendRedirect("/ShowProduct?idProducto="+idProducto+"");
+        response.sendRedirect("/efake/ShowProduct?idProducto="+idProducto+"");
         
        // request.setAttribute("producto", p);
        // RequestDispatcher rd = request.getRequestDispatcher("VisualizacionProducto.jsp");
