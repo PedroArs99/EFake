@@ -3,17 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.efake.servlet.productos.juan;
+package com.efake.servlet.products;
 
+import com.efake.dao.CategoriaFacade;
 import com.efake.dao.ProductoFacade;
-import com.efake.dao.UsuarioFacade;
 import com.efake.entity.Categoria;
 import com.efake.entity.Producto;
-import com.efake.entity.Subcategoria;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -24,16 +22,14 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author JuMed
+ * @author carlo
  */
-@WebServlet(name = "ModificarProductoServlet", urlPatterns = {"/ModificarProductoServlet"})
-public class ModificarProductoServlet extends HttpServlet {
-
-@EJB
-ProductoFacade productoFacade;
-@EJB
-UsuarioFacade usuarioFacade;
-    
+@WebServlet(name = "ShowProductsCategory", urlPatterns = {"/ShowProductsCategory"})
+public class ShowProductsCategory extends HttpServlet {
+    @EJB
+    ProductoFacade productoFacade;
+    @EJB
+    CategoriaFacade categoriaFacade;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -43,36 +39,16 @@ UsuarioFacade usuarioFacade;
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        int id = Integer.parseInt(request.getParameter("id"));
-        Producto p = productoFacade.find(id);
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {      
+        String category = request.getParameter("categories");
+        Categoria c = categoriaFacade.findByName(category);
+        List<Producto> listaProductoCategoria = productoFacade.findByCategoria(c);
         
-        String nombre = request.getParameter("textNombre");
-        String descripcion = request.getParameter("descripcion");
-        Double precio =Double.parseDouble(request.getParameter("textPrecio"));
-        String imagen = request.getParameter("textImagen");
-        String keywords = request.getParameter("textKeywords");
-        Integer categoria =Integer.parseInt(request.getParameter("Categoria"));
-        Integer subcategoria =Integer.parseInt(request.getParameter("Subcategoria"));
-        
-        Categoria c = new Categoria(categoria);
-        Subcategoria s = new Subcategoria(subcategoria);
-        
-        p.setNombre(nombre);
-        p.setDescripcion(descripcion);
-        p.setPrecio(precio);
-        p.setImagen(imagen);
-        p.setCategoria(c);
-        p.setSubcategoria(s);
-        productoFacade.edit(p);
-        
-        request.setAttribute("producto", p);
-        RequestDispatcher rd = request.getRequestDispatcher("VisualizacionProducto.jsp");
+        request.setAttribute("listaProductoCategoria", listaProductoCategoria);
+        request.setAttribute("category", category);
+        RequestDispatcher rd = request.getRequestDispatcher("showProductsCategories.jsp");
         rd.forward(request, response);
-        response.setContentType("text/html;charset=UTF-8");
-        }
-    
+    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

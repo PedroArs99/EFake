@@ -12,9 +12,11 @@
 
 <%
   List<Valoracion> listValoracion = (List<Valoracion>) request.getAttribute("listValoraciones");
-  Usuario usuario = (Usuario) session.getAttribute("usuario");
+  Usuario user = (Usuario) session.getAttribute("usuario");
   int valorado = (Integer) request.getAttribute("valorado");
   Map<Integer, Double> ratings = (Map<Integer, Double>) request.getAttribute("ratings");
+  
+  int idProducto = Integer.parseInt(request.getParameter("idProducto"));
 %>
 
 <!DOCTYPE html>
@@ -51,7 +53,7 @@
                 </div>
             <% } %>
             <br>
-            <% if(usuario != null && usuario.getEsAdmin() == 0 && valorado == 1) { %>
+            <% if(user != null && user.getEsAdmin() == 0 && valorado == 1) { %>
                 <div class="row">
                     <div class="col">
                         <button type="button" class="btn rounded btn-primary margen-boton" data-toggle="modal" data-target="#review">
@@ -78,11 +80,11 @@
 
     <%@include file="/components/footer.jspf"%>
 
-    <% if(usuario != null && usuario.getEsAdmin() == 0 && valorado == 1) { %>
+    <% if(user != null && user.getEsAdmin() == 0 && valorado == 1) { %>
         <div class="modal fade" id="review" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <form class="w-100" method="POST" action="/efake/doReview">
-                    <input type="hidden" name="product" value="112">
+                    <input type="hidden" name="product" value="<%= idProducto %>">
                     <div class="modal-content">
                         <div class="modal-body">
                             <input id="modal-form-user" type="hidden" name="user">

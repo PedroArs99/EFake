@@ -1,4 +1,4 @@
-package com.efake.servlet.productos;
+package com.efake.servlet.products;
 
 import com.efake.dao.ProductoFacade;
 import com.efake.dao.ValoracionFacade;

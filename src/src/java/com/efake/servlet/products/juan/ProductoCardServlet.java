@@ -3,12 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.efake.servlet.productos.juan;
+package com.efake.servlet.products.juan;
 
 import com.efake.dao.CategoriaFacade;
 import com.efake.dao.ProductoFacade;
 import com.efake.dao.SubcategoriaFacade;
 import com.efake.entity.Categoria;
+import com.efake.entity.Producto;
 import com.efake.entity.Subcategoria;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -25,34 +26,33 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author JuMed
  */
-@WebServlet(name = "AbrirCrearProductoServlet", urlPatterns = {"/AbrirCrearProductoServlet"})
-public class AbrirCrearProductoServlet extends HttpServlet {
+@WebServlet(name = "ProductoCardServlet", urlPatterns = {"/ProductoCardServlet"})
+public class ProductoCardServlet extends HttpServlet {
+@EJB
+ProductoFacade productofacade;
 @EJB
 CategoriaFacade categoriaFacade;
 @EJB
 SubcategoriaFacade subcategoriaFacade;
-
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+    
+   protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        List<Categoria> categorias = categoriaFacade.findAll();
+       
+         List<Categoria> categorias = categoriaFacade.findAll();
 
         List<Subcategoria> subcategorias = subcategoriaFacade.findAll();
       
         request.setAttribute("categoriaList", categorias);
         request.setAttribute("subcategoriasList", subcategorias);
-        RequestDispatcher rd = request.getRequestDispatcher("CreateProducts.jsp");
+        int id = Integer.parseInt(request.getParameter("id"));
+        Producto p = productofacade.find(id);
+        request.setAttribute("producto", p);
+        System.out.print(p.getNombre());
+        RequestDispatcher rd = request.getRequestDispatcher("ModificacionProductos.jsp");
         rd.forward(request, response);
-    }
 
+
+    }
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.

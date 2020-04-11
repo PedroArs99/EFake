@@ -1,8 +1,10 @@
 <%-- 
-    Document   : userList
-    Created on : 28-mar-2020, 1:11:13
+    Document   : productList
+    Created on : 11-abr-2020, 1:42:01
     Author     : PedroArenas
 --%>
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="com.efake.entity.Producto"%>
 <%@page import="com.efake.entity.Usuario"%>
 <%@page import="java.util.List"%>
 <%@page import="com.efake.entity.Categoria"%>
@@ -18,13 +20,16 @@
 %>
 
 <% //Load Attributes
-    List<Usuario> userList = (List<Usuario>) request.getAttribute("userList");
+    List<Producto> productList = (List<Producto>) request.getAttribute("productList");
     Integer numberOfPages = (Integer) request.getAttribute("numberOfPages");
     Integer currentPage = Integer.parseInt(request.getParameter("page"));
-    String whichList = request.getParameter("list");
 
     String status = (String) session.getAttribute("status");
     session.removeAttribute("status");
+%>
+
+<% //Other tools
+   SimpleDateFormat dateFormatter = new SimpleDateFormat("dd.MM.yyyy");
 %>
 <!DOCTYPE html>
 <html>
@@ -121,7 +126,7 @@
 
                 <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
                     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
-                        <h1 class="h2">User List</h1>
+                        <h1 class="h2">Product List</h1>
                     </div>
                     <% if (status != null) {%>
                     <div class="alert alert-success" role="alert">
@@ -132,39 +137,40 @@
                         <table class="table table-striped table-sm">
                             <thead>
                                 <tr>
-                                    <th>Email</th>
                                     <th>Name</th>
-                                    <th>Surname</th>
-                                    <th>Age</th>
-                                    <th>Phone Number</th>
-                                    <th>Last Login</th>
+                                    <th>Price</th>
+                                    <th>Date</th>
+                                    <th>Category</th>
+                                    <th>Seller</th>
+                                    <th></th>
                                     <th></th>
                                     <th></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <% for (Usuario u : userList) {%>
+                                <% for (Producto p : productList) {%>
                                 <tr>
-                                    <td><%= u.getCorreo()%></td>
-                                    <td><%= u.getNombre()%></td>
-                                    <td><%= u.getApellidos()%></td>
-                                    <td><%= u.getEdad()%></td>
-                                    <td><%= u.getTelefono()%></td>
-                                    <td><%= (u.getUltimaEntrada() == null) ? '-' : u.getUltimaEntrada()%></td>
+                                    <td><%= p.getNombre() %></td>
+                                    <td><%= p.getPrecio()  %></td>
+                                    <td><%= dateFormatter.format(p.getFecha()) %></td>
+                                    <td><%= p.getCategoria().getNombre() %></td>
+                                    <td><%= p.getOwner().getCorreo() %></td>
+                                    <td>
+                                        <a href="/efake/ShowProduct?idProducto=<%= p.getId() %>">
+                                            <i class="fas fa-ellipsis-h"></i>
+                                        </a>
+                                            
+                                    </td>
                                     <td>
                                         <button type="button" class="bg-transparent border-0" data-toggle="modal"
-                                                data-target="#deleteConfirmationModal" data-user="<%= u.getCorreo()%>"
-                                                data-id="<%= u.getId()%>">
+                                                data-target="#deleteConfirmationModal"
+                                                data-id="<%= p.getId() %>">
                                             <i class="fas fa-trash"></i>
                                         </button>
                                     </td>
                                     <td>
                                         <button type="button" class="bg-transparent border-0" data-toggle="modal"
-                                                data-target="#alterUserModal" data-id="<%= u.getId()%>"
-                                                data-user="<%= u.getCorreo()%>" data-fname="<%= u.getNombre()%>"
-                                                data-sname="<%= u.getApellidos()%>" data-age="<%= u.getEdad()%>"
-                                                data-phone="<%= u.getTelefono()%>" data-lastLogin="<%= u.getUltimaEntrada()%>"
-                                                >
+                                                data-target="#alterUserModal">
                                             <i class="fas fa-edit"></i>
                                         </button>
                                     </td>
@@ -177,7 +183,7 @@
                         <ul class="pagination justify-content-center">
                             <% for (int i = 1; i <= numberOfPages; i++) {%>
                             <li class="page-item <%= (i == currentPage)? "active":""%>">
-                                <a class="page-link" href="/efake/ListUsers?list=<%=whichList%>&page=<%= i%>"><%= i%></a>
+                                <a class="page-link" href="/efake/ListAdminProducts?&page=<%= i%>"><%= i%></a>
                             </li>
                             <%  }%>
 

@@ -122,7 +122,7 @@
                                 <div class="card-body">
                                     <h5 class="card-title"><%= p.getNombre()%></h5>
                                     <p class="card-text"><%= p.getDescripcion()%></p>
-                                    <a href="selected_product.jsp" class="btn btn-primary">View Product</a>
+                                    <a href="/efake/ShowProduct?idProducto=<%= p.getId() %>" class="btn btn-primary">View Product</a>
                                 </div>
                             </div>
                         <% }%>

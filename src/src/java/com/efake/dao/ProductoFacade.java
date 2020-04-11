@@ -7,6 +7,7 @@ package com.efake.dao;
 
 import com.efake.entity.Categoria;
 import com.efake.entity.Producto;
+import com.efake.entity.Usuario;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -40,4 +41,16 @@ public class ProductoFacade extends AbstractFacade<Producto> {
         return listaProducto;
     }
     
+    
+    public List<Producto> findRange(int page, int pageSize) {
+        Query q;
+        List<Producto> productList;
+        
+        q= this.getEntityManager().createNamedQuery("Producto.findAll");
+        q.setMaxResults(pageSize);
+        q.setFirstResult(page*pageSize);
+        productList = q.getResultList();
+        
+        return productList;
+    }
 }
