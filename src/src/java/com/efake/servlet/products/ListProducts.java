@@ -34,6 +34,11 @@ public class ListProducts extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         
         List<Producto> list = pf.findAll();
+        
+        if(request.getParameter("search")!=null){ 
+            list = pf.findByFilter(request.getParameter("search"));
+        }
+        
         request.setAttribute("productsList", list);
         
         RequestDispatcher rd = request.getRequestDispatcher("/products.jsp");
