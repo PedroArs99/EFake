@@ -118,6 +118,14 @@ public class Valoracion implements Serializable {
     public Date getFecha() {
         return fecha;
     }
+    
+    public String getFechaString(){
+        int day = fecha.getDay();
+        int month = fecha.getMonth();
+        int year = fecha.getYear() + 1900;
+        
+        return day + "/" + month + "/" + year;
+    }
 
     public void setFecha(Date fecha) {
         this.fecha = fecha;

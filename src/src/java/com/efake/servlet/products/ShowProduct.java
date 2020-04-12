@@ -45,19 +45,26 @@ public class ShowProduct extends HttpServlet {
         List<Valoracion> listValoraciones = productoBuscado.getValoracionList();
         Usuario user = (Usuario) session.getAttribute("usuario");
         int valorado = valorado(listValoraciones, user);
+        double mediaValoraciones = 0.0;
         
         inicializarMapa(ratings);
-        for(Valoracion v: listValoraciones) {
+        for(Valoracion v: listValoraciones){
             Double value = ratings.get(v.getPuntuacion());
             ratings.put(v.getPuntuacion(), value + 1);
+            mediaValoraciones += v.getPuntuacion();
         }
-        for (Map.Entry<Integer, Double> entry : ratings.entrySet()) {
-            Integer key = entry.getKey();
-            Double value = entry.getValue();
-            value = (value/listValoraciones.size()) * 100;
-            ratings.put(key, value);
+
+        if(!listValoraciones.isEmpty()) {
+            ratings.entrySet().forEach((entry) -> {
+                Integer key = entry.getKey();
+                Double value = entry.getValue();
+                value = (value/listValoraciones.size()) * 100;
+                ratings.put(key, value);
+            });
+            mediaValoraciones = mediaValoraciones/listValoraciones.size();
         }
-        
+
+        request.setAttribute("mediaValoraciones", mediaValoraciones);
         request.setAttribute("ratings", ratings);
         request.setAttribute("listValoraciones", listValoraciones);
         request.setAttribute("valorado", valorado);

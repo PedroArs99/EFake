@@ -66,3 +66,15 @@ input[type="radio"]:checked~label {
 .star {
     color: rgb(254,176,5);
 }
+
+.comment-stars {
+    font-size: 1em !important;
+}
+
+.cero-stars {
+    color: grey;
+}
+
+.filled-star {
+    color: rgb(254,176,5);
+}

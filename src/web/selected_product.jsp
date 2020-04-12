@@ -15,6 +15,7 @@
   Usuario user = (Usuario) session.getAttribute("usuario");
   int valorado = (Integer) request.getAttribute("valorado");
   Map<Integer, Double> ratings = (Map<Integer, Double>) request.getAttribute("ratings");
+  double mediaValoraciones = (Double) request.getAttribute("mediaValoraciones");
   
   int idProducto = Integer.parseInt(request.getParameter("idProducto"));
 %>
@@ -41,6 +42,9 @@
     <div class="row mb-3">
         <div class="col-4">
             <h2 class="titles">Ratings</h2>
+            <div style="margin-left: 50px; margin-bottom: 10px;">
+                <strong> <%= mediaValoraciones %> </strong> stars <strong> <%= listValoracion.size() %> </strong> votes
+            </div>
             <% for(Map.Entry<Integer, Double> entry: ratings.entrySet()) { 
                 Integer key = entry.getKey();
                 Double value = entry.getValue();%>
@@ -66,14 +70,35 @@
         <div class="col-8">
             <h2>Customer Reviews</h2>
             <br>
-            <% for(Valoracion v : listValoracion) { %>
-            <div class="border border-primary rounded rounded-primary p-3 margen-comentarios">
-                <%= v.getCliente().getNombre() + " " + v.getCliente().getApellidos() %> <br>
-                <%= v.getFecha()%> <br>
+            <% if(listValoracion.isEmpty()) { %>
                 <p>
-                    <%= v.getComentario() %>
+                    Be the first one rating this product!
                 </p>
-            </div>
+            <% } else { %>
+                <% for(Valoracion v : listValoracion) { %>
+                <div class="border border-primary rounded rounded-primary p-3 margen-comentarios">
+                    <strong style="font-size: 20px; margin-right: 15px;"> <%= v.getCliente().getNombre() + " " + v.getCliente().getApellidos() %> </strong> 
+                    <span> <%= v.getFechaString()%> </span> <br>
+                    <p>
+                        <% if(v.getPuntuacion() == 0) { 
+                                for(int i = 1; i <= 5; i++) {%>
+                                    <label class="comment-stars cero-stars">★</label>
+                                <% }
+                         } else { 
+                            for(int i = 1; i <=5; i++) { 
+                                if(i <= v.getPuntuacion()) { %>
+                                    <label class="comment-stars filled-star">★</label>
+                                <% } else { %>
+                                    <label class="comment-stars cero-stars">★</label>
+                               <% } 
+                            }
+                        } %>
+                    </p>
+                    <p>
+                        <%= v.getComentario() %>
+                    </p>
+                </div>
+                <% } %>
             <% } %>
         </div>
     </div>   
