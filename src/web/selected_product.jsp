@@ -8,6 +8,7 @@
 <%@page import="com.efake.entity.Usuario"%>
 <%@page import="com.efake.entity.Valoracion"%>
 <%@page import="com.efake.entity.Producto"%>
+<%@page import="java.text.SimpleDateFormat"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <%
@@ -16,8 +17,8 @@
   int valorado = (Integer) request.getAttribute("valorado");
   Map<Integer, Double> ratings = (Map<Integer, Double>) request.getAttribute("ratings");
   double mediaValoraciones = (Double) request.getAttribute("mediaValoraciones");
-  
   int idProducto = Integer.parseInt(request.getParameter("idProducto"));
+  SimpleDateFormat dateFormatter = new SimpleDateFormat("dd.MM.yyyy");
 %>
 
 <!DOCTYPE html>
@@ -45,17 +46,19 @@
             <div style="margin-left: 50px; margin-bottom: 10px;">
                 <strong> <%= mediaValoraciones %> </strong> stars <strong> <%= listValoracion.size() %> </strong> votes
             </div>
-            <% for(Map.Entry<Integer, Double> entry: ratings.entrySet()) { 
-                Integer key = entry.getKey();
-                Double value = entry.getValue();%>
-                
-                <div class="progress margen-barras">
-                    <div class="progress-bar bg-color text-center" role="progressbar" aria-valuenow="<%= value %>"
-                    aria-valuemin="0" aria-valuemax="100" style="width: <%= value %>%; color: black; overflow: visible;">
-                        <%= key %> stars
+            <%  int aux = 4;
+                for(Map.Entry<Integer, Double> entry: ratings.entrySet()) {
+                    Integer key = entry.getKey() + aux;
+                    Double value = ratings.get(key);
+                    aux = aux - 2;
+                    %>
+                    <div class="progress margen-barras">
+                        <div class="progress-bar bg-color text-center" role="progressbar" aria-valuenow="<%= value %>"
+                        aria-valuemin="0" aria-valuemax="100" style="width: <%= value %>%; color: black; overflow: visible;">
+                            <%= key %> stars
+                        </div>
                     </div>
-                </div>
-            <% } %>
+              <% } %>
             <br>
             <% if(user != null && user.getEsAdmin() == 0 && valorado == 1) { %>
                 <div class="row">
@@ -78,18 +81,18 @@
                 <% for(Valoracion v : listValoracion) { %>
                 <div class="border border-primary rounded rounded-primary p-3 margen-comentarios">
                     <strong style="font-size: 20px; margin-right: 15px;"> <%= v.getCliente().getNombre() + " " + v.getCliente().getApellidos() %> </strong> 
-                    <span> <%= v.getFechaString()%> </span> <br>
+                    <span> <%= dateFormatter.format(v.getFecha())%> </span> <br>
                     <p>
                         <% if(v.getPuntuacion() == 0) { 
                                 for(int i = 1; i <= 5; i++) {%>
-                                    <label class="comment-stars cero-stars">★</label>
+                                    <span class="comment-stars cero-stars">★</span>
                                 <% }
                          } else { 
                             for(int i = 1; i <=5; i++) { 
                                 if(i <= v.getPuntuacion()) { %>
-                                    <label class="comment-stars filled-star">★</label>
+                                    <span class="comment-stars filled-star">★</span>
                                 <% } else { %>
-                                    <label class="comment-stars cero-stars">★</label>
+                                    <span class="comment-stars cero-stars">★</span>
                                <% } 
                             }
                         } %>
