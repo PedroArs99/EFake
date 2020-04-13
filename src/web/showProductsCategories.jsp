@@ -118,7 +118,7 @@
                     <div class="d-flex flex-wrap justify-content-between align-items-end">
                         <% for (Producto p : listaProductos) {%>
                             <div class="card">
-                                <img class="card-img-top" src="/efake/img/favicon.png" alt="Card image cap">
+                                <img class="card-img-top" src="<%= p.getImagen() %>" alt="Card image cap">
                                 <div class="card-body">
                                     <h5 class="card-title"><%= p.getNombre()%></h5>
                                     <p class="card-text"><%= p.getDescripcion()%></p>

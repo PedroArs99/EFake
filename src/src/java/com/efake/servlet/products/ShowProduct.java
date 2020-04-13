@@ -62,6 +62,8 @@ public class ShowProduct extends HttpServlet {
                 ratings.put(key, value);
             });
             mediaValoraciones = mediaValoraciones/listValoraciones.size();
+            mediaValoraciones = formatearDecimales(mediaValoraciones);
+            
         }
 
         request.setAttribute("mediaValoraciones", mediaValoraciones);
@@ -88,6 +90,10 @@ public class ShowProduct extends HttpServlet {
         for(int i = 0; i < 5; i++){
             ratings.put(i + 1, 0.0);
         }
+    }
+    
+    private double formatearDecimales(double numero){
+        return Math.round(numero * Math.pow(10,2))/Math.pow(10,2);
     }
     
 
