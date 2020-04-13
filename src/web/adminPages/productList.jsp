@@ -252,20 +252,13 @@
         <div class="modal fade" id="deleteConfirmationModal" tabindex="-1" role="dialog"
              aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
-                <form method="POST" action="/efake/DeleteUser">
+                <form method="POST" action="/efake/DeleteProduct">
                     <div class="modal-content">
                         <div class="modal-body">
-                            Are you sure you want to delete <span id="modal-user"></span> account?
+                            Are you sure you want to delete this product?
                             This action can't be undone.
-
-
-                            <input id="modal-form-user" type="hidden" name="user">
-                            <div class="form-group">
-                                <label for="message-text" class="col-form-label">Please leave a message telling the user why
-                                    you are deleting his account:</label>
-                                <textarea class="form-control" id="message-text" name="emailBody"></textarea>
-                            </div>
-
+                            <input id="modal-form-product" type="hidden" name="id">
+                            <input type="hidden" name="page" value="<%= currentPage %>"
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="border-0 background-transparent"
@@ -289,7 +282,7 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
                 integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
         crossorigin="anonymous"></script>
-        <script src="${pageContext.request.contextPath}/js/userListModals.js"></script>
+        <script src="${pageContext.request.contextPath}/js/productListModals.js"></script>
     </body>
 
 </html>
