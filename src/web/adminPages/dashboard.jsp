@@ -26,35 +26,42 @@
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/styles.css">
     </head>
 
-    <body class="d-flex flex-column ">
+    <body>
         <%@include file="/components/navbar.jspf"%>
-        <div class="container-md mt-3">
-            <h5 class="text-left py-3">User Management</h5>
-            <div class="row p-3 ">
-                <div class="col-md-4">
-                    <div class="card text-center bg-transparent border-0">
-                        <i class="fas fa-users fa-7x"></i>
-                        <div class="card-body">
-                            <a href="${pageContext.request.contextPath}/ListUsers?list=all&page=1" class="btn btn-primary">User List</a>
-                        </div>
+        <div class="container-fluid ">
+            <div class="row">
+                <nav class="col-md-2 d-none d-md-block bg-transparent sidebar border-right border-thin">
+                    <div class="sidebar-sticky">
+                        <h6 
+                            class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                                Dashboard
+                        </h6>
+                        <ul class="nav flex-column">
+                            <li class="nav-item mb-2">
+                                <a href="${pageContext.request.contextPath}/ListUsers?list=all&page=1" class="nav-link btn btn-primary text-light">
+                                    <i class="fas fa-users"></i> User List
+                                </a>
+                            </li>
+                            <li class="nav-item mb-2">
+                                <a href="/efake/ListAdminProducts?page=1" class="nav-link btn btn-primary text-light">
+                                    <i class="fas fa-boxes"></i> Product List
+                                </a>
+                            </li>
+                        </ul>
                     </div>
+                </nav>
+                <div class="col-md-10">
+                    <canvas id="myChart"></canvas> 
                 </div>
-            </div>
 
-            <h5 class="text-left py-3">Product Management</h5>
-            <div class="row p-3 ">
-                <div class="col-md-4">
-                    <div class="card text-center bg-transparent border-0">
-                        <i class="fas fa-boxes fa-7x"></i>
-                        <div class="card-body">
-                            <a href="/efake/ListAdminProducts?page=1" class="btn btn-primary">Product List</a>
-                        </div>
-                    </div>
-                </div>
-            </div>     
+            </div>
         </div>
         <%@include file="/components/footer.jspf"%>
 
+
+        <!-- Chart Js -->
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+        <script src="/efake/js/stats.js"></script>
         <!--Font Awesome-->
         <script src="https://kit.fontawesome.com/998261dc3d.js" crossorigin="anonymous"></script>
         <!--Bootstrap-->
