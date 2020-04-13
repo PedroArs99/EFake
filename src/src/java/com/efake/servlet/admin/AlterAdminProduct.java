@@ -2,13 +2,10 @@ package com.efake.servlet.admin;
 
 import com.efake.dao.CategoriaFacade;
 import com.efake.dao.ProductoFacade;
-
 import com.efake.entity.Producto;
 import com.efake.entity.Usuario;
 import java.io.IOException;
-import java.util.List;
 import javax.ejb.EJB;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -20,17 +17,13 @@ import javax.servlet.http.HttpSession;
  *
  * @author PedroArenas
  */
-@WebServlet(name = "ListAdminProducts", urlPatterns = {"/ListAdminProducts"})
-public class ListProducts extends HttpServlet {
-
-    //Number of products that can be shown in a users list page
-    private static final int PAGE_SIZE = 16;
-
+@WebServlet(name = "AlterUser", urlPatterns = {"/EditProduct"})
+public class AlterAdminProduct extends HttpServlet {
+    
     @EJB
     ProductoFacade productFacade;
     @EJB
     CategoriaFacade categoryFacade;
-
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -50,28 +43,30 @@ public class ListProducts extends HttpServlet {
         } else if (admin == null) { //The user is not logged in
             response.sendRedirect("/efake/login.jsp");
         }
-
-        //Load Attributes from request
-        List<Producto> productList = null;
-        Integer numberOfProducts = productFacade.count();
-        Integer numberOfPages = 0;
-        if (numberOfProducts % PAGE_SIZE == 0) {
-            numberOfPages = numberOfProducts / PAGE_SIZE;
-        } else {
-            numberOfPages = (numberOfProducts / PAGE_SIZE) + 1;
-        }
-        //Pages start at 1 but lists are 0 indexed
-        Integer pageNumber = Integer.parseInt(request.getParameter("page")) - 1;
         
-        productList = productFacade.findRange(pageNumber,PAGE_SIZE);
-             
-
-        //Load List on request and redirect
-        request.setAttribute("productList", productList);
-        request.setAttribute("categoryList", categoryFacade.findAll());
-        request.setAttribute("numberOfPages", numberOfPages);
-        RequestDispatcher rd = request.getRequestDispatcher("adminPages/productList.jsp");
-        rd.forward(request, response);
+        //Load Attributtes from the form
+        Integer id = Integer.parseInt(request.getParameter("id"));
+        String name = request.getParameter("name");
+        String description = request.getParameter("description");
+        Double price = Double.parseDouble(request.getParameter("price"));
+        String image = request.getParameter("image");
+        Integer category = Integer.parseInt(request.getParameter("category"));
+        Integer page = Integer.parseInt(request.getParameter("page"));
+       
+        
+        //Alter User
+        Producto alteredUser = productFacade.find(id);
+        alteredUser.setNombre(name);
+        alteredUser.setDescripcion(description);
+        alteredUser.setPrecio(price);
+        alteredUser.setImagen(image);
+        alteredUser.setCategoria(categoryFacade.find(category));
+        productFacade.edit(alteredUser);
+        
+        System.out.println("passed");
+        //Save status & redirect
+        session.setAttribute("status", "Product Edited");
+        response.sendRedirect("/efake/ListAdminProducts?page="+page);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

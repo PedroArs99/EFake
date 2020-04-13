@@ -3,6 +3,7 @@
     Created on : 11-abr-2020, 1:42:01
     Author     : PedroArenas
 --%>
+<%@page import="com.efake.entity.Subcategoria"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="com.efake.entity.Producto"%>
 <%@page import="com.efake.entity.Usuario"%>
@@ -21,6 +22,7 @@
 
 <% //Load Attributes
     List<Producto> productList = (List<Producto>) request.getAttribute("productList");
+    List<Categoria> categoryList = (List<Categoria>) request.getAttribute("categoryList");
     Integer numberOfPages = (Integer) request.getAttribute("numberOfPages");
     Integer currentPage = Integer.parseInt(request.getParameter("page"));
 
@@ -29,7 +31,7 @@
 %>
 
 <% //Other tools
-   SimpleDateFormat dateFormatter = new SimpleDateFormat("dd.MM.yyyy");
+    SimpleDateFormat dateFormatter = new SimpleDateFormat("dd.MM.yyyy");
 %>
 <!DOCTYPE html>
 <html>
@@ -150,27 +152,35 @@
                             <tbody>
                                 <% for (Producto p : productList) {%>
                                 <tr>
-                                    <td><%= p.getNombre() %></td>
-                                    <td><%= p.getPrecio()  %></td>
-                                    <td><%= dateFormatter.format(p.getFecha()) %></td>
-                                    <td><%= p.getCategoria().getNombre() %></td>
-                                    <td><%= p.getOwner().getCorreo() %></td>
+                                    <td><%= p.getNombre()%></td>
+                                    <td><%= p.getPrecio()%></td>
+                                    <td><%= dateFormatter.format(p.getFecha())%></td>
+                                    <td><%= p.getCategoria().getNombre()%></td>
+                                    <td><%= p.getOwner().getCorreo()%></td>
                                     <td>
-                                        <a href="/efake/ShowProduct?idProducto=<%= p.getId() %>">
+                                        <a href="/efake/ShowProduct?idProducto=<%= p.getId()%>">
                                             <i class="fas fa-ellipsis-h"></i>
                                         </a>
-                                            
+
                                     </td>
                                     <td>
                                         <button type="button" class="bg-transparent border-0" data-toggle="modal"
                                                 data-target="#deleteConfirmationModal"
-                                                data-id="<%= p.getId() %>">
+                                                data-id="<%= p.getId()%>">
                                             <i class="fas fa-trash"></i>
                                         </button>
                                     </td>
                                     <td>
                                         <button type="button" class="bg-transparent border-0" data-toggle="modal"
-                                                data-target="#alterUserModal">
+                                                data-target="#alterProductModal"
+                                                data-id="<%= p.getId()%>"
+                                                data-name="<%= p.getNombre()%>"
+                                                data-description="<%= p.getDescripcion()%>"
+                                                data-price="<%= p.getPrecio()%>"
+                                                data-image="<%= p.getImagen()%>"
+                                                data-date="<%= p.getFecha()%>"
+                                                data-category="<%= p.getCategoria().getId()%>"
+                                                data-owner="<%= p.getOwner().getCorreo()%>">
                                             <i class="fas fa-edit"></i>
                                         </button>
                                     </td>
@@ -182,7 +192,7 @@
                     <nav aria-label="...">
                         <ul class="pagination justify-content-center">
                             <% for (int i = 1; i <= numberOfPages; i++) {%>
-                            <li class="page-item <%= (i == currentPage)? "active":""%>">
+                            <li class="page-item <%= (i == currentPage) ? "active" : ""%>">
                                 <a class="page-link" href="/efake/ListAdminProducts?&page=<%= i%>"><%= i%></a>
                             </li>
                             <%  }%>
@@ -195,49 +205,48 @@
         <%@include file="/components/footer.jspf"%>
 
         <!-- Modals -->
-        <div class="modal fade" id="alterUserModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+        <div class="modal fade" id="alterProductModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
              aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <form class="w-100" method="POST" action="/efake/AlterUser">
+            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                <form class="w-100" method="POST" action="/efake/EditProduct">
                     <div class="modal-content">
                         <div class="modal-body">
-                            <input id="modal-form-user" type="hidden" name="user">
-                            <div class="form-group">
-                                <label for="email">Email</label>
-                                <input id="modal-form-email" class="form-control" type="email" name="email">
+                            <div class="row">
+                                <div class="col-md-6">
+                                <input id="modal-form-product" type="hidden" name="id">
+                                <input type="hidden" name="page" value="<%= currentPage %>">
+                                <div class="form-group">
+                                    <label for="name">Name</label>
+                                    <input id="modal-form-name" class="form-control" type="text" name="name">
+                                </div>
+                                <div class="form-group">
+                                    <label for="description">Description</label>
+                                    <textarea id="modal-form-description" class="form-control" name="description"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="price">Price</label>
+                                    <input id="modal-form-price" class="form-control" type="number" name="price" step="0.01">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="category">Category</label>
+                                    <select id="category-selector" class="form-control">
+                                        <% for (Categoria c : categoryList) {%>
+                                        <option value="<%= c.getId()%>"> <%= c.getNombre()%></option>
+                                        <% }%>
+                                    </select>
+                                </div>
+                                
                             </div>
-                            <div class="form-group">
-                                <label for="fname">First Name</label>
-                                <input id="modal-form-fname" class="form-control" type="text" name="fname">
-                            </div>
-                            <div class="form-group">
-                                <label for="sname">Second Name</label>
-                                <input id="modal-form-sname" class="form-control" type="text" name="sname">
-                            </div>
-                            <div class="form-group">
-                                <label for="age">Age</label>
-                                <input id="modal-form-age" class="form-control" type="number" name="age">
-                            </div>
-                            <div class="form-group">
-                                <label for="phone">Phone</label>
-                                <input id="modal-form-phone" class="form-control" type="text" name="phone">
-                            </div>
-                            <div class="form-group">
-                                <label for="lastLogin">Last Log In</label>
-                                <input id="modal-form-lastLogin" class="form-control" type="date" name="lastLogin" disabled>
-                            </div>
-
-                            <div id="password-group" class="form-group">
-                                <label for="password">Password</label>
-                                <div class="input-group">
-                                    <input id="modal-form-password" class="form-control" type="password" name="password">
-                                    <div class="input-group-append">
-                                        <button id="eyeButton" type="button" class="btn bg-transparent">
-                                            <i class="fas fa-eye"></i>
-                                        </button>                             
-                                    </div>
+                            <div class="col-md-6">
+                                <img id="modal-image"src="" class="img-thumbnail">
+                                <div class="form-group">
+                                    <label for="image">Image</label>
+                                    <input id="modal-form-image" class="form-control" type="text" name="image">
                                 </div>
                             </div>
+                            </div>
+                            
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="border-0 background-transparent"
@@ -258,7 +267,7 @@
                             Are you sure you want to delete this product?
                             This action can't be undone.
                             <input id="modal-form-product" type="hidden" name="id">
-                            <input type="hidden" name="page" value="<%= currentPage %>"
+                            <input type="hidden" name="page" value="<%= currentPage%>"
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="border-0 background-transparent"
