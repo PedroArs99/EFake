@@ -18,7 +18,7 @@
   Map<Integer, Double> ratings = (Map<Integer, Double>) request.getAttribute("ratings");
   double mediaValoraciones = (Double) request.getAttribute("mediaValoraciones");
   int idProducto = Integer.parseInt(request.getParameter("idProducto"));
-  SimpleDateFormat dateFormatter = new SimpleDateFormat("dd.MM.yyyy");
+  SimpleDateFormat dateFormatter = new SimpleDateFormat("dd.MM.yyyy HH:mm");
 %>
 
 <!DOCTYPE html>
