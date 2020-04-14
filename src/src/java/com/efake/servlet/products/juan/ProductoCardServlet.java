@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.efake.servlet.productos.juan;
+package com.efake.servlet.products.juan;
 
 import com.efake.dao.CategoriaFacade;
 import com.efake.dao.ProductoFacade;

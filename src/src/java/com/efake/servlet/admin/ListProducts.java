@@ -1,12 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package com.efake.servlet.productos;
+package com.efake.servlet.admin;
 
+import com.efake.dao.CategoriaFacade;
 import com.efake.dao.ProductoFacade;
+
 import com.efake.entity.Producto;
+import com.efake.entity.Usuario;
 import java.io.IOException;
 import java.util.List;
 import javax.ejb.EJB;
@@ -16,16 +14,22 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author lorenzo
+ * @author PedroArenas
  */
-@WebServlet(name = "ListProducts", urlPatterns = {"/ListProducts"})
+@WebServlet(name = "ListAdminProducts", urlPatterns = {"/ListAdminProducts"})
 public class ListProducts extends HttpServlet {
-    
+
+    //Number of products that can be shown in a users list page
+    private static final int PAGE_SIZE = 16;
+
     @EJB
-    ProductoFacade pf;
+    ProductoFacade productFacade;
+    @EJB
+    CategoriaFacade categoryFacade;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,12 +40,38 @@ public class ListProducts extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<Producto> list = pf.findAll();
-        request.setAttribute("productsList", list);
-        RequestDispatcher rd = request.getRequestDispatcher("/products.jsp");
-        rd.forward(request, response);
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        //Check if the user is logged in as admin
+        HttpSession session = request.getSession();
+        Usuario admin = (Usuario) session.getAttribute("usuario");
+        if (admin != null && admin.getEsAdmin() == 0) {// The user is logged in, but he's not an admin
+            response.sendRedirect("/efake/");
+        } else if (admin == null) { //The user is not logged in
+            response.sendRedirect("/efake/login.jsp");
+        }
+
+        //Load Attributes from request
+        List<Producto> productList = null;
+        Integer numberOfProducts = productFacade.count();
+        Integer numberOfPages = 0;
+        if (numberOfProducts % PAGE_SIZE == 0) {
+            numberOfPages = numberOfProducts / PAGE_SIZE;
+        } else {
+            numberOfPages = (numberOfProducts / PAGE_SIZE) + 1;
+        }
+        //Pages start at 1 but lists are 0 indexed
+        Integer pageNumber = Integer.parseInt(request.getParameter("page")) - 1;
         
+        productList = productFacade.findRange(pageNumber,PAGE_SIZE);
+             
+
+        //Load List on request and redirect
+        request.setAttribute("productList", productList);
+        request.setAttribute("categoryList", categoryFacade.findAll());
+        request.setAttribute("numberOfPages", numberOfPages);
+        RequestDispatcher rd = request.getRequestDispatcher("adminPages/productList.jsp");
+        rd.forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

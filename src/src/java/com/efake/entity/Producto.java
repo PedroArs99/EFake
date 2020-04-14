@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.efake.entity;
 
 import java.io.Serializable;
@@ -43,7 +38,9 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Producto.findByNombre", query = "SELECT p FROM Producto p WHERE p.nombre = :nombre")
     , @NamedQuery(name = "Producto.findByPrecio", query = "SELECT p FROM Producto p WHERE p.precio = :precio")
     , @NamedQuery(name = "Producto.findByFecha", query = "SELECT p FROM Producto p WHERE p.fecha = :fecha")
-    , @NamedQuery(name = "Producto.findByCategoria", query = "SELECT p FROM Producto p WHERE p.categoria = :categoria")})
+    , @NamedQuery(name = "Producto.findByCategoria", query = "SELECT p FROM Producto p WHERE p.categoria = :categoria")
+    , @NamedQuery(name = "Producto.findByFilter", query = "SELECT p FROM Producto p WHERE p.nombre LIKE :words OR p.descripcion LIKE :words")
+    , @NamedQuery(name = "Producto.findSortedByRatingsNumber", query = "SELECT p FROM Valoracion v JOIN v.productoValorado p GROUP BY v.productoValorado ORDER BY COUNT(v.productoValorado) DESC")})
 public class Producto implements Serializable {
 
     @Basic(optional = false)
@@ -105,8 +102,7 @@ public class Producto implements Serializable {
         this.nombre = nombre;
         this.precio = precio;
         this.fecha = fecha;
-        
-                
+
     }
 
     public Integer getId() {
@@ -231,5 +227,5 @@ public class Producto implements Serializable {
     public void setReportado(short reportado) {
         this.reportado = reportado;
     }
-    
+
 }

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.efake.servlet.admin;
 
 import com.efake.dao.UsuarioFacade;
@@ -24,7 +19,10 @@ import javax.servlet.http.HttpSession;
  */
 @WebServlet(name = "ListUsers", urlPatterns = {"/ListUsers"})
 public class ListUsers extends HttpServlet {
-
+    
+    //Number of users that can be shown in a users list page
+    private static final int PAGE_SIZE = 16; 
+    
     @EJB
     UsuarioFacade userFacade;
 
@@ -50,16 +48,27 @@ public class ListUsers extends HttpServlet {
         
         //Load Attributes from request
         List<Usuario> userList = null;
+        Integer numberOfUsers = 0;
+        Integer numberOfPages = 0;
         String whichList = request.getParameter("list");
+        //Pages start at 1 but lists are 0 indexed
+        Integer pageNumber = Integer.parseInt(request.getParameter("page"))-1;
 
         switch (whichList) {
             case "all":
-                userList = userFacade.findByEsAdmin(0);
+                userList = userFacade.findByEsAdminAndRange(0,pageNumber,PAGE_SIZE);
+                numberOfUsers = userFacade.findByEsAdminCount(0);
+                if(numberOfUsers%PAGE_SIZE == 0){ 
+                    numberOfPages = numberOfUsers/PAGE_SIZE;
+                }else{
+                    numberOfPages = (numberOfUsers/PAGE_SIZE) + 1;
+                }
                 break;
         }
         
         //Load List on request and redirect
         request.setAttribute("userList", userList);
+        request.setAttribute("numberOfPages", numberOfPages);
         RequestDispatcher rd = request.getRequestDispatcher("adminPages/userList.jsp");
         rd.forward(request, response);
     }

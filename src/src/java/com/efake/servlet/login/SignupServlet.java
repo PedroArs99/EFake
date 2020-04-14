@@ -7,12 +7,15 @@ package com.efake.servlet.login;
 
 import com.efake.dao.UsuarioFacade;
 import com.efake.entity.Usuario;
+import com.efake.service.EmailService;
+import com.efake.service.TemplatesEnum;
 import com.efake.service.UsuarioService;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
@@ -36,6 +39,9 @@ public class SignupServlet extends HttpServlet {
     UsuarioFacade usuarioFacade;
     @EJB
     UsuarioService usuarioService;
+    @EJB
+    EmailService emailService;
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -52,69 +58,75 @@ public class SignupServlet extends HttpServlet {
         SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
         Date fechaNacimiento = null;
         int mes, dia;
-        
-        try{
+
+        try {
             fechaNacimiento = formato.parse(request.getParameter("edad"));
         } catch (ParseException ex) {
             System.out.println(ex);
         }
-        
+
         java.util.Date fechaSistema = new Date();
-        int edad = fechaSistema.getYear() - fechaNacimiento.getYear();        
+        int edad = fechaSistema.getYear() - fechaNacimiento.getYear();
         RequestDispatcher rd;
-        Usuario newUser, posibleUser;
+        Usuario newUser = null, posibleUser;
         byte[] contrasenaCifrada;
         boolean esMenor = edad < 18;
-        
-        if(edad == 18){
+
+        if (edad == 18) {
             mes = fechaSistema.getMonth() - fechaNacimiento.getMonth();
-            if(mes == 0){
+            if (mes == 0) {
                 dia = fechaSistema.getDay() - fechaNacimiento.getDay();
-                if(dia >= 0){
+                if (dia >= 0) {
                     esMenor = false;
-                }else{
+                } else {
                     esMenor = true;
                 }
-            }else if(mes < 0){
+            } else if (mes < 0) {
                 esMenor = true;
-            }else{
+            } else {
                 esMenor = false;
             }
         }
-        
+
         correo = request.getParameter("correo");
-        try{
-            posibleUser = usuarioFacade.findByCorreo(correo);            
-        }
-        catch(EJBException e){
+        try {
+            posibleUser = usuarioFacade.findByCorreo(correo);
+        } catch (EJBException e) {
             posibleUser = null;
         }
-        
+
         nombre = request.getParameter("nombre");
-        apellidos = request.getParameter("apellidos");        
+        apellidos = request.getParameter("apellidos");
         contrasena = request.getParameter("contrasena");
         contrasenaCifrada = usuarioService.hashPassword(contrasena);
         telefono = request.getParameter("telefono");
         foto = request.getParameter("foto");
-        
-        if(posibleUser != null){
-           status = "El correo ya existe en la base de datos";
-           request.setAttribute("status", status);
-           goTo = "signup.jsp";
-        }else if(esMenor){
-           status = "Lo siento, eres menor de edad";
-           request.setAttribute("status", status);
-           goTo = "signup.jsp";
-        }else{
-           status = "Todo correcto";
-           request.setAttribute("status", status);
-           newUser = new Usuario(correo,contrasenaCifrada,nombre,apellidos,edad,(short)0);
-           usuarioFacade.create(newUser);
-           HttpSession session = request.getSession();
-           session.setAttribute("usuario", newUser);
+
+        if (posibleUser != null) {
+            status = "El correo ya existe en la base de datos";
+            request.setAttribute("status", status);
+            goTo = "signup.jsp";
+        } else if (esMenor) {
+            status = "Lo siento, eres menor de edad";
+            request.setAttribute("status", status);
+            goTo = "signup.jsp";
+        } else {
+            status = "Todo correcto";
+            request.setAttribute("status", status);
+            newUser = new Usuario(correo, contrasenaCifrada, nombre, apellidos, edad, (short) 0);
+            usuarioFacade.create(newUser);
+            HttpSession session = request.getSession();
+            session.setAttribute("usuario", newUser);
+
+            Properties mailProperties = new Properties();
+            mailProperties.setProperty("to", newUser.getCorreo());
+            mailProperties.setProperty("subject", "Welcome to Efake");
+            mailProperties.setProperty("userName", newUser.getNombre());
+            mailProperties.setProperty("template", TemplatesEnum.REGISTER_USER.toString());
+
+            emailService.sendEmail(mailProperties);
         }
-        
-        System.out.println(status);
+
         response.sendRedirect(goTo);
     }
 

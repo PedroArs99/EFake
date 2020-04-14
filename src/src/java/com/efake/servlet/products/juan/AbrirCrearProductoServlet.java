@@ -3,14 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.efake.servlet.productos;
+package com.efake.servlet.products.juan;
 
 import com.efake.dao.CategoriaFacade;
 import com.efake.dao.ProductoFacade;
+import com.efake.dao.SubcategoriaFacade;
 import com.efake.entity.Categoria;
-import com.efake.entity.Producto;
+import com.efake.entity.Subcategoria;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.io.PrintWriter;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
@@ -22,14 +23,15 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author carlo
+ * @author JuMed
  */
-@WebServlet(name = "ShowProductsCategory", urlPatterns = {"/ShowProductsCategory"})
-public class ShowProductsCategory extends HttpServlet {
-    @EJB
-    ProductoFacade productoFacade;
-    @EJB
-    CategoriaFacade categoriaFacade;
+@WebServlet(name = "AbrirCrearProductoServlet", urlPatterns = {"/AbrirCrearProductoServlet"})
+public class AbrirCrearProductoServlet extends HttpServlet {
+@EJB
+CategoriaFacade categoriaFacade;
+@EJB
+SubcategoriaFacade subcategoriaFacade;
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -39,14 +41,14 @@ public class ShowProductsCategory extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {      
-        String category = request.getParameter("categories");
-        Categoria c = categoriaFacade.findByName(category);
-        List<Producto> listaProductoCategoria = productoFacade.findByCategoria(c);
-        
-        request.setAttribute("listaProductoCategoria", listaProductoCategoria);
-        request.setAttribute("category", category);
-        RequestDispatcher rd = request.getRequestDispatcher("showProductsCategories.jsp");
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        List<Categoria> categorias = categoriaFacade.findAll();
+        List<Subcategoria> subcategorias = subcategoriaFacade.findAll();
+      
+        request.setAttribute("categoriaList", categorias);
+        request.setAttribute("subcategoriasList", subcategorias);
+        RequestDispatcher rd = request.getRequestDispatcher("CreateProducts.jsp");
         rd.forward(request, response);
     }
 

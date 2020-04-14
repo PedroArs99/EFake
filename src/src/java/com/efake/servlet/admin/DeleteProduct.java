@@ -1,36 +1,27 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package com.efake.servlet.productos.juan;
+package com.efake.servlet.admin;
 
-import com.efake.dao.CategoriaFacade;
 import com.efake.dao.ProductoFacade;
-import com.efake.dao.SubcategoriaFacade;
-import com.efake.entity.Categoria;
-import com.efake.entity.Subcategoria;
+import com.efake.entity.Producto;
+import com.efake.entity.Usuario;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.List;
 import javax.ejb.EJB;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author JuMed
+ * @author PedroArenas
  */
-@WebServlet(name = "AbrirCrearProductoServlet", urlPatterns = {"/AbrirCrearProductoServlet"})
-public class AbrirCrearProductoServlet extends HttpServlet {
-@EJB
-CategoriaFacade categoriaFacade;
-@EJB
-SubcategoriaFacade subcategoriaFacade;
+@WebServlet(name = "DeleteUser", urlPatterns = {"/DeleteProduct"})
+public class DeleteProduct extends HttpServlet {
+
+    @EJB
+    ProductoFacade productFacade;
+    
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -43,13 +34,27 @@ SubcategoriaFacade subcategoriaFacade;
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        List<Categoria> categorias = categoriaFacade.findAll();
-        List<Subcategoria> subcategorias = subcategoriaFacade.findAll();
-      
-        request.setAttribute("categoriaList", categorias);
-        request.setAttribute("subcategoriasList", subcategorias);
-        RequestDispatcher rd = request.getRequestDispatcher("CreateProducts.jsp");
-        rd.forward(request, response);
+        //Check if the user is logged in as admin
+        HttpSession session = request.getSession();
+        Usuario admin = (Usuario) session.getAttribute("usuario");
+        if (admin != null && admin.getEsAdmin() == 0) {// The user is logged in, but he's not an admin
+            response.sendRedirect("/efake/");
+        } else if (admin == null) { //The user is not logged in
+            response.sendRedirect("/efake/login.jsp");
+        }
+        
+        
+        //Delete Account
+        Integer productId = Integer.parseInt(request.getParameter("id"));
+        Producto product = productFacade.find(productId);
+        productFacade.remove(product);
+        
+        //Set page where to come back 
+        String page = request.getParameter("page");
+        //Send status & redirect
+        session.setAttribute("status", "Product Deleted");
+        response.sendRedirect("/efake/ListAdminProducts?page="+page);
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

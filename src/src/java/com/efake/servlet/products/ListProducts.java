@@ -1,36 +1,27 @@
-package com.efake.servlet.valoraciones;
+package com.efake.servlet.products;
 
 import com.efake.dao.ProductoFacade;
-import com.efake.dao.UsuarioFacade;
-import com.efake.dao.ValoracionFacade;
 import com.efake.entity.Producto;
-import com.efake.entity.Usuario;
-import com.efake.entity.Valoracion;
 import java.io.IOException;
-import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import java.sql.Time;
 
 /**
  *
- * @author carlo
+ * @author Lorenzo
  */
-@WebServlet(name = "doReview", urlPatterns = {"/doReview"})
-public class doReview extends HttpServlet {
+@WebServlet(name = "ListProducts", urlPatterns = {"/ListProducts"})
+public class ListProducts extends HttpServlet {
+    
     @EJB
-    UsuarioFacade usuarioFacade;
-    @EJB
-    ValoracionFacade valoracionFacade;
-    @EJB
-    ProductoFacade productoFacade;
+    ProductoFacade pf;
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -41,55 +32,20 @@ public class doReview extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        Integer rating = Integer.parseInt(request.getParameter("estrellas"));
-        Usuario usuario = (Usuario) session.getAttribute("usuario");
-        String comment = request.getParameter("comment");
-        Date date = new Date();
-        Integer idProducto = Integer.parseInt(request.getParameter("product"));
-        Producto producto = productoFacade.find(idProducto);
-        List<Valoracion> listaValoraciones = producto.getValoracionList();
         
-        Valoracion review = new Valoracion();
-        review.setCliente(usuario);
-        review.setProductoValorado(producto);
-        review.setPuntuacion(rating);
-        review.setComentario(comment);
-        review.setFecha(date);
-        review.setHora(date);
+        List<Producto> list = pf.findAll();
         
-        valoracionFacade.create(review);
-        listaValoraciones.add(review);
-        productoFacade.edit(producto);
-        response.sendRedirect("/efake/ShowProduct?idProducto=" + idProducto);
+        if(request.getParameter("search")!=null){ 
+            list = pf.findByFilter(request.getParameter("search"));
+        }
+        
+        request.setAttribute("productsList", list);
+        
+        RequestDispatcher rd = request.getRequestDispatcher("/products.jsp");
+        rd.forward(request, response);
+        
     }
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.

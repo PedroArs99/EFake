@@ -1,21 +1,16 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package com.efake.servlet.productos.juan;
+package com.efake.servlet.utils;
 
-import com.efake.dao.ProductoFacade;
-import com.efake.dao.UsuarioFacade;
-import com.efake.entity.Categoria;
 import com.efake.entity.Producto;
-import com.efake.entity.Subcategoria;
+import com.efake.service.ProductoService;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.math.BigDecimal;
+import java.util.List;
 import javax.ejb.EJB;
-import javax.servlet.RequestDispatcher;
+import javax.json.Json;
+import javax.json.JsonArrayBuilder;
+import javax.json.JsonObjectBuilder;
+import javax.json.JsonWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -24,16 +19,13 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author JuMed
+ * @author PedroArenas
  */
-@WebServlet(name = "ModificarProductoServlet", urlPatterns = {"/ModificarProductoServlet"})
-public class ModificarProductoServlet extends HttpServlet {
-
-@EJB
-ProductoFacade productoFacade;
-@EJB
-UsuarioFacade usuarioFacade;
+@WebServlet(name = "MostRatedProducts", urlPatterns = {"/MostRatedProducts"})
+public class MostRatedProducts extends HttpServlet {
     
+    @EJB
+    ProductoService productService;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -45,34 +37,39 @@ UsuarioFacade usuarioFacade;
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        int id = Integer.parseInt(request.getParameter("id"));
-        Producto p = productoFacade.find(id);
+        List<Producto> productList = productService.getMostRated(5);
         
-        String nombre = request.getParameter("textNombre");
-        String descripcion = request.getParameter("descripcion");
-        Double precio =Double.parseDouble(request.getParameter("textPrecio"));
-        String imagen = request.getParameter("textImagen");
-        String keywords = request.getParameter("textKeywords");
-        Integer categoria =Integer.parseInt(request.getParameter("Categoria"));
-        Integer subcategoria =Integer.parseInt(request.getParameter("Subcategoria"));
+         // Build Json
+        JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();        
+        productList.forEach(p -> {
+            //Create product Json object
+            JsonObjectBuilder productJsonBuilder = Json.createObjectBuilder();
+            productJsonBuilder.add("id", p.getId());
+            productJsonBuilder.add("name", p.getNombre());
+            productJsonBuilder.add("description", p.getDescripcion());
+            productJsonBuilder.add("image", p.getImagen());
+            
+            //Add product Json Object to Array
+            jsonArrayBuilder.add(productJsonBuilder);
+        });
         
-        Categoria c = new Categoria(categoria);
-        Subcategoria s = new Subcategoria(subcategoria);
         
-        p.setNombre(nombre);
-        p.setDescripcion(descripcion);
-        p.setPrecio(precio);
-        p.setImagen(imagen);
-        p.setCategoria(c);
-        p.setSubcategoria(s);
-        productoFacade.edit(p);
         
-        request.setAttribute("producto", p);
-        RequestDispatcher rd = request.getRequestDispatcher("VisualizacionProducto.jsp");
-        rd.forward(request, response);
-        response.setContentType("text/html;charset=UTF-8");
+        
+        
+      
+        //Wrap array into JsonObject
+        JsonObjectBuilder finalJsonBuilder = Json.createObjectBuilder();
+        finalJsonBuilder.add("products", jsonArrayBuilder);
+        
+        //Send Json
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        PrintWriter out = response.getWriter();
+        try (JsonWriter jsonWriter = Json.createWriter(out)) {
+            jsonWriter.writeObject(finalJsonBuilder.build());
         }
-    
+    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

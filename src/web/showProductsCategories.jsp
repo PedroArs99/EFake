@@ -4,6 +4,7 @@
     Author     : carlo
 --%>
 
+<%@page import="com.efake.entity.Usuario"%>
 <%@page import="java.util.List"%>
 <%@page import="com.efake.entity.Producto"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -11,6 +12,7 @@
 <%
     List<Producto> listaProductos = (List<Producto>) request.getAttribute("listaProductoCategoria");
     String category = (String) request.getAttribute("category");
+    Usuario user = (Usuario) request.getAttribute("usuario");
 %>
 <html>
     <head>
@@ -116,11 +118,11 @@
                     <div class="d-flex flex-wrap justify-content-between align-items-end">
                         <% for (Producto p : listaProductos) {%>
                             <div class="card">
-                                <img class="card-img-top" src="/efake/img/favicon.png" alt="Card image cap">
+                                <img class="card-img-top" src="<%= p.getImagen() %>" alt="Card image cap">
                                 <div class="card-body">
                                     <h5 class="card-title"><%= p.getNombre()%></h5>
                                     <p class="card-text"><%= p.getDescripcion()%></p>
-                                    <a href="selected_product.jsp" class="btn btn-primary">View Product</a>
+                                    <a href="/efake/ShowProduct?idProducto=<%= p.getId() %>" class="btn btn-primary">View Product</a>
                                 </div>
                             </div>
                         <% }%>
