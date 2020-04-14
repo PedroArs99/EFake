@@ -68,8 +68,7 @@
         </style>
     </head>
 
-    <body class="d-flex flex-column h-100">
-        <%@include file="/components/navbar.jspf"%>
+
     <!--Font Awesome-->
 
     <body>
@@ -97,8 +96,9 @@
                         <input type="text" name="textImagen" class="form-control"/><br/>
 
                         Keywords :
-                        <input type="text" name="textKeywords" class="form-control"/><br/>
-
+                        <input type="text" name="textKeywords1" class="form-control"/><br/>
+                        <input type="text" name="textKeywords2" class="form-control"/>
+                        <input type="text" name="textKeywords3" class="form-control"/>
                         Categoria:
                         <select name="Categoria" class="form-control">
                         <%for(Categoria c: categorias){ %>

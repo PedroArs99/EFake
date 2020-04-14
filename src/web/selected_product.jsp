@@ -29,7 +29,7 @@
 </head>
 <body>
 
-    <%@include file="/components/navbar.jspf"%>
+    <%//@include file="/components/navbar.jspf"%>
 
     <div style="height: 400px;">
         

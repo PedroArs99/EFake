@@ -170,9 +170,7 @@
                     transform: scale(1); } }
     </style>
   </head>
-  
-    <body class="d-flex flex-column h-100">
-            <%@include file="/components/navbar.jspf"%>
+
             
  
 	
