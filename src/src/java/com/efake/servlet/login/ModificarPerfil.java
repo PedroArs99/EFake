@@ -112,7 +112,6 @@ public class ModificarPerfil extends HttpServlet {
             session.setAttribute("usuario", user);            
         }
         
-        System.out.print(status);
         response.sendRedirect(goTo);
     }
 

@@ -42,7 +42,6 @@ public class changePasswordServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         String status = "Todo correcto", goTo = "signup.jsp";
         String correo = request.getParameter("correo");
-        System.out.println("EL CORREO ES: "+correo);
         String passwordAntigua = request.getParameter("actualPassword");
         String passwordNueva = request.getParameter("nuevaPassword");
         String passwordRepetida = request.getParameter("repetidaPassword");
@@ -63,7 +62,6 @@ public class changePasswordServlet extends HttpServlet {
             usuarioFacade.edit(user);
         }
             
-        System.out.print(status);
         response.sendRedirect(goTo);
     }
 
