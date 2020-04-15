@@ -4,6 +4,7 @@
     Author     : JuMed
 --%>
 
+<%@page import="com.efake.entity.Producto"%>
 <%@page import="com.efake.entity.Subcategoria"%>
 <%@page import="com.efake.entity.Categoria"%>
 <%@page import="java.util.List"%>
@@ -12,6 +13,7 @@
 <%
   List<Categoria> categorias = (List<Categoria>) request.getAttribute("categoriaList"); 
   List<Subcategoria> subcategorias = (List<Subcategoria>) request.getAttribute("subcategoriasList"); 
+  Producto producto = (Producto) request.getAttribute("producto");
 %>
 
 <html>
@@ -68,7 +70,6 @@
         </style>
     </head>
 
-
     <!--Font Awesome-->
 
     <body>
@@ -79,26 +80,25 @@
         <hr>
         
         <div class="container contact-form">
-         <form action="<%=request.getContextPath()%>/CreateProductsServlet" method="post">
+         <form action="<%=request.getContextPath()%>/ModificarProductoServlet?id=<%=producto.getId()%>" method="post">
             <div>
-                <h3>Añadir producto</h3>
+                <h3>Modificar producto</h3>
             </div>
             <div class="row">
                 <div class="col-md-6">
                     
                         Nombre:
-                        <input type="text" name="textNombre" class="form-control"/> <br/>
+                        <input type="text" name="textNombre" class="form-control" placeholder=<%=producto.getNombre()%>/> <br/>
 
                         Precio:
-                        <input type="number" name="textPrecio" class="form-control"/><br/>
+                        <input type="number" name="textPrecio" class="form-control" placeholder=<%=producto.getPrecio()%>/><br/>
 
                         Imagen :
-                        <input type="text" name="textImagen" class="form-control"/><br/>
+                        <input type="text" name="textImagen" class="form-control" placeholder=<%=producto.getImagen()%>/><br/>
 
                         Keywords :
-                        <input type="text" name="textKeywords1" class="form-control"/><br/>
-                        <input type="text" name="textKeywords2" class="form-control"/>
-                        <input type="text" name="textKeywords3" class="form-control"/>
+                        <input type="text" name="textKeywords" class="form-control"/><br/>
+
                         Categoria:
                         <select name="Categoria" class="form-control">
                         <%for(Categoria c: categorias){ %>
@@ -114,7 +114,7 @@
                         </select><br/>
 
                         <p>
-                        <input type="submit" name="Guardar" class="form-control"
+                        <input type="submit" name="Modificar" value="Modificar" class="form-control"
                         <p>
                     </div>  
             

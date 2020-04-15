@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.efake.entity;
 
 import java.io.Serializable;
@@ -24,6 +19,7 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+
 
 /**
  *
@@ -117,6 +113,14 @@ public class Valoracion implements Serializable {
 
     public Date getFecha() {
         return fecha;
+    }
+    
+    public String getFechaString(){
+        int day = fecha.getDay();
+        int month = fecha.getMonth();
+        int year = fecha.getYear() + 1900;
+        
+        return day + "/" + month + "/" + year;
     }
 
     public void setFecha(Date fecha) {

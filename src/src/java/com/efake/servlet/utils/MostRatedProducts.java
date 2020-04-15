@@ -1,36 +1,31 @@
-package com.efake.servlet.valoraciones;
+package com.efake.servlet.utils;
 
-import com.efake.dao.ProductoFacade;
-import com.efake.dao.UsuarioFacade;
-import com.efake.dao.ValoracionFacade;
 import com.efake.entity.Producto;
-import com.efake.entity.Usuario;
-import com.efake.entity.Valoracion;
+import com.efake.service.ProductoService;
 import java.io.IOException;
-import java.util.Date;
+import java.io.PrintWriter;
+import java.math.BigDecimal;
 import java.util.List;
 import javax.ejb.EJB;
+import javax.json.Json;
+import javax.json.JsonArrayBuilder;
+import javax.json.JsonObjectBuilder;
+import javax.json.JsonWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import java.sql.Time;
 
 /**
  *
- * @author carlo
+ * @author PedroArenas
  */
-@WebServlet(name = "doReview", urlPatterns = {"/doReview"})
-public class doReview extends HttpServlet {
+@WebServlet(name = "MostRatedProducts", urlPatterns = {"/MostRatedProducts"})
+public class MostRatedProducts extends HttpServlet {
+    
     @EJB
-    UsuarioFacade usuarioFacade;
-    @EJB
-    ValoracionFacade valoracionFacade;
-    @EJB
-    ProductoFacade productoFacade;
+    ProductoService productService;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -40,56 +35,42 @@ public class doReview extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        Integer rating = Integer.parseInt(request.getParameter("estrellas"));
-        Usuario usuario = (Usuario) session.getAttribute("usuario");
-        String comment = request.getParameter("comment");
-        Date date = new Date();
-        Integer idProducto = Integer.parseInt(request.getParameter("product"));
-        Producto producto = productoFacade.find(idProducto);
-        List<Valoracion> listaValoraciones = producto.getValoracionList();
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        List<Producto> productList = productService.getMostRated(5);
         
-        Valoracion review = new Valoracion();
-        review.setCliente(usuario);
-        review.setProductoValorado(producto);
-        review.setPuntuacion(rating);
-        review.setComentario(comment);
-        review.setFecha(date);
-        review.setHora(date);
+         // Build Json
+        JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();        
+        productList.forEach(p -> {
+            //Create product Json object
+            JsonObjectBuilder productJsonBuilder = Json.createObjectBuilder();
+            productJsonBuilder.add("id", p.getId());
+            productJsonBuilder.add("name", p.getNombre());
+            productJsonBuilder.add("description", p.getDescripcion());
+            productJsonBuilder.add("image", p.getImagen());
+            
+            //Add product Json Object to Array
+            jsonArrayBuilder.add(productJsonBuilder);
+        });
         
-        valoracionFacade.create(review);
-        listaValoraciones.add(review);
-        productoFacade.edit(producto);
-        response.sendRedirect("/efake/ShowProduct?idProducto=" + idProducto);
+        
+        
+        
+        
+      
+        //Wrap array into JsonObject
+        JsonObjectBuilder finalJsonBuilder = Json.createObjectBuilder();
+        finalJsonBuilder.add("products", jsonArrayBuilder);
+        
+        //Send Json
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        PrintWriter out = response.getWriter();
+        try (JsonWriter jsonWriter = Json.createWriter(out)) {
+            jsonWriter.writeObject(finalJsonBuilder.build());
+        }
     }
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.

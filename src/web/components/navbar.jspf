@@ -24,7 +24,7 @@
                 </div>
             </li>
 
-            <form class="form-inline my-2 my-lg-0 ">
+            <form class="form-inline my-2 my-lg-0 " action="ListProducts" method="get">
                 <div class="form-group">
                     <input id="navBarSearchForm" class="form-control mr-3" type="search" placeholder="Search"
                         aria-label="Search" name="search">

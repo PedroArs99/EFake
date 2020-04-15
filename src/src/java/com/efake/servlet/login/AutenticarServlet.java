@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.efake.servlet.login;
 
 import com.efake.dao.UsuarioFacade;
@@ -49,17 +44,17 @@ public class AutenticarServlet extends HttpServlet {
         correo = request.getParameter("correo");
         contrasena = request.getParameter("contrasena");
         byte[] contrasenaIntroducida = usuarioService.hashPassword(contrasena);
-        
+
         RequestDispatcher rd;
         Usuario user;
-        
+
         try{
            user = usuarioFacade.findByCorreo(correo);
         }
         catch(EJBException ex){
             user = null;
         }
-        
+
         if(user == null){
            status = "El usuario no se encuentra en la base de datos";
            request.setAttribute("status", status);
@@ -72,10 +67,7 @@ public class AutenticarServlet extends HttpServlet {
             HttpSession session = request.getSession();
             session.setAttribute("usuario", user);
         }
-        
-        
-        
-        System.out.print(status);
+
         response.sendRedirect(goTo);
     }
 

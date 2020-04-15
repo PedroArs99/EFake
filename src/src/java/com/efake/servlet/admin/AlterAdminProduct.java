@@ -1,14 +1,10 @@
-package com.efake.servlet.valoraciones;
+package com.efake.servlet.admin;
 
+import com.efake.dao.CategoriaFacade;
 import com.efake.dao.ProductoFacade;
-import com.efake.dao.UsuarioFacade;
-import com.efake.dao.ValoracionFacade;
 import com.efake.entity.Producto;
 import com.efake.entity.Usuario;
-import com.efake.entity.Valoracion;
 import java.io.IOException;
-import java.util.Date;
-import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,20 +13,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import java.sql.Time;
-
 /**
  *
- * @author carlo
+ * @author PedroArenas
  */
-@WebServlet(name = "doReview", urlPatterns = {"/doReview"})
-public class doReview extends HttpServlet {
+@WebServlet(name = "AlterUser", urlPatterns = {"/EditProduct"})
+public class AlterAdminProduct extends HttpServlet {
+    
     @EJB
-    UsuarioFacade usuarioFacade;
+    ProductoFacade productFacade;
     @EJB
-    ValoracionFacade valoracionFacade;
-    @EJB
-    ProductoFacade productoFacade;
+    CategoriaFacade categoryFacade;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -40,56 +33,42 @@ public class doReview extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        //Check if the user is logged in as admin
         HttpSession session = request.getSession();
-        Integer rating = Integer.parseInt(request.getParameter("estrellas"));
-        Usuario usuario = (Usuario) session.getAttribute("usuario");
-        String comment = request.getParameter("comment");
-        Date date = new Date();
-        Integer idProducto = Integer.parseInt(request.getParameter("product"));
-        Producto producto = productoFacade.find(idProducto);
-        List<Valoracion> listaValoraciones = producto.getValoracionList();
+        Usuario admin = (Usuario) session.getAttribute("usuario");
+        if (admin != null && admin.getEsAdmin() == 0) {// The user is logged in, but he's not an admin
+            response.sendRedirect("/efake/");
+        } else if (admin == null) { //The user is not logged in
+            response.sendRedirect("/efake/login.jsp");
+        }
         
-        Valoracion review = new Valoracion();
-        review.setCliente(usuario);
-        review.setProductoValorado(producto);
-        review.setPuntuacion(rating);
-        review.setComentario(comment);
-        review.setFecha(date);
-        review.setHora(date);
+        //Load Attributtes from the form
+        Integer id = Integer.parseInt(request.getParameter("id"));
+        String name = request.getParameter("name");
+        String description = request.getParameter("description");
+        Double price = Double.parseDouble(request.getParameter("price"));
+        String image = request.getParameter("image");
+        Integer category = Integer.parseInt(request.getParameter("category"));
+        Integer page = Integer.parseInt(request.getParameter("page"));
+       
         
-        valoracionFacade.create(review);
-        listaValoraciones.add(review);
-        productoFacade.edit(producto);
-        response.sendRedirect("/efake/ShowProduct?idProducto=" + idProducto);
+        //Alter User
+        Producto alteredUser = productFacade.find(id);
+        alteredUser.setNombre(name);
+        alteredUser.setDescripcion(description);
+        alteredUser.setPrecio(price);
+        alteredUser.setImagen(image);
+        alteredUser.setCategoria(categoryFacade.find(category));
+        productFacade.edit(alteredUser);
+        
+        System.out.println("passed");
+        //Save status & redirect
+        session.setAttribute("status", "Product Edited");
+        response.sendRedirect("/efake/ListAdminProducts?page="+page);
     }
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.

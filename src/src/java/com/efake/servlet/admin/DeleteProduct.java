@@ -1,35 +1,28 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package com.efake.servlet.productos;
+package com.efake.servlet.admin;
 
-import com.efake.dao.CategoriaFacade;
 import com.efake.dao.ProductoFacade;
-import com.efake.entity.Categoria;
 import com.efake.entity.Producto;
+import com.efake.entity.Usuario;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import javax.ejb.EJB;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author carlo
+ * @author PedroArenas
  */
-@WebServlet(name = "ShowProductsCategory", urlPatterns = {"/ShowProductsCategory"})
-public class ShowProductsCategory extends HttpServlet {
+@WebServlet(name = "DeleteUser", urlPatterns = {"/DeleteProduct"})
+public class DeleteProduct extends HttpServlet {
+
     @EJB
-    ProductoFacade productoFacade;
-    @EJB
-    CategoriaFacade categoriaFacade;
+    ProductoFacade productFacade;
+    
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -39,15 +32,29 @@ public class ShowProductsCategory extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {      
-        String category = request.getParameter("categories");
-        Categoria c = categoriaFacade.findByName(category);
-        List<Producto> listaProductoCategoria = productoFacade.findByCategoria(c);
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        //Check if the user is logged in as admin
+        HttpSession session = request.getSession();
+        Usuario admin = (Usuario) session.getAttribute("usuario");
+        if (admin != null && admin.getEsAdmin() == 0) {// The user is logged in, but he's not an admin
+            response.sendRedirect("/efake/");
+        } else if (admin == null) { //The user is not logged in
+            response.sendRedirect("/efake/login.jsp");
+        }
         
-        request.setAttribute("listaProductoCategoria", listaProductoCategoria);
-        request.setAttribute("category", category);
-        RequestDispatcher rd = request.getRequestDispatcher("showProductsCategories.jsp");
-        rd.forward(request, response);
+        
+        //Delete Account
+        Integer productId = Integer.parseInt(request.getParameter("id"));
+        Producto product = productFacade.find(productId);
+        productFacade.remove(product);
+        
+        //Set page where to come back 
+        String page = request.getParameter("page");
+        //Send status & redirect
+        session.setAttribute("status", "Product Deleted");
+        response.sendRedirect("/efake/ListAdminProducts?page="+page);
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

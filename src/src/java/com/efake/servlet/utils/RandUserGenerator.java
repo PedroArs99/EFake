@@ -1,12 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.efake.servlet.utils;
 
 import com.efake.dao.UsuarioFacade;
 import com.efake.entity.Usuario;
+import com.efake.service.UsuarioService;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -14,7 +10,6 @@ import java.io.PrintWriter;
 import java.io.StringReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Date;
 import javax.ejb.EJB;
 import javax.json.Json;
 import javax.json.JsonArray;
@@ -35,6 +30,8 @@ public class RandUserGenerator extends HttpServlet {
 
     @EJB
     UsuarioFacade userFacade;
+    @EJB
+    UsuarioService userService;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -76,14 +73,14 @@ public class RandUserGenerator extends HttpServlet {
             Usuario newUser = new Usuario();
             
             newUser.setCorreo(userJson.getString("email"));
-            newUser.setPassword(userJson.getString("password").getBytes());
+            byte[] hashedPassword = userService.hashPassword("usuario");
+            newUser.setPassword(hashedPassword);
             
             newUser.setNombre(userJson.getString("firstName"));
             newUser.setApellidos(userJson.getString("lastName"));
             
             newUser.setEdad(userJson.getInt("age"));
             newUser.setTelefono(userJson.getString("phone"));
-            //newUser.setUltimaEntrada(new Date(userJson.getString("lastLogin")));
             
             userFacade.create(newUser);
         }

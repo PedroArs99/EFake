@@ -1,9 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package com.efake.servlet.productos;
+package com.efake.servlet.products;
 
 import com.efake.dao.ProductoFacade;
 import com.efake.dao.ValoracionFacade;
@@ -50,19 +45,28 @@ public class ShowProduct extends HttpServlet {
         List<Valoracion> listValoraciones = productoBuscado.getValoracionList();
         Usuario user = (Usuario) session.getAttribute("usuario");
         int valorado = valorado(listValoraciones, user);
+        double mediaValoraciones = 0.0;
         
         inicializarMapa(ratings);
-        for(Valoracion v: listValoraciones) {
+        for(Valoracion v: listValoraciones){
             Double value = ratings.get(v.getPuntuacion());
             ratings.put(v.getPuntuacion(), value + 1);
+            mediaValoraciones += v.getPuntuacion();
         }
-        for (Map.Entry<Integer, Double> entry : ratings.entrySet()) {
-            Integer key = entry.getKey();
-            Double value = entry.getValue();
-            value = (value/listValoraciones.size()) * 100;
-            ratings.put(key, value);
+
+        if(!listValoraciones.isEmpty()) {
+            ratings.entrySet().forEach((entry) -> {
+                Integer key = entry.getKey();
+                Double value = entry.getValue();
+                value = (value/listValoraciones.size()) * 100;
+                ratings.put(key, value);
+            });
+            mediaValoraciones = mediaValoraciones/listValoraciones.size();
+            mediaValoraciones = formatearDecimales(mediaValoraciones);
+            
         }
-        
+
+        request.setAttribute("mediaValoraciones", mediaValoraciones);
         request.setAttribute("ratings", ratings);
         request.setAttribute("listValoraciones", listValoraciones);
         request.setAttribute("valorado", valorado);
@@ -86,6 +90,10 @@ public class ShowProduct extends HttpServlet {
         for(int i = 0; i < 5; i++){
             ratings.put(i + 1, 0.0);
         }
+    }
+    
+    private double formatearDecimales(double numero){
+        return Math.round(numero * Math.pow(10,2))/Math.pow(10,2);
     }
     
 

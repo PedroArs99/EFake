@@ -1,15 +1,14 @@
-package com.efake.servlet.valoraciones;
+package com.efake.servlet.admin;
 
+import com.efake.dao.CategoriaFacade;
 import com.efake.dao.ProductoFacade;
-import com.efake.dao.UsuarioFacade;
-import com.efake.dao.ValoracionFacade;
+
 import com.efake.entity.Producto;
 import com.efake.entity.Usuario;
-import com.efake.entity.Valoracion;
 import java.io.IOException;
-import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -17,20 +16,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import java.sql.Time;
-
 /**
  *
- * @author carlo
+ * @author PedroArenas
  */
-@WebServlet(name = "doReview", urlPatterns = {"/doReview"})
-public class doReview extends HttpServlet {
+@WebServlet(name = "ListAdminProducts", urlPatterns = {"/ListAdminProducts"})
+public class ListProducts extends HttpServlet {
+
+    //Number of products that can be shown in a users list page
+    private static final int PAGE_SIZE = 16;
+
     @EJB
-    UsuarioFacade usuarioFacade;
+    ProductoFacade productFacade;
     @EJB
-    ValoracionFacade valoracionFacade;
-    @EJB
-    ProductoFacade productoFacade;
+    CategoriaFacade categoryFacade;
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -40,56 +40,40 @@ public class doReview extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        //Check if the user is logged in as admin
         HttpSession session = request.getSession();
-        Integer rating = Integer.parseInt(request.getParameter("estrellas"));
-        Usuario usuario = (Usuario) session.getAttribute("usuario");
-        String comment = request.getParameter("comment");
-        Date date = new Date();
-        Integer idProducto = Integer.parseInt(request.getParameter("product"));
-        Producto producto = productoFacade.find(idProducto);
-        List<Valoracion> listaValoraciones = producto.getValoracionList();
+        Usuario admin = (Usuario) session.getAttribute("usuario");
+        if (admin != null && admin.getEsAdmin() == 0) {// The user is logged in, but he's not an admin
+            response.sendRedirect("/efake/");
+        } else if (admin == null) { //The user is not logged in
+            response.sendRedirect("/efake/login.jsp");
+        }
+
+        //Load Attributes from request
+        List<Producto> productList = null;
+        Integer numberOfProducts = productFacade.count();
+        Integer numberOfPages = 0;
+        if (numberOfProducts % PAGE_SIZE == 0) {
+            numberOfPages = numberOfProducts / PAGE_SIZE;
+        } else {
+            numberOfPages = (numberOfProducts / PAGE_SIZE) + 1;
+        }
+        //Pages start at 1 but lists are 0 indexed
+        Integer pageNumber = Integer.parseInt(request.getParameter("page")) - 1;
         
-        Valoracion review = new Valoracion();
-        review.setCliente(usuario);
-        review.setProductoValorado(producto);
-        review.setPuntuacion(rating);
-        review.setComentario(comment);
-        review.setFecha(date);
-        review.setHora(date);
-        
-        valoracionFacade.create(review);
-        listaValoraciones.add(review);
-        productoFacade.edit(producto);
-        response.sendRedirect("/efake/ShowProduct?idProducto=" + idProducto);
+        productList = productFacade.findRange(pageNumber,PAGE_SIZE);
+             
+
+        //Load List on request and redirect
+        request.setAttribute("productList", productList);
+        request.setAttribute("categoryList", categoryFacade.findAll());
+        request.setAttribute("numberOfPages", numberOfPages);
+        RequestDispatcher rd = request.getRequestDispatcher("adminPages/productList.jsp");
+        rd.forward(request, response);
     }
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.

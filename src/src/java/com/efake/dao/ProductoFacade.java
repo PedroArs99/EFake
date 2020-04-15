@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.efake.dao;
 
 import com.efake.entity.Categoria;
@@ -40,4 +35,34 @@ public class ProductoFacade extends AbstractFacade<Producto> {
         return listaProducto;
     }
     
+    public List<Producto> findByFilter(String words){
+        List<Producto> productList;
+        Query q = this.getEntityManager().createNamedQuery("Producto.findByFilter");
+        q.setParameter("words", "%" + words + "%");
+        productList = q.getResultList();
+        return productList;
+    }
+    
+    public List<Producto> findRange(int page, int pageSize) {
+        Query q;
+        List<Producto> productList;
+        
+        q= this.getEntityManager().createNamedQuery("Producto.findAll");
+        q.setMaxResults(pageSize);
+        q.setFirstResult(page*pageSize);
+        productList = q.getResultList();
+        
+        return productList;
+    }
+
+    public List<Producto> findMostRated(int limit){
+        Query q;
+        List<Producto> productList;
+        
+        q= this.getEntityManager().createNamedQuery("Producto.findSortedByRatingsNumber");
+        q.setMaxResults(limit);
+        productList = q.getResultList();
+        
+        return productList;
+    }
 }

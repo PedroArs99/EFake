@@ -4,17 +4,22 @@
     Author     : carlo
 --%>
 
+<%@page import="java.util.List"%>
 <%@page import="java.util.Map"%>
 <%@page import="com.efake.entity.Usuario"%>
 <%@page import="com.efake.entity.Valoracion"%>
 <%@page import="com.efake.entity.Producto"%>
+<%@page import="java.text.SimpleDateFormat"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <%
   List<Valoracion> listValoracion = (List<Valoracion>) request.getAttribute("listValoraciones");
-  Usuario usuario = (Usuario) session.getAttribute("usuario");
+  Usuario user = (Usuario) session.getAttribute("usuario");
   int valorado = (Integer) request.getAttribute("valorado");
   Map<Integer, Double> ratings = (Map<Integer, Double>) request.getAttribute("ratings");
+  double mediaValoraciones = (Double) request.getAttribute("mediaValoraciones");
+  int idProducto = Integer.parseInt(request.getParameter("idProducto"));
+  SimpleDateFormat dateFormatter = new SimpleDateFormat("dd.MM.yyyy HH:mm");
 %>
 
 <!DOCTYPE html>
@@ -29,7 +34,7 @@
 </head>
 <body>
 
-    <%@include file="/components/navbar.jspf"%>
+    <%//@include file="/components/navbar.jspf"%>
 
     <div style="height: 400px;">
         
@@ -39,19 +44,24 @@
     <div class="row mb-3">
         <div class="col-4">
             <h2 class="titles">Ratings</h2>
-            <% for(Map.Entry<Integer, Double> entry: ratings.entrySet()) { 
-                Integer key = entry.getKey();
-                Double value = entry.getValue();%>
-                
-                <div class="progress margen-barras">
-                    <div class="progress-bar bg-color text-center" role="progressbar" aria-valuenow="<%= value %>"
-                    aria-valuemin="0" aria-valuemax="100" style="width: <%= value %>%; color: black; overflow: visible;">
-                        <%= key %> stars
+            <div style="margin-left: 50px; margin-bottom: 10px;">
+                <strong> <%= mediaValoraciones %> </strong> stars <strong> <%= listValoracion.size() %> </strong> votes
+            </div>
+            <%  int aux = 4;
+                for(Map.Entry<Integer, Double> entry: ratings.entrySet()) {
+                    Integer key = entry.getKey() + aux;
+                    Double value = ratings.get(key);
+                    aux = aux - 2;
+                    %>
+                    <div class="progress margen-barras">
+                        <div class="progress-bar bg-color text-center" role="progressbar" aria-valuenow="<%= value %>"
+                        aria-valuemin="0" aria-valuemax="100" style="width: <%= value %>%; color: black; overflow: visible;">
+                            <%= key %> stars
+                        </div>
                     </div>
-                </div>
-            <% } %>
+              <% } %>
             <br>
-            <% if(usuario != null && usuario.getEsAdmin() == 0 && valorado == 1) { %>
+            <% if(user != null && user.getEsAdmin() == 0 && valorado == 1) { %>
                 <div class="row">
                     <div class="col">
                         <button type="button" class="btn rounded btn-primary margen-boton" data-toggle="modal" data-target="#review">
@@ -64,25 +74,46 @@
         <div class="col-8">
             <h2>Customer Reviews</h2>
             <br>
-            <% for(Valoracion v : listValoracion) { %>
-            <div class="border border-primary rounded rounded-primary p-3 margen-comentarios">
-                <%= v.getCliente().getNombre() + " " + v.getCliente().getApellidos() %> <br>
-                <%= v.getFecha()%> <br>
+            <% if(listValoracion.isEmpty()) { %>
                 <p>
-                    <%= v.getComentario() %>
+                    Be the first one rating this product!
                 </p>
-            </div>
+            <% } else { %>
+                <% for(Valoracion v : listValoracion) { %>
+                <div class="border border-primary rounded rounded-primary p-3 margen-comentarios">
+                    <strong style="font-size: 20px; margin-right: 15px;"> <%= v.getCliente().getNombre() + " " + v.getCliente().getApellidos() %> </strong> 
+                    <span> <%= dateFormatter.format(v.getFecha())%> </span> <br>
+                    <p>
+                        <% if(v.getPuntuacion() == 0) { 
+                                for(int i = 1; i <= 5; i++) {%>
+                                    <span class="comment-stars cero-stars">★</span>
+                                <% }
+                         } else { 
+                            for(int i = 1; i <=5; i++) { 
+                                if(i <= v.getPuntuacion()) { %>
+                                    <span class="comment-stars filled-star">★</span>
+                                <% } else { %>
+                                    <span class="comment-stars cero-stars">★</span>
+                               <% } 
+                            }
+                        } %>
+                    </p>
+                    <p>
+                        <%= v.getComentario() %>
+                    </p>
+                </div>
+                <% } %>
             <% } %>
         </div>
     </div>   
 
     <%@include file="/components/footer.jspf"%>
 
-    <% if(usuario != null && usuario.getEsAdmin() == 0 && valorado == 1) { %>
+    <% if(user != null && user.getEsAdmin() == 0 && valorado == 1) { %>
         <div class="modal fade" id="review" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <form class="w-100" method="POST" action="/efake/doReview">
-                    <input type="hidden" name="product" value="112">
+                    <input type="hidden" name="product" value="<%= idProducto %>">
                     <div class="modal-content">
                         <div class="modal-body">
                             <input id="modal-form-user" type="hidden" name="user">

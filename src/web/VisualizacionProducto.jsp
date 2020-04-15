@@ -1,9 +1,3 @@
-<%-- 
-    Document   : VisualizacionProducto
-    Created on : 07-abr-2020, 12:38:39
-    Author     : JuMed
---%>
-
 <%@page import="com.efake.entity.Producto"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -13,15 +7,12 @@
     String nombre  = p.getNombre();
 %>
 
-
-<html>
-   
   <head>
       <title>EFake</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/styles.css">
+
     
         <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
         <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
@@ -127,15 +118,6 @@
           .size:first-of-type {
             margin-left: 40px; }
 
-        .color {
-          display: inline-block;
-          vertical-align: middle;
-          margin-right: 10px;
-          height: 2em;
-          width: 2em;
-          border-radius: 2px; }
-          .color:first-of-type {
-            margin-left: 20px; }
 
         .add-to-cart, .like {
           background: #0062cc;
@@ -149,7 +131,13 @@
           .add-to-cart:hover, .like:hover {
             background: #0062cc;
             color: #fff; }
-
+          .modificar{
+              background: #0062cc;
+              color: #fff;
+              padding: 0.3em 0.5em;
+              margin-top: 15px;
+              border: none;
+          }
         .not-available {
           text-align: center;
           line-height: 2em; }
@@ -182,9 +170,7 @@
                     transform: scale(1); } }
     </style>
   </head>
-  
-    <body class="d-flex flex-column h-100">
-            <%@include file="/components/navbar.jspf"%>
+
             
  
 	
@@ -214,6 +200,9 @@
 							<button class="add-to-cart btn btn-default" type="button">Buy</button>
 							<button class="like btn btn-default" type="button"><span class="fa fa-heart">LIKE</span></button>
 						</div>
+                                                <div class="action">
+                                                        <a class ="modificar" type="submit" href="ProductoCardServlet?id=<%=p.getId()%>">Modificar producto</a>
+                                                </div>
 					</div>
 				</div>
 			</div>

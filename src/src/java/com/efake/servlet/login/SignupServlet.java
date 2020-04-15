@@ -41,6 +41,7 @@ public class SignupServlet extends HttpServlet {
     UsuarioService usuarioService;
     @EJB
     EmailService emailService;
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -57,52 +58,51 @@ public class SignupServlet extends HttpServlet {
         SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
         Date fechaNacimiento = null;
         int mes, dia;
-        
-        try{
+
+        try {
             fechaNacimiento = formato.parse(request.getParameter("edad"));
         } catch (ParseException ex) {
             System.out.println(ex);
         }
-        
+
         java.util.Date fechaSistema = new Date();
-        int edad = fechaSistema.getYear() - fechaNacimiento.getYear();        
+        int edad = fechaSistema.getYear() - fechaNacimiento.getYear();
         RequestDispatcher rd;
         Usuario newUser = null, posibleUser;
         byte[] contrasenaCifrada;
         boolean esMenor = edad < 18;
-        
-        if(edad == 18){
+
+        if (edad == 18) {
             mes = fechaSistema.getMonth() - fechaNacimiento.getMonth();
-            if(mes == 0){
+            if (mes == 0) {
                 dia = fechaSistema.getDay() - fechaNacimiento.getDay();
-                if(dia >= 0){
+                if (dia >= 0) {
                     esMenor = false;
-                }else{
+                } else {
                     esMenor = true;
                     edad = 17;
                 }
-            }else if(mes < 0){
+            } else if (mes < 0) {
                 esMenor = true;
                 edad = 17;
             }else{
                 esMenor = false;
             }
         }
-        
+
         correo = request.getParameter("correo");
-        try{
-            posibleUser = usuarioFacade.findByCorreo(correo);            
-        }
-        catch(EJBException e){
+        try {
+            posibleUser = usuarioFacade.findByCorreo(correo);
+        } catch (EJBException e) {
             posibleUser = null;
         }
-        
+
         nombre = request.getParameter("nombre");
-        apellidos = request.getParameter("apellidos");        
+        apellidos = request.getParameter("apellidos");
         contrasena = request.getParameter("contrasena");
         contrasenaCifrada = usuarioService.hashPassword(contrasena);
         telefono = request.getParameter("telefono");
-        
+
         if(posibleUser != null){
            status = "El correo ya existe en la base de datos";
            request.setAttribute("status", status);
@@ -120,15 +120,15 @@ public class SignupServlet extends HttpServlet {
            HttpSession session = request.getSession();
            session.setAttribute("usuario", newUser);
         }
-        
+
         Properties mailProperties = new Properties();
         mailProperties.setProperty("to", newUser.getCorreo());
         mailProperties.setProperty("subject", "Welcome to Efake");
         mailProperties.setProperty("userName", newUser.getNombre());
         mailProperties.setProperty("template", TemplatesEnum.REGISTER_USER.toString());
-                
+
         emailService.sendEmail(mailProperties);
-        
+
         System.out.println(status);
         response.sendRedirect(goTo);
     }
