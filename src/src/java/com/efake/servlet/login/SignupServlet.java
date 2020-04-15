@@ -103,33 +103,35 @@ public class SignupServlet extends HttpServlet {
         contrasenaCifrada = usuarioService.hashPassword(contrasena);
         telefono = request.getParameter("telefono");
 
+        HttpSession session = request.getSession();
+        
         if(posibleUser != null){
-           status = "El correo ya existe en la base de datos";
-           request.setAttribute("status", status);
+           status = "El correo ya existe en nuestro sistema";
+           session.setAttribute("status", status);
            goTo = "signup.jsp";
         }else if(esMenor){
            status = "Lo siento, eres menor de edad";
-           request.setAttribute("status", status);
+           session.setAttribute("status", status);
            goTo = "signup.jsp";
         }else{
            status = "Todo correcto";
            request.setAttribute("status", status);
            newUser = new Usuario(correo,contrasenaCifrada,nombre,apellidos,edad,(short)0);
            newUser.setTelefono(telefono);
-           usuarioFacade.create(newUser);
-           HttpSession session = request.getSession();
+           usuarioFacade.create(newUser);           
            session.setAttribute("usuario", newUser);
+           
+           Properties mailProperties = new Properties();
+           mailProperties.setProperty("to", newUser.getCorreo());
+           mailProperties.setProperty("subject", "Welcome to Efake");
+           mailProperties.setProperty("userName", newUser.getNombre());
+           mailProperties.setProperty("template", TemplatesEnum.REGISTER_USER.toString());
+           
+           emailService.sendEmail(mailProperties);
         }
 
-        Properties mailProperties = new Properties();
-        mailProperties.setProperty("to", newUser.getCorreo());
-        mailProperties.setProperty("subject", "Welcome to Efake");
-        mailProperties.setProperty("userName", newUser.getNombre());
-        mailProperties.setProperty("template", TemplatesEnum.REGISTER_USER.toString());
-
-        emailService.sendEmail(mailProperties);
-
-        System.out.println(status);
+        
+        
         response.sendRedirect(goTo);
     }
 

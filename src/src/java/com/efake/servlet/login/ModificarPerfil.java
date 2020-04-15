@@ -14,6 +14,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.ejb.EJB;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -90,14 +91,15 @@ public class ModificarPerfil extends HttpServlet {
                 esMenor = false;
             }
         }
+        HttpSession session = request.getSession();
         
         if(posibleUser != null && !correoNuevo.equals(correoAntiguo)){
            status = "El correo ya existe en la base de datos";
-           request.setAttribute("status", status);
+           session.setAttribute("status", status);
            goTo = "signup.jsp";
         }else if(esMenor){
            status = "Lo siento, eres menor de edad";
-           request.setAttribute("status", status);
+           session.setAttribute("status", status);
            goTo = "signup.jsp";
         }else{
             status = "Todo correcto";
@@ -108,11 +110,12 @@ public class ModificarPerfil extends HttpServlet {
             user.setCorreo(correoNuevo);            
             user.setEdad(edad);   
             usuarioFacade.edit(user);
-            HttpSession session = request.getSession();
+            
             session.setAttribute("usuario", user);            
         }
         
-        response.sendRedirect(goTo);
+        RequestDispatcher rd = request.getRequestDispatcher(goTo);
+        rd.forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

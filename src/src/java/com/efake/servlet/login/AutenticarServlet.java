@@ -54,20 +54,18 @@ public class AutenticarServlet extends HttpServlet {
         catch(EJBException ex){
             user = null;
         }
-
+        
+        HttpSession session = request.getSession();
         if(user == null){
-           status = "El usuario no se encuentra en la base de datos";
-           request.setAttribute("status", status);
+           status = "El correo es incorrecto";
            goTo = "login.jsp";
         }else if(!Arrays.equals(contrasenaIntroducida,user.getPassword())){
-           status = "La clave es incorrecta";
-           request.setAttribute("status", status);
+           status = "La contraseña es incorrecta";
            goTo = "login.jsp";
-        }else{
-            HttpSession session = request.getSession();
+        }else{            
             session.setAttribute("usuario", user);
         }
-
+        session.setAttribute("status", status);
         response.sendRedirect(goTo);
     }
 

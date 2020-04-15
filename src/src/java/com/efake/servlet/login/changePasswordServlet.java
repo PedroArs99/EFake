@@ -12,11 +12,13 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Arrays;
 import javax.ejb.EJB;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -48,21 +50,25 @@ public class changePasswordServlet extends HttpServlet {
         Usuario user = usuarioFacade.findByCorreo(correo);
         byte[] passwordAntiguaHash = usuarioService.hashPassword(passwordAntigua);
         
+        RequestDispatcher rd;
+        HttpSession session = request.getSession();
+        
         if(!Arrays.equals(passwordAntiguaHash, user.getPassword())){
             status = "Contraseña incorrecta";
-            request.setAttribute("status", status);
+            session.setAttribute("status", status);
             goTo = "changePassword.jsp";
         }else if(!passwordNueva.equals(passwordRepetida)){
             status = "Las contraseñas no coinciden";
-            request.setAttribute("status", status);
+            session.setAttribute("status", status);
             goTo = "changePassword.jsp";
         }else{
-            request.setAttribute("status",status);
+            session.setAttribute("status",status);
             user.setPassword(usuarioService.hashPassword(passwordNueva));
             usuarioFacade.edit(user);
         }
             
-        response.sendRedirect(goTo);
+        rd = request.getRequestDispatcher(goTo);
+        rd.forward(request, response); 
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

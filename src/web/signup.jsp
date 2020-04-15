@@ -11,6 +11,8 @@
     Usuario user = (Usuario) session.getAttribute("usuario");
     String goTo = "SignupServlet", nombre = "", apellidos = "", email = "", movil = "", edad = "";
     
+    String status = (String) session.getAttribute("status");
+    session.removeAttribute("status");
     
     if(user!=null){
         goTo = "ModificarPerfil?correoAntiguo="+user.getCorreo()+"";
@@ -122,6 +124,9 @@
   
   <%if(user==null){%>
     <h1 class="h3 mb-3 font-weight-normal">Please sign up</h1>
+    <%if(status != null){%>
+            <div class="alert alert-danger"><%=status%></div>
+    <%}%>
     <input type="text" name="nombre" id="defaultRegisterFormFirstName" class="form-control" placeholder="First name" autofocus="">
 
     <input type="text" name="apellidos" id="defaultRegisterFormLastName" class="form-control" placeholder="Last name"><br/>
@@ -143,6 +148,10 @@
     </p>
   <%}else{%>
     <h1 class="h3 mb-3 font-weight-normal">Your profile</h1>
+    <%if(status.equals("Todo correcto")){%>
+    <%}else if(status != null){%>
+            <div class="alert alert-danger"><%=status%></div>
+    <%}%>
     <input type="text" name="nombre" id="defaultRegisterFormFirstName" class="form-control" value="<%=nombre%>" autofocus="">
 
     <input type="text" name="apellidos" id="defaultRegisterFormLastName" class="form-control" value="<%=apellidos%>"><br/>
