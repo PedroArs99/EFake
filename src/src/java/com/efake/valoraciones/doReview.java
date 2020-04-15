@@ -3,19 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.efake.servlet.login;
+package com.efake.valoraciones;
 
+import com.efake.dao.ProductoFacade;
 import com.efake.dao.UsuarioFacade;
+import com.efake.dao.ValoracionFacade;
 import com.efake.entity.Usuario;
-import com.efake.service.EmailService;
-import com.efake.service.TemplatesEnum;
-import com.efake.service.UsuarioService;
+import com.efake.entity.Valoracion;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Properties;
+import java.util.Date;
 import javax.ejb.EJB;
-import javax.ejb.EJBException;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -25,15 +22,16 @@ import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author laura
+ * @author carlo
  */
-@WebServlet(name = "AutenticarServlet", urlPatterns = {"/AutenticarServlet"})
-public class AutenticarServlet extends HttpServlet {
-
+@WebServlet(name = "doReview", urlPatterns = {"/doReview"})
+public class doReview extends HttpServlet {
     @EJB
     UsuarioFacade usuarioFacade;
     @EJB
-    UsuarioService usuarioService;
+    ValoracionFacade valoracionFacade;
+    @EJB
+    ProductoFacade productoFacade;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -43,42 +41,52 @@ public class AutenticarServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        String correo, status = "Todo correcto", goTo = "index.jsp", contrasena;
-        correo = request.getParameter("correo");
-        contrasena = request.getParameter("contrasena");
-        byte[] contrasenaIntroducida = usuarioService.hashPassword(contrasena);
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        Integer rating = Integer.parseInt(request.getParameter("estrellas"));
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        String comment = request.getParameter("comment");
+        Date date = new Date();
+        Integer idProducto = Integer.parseInt(request.getParameter("product"));
         
-        RequestDispatcher rd;
-        Usuario user;
+        Valoracion review = new Valoracion();
+        review.setCliente(usuario);
+        review.setProductoValorado(productoFacade.find(idProducto));
+        review.setPuntuacion(rating);
+        review.setComentario(comment);
+        review.setFecha(date);
+        review.setHora(date);
         
-        try{
-           user = usuarioFacade.findByCorreo(correo);
-        }
-        catch(EJBException ex){
-            user = null;
-        }
-        
-        if(user == null){
-           status = "El usuario no se encuentra en la base de datos";
-           request.setAttribute("status", status);
-           goTo = "login.jsp";
-        }else if(!Arrays.equals(contrasenaIntroducida,user.getPassword())){
-           status = "La clave es incorrecta";
-           request.setAttribute("status", status);
-           goTo = "login.jsp";
-        }else{
-            HttpSession session = request.getSession();
-            session.setAttribute("usuario", user);
-        }
-        
-        
-        
-        System.out.print(status);
-        response.sendRedirect(goTo);
+        valoracionFacade.create(review);
+        response.sendRedirect("/efake/ShowProduct?idProducto=" + idProducto);
     }
 
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.

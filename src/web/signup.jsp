@@ -4,8 +4,28 @@
     Author     : laura
 --%>
 
+<%@page import="com.efake.entity.Usuario"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<%
+    Usuario user = (Usuario) session.getAttribute("usuario");
+    String goTo = "SignupServlet", nombre = "", apellidos = "", email = "", movil = "", edad = "";
+    
+    
+    if(user!=null){
+        goTo = "ModificarPerfil?correoAntiguo="+user.getCorreo()+"";
+        edad = user.getEdad()+"";
+        nombre = user.getNombre();
+        email = user.getCorreo();
+        apellidos = user.getApellidos();     
+        if(user.getTelefono() == ("null")){            
+            movil = "";
+        }else{
+            movil = user.getTelefono();
+        }        
+    }
+%>
+
 <html lang="en"><head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -96,44 +116,48 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
   </head>
   <body class="text-center">
-  <form class="form-signin" action="SignupServlet" method="post">
-  <img class="d-inline-block align-top" src="https://raw.githubusercontent.com/PedroArs99/EFake/master/img/logo.png" alt="" width="72" height="30">
-  <h1 class="h3 mb-3 font-weight-normal">Please sign up</h1>
-
-  <input type="text" name="nombre" id="defaultRegisterFormFirstName" class="form-control" placeholder="First name" autofocus="">
-
-  <input type="text" name="apellidos" id="defaultRegisterFormLastName" class="form-control" placeholder="Last name"><br/>
-
-  <label for="inputEmail" class="sr-only">Email address</label>
-  <input type="email" name="correo" id="inputEmail" class="form-control" placeholder="Email address" required="">
-
-  <label for="inputPassword" class="sr-only">Password</label>
-  <input type="password" name="contrasena" id="inputPassword" class="form-control" placeholder="Password" required=""><br/>
+ 
+  <form class="form-signin" action="<%=goTo%>" method="post">
+  <img class="d-inline-block align-top" src="https://raw.githubusercontent.com/PedroArs99/EFake/master/img/logo.png" alt="" width="72" height="30"><br/>
   
-  <input type="date" name="edad" class="form-control" id="inputEdad" placeholder="Birth date" required=""><br/>
+  <%if(user==null){%>
+    <h1 class="h3 mb-3 font-weight-normal">Please sign up</h1>
+    <input type="text" name="nombre" id="defaultRegisterFormFirstName" class="form-control" placeholder="First name" autofocus="">
 
-  <input type="text" name="telefono" id="defaultRegisterPhonePassword" class="form-control" placeholder="Phone number" aria-describedby="defaultRegisterFormPhoneHelpBlock"><br/>
+    <input type="text" name="apellidos" id="defaultRegisterFormLastName" class="form-control" placeholder="Last name"><br/>
 
-  <div class="input-group mb-4">
-      <div class="input-group-prepend">
-          <span class="input-group-text">Upload</span>
-      </div>
-      <div class="custom-file">
-          <input type="file" name="foto" class="custom-file-input" id="defaultRegisterFormProfile" aria-describedby="defaultRegisterFormProfile">
-          <label class="custom-file-label" for="defaultRegisterFormProfile">Profile</label>
-      </div>
-  </div>
+    <label for="inputEmail" class="sr-only">Email address</label>
+    <input type="email" name="correo" id="inputEmail" class="form-control" placeholder="Email address" required="">
 
-  <button class="btn btn-lg btn-primary btn-block" type="submit">Sign up</button><br/>
-  <a href="login.jsp" type="submit">I already have an account</a><br/><br/>
+    <label for="inputPassword" class="sr-only">Password</label>
+    <input type="password" name="contrasena" id="inputPassword" class="form-control" placeholder="Password" required=""><br/>
+    <input type="date" name="edad" class="form-control" id="inputEdad" placeholder="Birth date" required=""><br/>
+    <input type="text" name="telefono" id="defaultRegisterPhonePassword" class="form-control" placeholder="Phone number" aria-describedby="defaultRegisterFormPhoneHelpBlock"><br/>
 
-  <p>By clicking
-      <em>Sign up</em> you agree to our
-      <a href="" target="_blank">terms of service</a>.
-  </p>
+    <button class="btn btn-lg btn-primary btn-block" type="submit" >Sign up</button><br/>
+    <a href="login.jsp" type="submit">I already have an account</a><br/><br/>
 
+    <p>By clicking
+        <em>Sign up</em> you agree to our
+        <a href="#" target="_blank">terms of service</a>.
+    </p>
+  <%}else{%>
+    <h1 class="h3 mb-3 font-weight-normal">Your profile</h1>
+    <input type="text" name="nombre" id="defaultRegisterFormFirstName" class="form-control" value="<%=nombre%>" autofocus="">
+
+    <input type="text" name="apellidos" id="defaultRegisterFormLastName" class="form-control" value="<%=apellidos%>"><br/>
+
+    <label for="inputEmail" class="sr-only">Email address</label>
+    <input type="email" name="correo" id="inputEmail" class="form-control" value="<%=email%>" required="">
+    <br/>
+    <input type="text" class="form-control" value="<%=edad%>" readonly onmousedown="return false;"></label>
+    <input type="date" name="edad" class="form-control" id="inputEdad" placeholder="Birth date" required="" value="2020-04-23"><br/>
+    <input type="text" name="telefono" id="defaultRegisterPhonePassword" class="form-control" value="<%=movil%>" aria-describedby="defaultRegisterFormPhoneHelpBlock"><br/>
+    <a href="changePassword.jsp?correo=<%=user.getCorreo()%>" type="submit">Do you want to change your password?</a><br/><br/>
+    <button class="btn btn-lg btn-primary btn-block" type="submit" >Save changes</button><br/>
+  <%}%>
+  
   <p class="mt-5 mb-3 text-muted">Copyrigth © 2020 eFake Inc. All Rights Reserved.</p>
 </form>
-
-
-</body></html>
+</body>
+</html>
