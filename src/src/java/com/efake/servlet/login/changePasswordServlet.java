@@ -1,15 +1,17 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package com.efake.servlet.login;
 
 import com.efake.dao.UsuarioFacade;
 import com.efake.entity.Usuario;
-import com.efake.service.EmailService;
-import com.efake.service.TemplatesEnum;
 import com.efake.service.UsuarioService;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Arrays;
-import java.util.Properties;
 import javax.ejb.EJB;
-import javax.ejb.EJBException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -22,9 +24,8 @@ import javax.servlet.http.HttpSession;
  *
  * @author laura
  */
-@WebServlet(name = "AutenticarServlet", urlPatterns = {"/AutenticarServlet"})
-public class AutenticarServlet extends HttpServlet {
-
+@WebServlet(name = "changePasswordServlet", urlPatterns = {"/changePasswordServlet"})
+public class changePasswordServlet extends HttpServlet {
     @EJB
     UsuarioFacade usuarioFacade;
     @EJB
@@ -40,33 +41,34 @@ public class AutenticarServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String correo, status = "Todo correcto", goTo = "index.jsp", contrasena;
-        correo = request.getParameter("correo");
-        contrasena = request.getParameter("contrasena");
-        byte[] contrasenaIntroducida = usuarioService.hashPassword(contrasena);
-
-        RequestDispatcher rd;
-        Usuario user;
-
-        try{
-           user = usuarioFacade.findByCorreo(correo);
-        }
-        catch(EJBException ex){
-            user = null;
-        }
+        response.setContentType("text/html;charset=UTF-8");
+        String status = "Todo correcto", goTo = "signup.jsp";
+        String correo = request.getParameter("correo");
+        String passwordAntigua = request.getParameter("actualPassword");
+        String passwordNueva = request.getParameter("nuevaPassword");
+        String passwordRepetida = request.getParameter("repetidaPassword");
+        Usuario user = usuarioFacade.findByCorreo(correo);
+        byte[] passwordAntiguaHash = usuarioService.hashPassword(passwordAntigua);
         
+        RequestDispatcher rd;
         HttpSession session = request.getSession();
-        if(user == null){
-           status = "El correo es incorrecto";
-           goTo = "login.jsp";
-        }else if(!Arrays.equals(contrasenaIntroducida,user.getPassword())){
-           status = "La contraseña es incorrecta";
-           goTo = "login.jsp";
-        }else{            
-            session.setAttribute("usuario", user);
+        
+        if(!Arrays.equals(passwordAntiguaHash, user.getPassword())){
+            status = "Contraseña incorrecta";
+            session.setAttribute("status", status);
+            goTo = "changePassword.jsp";
+        }else if(!passwordNueva.equals(passwordRepetida)){
+            status = "Las contraseñas no coinciden";
+            session.setAttribute("status", status);
+            goTo = "changePassword.jsp";
+        }else{
+            session.setAttribute("status",status);
+            user.setPassword(usuarioService.hashPassword(passwordNueva));
+            usuarioFacade.edit(user);
         }
-        session.setAttribute("status", status);
-        response.sendRedirect(goTo);
+            
+        rd = request.getRequestDispatcher(goTo);
+        rd.forward(request, response); 
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

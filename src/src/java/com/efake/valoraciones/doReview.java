@@ -1,16 +1,18 @@
-package com.efake.servlet.login;
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.efake.valoraciones;
 
+import com.efake.dao.ProductoFacade;
 import com.efake.dao.UsuarioFacade;
+import com.efake.dao.ValoracionFacade;
 import com.efake.entity.Usuario;
-import com.efake.service.EmailService;
-import com.efake.service.TemplatesEnum;
-import com.efake.service.UsuarioService;
+import com.efake.entity.Valoracion;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Properties;
+import java.util.Date;
 import javax.ejb.EJB;
-import javax.ejb.EJBException;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -20,15 +22,16 @@ import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author laura
+ * @author carlo
  */
-@WebServlet(name = "AutenticarServlet", urlPatterns = {"/AutenticarServlet"})
-public class AutenticarServlet extends HttpServlet {
-
+@WebServlet(name = "doReview", urlPatterns = {"/doReview"})
+public class doReview extends HttpServlet {
     @EJB
     UsuarioFacade usuarioFacade;
     @EJB
-    UsuarioService usuarioService;
+    ValoracionFacade valoracionFacade;
+    @EJB
+    ProductoFacade productoFacade;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -38,37 +41,52 @@ public class AutenticarServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        String correo, status = "Todo correcto", goTo = "index.jsp", contrasena;
-        correo = request.getParameter("correo");
-        contrasena = request.getParameter("contrasena");
-        byte[] contrasenaIntroducida = usuarioService.hashPassword(contrasena);
-
-        RequestDispatcher rd;
-        Usuario user;
-
-        try{
-           user = usuarioFacade.findByCorreo(correo);
-        }
-        catch(EJBException ex){
-            user = null;
-        }
-        
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
-        if(user == null){
-           status = "El correo es incorrecto";
-           goTo = "login.jsp";
-        }else if(!Arrays.equals(contrasenaIntroducida,user.getPassword())){
-           status = "La contraseña es incorrecta";
-           goTo = "login.jsp";
-        }else{            
-            session.setAttribute("usuario", user);
-        }
-        session.setAttribute("status", status);
-        response.sendRedirect(goTo);
+        Integer rating = Integer.parseInt(request.getParameter("estrellas"));
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        String comment = request.getParameter("comment");
+        Date date = new Date();
+        Integer idProducto = Integer.parseInt(request.getParameter("product"));
+        
+        Valoracion review = new Valoracion();
+        review.setCliente(usuario);
+        review.setProductoValorado(productoFacade.find(idProducto));
+        review.setPuntuacion(rating);
+        review.setComentario(comment);
+        review.setFecha(date);
+        review.setHora(date);
+        
+        valoracionFacade.create(review);
+        response.sendRedirect("/efake/ShowProduct?idProducto=" + idProducto);
     }
 
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.

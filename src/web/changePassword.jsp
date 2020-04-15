@@ -1,12 +1,18 @@
+<%-- 
+    Document   : changePassword
+    Created on : 12-abr-2020, 15:48:12
+    Author     : laura
+--%>
+
+<%@page import="com.efake.entity.Usuario"%>
+<%@page import="com.efake.dao.UsuarioFacade"%>
+<%@page import="javax.ejb.EJB"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
+
 <%
+    String correo = request.getParameter("correo");
     String status = (String) session.getAttribute("status");
-    session.removeAttribute("status");
 %>
 
 <html lang="en"><head>
@@ -15,14 +21,14 @@ and open the template in the editor.
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Jekyll v3.8.6">
-    <title>Login</title>
+    <title>Change Password</title>
 
     <link rel="canonical" href="https://getbootstrap.com/docs/4.4/examples/sign-in/">
 
     <!-- Bootstrap core CSS -->
     <link href="/docs/4.4/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
-    <!-- Favicons -->
+        <!-- Favicons -->
     <link rel="apple-touch-icon" href="/docs/4.4/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
     <link rel="icon" href="/docs/4.4/assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
     <link rel="icon" href="/docs/4.4/assets/img/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
@@ -47,8 +53,8 @@ and open the template in the editor.
         .bd-placeholder-img-lg {
           font-size: 3.5rem;
         }
-        
-        html,
+      }
+      html,
         body {
           height: 100%;
         }
@@ -92,33 +98,28 @@ and open the template in the editor.
           border-top-left-radius: 0;
           border-top-right-radius: 0;
         }
-      }
+
     </style>
-    
-    <!-- Custom styles for this template -->    
+    <!-- Custom styles for this template -->
+    <link href="ejemploLOGIN.css" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
   </head>
   <body class="text-center">
-    <form class="form-signin" action="AutenticarServlet" method="post">
-    
-        <img class="d-inline-block align-top" src="https://raw.githubusercontent.com/PedroArs99/EFake/master/img/logo.png" alt="" width="72" height="30">
-        <h1 class="h5 mb-3 font-weight-normal">Please sign in</h1><br/>
-        <%if(status != null){%>
+    <form class="form-signin" action="changePasswordServlet">
+      <img class="d-inline-block align-top" src="https://raw.githubusercontent.com/PedroArs99/EFake/master/img/logo.png" alt="" width="72" height="30">
+      <h1 class="h3 mb-3 font-weight-normal">Change Password</h1>
+      <%if(status != null){%>
             <div class="alert alert-danger"><%=status%></div>
-        <%}%>
-        <label for="inputEmail" class="sr-only">Email address</label>
-        <input type="email" id="inputEmail" name="correo" class="form-control" placeholder="Email address" required="" autofocus="">
-        <label for="inputPassword" class="sr-only">Password</label>
-        <input type="password" id="inputPassword" class="form-control" placeholder="Password" required="" name="contrasena">
-        <div class="checkbox mb-3">
-          <label>
-            <input type="checkbox" value="remember-me"> Remember me
-          </label>
-        </div>
-        <!--button href="LoginServlet" class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button-->
-        <input type="submit" class="btn btn-lg btn-primary btn-block" value="Sign in"><br/>
-        <a href="signup.jsp" type="submit">Don't you have an account?</a>
-        <p class="mt-5 mb-3 text-muted">Copyright &copy; 2020 eFake Inc. All Rights Reserved.</p>
-  </form>
-</body></html>
-
+      <%}%>
+      <label for="inputPaswword" class="sr-only">Actual Password</label>
+      <input type="password" name="actualPassword" id="inputPassword" class="form-control" placeholder="Actual Password" required="" autofocus="">
+      <label for="inputNewPassword" class="sr-only">New Password</label>
+      <input type="password" name="nuevaPassword" id="inputNewPassword" class="form-control" placeholder="New Password" required="">
+      <label for="inputRepeatPassword" class="sr-only">Repeat Password</label>
+      <input type="password" name="repetidaPassword" id="inputRepeatPassword" class="form-control" placeholder="Repeat Password" required="">
+      <button class="btn btn-lg btn-primary btn-block" type="submit">Save New Password</button>
+      <input type="hidden" name = "correo" value="<%=correo%>"><br/>
+      <p class="mt-5 mb-3 text-muted">Copyrigth © 2020 eFake Inc. All Rights Reserved.</p>
+    </form>
+  </body>
+</html>
