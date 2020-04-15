@@ -4,6 +4,7 @@
     Author     : carlo
 --%>
 
+<%@page import="java.util.List"%>
 <%@page import="java.util.Map"%>
 <%@page import="com.efake.entity.Usuario"%>
 <%@page import="com.efake.entity.Valoracion"%>
