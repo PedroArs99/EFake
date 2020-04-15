@@ -107,7 +107,7 @@
     <form class="form-signin" action="changePasswordServlet">
       <img class="d-inline-block align-top" src="https://raw.githubusercontent.com/PedroArs99/EFake/master/img/logo.png" alt="" width="72" height="30">
       <h1 class="h3 mb-3 font-weight-normal">Change Password</h1>
-      <h1><%=correo%></h1>
+      
       <label for="inputPaswword" class="sr-only">Actual Password</label>
       <input type="password" name="actualPassword" id="inputPassword" class="form-control" placeholder="Actual Password" required="" autofocus="">
       <label for="inputNewPassword" class="sr-only">New Password</label>
