@@ -94,16 +94,19 @@ KeywordsFacade keywordsFacade;
         p.setReportado(Short.parseShort("0"));
         productoFacade.create(p);
         
+        List<Keywords> keywordsList = new ArrayList<>();
        if(!keywords1.equals("") ){
             if(key1 == null){ 
                 Keywords k1 = new Keywords(keywords1);
                 keywordsFacade.create(k1);
                 key1= keywordsFacade.find(keywords1);
+                
             }
             k1List = key1.getProductoList();
             k1List.add(p);
             key1.setProductoList(k1List);
             keywordsFacade.edit(key1);
+            keywordsList.add(key1);
         }
        
        if(!keywords2.equals("") ){
@@ -118,6 +121,7 @@ KeywordsFacade keywordsFacade;
             k2List.add(p);
             key2.setProductoList(k2List);
             keywordsFacade.edit(key2);
+            keywordsList.add(key2);
         }
        
        if(!keywords3.equals("") ){
@@ -131,15 +135,13 @@ KeywordsFacade keywordsFacade;
                
             
             k3List.add(p);
-             key3.setProductoList(k3List);
-             keywordsFacade.edit(key3);
+            key3.setProductoList(k3List);
+            keywordsFacade.edit(key3);
+            keywordsList.add(key3);
         }
-     
+        p.setKeywordsList(keywordsList);
+        productoFacade.edit(p);
         
-        
-        
-        
-       
         
         int idProducto= p.getId();
        // response.sendRedirect("/efake/ShowProduct?idProducto="+idProducto+"");

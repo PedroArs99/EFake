@@ -4,6 +4,7 @@
     Author     : JuMed
 --%>
 
+<%@page import="com.efake.entity.Keywords"%>
 <%@page import="com.efake.entity.Producto"%>
 <%@page import="com.efake.entity.Subcategoria"%>
 <%@page import="com.efake.entity.Categoria"%>
@@ -14,6 +15,10 @@
   List<Categoria> categorias = (List<Categoria>) request.getAttribute("categoriaList"); 
   List<Subcategoria> subcategorias = (List<Subcategoria>) request.getAttribute("subcategoriasList"); 
   Producto producto = (Producto) request.getAttribute("producto");
+  Keywords k1 = producto.getKeywordsList().get(0);
+  Keywords k2 = producto.getKeywordsList().get(1);
+  Keywords k3 = producto.getKeywordsList().get(2);
+  
 %>
 
 <html>
@@ -88,16 +93,18 @@
                 <div class="col-md-6">
                     
                         Nombre:
-                        <input type="text" name="textNombre" class="form-control" placeholder=<%=producto.getNombre()%>/> <br/>
+                        <input type="text" name="textNombre" class="form-control" value=<%=producto.getNombre()%>/> <br/>
 
                         Precio:
-                        <input type="number" name="textPrecio" class="form-control" placeholder=<%=producto.getPrecio()%>/><br/>
+                        <input type="number" name="textPrecio" class="form-control" value=<%=producto.getPrecio()%>/><br/>
 
                         Imagen :
-                        <input type="text" name="textImagen" class="form-control" placeholder=<%=producto.getImagen()%>/><br/>
+                        <input type="text" name="textImagen" class="form-control" value=<%=producto.getImagen()%>/><br/>
 
                         Keywords :
-                        <input type="text" name="textKeywords" class="form-control"/><br/>
+                        <input type="text" name="textKeywords1" class="form-control" value=<%=k1.getPalabra()%>/><br/>
+                        <input type="text" name="textKeywords2" class="form-control" value=<%=k2.getPalabra()%>/><br/>
+                        <input type="text" name="textKeywords3" class="form-control" value=<%=k3.getPalabra()%>/>
 
                         Categoria:
                         <select name="Categoria" class="form-control">
@@ -120,7 +127,7 @@
             
                 <div class="col-md-6">        
                     Descripción:<br/>
-                    <textarea rows="10" cols="30" name="descripcion" />
+                    <textarea rows="10" cols="30" name="descripcion" value=<%=producto.getDescripcion() %>/>
                     </textarea><br/>
                 </div>
            

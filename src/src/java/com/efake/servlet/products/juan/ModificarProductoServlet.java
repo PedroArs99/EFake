@@ -5,15 +5,19 @@
  */
 package com.efake.servlet.products.juan;
 
+import com.efake.dao.KeywordsFacade;
 import com.efake.dao.ProductoFacade;
 import com.efake.dao.UsuarioFacade;
 import com.efake.entity.Categoria;
+import com.efake.entity.Keywords;
 import com.efake.entity.Producto;
 import com.efake.entity.Subcategoria;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -33,6 +37,8 @@ public class ModificarProductoServlet extends HttpServlet {
 ProductoFacade productoFacade;
 @EJB
 UsuarioFacade usuarioFacade;
+@EJB
+KeywordsFacade keywordsFacade;
     
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -48,11 +54,30 @@ UsuarioFacade usuarioFacade;
         int id = Integer.parseInt(request.getParameter("id"));
         Producto p = productoFacade.find(id);
         
+        Keywords koriginal1 = null;
+        Keywords koriginal2 = null;
+        Keywords koriginal3 = null;
+        
+        if(p.getKeywordsList().size()>0){
+            koriginal1 = p.getKeywordsList().get(0);
+            if(p.getKeywordsList().size()>1){
+                koriginal2 = p.getKeywordsList().get(1);
+                if(p.getKeywordsList().size()>2){
+                    koriginal3 = p.getKeywordsList().get(2);
+                }
+            }
+        }
+       
+        
+        
+        
         String nombre = request.getParameter("textNombre");
         String descripcion = request.getParameter("descripcion");
         Double precio =Double.parseDouble(request.getParameter("textPrecio"));
         String imagen = request.getParameter("textImagen");
-        String keywords = request.getParameter("textKeywords");
+        String keywords1 = request.getParameter("textKeywords1");
+        String keywords2 = request.getParameter("textKeywords2");
+        String keywords3 = request.getParameter("textKeywords3");
         Integer categoria =Integer.parseInt(request.getParameter("Categoria"));
         Integer subcategoria =Integer.parseInt(request.getParameter("Subcategoria"));
         
@@ -65,8 +90,114 @@ UsuarioFacade usuarioFacade;
         p.setImagen(imagen);
         p.setCategoria(c);
         p.setSubcategoria(s);
-        productoFacade.edit(p);
+      
         
+        Keywords key1 = keywordsFacade.find(keywords1);
+        Keywords key2 = keywordsFacade.find(keywords2);
+        Keywords key3 = keywordsFacade.find(keywords3);
+        List<Producto> k1List =new ArrayList<>();
+        List<Producto> k2List =new ArrayList<>();
+        List<Producto> k3List =new ArrayList<>();
+
+       
+        
+        
+         List<Keywords> keywordsList = new ArrayList<>();
+        
+       if(!keywords1.equals("") ){
+            if(key1 != koriginal1){ 
+                key1= keywordsFacade.find(keywords1);
+                
+                if (key1==null){
+                    Keywords k1 = new Keywords(keywords1);
+                    keywordsFacade.create(k1);
+                    key1= keywordsFacade.find(keywords1);
+                }
+                
+                k1List = koriginal1.getProductoList();
+                k1List.remove(p);
+                koriginal1.setProductoList(k1List);
+                keywordsFacade.edit(koriginal1);
+                k1List = key1.getProductoList();
+                k1List.add(p);
+                key1.setProductoList(k1List);
+                keywordsFacade.edit(key1);
+                keywordsList.add(key1);
+            }
+            
+         
+        }else{
+            if(koriginal1!=null){
+               k1List = koriginal1.getProductoList();
+              k1List.remove(p);
+              koriginal1.setProductoList(k1List);
+              keywordsFacade.edit(koriginal1);
+           }
+       }
+       
+       if(!keywords2.equals("") ){
+            if(key2 != koriginal2){ 
+                key2= keywordsFacade.find(keywords2);
+                
+                if (key2==null){
+                    Keywords k2 = new Keywords(keywords2);
+                    keywordsFacade.create(k2);
+                    key2= keywordsFacade.find(keywords2);
+                }
+                
+                k2List = koriginal2.getProductoList();
+                k2List.remove(p);
+                koriginal2.setProductoList(k2List);
+                keywordsFacade.edit(koriginal2);
+                k2List = key2.getProductoList();
+                k2List.add (p);
+                key2.setProductoList(k2List);
+                keywordsFacade.edit(key2);
+                keywordsList.add(key2);
+            }
+            
+        
+        }else{
+            if(koriginal2!=null){
+               k2List = koriginal2.getProductoList();
+              k2List.remove(p);
+              koriginal2.setProductoList(k2List);
+              keywordsFacade.edit(koriginal2);
+           }
+       }
+       if(!keywords3.equals("")){
+            if(key3 != koriginal1){ 
+                key3= keywordsFacade.find(keywords3);
+                
+                if (key3==null){
+                    Keywords k3 = new Keywords(keywords3);
+                    keywordsFacade.create(k3);
+                    key3= keywordsFacade.find(keywords3);
+                }
+                
+                k3List = koriginal3.getProductoList();
+                k3List.remove(p);
+                koriginal3.setProductoList(k3List);
+                keywordsFacade.edit(koriginal3);
+                k3List = key3.getProductoList();
+                k3List.add (p);
+                key3.setProductoList(k3List);
+                keywordsFacade.edit(key3);
+                keywordsList.add(key3);
+            }
+     
+        }else{
+           if(koriginal3!=null){
+               k3List = koriginal3.getProductoList();
+              k3List.remove(p);
+              koriginal3.setProductoList(k3List);
+              keywordsFacade.edit(koriginal3);
+           }
+
+           
+       }
+       p.setKeywordsList(keywordsList);
+          productoFacade.edit(p);
         request.setAttribute("producto", p);
         RequestDispatcher rd = request.getRequestDispatcher("VisualizacionProducto.jsp");
         rd.forward(request, response);

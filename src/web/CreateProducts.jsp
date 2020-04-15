@@ -97,7 +97,7 @@
 
                         Keywords :
                         <input type="text" name="textKeywords1" class="form-control"/><br/>
-                        <input type="text" name="textKeywords2" class="form-control"/>
+                        <input type="text" name="textKeywords2" class="form-control"/><br/>
                         <input type="text" name="textKeywords3" class="form-control"/>
                         Categoria:
                         <select name="Categoria" class="form-control">
