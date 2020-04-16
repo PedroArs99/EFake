@@ -112,7 +112,7 @@
                         <input type="text" name="textNombre" class="form-control" value=<%=producto.getNombre()%>/> <br/>
 
                         Precio:
-                        <input type="number" step="0.01" name="textPrecio" class="form-control" value="<%=producto.getPrecio()%>"/><br/>
+                        <input type="number" name="textPrecio" class="form-control" value=<%=producto.getPrecio()%>/><br/>
 
                         Imagen :
                         <input type="text" name="textImagen" class="form-control" value=<%=producto.getImagen()%>/><br/>

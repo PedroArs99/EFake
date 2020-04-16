@@ -38,7 +38,7 @@ SubcategoriaFacade subcategoriaFacade;
    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
        
-        List<Categoria> categorias = categoriaFacade.findAll();
+         List<Categoria> categorias = categoriaFacade.findAll();
 
         List<Subcategoria> subcategorias = subcategoriaFacade.findAll();
       

@@ -44,7 +44,7 @@
               <span class="sr-only">Toggle Dropdown</span>
             </button>
             <div class="dropdown-menu dropdown-menu-right">
-              <a class="dropdown-item" href="signup.jsp">Profile</a>
+              <a class="dropdown-item" href="signup.jsp">Edit profile</a>
               
               <%if(user.getEsAdmin()==0){//No es admin%>              
               <a class="dropdown-item" href="#">My products</a>

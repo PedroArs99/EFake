@@ -159,8 +159,7 @@
     <label for="inputEmail" class="sr-only">Email address</label>
     <input type="email" name="correo" id="inputEmail" class="form-control" value="<%=email%>" required="">
     <br/>
-    <input type="text" class="form-control" value="<%=edad%>" readonly onmousedown="return false;"></label>
-    <input type="date" name="edad" class="form-control" id="inputEdad" placeholder="Birth date" required="" value="2020-04-23"><br/>
+    <input type="text" class="form-control" value="<%=edad%>" readonly onmousedown="return false;"><br/>
     <input type="text" name="telefono" id="defaultRegisterPhonePassword" class="form-control" value="<%=movil%>" aria-describedby="defaultRegisterFormPhoneHelpBlock"><br/>
     <a href="changePassword.jsp?correo=<%=user.getCorreo()%>" type="submit">Do you want to change your password?</a><br/><br/>
     <button class="btn btn-lg btn-primary btn-block" type="submit" >Save changes</button><br/>

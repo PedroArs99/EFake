@@ -2,6 +2,14 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/C:/Users/laura/OneDrive/Documentos/GitHub/EFake/src/web/components/navbar.jspf</file>
+            <file>file:/C:/Users/laura/OneDrive/Documentos/GitHub/EFake/src/web/changePassword.jsp</file>
+            <file>file:/C:/Users/laura/OneDrive/Documentos/GitHub/EFake/src/src/java/com/efake/servlet/login/changePasswordServlet.java</file>
+            <file>file:/C:/Users/laura/OneDrive/Documentos/GitHub/EFake/src/src/java/com/efake/servlet/login/AutenticarServlet.java</file>
+            <file>file:/C:/Users/laura/OneDrive/Documentos/GitHub/EFake/src/web/signup.jsp</file>
+            <file>file:/C:/Users/laura/OneDrive/Documentos/GitHub/EFake/src/src/java/com/efake/servlet/login/ModificarPerfil.java</file>
+            <file>file:/C:/Users/laura/OneDrive/Documentos/GitHub/EFake/src/src/java/com/efake/servlet/login/SignupServlet.java</file>
+        </group>
     </open-files>
 </project-private>
