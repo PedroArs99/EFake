@@ -4,15 +4,12 @@
     Author     : JuMed
 --%>
 
-<%@page import="com.efake.entity.Usuario"%>
 <%@page import="com.efake.entity.Subcategoria"%>
 <%@page import="com.efake.entity.Categoria"%>
 <%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <%
-  Usuario user = (Usuario) session.getAttribute("usuario");
-    
   List<Categoria> categorias = (List<Categoria>) request.getAttribute("categoriaList"); 
   List<Subcategoria> subcategorias = (List<Subcategoria>) request.getAttribute("subcategoriasList"); 
 %>
@@ -79,9 +76,9 @@
         <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         
-        <%@include file="/components/navbar.jspf"%>
+        <hr>
         
-        <div class="container contact-form mt-5">
+        <div class="container contact-form">
          <form action="<%=request.getContextPath()%>/CreateProductsServlet" method="post">
             <div>
                 <h3>Añadir producto</h3>
@@ -130,6 +127,6 @@
             </div>    
         </form>
         </div>
-        <%@include file="/components/footer.jspf"%>
+        
     </body>
 </html>
