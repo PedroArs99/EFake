@@ -20,7 +20,7 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
               integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
         <!--Google Fonts-->
-        <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@1,900&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@1,8&display=swap" rel="stylesheet">
         <!--AOS-->
         <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
         <!--Custom Sytles-->
@@ -60,8 +60,6 @@
         </script>
         <!-- Own Scripts -->
         <script src="js/mostRatedProducts.js"></script>
-        <!-- no borrar es auxiliar espero q no moleste mucho-->
-        <a href="AbrirCrearProductoServlet" class="btn btn-secondary">crear producto (auxiliar)</a>
     </body>
 
 </html>
