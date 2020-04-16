@@ -20,14 +20,16 @@ import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author carlo
+ * @author carlo, Juan
  */
 @WebServlet(name = "ShowProduct", urlPatterns = {"/ShowProduct"})
 public class ShowProduct extends HttpServlet {
+
     @EJB
     ValoracionFacade valoricionFacade;
     @EJB
     ProductoFacade productoFacade;
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -46,26 +48,27 @@ public class ShowProduct extends HttpServlet {
         Usuario user = (Usuario) session.getAttribute("usuario");
         int valorado = valorado(listValoraciones, user);
         double mediaValoraciones = 0.0;
-        
+
         inicializarMapa(ratings);
-        for(Valoracion v: listValoraciones){
+        for (Valoracion v : listValoraciones) {
             Double value = ratings.get(v.getPuntuacion());
             ratings.put(v.getPuntuacion(), value + 1);
             mediaValoraciones += v.getPuntuacion();
         }
 
-        if(!listValoraciones.isEmpty()) {
+        if (!listValoraciones.isEmpty()) {
             ratings.entrySet().forEach((entry) -> {
                 Integer key = entry.getKey();
                 Double value = entry.getValue();
-                value = (value/listValoraciones.size()) * 100;
+                value = (value / listValoraciones.size()) * 100;
                 ratings.put(key, value);
             });
-            mediaValoraciones = mediaValoraciones/listValoraciones.size();
+            mediaValoraciones = mediaValoraciones / listValoraciones.size();
             mediaValoraciones = formatearDecimales(mediaValoraciones);
-            
-        }
 
+        }
+        
+        request.setAttribute("producto", productoBuscado);
         request.setAttribute("mediaValoraciones", mediaValoraciones);
         request.setAttribute("ratings", ratings);
         request.setAttribute("listValoraciones", listValoraciones);
@@ -74,29 +77,27 @@ public class ShowProduct extends HttpServlet {
 
         rd.forward(request, response);
     }
-    
+
     private int valorado(List<Valoracion> listValoraciones, Usuario user) {
         int valorado = 1;
-        for(int i = 0; i < listValoraciones.size() && valorado == 1; i++) {
+        for (int i = 0; i < listValoraciones.size() && valorado == 1; i++) {
             Usuario u = listValoraciones.get(i).getCliente();
-            if(u.equals(user)) {
-            valorado = 0;
+            if (u.equals(user)) {
+                valorado = 0;
             }
         }
         return valorado;
     }
-    
-    private void inicializarMapa(Map<Integer, Double> ratings){
-        for(int i = 0; i < 5; i++){
+
+    private void inicializarMapa(Map<Integer, Double> ratings) {
+        for (int i = 0; i < 5; i++) {
             ratings.put(i + 1, 0.0);
         }
     }
-    
-    private double formatearDecimales(double numero){
-        return Math.round(numero * Math.pow(10,2))/Math.pow(10,2);
-    }
-    
 
+    private double formatearDecimales(double numero) {
+        return Math.round(numero * Math.pow(10, 2)) / Math.pow(10, 2);
+    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
