@@ -144,12 +144,9 @@ KeywordsFacade keywordsFacade;
         
         
         int idProducto= p.getId();
-       // response.sendRedirect("/efake/ShowProduct?idProducto="+idProducto+"");
+        response.sendRedirect("/efake/ShowProduct?idProducto="+idProducto+"");
         
-        request.setAttribute("producto", p);
-        RequestDispatcher rd = request.getRequestDispatcher("VisualizacionProducto.jsp");
-        rd.forward(request, response);
-        response.setContentType("text/html;charset=UTF-8");
+       
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

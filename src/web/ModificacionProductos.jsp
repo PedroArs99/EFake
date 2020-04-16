@@ -15,9 +15,25 @@
   List<Categoria> categorias = (List<Categoria>) request.getAttribute("categoriaList"); 
   List<Subcategoria> subcategorias = (List<Subcategoria>) request.getAttribute("subcategoriasList"); 
   Producto producto = (Producto) request.getAttribute("producto");
-  Keywords k1 = producto.getKeywordsList().get(0);
-  Keywords k2 = producto.getKeywordsList().get(1);
-  Keywords k3 = producto.getKeywordsList().get(2);
+ 
+  String k1palabra = "";
+  String k2palabra = "";
+  String k3palabra = "";
+  if(producto.getKeywordsList()!=null){
+       if(producto.getKeywordsList().size()>0){
+            Keywords k1 = producto.getKeywordsList().get(0);
+            k1palabra=k1.getPalabra();
+            if(producto.getKeywordsList().size()>1){
+                Keywords k2 = producto.getKeywordsList().get(1);
+                k2palabra=k2.getPalabra();
+                 if(producto.getKeywordsList().size()>2){
+                    Keywords k3 = producto.getKeywordsList().get(2);
+                    k3palabra=k3.getPalabra();
+                }
+            }
+        }
+  }
+ 
   
 %>
 
@@ -102,9 +118,9 @@
                         <input type="text" name="textImagen" class="form-control" value=<%=producto.getImagen()%>/><br/>
 
                         Keywords :
-                        <input type="text" name="textKeywords1" class="form-control" value=<%=k1.getPalabra()%>/><br/>
-                        <input type="text" name="textKeywords2" class="form-control" value=<%=k2.getPalabra()%>/><br/>
-                        <input type="text" name="textKeywords3" class="form-control" value=<%=k3.getPalabra()%>/>
+                        <input type="text" name="textKeywords1" class="form-control" value=<%=k1palabra%>/><br/>
+                        <input type="text" name="textKeywords2" class="form-control" value=<%=k2palabra%>/><br/>
+                        <input type="text" name="textKeywords3" class="form-control" value=<%=k3palabra%>/>
 
                         Categoria:
                         <select name="Categoria" class="form-control">

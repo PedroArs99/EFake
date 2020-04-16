@@ -105,17 +105,27 @@ KeywordsFacade keywordsFacade;
          List<Keywords> keywordsList = new ArrayList<>();
         
        if(!keywords1.equals("") ){
-            if(key1.equals(koriginal1)){ 
-                key1= keywordsFacade.find(keywords1);
-                
-                if (key1==null){
+            if (key1==null){
                     Keywords k1 = new Keywords(keywords1);
                     keywordsFacade.create(k1);
                     key1= keywordsFacade.find(keywords1);
                 }
+           
+           
+            if(!key1.equals(koriginal1)){ 
+                key1= keywordsFacade.find(keywords1);
                 
-                k1List = koriginal1.getProductoList();
+                
+               if (koriginal1 ==null){
+                    k1List = key1.getProductoList();
+                    k1List.add(p);
+                    key1.setProductoList(k1List);
+                    keywordsFacade.edit(key1);
+                    keywordsList.add(key1);
+               }else{
+                   k1List = koriginal1.getProductoList();
                 k1List.remove(p);
+                keywordsList.remove(koriginal1);
                 koriginal1.setProductoList(k1List);
                 keywordsFacade.edit(koriginal1);
                 k1List = key1.getProductoList();
@@ -123,6 +133,8 @@ KeywordsFacade keywordsFacade;
                 key1.setProductoList(k1List);
                 keywordsFacade.edit(key1);
                 keywordsList.add(key1);
+               }
+                
             }
             
          
@@ -130,78 +142,104 @@ KeywordsFacade keywordsFacade;
             if(koriginal1!=null){
                k1List = koriginal1.getProductoList();
               k1List.remove(p);
+              keywordsList.remove(koriginal1);
               koriginal1.setProductoList(k1List);
               keywordsFacade.edit(koriginal1);
            }
        }
        
        if(!keywords2.equals("") ){
-            if(key2.equals(koriginal2)){ 
-                key2= keywordsFacade.find(keywords2);
-                
-                if (key2==null){
+            if (key2==null){
                     Keywords k2 = new Keywords(keywords2);
                     keywordsFacade.create(k2);
                     key2= keywordsFacade.find(keywords2);
                 }
+           
+           
+            if(!key2.equals(koriginal2)){ 
+                key2= keywordsFacade.find(keywords2);
                 
-                k2List = koriginal2.getProductoList();
+                
+               if (koriginal2 ==null){
+                    k2List = key2.getProductoList();
+                    k2List.add(p);
+                    key2.setProductoList(k2List);
+                    keywordsFacade.edit(key2);
+                    keywordsList.add(key2);
+               }else{
+                   k2List = koriginal2.getProductoList();
                 k2List.remove(p);
                 koriginal2.setProductoList(k2List);
+                keywordsList.remove(koriginal2);
                 keywordsFacade.edit(koriginal2);
                 k2List = key2.getProductoList();
-                k2List.add (p);
+                k2List.add(p);
                 key2.setProductoList(k2List);
                 keywordsFacade.edit(key2);
                 keywordsList.add(key2);
+               }
+                
             }
             
-        
+         
         }else{
             if(koriginal2!=null){
                k2List = koriginal2.getProductoList();
               k2List.remove(p);
+              keywordsList.remove(koriginal2);
               koriginal2.setProductoList(k2List);
               keywordsFacade.edit(koriginal2);
            }
        }
-       if(!keywords3.equals("")){
-            if(key3.equals(koriginal3)){ 
-                key3= keywordsFacade.find(keywords3);
-                
-                if (key3==null){
+       if(!keywords3.equals("") ){
+            if (key3==null){
                     Keywords k3 = new Keywords(keywords3);
                     keywordsFacade.create(k3);
                     key3= keywordsFacade.find(keywords3);
                 }
+           
+           
+            if(!key3.equals(koriginal3)){ 
+                key3= keywordsFacade.find(keywords3);
                 
-                k3List = koriginal3.getProductoList();
+                
+               if (koriginal3 ==null){
+                    k3List = key3.getProductoList();
+                    k3List.add(p);
+                    key3.setProductoList(k3List);
+                    keywordsFacade.edit(key3);
+                    keywordsList.add(key3);
+               }else{
+                   k3List = koriginal3.getProductoList();
                 k3List.remove(p);
                 koriginal3.setProductoList(k3List);
+                keywordsList.remove(koriginal3);
                 keywordsFacade.edit(koriginal3);
                 k3List = key3.getProductoList();
-                k3List.add (p);
+                k3List.add(p);
                 key3.setProductoList(k3List);
                 keywordsFacade.edit(key3);
                 keywordsList.add(key3);
+               }
+                
             }
-     
+            
+         
         }else{
-           if(koriginal3!=null){
+            if(koriginal3!=null){
                k3List = koriginal3.getProductoList();
               k3List.remove(p);
+              keywordsList.remove(koriginal3);
               koriginal3.setProductoList(k3List);
               keywordsFacade.edit(koriginal3);
            }
-
-           
        }
        p.setKeywordsList(keywordsList);
           productoFacade.edit(p);
-        request.setAttribute("producto", p);
-        RequestDispatcher rd = request.getRequestDispatcher("VisualizacionProducto.jsp");
-        rd.forward(request, response);
-        response.setContentType("text/html;charset=UTF-8");
+          
+          int idProducto= p.getId();
+        response.sendRedirect("/efake/ShowProduct?idProducto="+idProducto+"");
+       
         }
     
 
