@@ -105,7 +105,7 @@ KeywordsFacade keywordsFacade;
          List<Keywords> keywordsList = new ArrayList<>();
         
        if(!keywords1.equals("") ){
-            if(key1 != koriginal1){ 
+            if(key1.equals(koriginal1)){ 
                 key1= keywordsFacade.find(keywords1);
                 
                 if (key1==null){
@@ -136,7 +136,7 @@ KeywordsFacade keywordsFacade;
        }
        
        if(!keywords2.equals("") ){
-            if(key2 != koriginal2){ 
+            if(key2.equals(koriginal2)){ 
                 key2= keywordsFacade.find(keywords2);
                 
                 if (key2==null){
@@ -166,7 +166,7 @@ KeywordsFacade keywordsFacade;
            }
        }
        if(!keywords3.equals("")){
-            if(key3 != koriginal1){ 
+            if(key3.equals(koriginal3)){ 
                 key3= keywordsFacade.find(keywords3);
                 
                 if (key3==null){

@@ -5,6 +5,7 @@
 
 <%
     Usuario user = (Usuario) session.getAttribute("usuario");
+    session.removeAttribute("status");
 %>
 <!DOCTYPE html>
 <html>
@@ -60,8 +61,6 @@
         </script>
         <!-- Own Scripts -->
         <script src="js/mostRatedProducts.js"></script>
-        <!-- no borrar es auxiliar espero q no moleste mucho-->
-        <a href="AbrirCrearProductoServlet" class="btn btn-secondary">crear producto (auxiliar)</a>
     </body>
 
 </html>

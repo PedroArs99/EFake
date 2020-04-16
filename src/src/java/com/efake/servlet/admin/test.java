@@ -3,14 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.efake.servlet.products.juan;
+package com.efake.servlet.admin;
 
-import com.efake.dao.CategoriaFacade;
 import com.efake.dao.ProductoFacade;
-import com.efake.dao.SubcategoriaFacade;
-import com.efake.entity.Categoria;
-import com.efake.entity.Producto;
-import com.efake.entity.Subcategoria;
+import com.efake.entity.Keywords;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -24,35 +20,31 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author JuMed
+ * @author PedroArenas
  */
-@WebServlet(name = "ProductoCardServlet", urlPatterns = {"/ProductoCardServlet"})
-public class ProductoCardServlet extends HttpServlet {
-@EJB
-ProductoFacade productofacade;
-@EJB
-CategoriaFacade categoriaFacade;
-@EJB
-SubcategoriaFacade subcategoriaFacade;
-    
-   protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+@WebServlet(name = "test", urlPatterns = {"/test"})
+public class test extends HttpServlet {
+    @EJB
+    ProductoFacade pf;
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       
-        List<Categoria> categorias = categoriaFacade.findAll();
-
-        List<Subcategoria> subcategorias = subcategoriaFacade.findAll();
-      
-        request.setAttribute("categoriaList", categorias);
-        request.setAttribute("subcategoriasList", subcategorias);
-        int id = Integer.parseInt(request.getParameter("id"));
-        Producto p = productofacade.find(id);
-        request.setAttribute("producto", p);
-        System.out.print(p.getNombre());
-        RequestDispatcher rd = request.getRequestDispatcher("ModificacionProductos.jsp");
+        List<Keywords> kl = pf.find(288).getKeywordsList();
+        
+        request.setAttribute("kl", kl);
+        RequestDispatcher rd = request.getRequestDispatcher("test.jsp");
         rd.forward(request, response);
-
-
+    
     }
+
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.

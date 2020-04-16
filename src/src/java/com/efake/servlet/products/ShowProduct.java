@@ -21,6 +21,7 @@ import javax.servlet.http.HttpSession;
 /**
  *
  * @author carlo
+ * @author Juan
  */
 @WebServlet(name = "ShowProduct", urlPatterns = {"/ShowProduct"})
 public class ShowProduct extends HttpServlet {
@@ -65,7 +66,15 @@ public class ShowProduct extends HttpServlet {
             mediaValoraciones = formatearDecimales(mediaValoraciones);
             
         }
+        
+        /* Juan */
+        
+        Producto p = productoFacade.find(idProducto);
+        
+      
+        request.setAttribute("producto", p);
 
+        
         request.setAttribute("mediaValoraciones", mediaValoraciones);
         request.setAttribute("ratings", ratings);
         request.setAttribute("listValoraciones", listValoraciones);
