@@ -45,60 +45,20 @@ public class ModificarPerfil extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String correoAntiguo, nombre, apellidos, correoNuevo, telefono, status = null, goTo = "index.jsp";
-        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
-        Date fechaNacimiento = null;
-        java.util.Date fechaSistema = new Date();
-        int edad, mes, dia;
         
-        try{
-            fechaNacimiento = formato.parse(request.getParameter("edad"));
-        } catch (ParseException ex) {
-            System.out.println(ex);
-        }       
         
         correoAntiguo = request.getParameter("correoAntiguo");
         nombre = request.getParameter("nombre");
         apellidos = request.getParameter("apellidos"); 
         correoNuevo = request.getParameter("correo");
         telefono = request.getParameter("telefono");
-        edad = fechaSistema.getYear() - fechaNacimiento.getYear(); 
+        
         Usuario user = usuarioFacade.findByCorreo(correoAntiguo);
         Usuario posibleUser = usuarioFacade.findByCorreo(correoNuevo);
-        
-        
-        try{
-            fechaNacimiento = formato.parse(request.getParameter("edad"));
-        } catch (ParseException ex) {
-            System.out.println(ex);
-        }
-        
-        boolean esMenor = edad < 18;
-        
-        if(edad == 18){
-            mes = fechaSistema.getMonth() - fechaNacimiento.getMonth();
-            if(mes == 0){
-                dia = fechaSistema.getDay() - fechaNacimiento.getDay();
-                if(dia >= 0){
-                    esMenor = false;
-                }else{
-                    esMenor = true;
-                    edad = 17;
-                }
-            }else if(mes < 0){
-                esMenor = true;
-                edad = 17;
-            }else{
-                esMenor = false;
-            }
-        }
         HttpSession session = request.getSession();
         
         if(posibleUser != null && !correoNuevo.equals(correoAntiguo)){
            status = "El correo ya existe en la base de datos";
-           session.setAttribute("status", status);
-           goTo = "signup.jsp";
-        }else if(esMenor){
-           status = "Lo siento, eres menor de edad";
            session.setAttribute("status", status);
            goTo = "signup.jsp";
         }else{
@@ -107,8 +67,7 @@ public class ModificarPerfil extends HttpServlet {
             user.setNombre(nombre);
             user.setApellidos(apellidos);            
             user.setTelefono(telefono);           
-            user.setCorreo(correoNuevo);            
-            user.setEdad(edad);   
+            user.setCorreo(correoNuevo);
             usuarioFacade.edit(user);
             
             session.setAttribute("usuario", user);            
