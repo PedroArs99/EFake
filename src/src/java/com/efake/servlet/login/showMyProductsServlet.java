@@ -1,17 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.efake.servlet.login;
 
 import com.efake.dao.ProductoFacade;
 import com.efake.dao.UsuarioFacade;
-import com.efake.entity.Categoria;
 import com.efake.entity.Producto;
 import com.efake.entity.Usuario;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;

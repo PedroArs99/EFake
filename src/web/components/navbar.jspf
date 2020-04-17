@@ -47,7 +47,7 @@
 
                 <%if (user.getEsAdmin() == 0) {//No es admin%>
                 <a class="dropdown-item" href="signup.jsp">Edit my profile</a>
-                <a class="dropdown-item" href="#">My products</a>
+                <a class="dropdown-item" href="showMyProductsServlet">My products</a>
                 <a class="dropdown-item" href="AbrirCrearProductoServlet">Sell a new product</a>
                 <%}else{%>
                 <a class="dropdown-item" href="/efake/adminPages/dashboard.jsp">Administration Panel</a>

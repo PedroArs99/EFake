@@ -13,6 +13,7 @@ import javax.persistence.PersistenceContext;
 /**
  *
  * @author PedroArenas
+ * @author Juan Medina (findOrCreate)
  */
 @Stateless
 public class KeywordsFacade extends AbstractFacade<Keywords> {
@@ -27,6 +28,17 @@ public class KeywordsFacade extends AbstractFacade<Keywords> {
 
     public KeywordsFacade() {
         super(Keywords.class);
+    }
+    
+    public Keywords findOrCreate(String kw){
+        Keywords k = this.find(kw);
+        
+        if(k == null){
+            k = new Keywords(kw);
+            this.create(k);
+        }
+        
+        return k;
     }
     
 }
