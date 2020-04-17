@@ -2,6 +2,7 @@ package com.efake.dao;
 
 import com.efake.entity.Categoria;
 import com.efake.entity.Producto;
+import com.efake.entity.Usuario;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -33,6 +34,17 @@ public class ProductoFacade extends AbstractFacade<Producto> {
         q.setParameter("categoria", categoria);
         listaProducto = q.getResultList();
         return listaProducto;
+    }
+    
+    public List<Producto> findByOwner(Usuario id){
+        Query q;
+        List<Producto> productList;
+        
+        q = this.getEntityManager().createNamedQuery("Producto.findByOwner");
+        q.setParameter("owner", id);
+        productList = q.getResultList();
+        
+        return productList;
     }
     
     public List<Producto> findByFilter(String words){
