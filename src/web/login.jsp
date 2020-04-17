@@ -101,7 +101,7 @@ and open the template in the editor.
   <body class="text-center">
     <form class="form-signin" action="AutenticarServlet" method="post">
     
-        <img class="d-inline-block align-top" src="https://raw.githubusercontent.com/PedroArs99/EFake/master/img/logo.png" alt="" width="72" height="30">
+        <img class="d-inline-block align-top" src="https://raw.githubusercontent.com/PedroArs99/EFake/master/img/logo.png" alt="Efake logo" width="72" height="30">
         <h1 class="h5 mb-3 font-weight-normal">Please sign in</h1><br/>
         <%if(status != null){%>
             <div class="alert alert-danger"><%=status%></div>
@@ -110,12 +110,7 @@ and open the template in the editor.
         <input type="email" id="inputEmail" name="correo" class="form-control" placeholder="Email address" required="" autofocus="">
         <label for="inputPassword" class="sr-only">Password</label>
         <input type="password" id="inputPassword" class="form-control" placeholder="Password" required="" name="contrasena">
-        <div class="checkbox mb-3">
-          <label>
-            <input type="checkbox" value="remember-me"> Remember me
-          </label>
-        </div>
-        <!--button href="LoginServlet" class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button-->
+        
         <input type="submit" class="btn btn-lg btn-primary btn-block" value="Sign in"><br/>
         <a href="signup.jsp" type="submit">Don't you have an account?</a>
         <p class="mt-5 mb-3 text-muted">Copyright &copy; 2020 eFake Inc. All Rights Reserved.</p>

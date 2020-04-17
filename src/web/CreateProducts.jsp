@@ -4,18 +4,19 @@
     Author     : JuMed
 --%>
 
+<%@page import="com.efake.entity.Usuario"%>
 <%@page import="com.efake.entity.Subcategoria"%>
 <%@page import="com.efake.entity.Categoria"%>
 <%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <%
-  List<Categoria> categorias = (List<Categoria>) request.getAttribute("categoriaList"); 
-  List<Subcategoria> subcategorias = (List<Subcategoria>) request.getAttribute("subcategoriasList"); 
+    Usuario user = (Usuario) session.getAttribute("usuario");
+
+    List<Categoria> categorias = (List<Categoria>) request.getAttribute("categoriaList");
 %>
 
-<html>
-    
+<html> 
     <head>
         <title>EFake</title>
         <meta charset="UTF-8">
@@ -23,12 +24,6 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/styles.css">
         <style>
-            .contact-form{
-                background: #fff;
-               
-                margin-bottom: 5%;
-                width: 70%;
-            }
             .contact-form .form-control{
                 border-radius:1rem;
             }
@@ -65,68 +60,82 @@
                 cursor: pointer;
             }       
 
+            textarea{
+                resize: none;
+            }
         </style>
     </head>
+    <body class="d-flex flex-column h-100">
+        <%@include file="/components/navbar.jspf"%>
+        <div class="container my-5 mx-auto">
+            <form action="<%=request.getContextPath()%>/CreateProductsServlet" method="post">
+                <h3 class="text-center">Sell new product</h3>
+                <div class="row">
+                    <div  id="first-stage" class="col-md-6 mx-auto">
+                        <div class="form-group">
+                            <label>Name</label>
+                            <input type="text" name="textNombre" class="form-control"/>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Price</label>
+                            <input type="number" step="0.01" name="textPrecio" class="form-control"/>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Image:</label>
+                            <input type="text" name="textImagen" class="form-control"/>
+                            <small id="emailHelp" class="form-text text-muted">Please enter an external link.</small>
+                        </div> 
+
+                        <div class="form-group">
+                            <label>Description:</label>
+                            <textarea rows="4" name="descripcion" class="form-control overflow-hidden"></textarea>
+                        </div>
+                        <button id="next-button" class="btn btn-primary mx-auto">Next</button>
+                    </div>
+
+                    <div id="second-stage" class="col-md-6 mx-auto d-none">        
+                        <div class="form-group">
+                            <label>Keywords</label>
+                            <input type="text" name="textKeywords1" class="form-control mb-2"/>
+                            <input type="text" name="textKeywords2" class="form-control mb-2"/>
+                            <input type="text" name="textKeywords3" class="form-control mb-2"/>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Category:</label>
+                            <select id="category-select" name="Categoria" class="form-control">
+                                
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Subcategory:</label>
+                            <select id="subcategory-select" name="Subcategoria" class="form-control">
+                                <option value="0">-</option>
+                            </select>
+                        </div>
 
 
-    <!--Font Awesome-->
 
-    <body>
-        <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-        <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-        
-        <hr>
-        
-        <div class="container contact-form">
-         <form action="<%=request.getContextPath()%>/CreateProductsServlet" method="post">
-            <div>
-                <h3>Añadir producto</h3>
-            </div>
-            <div class="row">
-                <div class="col-md-6">
-                    
-                        Nombre:
-                        <input type="text" name="textNombre" class="form-control"/> <br/>
+                        <div class="form-group">
+                            <button id="back-button" class="btn btn-primary mx-auto">Previous</button>
+                            <input id="send-button" type="submit" name="Guardar" class="btn btn-primary mx-auto" value="Send">
+                        </div>
+                    </div>
 
-                        Precio:
-                        <input type="number" name="textPrecio" class="form-control"/><br/>
 
-                        Imagen :
-                        <input type="text" name="textImagen" class="form-control"/><br/>
 
-                        Keywords :
-                        <input type="text" name="textKeywords1" class="form-control"/><br/>
-                        <input type="text" name="textKeywords2" class="form-control"/><br/>
-                        <input type="text" name="textKeywords3" class="form-control"/>
-                        Categoria:
-                        <select name="Categoria" class="form-control">
-                        <%for(Categoria c: categorias){ %>
-                        <option value=<%=c.getId()%>> <%=c.getNombre()%></option>
-                        <% ;} %> 
-                        </select><br/>
-
-                        Subcategoria:
-                        <select name="Subcategoria" class="form-control">
-                        <%for(Subcategoria c: subcategorias){ %>
-                        <option value=<%=c.getId()%>> <%=c.getNombre()%></option>
-                        <% ;} %>
-                        </select><br/>
-
-                        <p>
-                        <input type="submit" name="Guardar" class="form-control"
-                        <p>
-                    </div>  
-            
-                <div class="col-md-6">        
-                    Descripción:<br/>
-                    <textarea rows="10" cols="30" name="descripcion" />
-                    </textarea><br/>
-                </div>
-           
-            </div>    
-        </form>
+                </div>  
+            </form>
         </div>
-        
+        <%@include file="/components/footer.jspf"%>             
+
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+        <!--Own scripts -->
+        <script src="/efake/js/createProduct.js"></script>
     </body>
 </html>

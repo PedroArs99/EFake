@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.efake.servlet.products;
 
 import com.efake.dao.KeywordsFacade;
@@ -14,18 +9,17 @@ import com.efake.entity.Producto;
 import com.efake.entity.Subcategoria;
 import com.efake.entity.Usuario;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -52,10 +46,17 @@ KeywordsFacade keywordsFacade;
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        //Session Control 
+        HttpSession session = request.getSession();
+        Usuario user = (Usuario) session.getAttribute("usuario");
+        if(user == null){
+            response.sendRedirect("login.jsp");
+        }
+        
         
         String nombre = request.getParameter("textNombre");
         String descripcion = request.getParameter("descripcion");
-        Double precio =Double.parseDouble(request.getParameter("textPrecio"));
+        Double precio = Double.parseDouble(request.getParameter("textPrecio"));
         String imagen = request.getParameter("textImagen");
         String keywords1 = request.getParameter("textKeywords1");
         String keywords2 = request.getParameter("textKeywords2");
@@ -70,7 +71,7 @@ KeywordsFacade keywordsFacade;
         Producto p = new Producto();
         Categoria c = new Categoria(categoria);
         Subcategoria s = new Subcategoria(subcategoria);
-        Usuario u = usuarioFacade.find(98);
+        Usuario u = usuarioFacade.find(user.getId());
         
         Keywords key1 = keywordsFacade.find(keywords1);
         Keywords key2 = keywordsFacade.find(keywords2);

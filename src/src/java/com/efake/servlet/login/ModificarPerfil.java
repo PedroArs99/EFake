@@ -1,18 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.efake.servlet.login;
 
 import com.efake.dao.UsuarioFacade;
 import com.efake.entity.Usuario;
 import com.efake.service.UsuarioService;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -73,8 +64,7 @@ public class ModificarPerfil extends HttpServlet {
             session.setAttribute("usuario", user);            
         }
         
-        RequestDispatcher rd = request.getRequestDispatcher(goTo);
-        rd.forward(request, response);
+        response.sendRedirect(goTo);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

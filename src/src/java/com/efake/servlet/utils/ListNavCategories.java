@@ -6,7 +6,9 @@
 package com.efake.servlet.utils;
 
 import com.efake.dao.CategoriaFacade;
+import com.efake.dao.SubcategoriaFacade;
 import com.efake.entity.Categoria;
+import com.efake.entity.Subcategoria;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -23,25 +25,47 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author Pedro
+ * @author Pedro Arenas
  */
 @WebServlet(name = "ListNavCategories", urlPatterns = {"/NavCategories"})
 public class ListNavCategories extends HttpServlet {
     @EJB
-    CategoriaFacade categoriaFacade;
+    CategoriaFacade categoryFacade;
+    @EJB
+    SubcategoriaFacade subcategoryFacade;
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         //Get Categories
-        List<Categoria> categoryList = categoriaFacade.findAll();
+        List<Categoria> categoryList = categoryFacade.findAll();
         
-        // Build Json
-        JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();        
-        categoryList.forEach((c) -> {
-            jsonArrayBuilder.add(c.getNombre());
-        });
+        JsonArrayBuilder categoryArrayBuilder = Json.createArrayBuilder();
+        for(Categoria c : categoryList){
+            //Build Category
+            JsonObjectBuilder categoryBuilder = Json.createObjectBuilder();
+            categoryBuilder.add("id", c.getId());
+            categoryBuilder.add("name", c.getNombre());
+            
+            
+            List<Subcategoria> subcategoryList = subcategoryFacade.findByCategory(c);
+            //Build subcategoryArray
+            JsonArrayBuilder subcategoryArrayBuilder = Json.createArrayBuilder();
+            for(Subcategoria s : subcategoryList){
+                //Build each subcategory
+                JsonObjectBuilder subcategoryBuilder = Json.createObjectBuilder();
+                subcategoryBuilder.add("id", s.getId());
+                subcategoryBuilder.add("name", s.getNombre());
+                
+                //add subcategory to array
+                subcategoryArrayBuilder.add(subcategoryBuilder);
+            }
+            categoryBuilder.add("subcategories", subcategoryArrayBuilder);
+            
+            categoryArrayBuilder.add(categoryBuilder);
+        }
+        
         //Wrap array into JsonObject
         JsonObjectBuilder jsonBuilder = Json.createObjectBuilder();
-        jsonBuilder.add("categories", jsonArrayBuilder);
+        jsonBuilder.add("categories", categoryArrayBuilder);
         
         //Send Json
         response.setContentType("application/json");
@@ -50,6 +74,10 @@ public class ListNavCategories extends HttpServlet {
         try (JsonWriter jsonWriter = Json.createWriter(out)) {
             jsonWriter.writeObject(jsonBuilder.build());
         }
+        
+        
+        
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

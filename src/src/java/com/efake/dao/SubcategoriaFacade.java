@@ -1,14 +1,12 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.efake.dao;
 
+import com.efake.entity.Categoria;
 import com.efake.entity.Subcategoria;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -27,6 +25,17 @@ public class SubcategoriaFacade extends AbstractFacade<Subcategoria> {
 
     public SubcategoriaFacade() {
         super(Subcategoria.class);
+    }
+    
+    public List<Subcategoria> findByCategory(Categoria c){
+        Query q;
+        List<Subcategoria> result;
+        
+        q = this.getEntityManager().createNamedQuery("Subcategoria.findByCategoria");
+        q.setParameter("categoria", c);
+        result = q.getResultList();
+        
+        return result;
     }
     
 }

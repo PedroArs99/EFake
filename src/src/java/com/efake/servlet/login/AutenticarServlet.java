@@ -2,12 +2,9 @@ package com.efake.servlet.login;
 
 import com.efake.dao.UsuarioFacade;
 import com.efake.entity.Usuario;
-import com.efake.service.EmailService;
-import com.efake.service.TemplatesEnum;
 import com.efake.service.UsuarioService;
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.Properties;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.servlet.RequestDispatcher;
@@ -40,7 +37,7 @@ public class AutenticarServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String correo, status = "Todo correcto", goTo = "index.jsp", contrasena;
+        String correo, status = null, goTo = "index.jsp", contrasena;
         correo = request.getParameter("correo");
         contrasena = request.getParameter("contrasena");
         byte[] contrasenaIntroducida = usuarioService.hashPassword(contrasena);

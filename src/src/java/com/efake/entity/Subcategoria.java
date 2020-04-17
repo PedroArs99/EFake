@@ -36,7 +36,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Subcategoria.findAll", query = "SELECT s FROM Subcategoria s")
     , @NamedQuery(name = "Subcategoria.findById", query = "SELECT s FROM Subcategoria s WHERE s.id = :id")
-    , @NamedQuery(name = "Subcategoria.findByNombre", query = "SELECT s FROM Subcategoria s WHERE s.nombre = :nombre")})
+    , @NamedQuery(name = "Subcategoria.findByNombre", query = "SELECT s FROM Subcategoria s WHERE s.nombre = :nombre")
+    , @NamedQuery(name = "Subcategoria.findByCategoria", query = "SELECT s FROM Subcategoria s WHERE s.categoria = :categoria")})
 public class Subcategoria implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -137,5 +138,5 @@ public class Subcategoria implements Serializable {
     public String toString() {
         return "com.efake.entity.Subcategoria[ id=" + id + " ]";
     }
-    
+
 }

@@ -42,16 +42,17 @@ import javax.xml.bind.annotation.XmlTransient;
  
 public class Usuario implements Serializable {
 
-    @Id()
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "ID")
-    private Integer id;
     @Basic(optional = false)
     @NotNull
     @Lob
     @Column(name = "Password")
     private byte[] password;
+
+    @Id()
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "ID")
+    private Integer id;
     @Lob
     @Size(max = 2147483647)
     @Column(name = "Motivo")
@@ -212,13 +213,6 @@ public class Usuario implements Serializable {
         this.id = id;
     }
 
-    public byte[] getPassword() {
-        return password;
-    }
-
-    public void setPassword(byte[] password) {
-        this.password = password;
-    }
 
     public String getMotivo() {
         return motivo;
@@ -251,6 +245,14 @@ public class Usuario implements Serializable {
     @Override
     public String toString() {
         return "com.efake.entity.Usuario[ id=" + id + " ]";
+    }
+
+    public byte[] getPassword() {
+        return password;
+    }
+
+    public void setPassword(byte[] password) {
+        this.password = password;
     }
     
 }
