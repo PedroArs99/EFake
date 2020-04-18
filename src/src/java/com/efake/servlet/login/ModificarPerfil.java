@@ -5,7 +5,6 @@ import com.efake.entity.Usuario;
 import com.efake.service.UsuarioService;
 import java.io.IOException;
 import javax.ejb.EJB;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -34,6 +33,14 @@ public class ModificarPerfil extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        //Session control
+        HttpSession session = request.getSession();
+        Usuario user = (Usuario) session.getAttribute("usuario");
+        
+        if(user == null){
+            response.sendRedirect("login.jsp");
+        }
+        
         response.setContentType("text/html;charset=UTF-8");
         String correoAntiguo, nombre, apellidos, correoNuevo, telefono, status = null, goTo = "index.jsp";
         
@@ -44,9 +51,9 @@ public class ModificarPerfil extends HttpServlet {
         correoNuevo = request.getParameter("correo");
         telefono = request.getParameter("telefono");
         
-        Usuario user = usuarioFacade.findByCorreo(correoAntiguo);
+        user = usuarioFacade.findByCorreo(correoAntiguo);
         Usuario posibleUser = usuarioFacade.findByCorreo(correoNuevo);
-        HttpSession session = request.getSession();
+        
         
         if(posibleUser != null && !correoNuevo.equals(correoAntiguo)){
            status = "El correo ya existe en la base de datos";

@@ -9,7 +9,6 @@ import com.efake.dao.UsuarioFacade;
 import com.efake.entity.Usuario;
 import com.efake.service.UsuarioService;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Arrays;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
@@ -41,17 +40,25 @@ public class changePasswordServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        //Session control
+        HttpSession session = request.getSession();
+        Usuario user = (Usuario) session.getAttribute("usuario");
+        
+        if(user == null){
+            response.sendRedirect("/");
+        }
+        
         response.setContentType("text/html;charset=UTF-8");
         String status = "Todo correcto", goTo = "signup.jsp";
         String correo = request.getParameter("correo");
         String passwordAntigua = request.getParameter("actualPassword");
         String passwordNueva = request.getParameter("nuevaPassword");
         String passwordRepetida = request.getParameter("repetidaPassword");
-        Usuario user = usuarioFacade.findByCorreo(correo);
+        user = usuarioFacade.findByCorreo(correo);
         byte[] passwordAntiguaHash = usuarioService.hashPassword(passwordAntigua);
         
         RequestDispatcher rd;
-        HttpSession session = request.getSession();
+        
         
         if(!Arrays.equals(passwordAntiguaHash, user.getPassword())){
             status = "Contraseña incorrecta";

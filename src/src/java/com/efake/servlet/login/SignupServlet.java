@@ -11,13 +11,10 @@ import com.efake.service.EmailService;
 import com.efake.service.TemplatesEnum;
 import com.efake.service.UsuarioService;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.servlet.RequestDispatcher;
@@ -53,6 +50,14 @@ public class SignupServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        //Session control
+        HttpSession session = request.getSession();
+        Usuario user = (Usuario) session.getAttribute("usuario");
+        
+        if(user != null){
+            response.sendRedirect("index.jsp");
+        }
+        
         response.setContentType("text/html;charset=UTF-8");
         String nombre, apellidos, correo, contrasena, telefono, status = null, goTo = "index.jsp";
         SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
@@ -103,7 +108,7 @@ public class SignupServlet extends HttpServlet {
         contrasenaCifrada = usuarioService.hashPassword(contrasena);
         telefono = request.getParameter("telefono");
 
-        HttpSession session = request.getSession();
+        
         
         if(posibleUser != null){
            status = "El correo ya existe en nuestro sistema";

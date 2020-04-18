@@ -9,7 +9,14 @@
 <%@page import="javax.ejb.EJB"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-
+<%
+    Usuario user = (Usuario) session.getAttribute("usuario");
+    if(user == null ){
+        response.sendRedirect("login.jsp");
+    } else if(user.getEsAdmin() == 1){
+        response.sendRedirect("/");
+    }
+%>
 <%
     String correo = request.getParameter("correo");
     String status = (String) session.getAttribute("status");

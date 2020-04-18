@@ -9,9 +9,17 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <%
+    Usuario user = (Usuario) session.getAttribute("usuario");
+    if(user == null ){
+        response.sendRedirect("login.jsp");
+    } else if(user.getEsAdmin() == 1){
+        response.sendRedirect("/");
+    }
+%>
+<%
     List<Producto> listaProductos = (List<Producto>) request.getAttribute("listaProducto");
     Usuario owner = (Usuario) request.getAttribute("owner");
-    Usuario user = (Usuario) request.getAttribute("usuario");
+    
 %>
 <html>
     <head>

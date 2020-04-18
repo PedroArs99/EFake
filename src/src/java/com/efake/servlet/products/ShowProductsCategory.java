@@ -10,7 +10,6 @@ import com.efake.dao.ProductoFacade;
 import com.efake.entity.Categoria;
 import com.efake.entity.Producto;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;

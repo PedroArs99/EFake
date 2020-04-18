@@ -7,6 +7,7 @@ import com.efake.entity.Categoria;
 import com.efake.entity.Keywords;
 import com.efake.entity.Producto;
 import com.efake.entity.Subcategoria;
+import com.efake.entity.Usuario;
 import java.io.IOException;
 import java.util.List;
 import javax.ejb.EJB;
@@ -15,6 +16,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -41,6 +43,15 @@ public class ModificarProductoServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        //Session Control
+        HttpSession session = request.getSession();
+        Usuario user = (Usuario) request.getSession();
+        
+        if(user == null){
+            response.sendRedirect("/");
+        }
+        
+        
         // Get form fields
         int id = Integer.parseInt(request.getParameter("id"));
         String nombre = request.getParameter("textNombre");

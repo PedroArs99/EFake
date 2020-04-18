@@ -1,9 +1,16 @@
+<%@page import="com.efake.entity.Usuario"%>
 <!DOCTYPE html>
 <!--
 To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
+<% 
+    Usuario user = (Usuario) session.getAttribute("usuario");
+    if(user != null){
+        response.sendRedirect("index.jsp");
+    }
+%>
 <%
     String status = (String) session.getAttribute("status");
     session.removeAttribute("status");

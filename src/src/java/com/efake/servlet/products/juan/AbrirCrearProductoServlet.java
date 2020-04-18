@@ -6,12 +6,10 @@
 package com.efake.servlet.products.juan;
 
 import com.efake.dao.CategoriaFacade;
-import com.efake.dao.ProductoFacade;
 import com.efake.dao.SubcategoriaFacade;
 import com.efake.entity.Categoria;
 import com.efake.entity.Subcategoria;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;

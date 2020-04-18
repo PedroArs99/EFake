@@ -12,6 +12,11 @@
 <!DOCTYPE html>
 <%
     Usuario user = (Usuario) session.getAttribute("usuario");
+    if(user == null ){
+        response.sendRedirect("login.jsp");
+    } else if(user.getEsAdmin() == 1){
+        response.sendRedirect("/");
+    }
 
     List<Categoria> categorias = (List<Categoria>) request.getAttribute("categoriaList");
 %>

@@ -17,7 +17,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import java.sql.Time;
 
 /**
  *
@@ -41,9 +40,16 @@ public class doReview extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        //Session control
         HttpSession session = request.getSession();
-        Integer rating = Integer.parseInt(request.getParameter("estrellas"));
         Usuario usuario = (Usuario) session.getAttribute("usuario");
+        
+        if(usuario == null){
+            response.sendRedirect("/");
+        }
+        
+        Integer rating = Integer.parseInt(request.getParameter("estrellas"));
+        
         String comment = request.getParameter("comment");
         Date date = new Date();
         Integer idProducto = Integer.parseInt(request.getParameter("product"));

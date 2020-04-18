@@ -37,13 +37,22 @@ public class AutenticarServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        //Session control
+        HttpSession session = request.getSession();
+        Usuario user = (Usuario) session.getAttribute("usuario");
+        
+        if(user != null){
+            response.sendRedirect("index.jsp");
+        }
+        
+        
         String correo, status = null, goTo = "index.jsp", contrasena;
         correo = request.getParameter("correo");
         contrasena = request.getParameter("contrasena");
         byte[] contrasenaIntroducida = usuarioService.hashPassword(contrasena);
 
         RequestDispatcher rd;
-        Usuario user;
+        
 
         try{
            user = usuarioFacade.findByCorreo(correo);
@@ -52,7 +61,7 @@ public class AutenticarServlet extends HttpServlet {
             user = null;
         }
         
-        HttpSession session = request.getSession();
+        
         if(user == null){
            status = "El correo es incorrecto";
            goTo = "login.jsp";
