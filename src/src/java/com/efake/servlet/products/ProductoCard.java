@@ -1,9 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package com.efake.servlet.products.juan;
+package com.efake.servlet.products;
 
 import com.efake.dao.CategoriaFacade;
 import com.efake.dao.ProductoFacade;
@@ -13,7 +8,6 @@ import com.efake.entity.Producto;
 import com.efake.entity.Subcategoria;
 import com.efake.entity.Usuario;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
@@ -29,7 +23,7 @@ import javax.servlet.http.HttpSession;
  * @author JuMed
  */
 @WebServlet(name = "ProductoCardServlet", urlPatterns = {"/ProductoCardServlet"})
-public class ProductoCardServlet extends HttpServlet {
+public class ProductoCard extends HttpServlet {
 
     @EJB
     ProductoFacade productofacade;
@@ -59,7 +53,7 @@ public class ProductoCardServlet extends HttpServlet {
         Producto p = productofacade.find(id);
         request.setAttribute("producto", p);
 
-        RequestDispatcher rd = request.getRequestDispatcher("ModificacionProductos.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("productForm.jsp");
         rd.forward(request, response);
 
     }

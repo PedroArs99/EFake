@@ -23,8 +23,8 @@
         <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@1,8&display=swap" rel="stylesheet">
         <!--AOS-->
         <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-        <!--Custom Sytles-->
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/styles.css">
+        <!--Own Css-->
+        <link rel="stylesheet" href="/efake/css/styles.css">
     </head>
 
     <body class="d-flex flex-column h-100">

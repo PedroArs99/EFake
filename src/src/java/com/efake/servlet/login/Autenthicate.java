@@ -1,12 +1,12 @@
 package com.efake.servlet.login;
 
-import com.efake.dao.ProductoFacade;
 import com.efake.dao.UsuarioFacade;
-import com.efake.entity.Producto;
 import com.efake.entity.Usuario;
+import com.efake.service.UsuarioService;
 import java.io.IOException;
-import java.util.List;
+import java.util.Arrays;
 import javax.ejb.EJB;
+import javax.ejb.EJBException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,12 +19,13 @@ import javax.servlet.http.HttpSession;
  *
  * @author laura
  */
-@WebServlet(name = "showMyProductsServlet", urlPatterns = {"/showMyProductsServlet"})
-public class showMyProductsServlet extends HttpServlet {
+@WebServlet(name = "AutenticarServlet", urlPatterns = {"/AutenticarServlet"})
+public class Autenthicate extends HttpServlet {
+
     @EJB
     UsuarioFacade usuarioFacade;
     @EJB
-    ProductoFacade productoFacade;
+    UsuarioService usuarioService;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -36,25 +37,43 @@ public class showMyProductsServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //Session Control
+        //Session control
         HttpSession session = request.getSession();
         Usuario user = (Usuario) session.getAttribute("usuario");
         
-        if(user == null){
-            response.sendRedirect("/");
+        if(user != null){
+            response.sendRedirect("index.jsp");
         }
         
-        String idStr = request.getParameter("id");
-        System.out.print(idStr);
-        int id = Integer.parseInt(idStr);
-        user = usuarioFacade.find(id);
-        List<Producto> listaProducto = productoFacade.findByOwner(user);
         
-        request.setAttribute("listaProducto", listaProducto);
-        request.setAttribute("owner", user);
-        request.setAttribute("usuario", user);
-        RequestDispatcher rd = request.getRequestDispatcher("showMyProducts.jsp");
-        rd.forward(request, response);
+        String correo, status = null, goTo = "index.jsp", contrasena;
+        correo = request.getParameter("correo");
+        System.out.println(correo);
+        contrasena = request.getParameter("contrasena");
+        byte[] contrasenaIntroducida = usuarioService.hashPassword(contrasena);
+
+        RequestDispatcher rd;
+        
+
+        try{
+           user = usuarioFacade.findByCorreo(correo);
+        }
+        catch(EJBException ex){
+            user = null;
+        }
+        
+        
+        if(user == null){
+           status = "El correo es incorrecto";
+           goTo = "login.jsp";
+        }else if(!Arrays.equals(contrasenaIntroducida,user.getPassword())){
+           status = "La contraseña es incorrecta";
+           goTo = "login.jsp";
+        }else{            
+            session.setAttribute("usuario", user);
+        }
+        session.setAttribute("status", status);
+        response.sendRedirect(goTo);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

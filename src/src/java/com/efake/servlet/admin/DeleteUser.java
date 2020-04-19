@@ -64,6 +64,7 @@ public class DeleteUser extends HttpServlet {
         //Send status & redirect
         session.setAttribute("status", "User Deleted");
         
+        //Go back to users list
         String page = request.getParameter("page");
         response.sendRedirect("ListUsers?list=all&page="+page);
 

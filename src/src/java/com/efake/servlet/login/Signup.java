@@ -30,7 +30,7 @@ import javax.servlet.http.HttpSession;
  * @author laura
  */
 @WebServlet(name = "SignupServlet", urlPatterns = {"/SignupServlet"})
-public class SignupServlet extends HttpServlet {
+public class Signup extends HttpServlet {
 
     @EJB
     UsuarioFacade usuarioFacade;

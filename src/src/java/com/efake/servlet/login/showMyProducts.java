@@ -1,12 +1,12 @@
 package com.efake.servlet.login;
 
+import com.efake.dao.ProductoFacade;
 import com.efake.dao.UsuarioFacade;
+import com.efake.entity.Producto;
 import com.efake.entity.Usuario;
-import com.efake.service.UsuarioService;
 import java.io.IOException;
-import java.util.Arrays;
+import java.util.List;
 import javax.ejb.EJB;
-import javax.ejb.EJBException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,13 +19,12 @@ import javax.servlet.http.HttpSession;
  *
  * @author laura
  */
-@WebServlet(name = "AutenticarServlet", urlPatterns = {"/AutenticarServlet"})
-public class AutenticarServlet extends HttpServlet {
-
+@WebServlet(name = "showMyProductsServlet", urlPatterns = {"/MyProducts"})
+public class showMyProducts extends HttpServlet {
     @EJB
     UsuarioFacade usuarioFacade;
     @EJB
-    UsuarioService usuarioService;
+    ProductoFacade productoFacade;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -37,42 +36,19 @@ public class AutenticarServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //Session control
+        //Session Control
         HttpSession session = request.getSession();
         Usuario user = (Usuario) session.getAttribute("usuario");
         
-        if(user != null){
-            response.sendRedirect("index.jsp");
-        }
-        
-        
-        String correo, status = null, goTo = "index.jsp", contrasena;
-        correo = request.getParameter("correo");
-        contrasena = request.getParameter("contrasena");
-        byte[] contrasenaIntroducida = usuarioService.hashPassword(contrasena);
-
-        RequestDispatcher rd;
-        
-
-        try{
-           user = usuarioFacade.findByCorreo(correo);
-        }
-        catch(EJBException ex){
-            user = null;
-        }
-        
-        
         if(user == null){
-           status = "El correo es incorrecto";
-           goTo = "login.jsp";
-        }else if(!Arrays.equals(contrasenaIntroducida,user.getPassword())){
-           status = "La contraseña es incorrecta";
-           goTo = "login.jsp";
-        }else{            
-            session.setAttribute("usuario", user);
+            response.sendRedirect("/efake/");
         }
-        session.setAttribute("status", status);
-        response.sendRedirect(goTo);
+        
+        List<Producto> listaProducto = productoFacade.findByOwner(user);
+        
+        request.setAttribute("productsList", listaProducto);
+        RequestDispatcher rd = request.getRequestDispatcher("products.jsp");
+        rd.forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

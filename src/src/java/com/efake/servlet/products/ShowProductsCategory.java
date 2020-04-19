@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.efake.servlet.products;
 
 import com.efake.dao.CategoriaFacade;
@@ -43,9 +38,9 @@ public class ShowProductsCategory extends HttpServlet {
         Categoria c = categoriaFacade.findByName(category);
         List<Producto> listaProductoCategoria = productoFacade.findByCategoria(c);
         
-        request.setAttribute("listaProductoCategoria", listaProductoCategoria);
+        request.setAttribute("productsList", listaProductoCategoria);
         request.setAttribute("category", category);
-        RequestDispatcher rd = request.getRequestDispatcher("showProductsCategories.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("products.jsp");
         rd.forward(request, response);
     }
 

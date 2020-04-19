@@ -11,6 +11,7 @@ import javax.persistence.Query;
 /**
  *
  * @author PedroArenas
+ * @author Carlos (findByCategory)
  */
 @Stateless
 public class SubcategoriaFacade extends AbstractFacade<Subcategoria> {

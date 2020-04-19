@@ -3,7 +3,6 @@ package com.efake.servlet.admin;
 import com.efake.dao.UsuarioFacade;
 import com.efake.entity.Usuario;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -32,17 +31,22 @@ public class AlterUser extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //Session Control
+        //Check if the user is logged in as admin
         HttpSession session = request.getSession();
         Usuario admin = (Usuario) session.getAttribute("usuario");
-        
-        if(admin == null || admin.getEsAdmin()==0){
+        if (admin != null && admin.getEsAdmin() == 0) {// The user is logged in, but he's not an admin
             response.sendRedirect("/efake/");
+        } else if (admin == null) { //The user is not logged in
+            response.sendRedirect("/efake/login.jsp");
         }
         
+        //Load parameters
         Integer id = Integer.parseInt(request.getParameter("id"));
+        
+        //Find User
         Usuario user = usuarioFacade.find(id);
         
+        //Resend to signup form
         request.setAttribute("user", user);
         RequestDispatcher rd = request.getRequestDispatcher("signup.jsp");
         rd.forward(request, response);

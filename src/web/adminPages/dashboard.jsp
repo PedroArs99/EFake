@@ -5,7 +5,7 @@
 --%>
 
 <%@page import="com.efake.entity.Usuario"%>
-<%
+<% //Session Control
     Usuario user = (Usuario) session.getAttribute("usuario");
     if (user != null && user.getEsAdmin() == 0) {// The user is logged in, but he's not an admin
         response.sendRedirect("/efake/");
@@ -19,17 +19,21 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Efake</title>
+        <title>Efake | Dashboard</title>
         <!--Bootstrap -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
               integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/styles.css">
+        <!-- Own Css -->
+        <link rel="stylesheet" href="/efake/css/styles.css">
+        <!--Favicon-->
+        <link rel="shortcut icon" href="/efake/img/favicon.png" type="image/png">
     </head>
 
     <body>
         <%@include file="/components/navbar.jspf"%>
         <div class="container-fluid ">
             <div class="row">
+                <!-- Left Nav -->
                 <nav class="col-md-2 d-none d-md-block bg-transparent sidebar border-right border-thin">
                     <div class="sidebar-sticky">
                         <h6 
@@ -50,6 +54,7 @@
                         </ul>
                     </div>
                 </nav>
+                <!-- Stats -->
                 <div class="col-md-10">
                     <canvas id="myChart"></canvas> 
                 </div>

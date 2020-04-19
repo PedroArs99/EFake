@@ -11,6 +11,7 @@ import javax.persistence.Query;
 /**
  *
  * @author PedroArenas
+ * @author Laura (findByCorreo)
  */
 @Stateless
 public class UsuarioFacade extends AbstractFacade<Usuario> {

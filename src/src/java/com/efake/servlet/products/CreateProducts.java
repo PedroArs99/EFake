@@ -26,7 +26,7 @@ import javax.servlet.http.HttpSession;
  * @author JuMed
  */
 @WebServlet(name = "CreateProductsServlet", urlPatterns = {"/CreateProductsServlet"})
-public class CreateProductsServlet extends HttpServlet {
+public class CreateProducts extends HttpServlet {
 @EJB
 ProductoFacade productoFacade;
 @EJB

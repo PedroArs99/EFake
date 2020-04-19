@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.efake.dao;
 
 import com.efake.entity.Producto;
@@ -16,6 +11,7 @@ import javax.persistence.Query;
 /**
  *
  * @author PedroArenas
+ * @author Carlos (findByProducto)
  */
 @Stateless
 public class ValoracionFacade extends AbstractFacade<Valoracion> {

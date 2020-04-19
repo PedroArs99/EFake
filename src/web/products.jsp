@@ -41,9 +41,9 @@
                        for(int i=0; i<productsList.size(); i++){
                            Producto p = productsList.get(i);
                            if(i%5 == 0){ %>
-                               <div class="d-flex justify-content-between">
+                               <div class="d-flex justify-content-start">
                     <%      } %>
-                    <div class="card" data-aos="zoom-in-left" data-aos-duration="2000" data-aos-delay="0">
+                    <div class="card ml-3" data-aos="zoom-in-left" data-aos-duration="2000" data-aos-delay="0">
                         <img class="card-img-top" src="<%= p.getImagen() %>" alt="Card image cap">
                         <div class="card-body">
                             <h5 class="card-title"><%= p.getNombre() %></h5>

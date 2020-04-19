@@ -1,4 +1,4 @@
-package com.efake.servlet.products.juan;
+package com.efake.servlet.products;
 
 import com.efake.dao.KeywordsFacade;
 import com.efake.dao.ProductoFacade;

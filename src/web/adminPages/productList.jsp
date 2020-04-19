@@ -11,7 +11,7 @@
 <%@page import="com.efake.entity.Categoria"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
-<% //Check Login
+<% //Session Control
     Usuario user = (Usuario) session.getAttribute("usuario");
     if (user != null && user.getEsAdmin() == 0) {// The user is logged in, but he's not an admin
         response.sendRedirect("/efake/");
@@ -40,9 +40,13 @@
         <title>EFake</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- Bootstrap -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
               integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/styles.css">
+        <!-- Own Css -->
+        <link rel="stylesheet" href="/efake/css/styles.css">
+        <!--Favicon-->
+        <link rel="shortcut icon" href="/efake/img/favicon.png" type="image/png">
     </head>
 
     <body class="d-flex flex-column h-100">

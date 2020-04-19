@@ -54,6 +54,8 @@ public class ListProducts extends HttpServlet {
         //Load Attributes from request
         List<Producto> productList = null;
         Integer numberOfProducts = productFacade.count();
+        
+        //Prepare pagination
         Integer numberOfPages = 0;
         if (numberOfProducts % PAGE_SIZE == 0) {
             numberOfPages = numberOfProducts / PAGE_SIZE;
@@ -63,6 +65,7 @@ public class ListProducts extends HttpServlet {
         //Pages start at 1 but lists are 0 indexed
         Integer pageNumber = Integer.parseInt(request.getParameter("page")) - 1;
         
+        //Load products
         productList = productFacade.findRange(pageNumber,PAGE_SIZE);
              
 

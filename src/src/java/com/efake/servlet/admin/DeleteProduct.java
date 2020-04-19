@@ -1,15 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.efake.servlet.admin;
 
 import com.efake.dao.ProductoFacade;
 import com.efake.entity.Producto;
 import com.efake.entity.Usuario;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -37,20 +31,24 @@ public class DeleteProduct extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //Session Control
+        //Check if the user is logged in as admin
         HttpSession session = request.getSession();
         Usuario admin = (Usuario) session.getAttribute("usuario");
-        
-        if(admin == null || admin.getEsAdmin() == 0){
-            response.sendRedirect("login.jsp");
+        if (admin != null && admin.getEsAdmin() == 0) {// The user is logged in, but he's not an admin
+            response.sendRedirect("/efake/");
+        } else if (admin == null) { //The user is not logged in
+            response.sendRedirect("/efake/login.jsp");
         }
         
+        //Load form parameters
         Integer id = Integer.parseInt(request.getParameter("id"));
         String page = request.getParameter("page");
         
+        //Find & Delete products
         Producto p = productoFacade.find(id);
         productoFacade.remove(p);
         
+        //Go back to product list
         session.setAttribute("status", "Product Deleted");
         response.sendRedirect("ListAdminProducts?page="+page);
         

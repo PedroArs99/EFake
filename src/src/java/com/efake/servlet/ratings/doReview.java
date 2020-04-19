@@ -1,17 +1,15 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package com.efake.servlet.login;
+package com.efake.servlet.ratings;
 
+import com.efake.dao.ProductoFacade;
 import com.efake.dao.UsuarioFacade;
+import com.efake.dao.ValoracionFacade;
+import com.efake.entity.Producto;
 import com.efake.entity.Usuario;
-import com.efake.service.UsuarioService;
+import com.efake.entity.Valoracion;
 import java.io.IOException;
-import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
 import javax.ejb.EJB;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -19,16 +17,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+
 /**
  *
- * @author laura
+ * @author carlo
  */
-@WebServlet(name = "changePasswordServlet", urlPatterns = {"/changePasswordServlet"})
-public class changePasswordServlet extends HttpServlet {
+@WebServlet(name = "doReview", urlPatterns = {"/doReview"})
+public class doReview extends HttpServlet {
     @EJB
     UsuarioFacade usuarioFacade;
     @EJB
-    UsuarioService usuarioService;
+    ValoracionFacade valoracionFacade;
+    @EJB
+    ProductoFacade productoFacade;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -38,46 +39,63 @@ public class changePasswordServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         //Session control
         HttpSession session = request.getSession();
-        Usuario user = (Usuario) session.getAttribute("usuario");
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
         
-        if(user == null){
+        if(usuario == null){
             response.sendRedirect("/");
         }
         
-        response.setContentType("text/html;charset=UTF-8");
-        String status = "Todo correcto", goTo = "signup.jsp";
-        String correo = request.getParameter("correo");
-        String passwordAntigua = request.getParameter("actualPassword");
-        String passwordNueva = request.getParameter("nuevaPassword");
-        String passwordRepetida = request.getParameter("repetidaPassword");
-        user = usuarioFacade.findByCorreo(correo);
-        byte[] passwordAntiguaHash = usuarioService.hashPassword(passwordAntigua);
+        Integer rating = Integer.parseInt(request.getParameter("estrellas"));
         
-        RequestDispatcher rd;
+        String comment = request.getParameter("comment");
+        Date date = new Date();
+        Integer idProducto = Integer.parseInt(request.getParameter("product"));
+        Producto producto = productoFacade.find(idProducto);
+        List<Valoracion> listaValoraciones = producto.getValoracionList();
         
+        Valoracion review = new Valoracion();
+        review.setCliente(usuario);
+        review.setProductoValorado(producto);
+        review.setPuntuacion(rating);
+        review.setComentario(comment);
+        review.setFecha(date);
+        review.setHora(date);
         
-        if(!Arrays.equals(passwordAntiguaHash, user.getPassword())){
-            status = "Contraseña incorrecta";
-            session.setAttribute("status", status);
-            goTo = "changePassword.jsp";
-        }else if(!passwordNueva.equals(passwordRepetida)){
-            status = "Las contraseñas no coinciden";
-            session.setAttribute("status", status);
-            goTo = "changePassword.jsp";
-        }else{
-            session.setAttribute("status",status);
-            user.setPassword(usuarioService.hashPassword(passwordNueva));
-            usuarioFacade.edit(user);
-        }
-            
-        rd = request.getRequestDispatcher(goTo);
-        rd.forward(request, response); 
+        valoracionFacade.create(review);
+        listaValoraciones.add(review);
+        productoFacade.edit(producto);
+        response.sendRedirect("/efake/ShowProduct?idProducto=" + idProducto);
     }
 
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.

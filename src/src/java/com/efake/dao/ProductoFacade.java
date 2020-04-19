@@ -12,6 +12,9 @@ import javax.persistence.Query;
 /**
  *
  * @author PedroArenas
+ * @author Carlos (findByCategoria)
+ * @author Lorenzo (findByFilter)
+ * @author Laura (findByOwner)
  */
 @Stateless
 public class ProductoFacade extends AbstractFacade<Producto> {

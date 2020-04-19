@@ -5,30 +5,68 @@
 --%>
 
 <%@page import="com.efake.entity.Usuario"%>
+<%@page import="com.efake.entity.Keywords"%>
+<%@page import="com.efake.entity.Producto"%>
 <%@page import="com.efake.entity.Subcategoria"%>
 <%@page import="com.efake.entity.Categoria"%>
 <%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
+
 <%
     Usuario user = (Usuario) session.getAttribute("usuario");
-    if(user == null ){
+    if (user == null) {
         response.sendRedirect("login.jsp");
-    } else if(user.getEsAdmin() == 1){
-        response.sendRedirect("/");
+    }
+%>
+<!DOCTYPE html>
+<%
+    Producto producto = (Producto) request.getAttribute("producto");
+
+    String nombre = (producto == null) ? "" : producto.getNombre();
+    Object precio = (producto == null) ? "" : producto.getPrecio();
+    String imagen = (producto == null) ? "" : producto.getImagen();
+    String descripcion = (producto == null) ? "" : producto.getDescripcion();
+    String categoria = (producto == null) ? "-" : producto.getCategoria().getNombre();
+    String subcategoria;
+    if (producto == null || producto.getSubcategoria() == null) {
+        subcategoria = "-";
+    } else {
+        subcategoria = producto.getSubcategoria().getNombre();
     }
 
-    List<Categoria> categorias = (List<Categoria>) request.getAttribute("categoriaList");
+    String k1palabra = "";
+    String k2palabra = "";
+    String k3palabra = "";
+
+    if (producto != null && producto.getKeywordsList() != null) {
+        if (producto.getKeywordsList().size() > 0) {
+            Keywords k1 = producto.getKeywordsList().get(0);
+            k1palabra = k1.getPalabra();
+            if (producto.getKeywordsList().size() > 1) {
+                Keywords k2 = producto.getKeywordsList().get(1);
+                k2palabra = k2.getPalabra();
+                if (producto.getKeywordsList().size() > 2) {
+                    Keywords k3 = producto.getKeywordsList().get(2);
+                    k3palabra = k3.getPalabra();
+                }
+            }
+        }
+    }
+
+    String goTo = (producto == null) ? "/efake/CreateProductsServlet" : "/efake/ModificarProductoServlet";
+
 %>
 
-<html> 
+<html>
+
     <head>
         <title>EFake</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/styles.css">
+        <link rel="stylesheet" href="/efake/css/styles.css">
         <style>
+
             .contact-form .form-control{
                 border-radius:1rem;
             }
@@ -65,37 +103,40 @@
                 cursor: pointer;
             }       
 
-            textarea{
-                resize: none;
-            }
         </style>
     </head>
-    <body class="d-flex flex-column h-100">
+
+
+
+    <body>
         <%@include file="/components/navbar.jspf"%>
-        <div class="container my-5 mx-auto">
-            <form action="<%=request.getContextPath()%>/CreateProductsServlet" method="post">
+        <div class="container contact-form mt-5">
+            <form action="<%= goTo%>" method="post">
+                <% if (producto != null) { %>
+                <input type="hidden" name="id" value="<%= producto.getId() %>">
+                <% }%>
                 <h3 class="text-center">Sell new product</h3>
                 <div class="row">
                     <div  id="first-stage" class="col-md-6 mx-auto">
                         <div class="form-group">
                             <label>Name</label>
-                            <input type="text" name="textNombre" class="form-control"/>
+                            <input type="text" name="textNombre" class="form-control" value="<%= nombre%>"/>
                         </div>
 
                         <div class="form-group">
                             <label>Price</label>
-                            <input type="number" step="0.01" name="textPrecio" class="form-control"/>
+                            <input type="number" step="0.01" name="textPrecio" class="form-control" value="<%= precio%>"/>
                         </div>
 
                         <div class="form-group">
                             <label>Image:</label>
-                            <input type="text" name="textImagen" class="form-control"/>
-                            <small id="emailHelp" class="form-text text-muted">Please enter an external link.</small>
+                            <input type="text" name="textImagen" class="form-control" value="<%= imagen%>"/>
+                            <small class="form-text text-muted">Please enter an external link.</small>
                         </div> 
 
                         <div class="form-group">
                             <label>Description:</label>
-                            <textarea rows="4" name="descripcion" class="form-control overflow-hidden"></textarea>
+                            <textarea rows="4" name="descripcion" class="form-control overflow-hidden"><%= descripcion%></textarea>
                         </div>
                         <button id="next-button" class="btn btn-primary mx-auto">Next</button>
                     </div>
@@ -103,23 +144,24 @@
                     <div id="second-stage" class="col-md-6 mx-auto d-none">        
                         <div class="form-group">
                             <label>Keywords</label>
-                            <input type="text" name="textKeywords1" class="form-control mb-2"/>
-                            <input type="text" name="textKeywords2" class="form-control mb-2"/>
-                            <input type="text" name="textKeywords3" class="form-control mb-2"/>
+                            <input type="text" name="textKeywords1" class="form-control mb-2" value="<%= k1palabra%>"/>
+                            <input type="text" name="textKeywords2" class="form-control mb-2" value="<%= k2palabra%>"/>
+                            <input type="text" name="textKeywords3" class="form-control mb-2" value="<%= k3palabra%>"/>
                         </div>
 
                         <div class="form-group">
-                            <label>Category:</label>
+                            <label>Category: (current: <%= categoria%>)</label>
                             <select id="category-select" name="Categoria" class="form-control">
-                                
+
                             </select>
                         </div>
-                        
+
                         <div class="form-group">
-                            <label>Subcategory:</label>
+                            <label>Subcategory: (current: <%= subcategoria%>)</label>
                             <select id="subcategory-select" name="Subcategoria" class="form-control">
                                 <option value="0">-</option>
                             </select>
+                            <small class="form-text text-muted">If you choose "Don't Change" on category value won't be edited.</small>
                         </div>
 
 
@@ -132,15 +174,10 @@
 
 
 
-                </div>  
+                </div>
             </form>
         </div>
-        <%@include file="/components/footer.jspf"%>             
-
-        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-        <!--Own scripts -->
+        <%@include file="/components/footer.jspf"%>
         <script src="/efake/js/createProduct.js"></script>
     </body>
 </html>
