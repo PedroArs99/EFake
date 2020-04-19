@@ -2,6 +2,7 @@
     Document   : signup
     Created on : 25-mar-2020, 12:54:55
     Author     : laura
+    Author     : Pedro Arenas (Refactor for reusing code in Administrator functionality)
 --%>
 
 <%@page import="com.efake.entity.Usuario"%>
@@ -15,12 +16,15 @@
     session.removeAttribute("status");
 
     if (user != null) {
+        if(user.getEsAdmin() == 1){
+            user = (Usuario) request.getAttribute("user");
+        }
         goTo = "ModificarPerfil?correoAntiguo=" + user.getCorreo() + "";
         edad = user.getEdad() + "";
         nombre = user.getNombre();
         email = user.getCorreo();
         apellidos = user.getApellidos();
-        if (user.getTelefono() == ("null")) {
+        if (user.getTelefono() == null) {
             movil = "";
         } else {
             movil = user.getTelefono();

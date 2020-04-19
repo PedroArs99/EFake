@@ -1,9 +1,15 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package com.efake.servlet.admin;
 
 import com.efake.dao.ProductoFacade;
 import com.efake.entity.Producto;
 import com.efake.entity.Usuario;
 import java.io.IOException;
+import java.io.PrintWriter;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,13 +22,10 @@ import javax.servlet.http.HttpSession;
  *
  * @author PedroArenas
  */
-@WebServlet(name = "DeleteUser", urlPatterns = {"/DeleteProduct"})
+@WebServlet(name = "DeleteProduct", urlPatterns = {"/DeleteProduct"})
 public class DeleteProduct extends HttpServlet {
-
     @EJB
-    ProductoFacade productFacade;
-    
-
+    ProductoFacade productoFacade;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -34,27 +37,23 @@ public class DeleteProduct extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //Check if the user is logged in as admin
+        //Session Control
         HttpSession session = request.getSession();
         Usuario admin = (Usuario) session.getAttribute("usuario");
-        if (admin != null && admin.getEsAdmin() == 0) {// The user is logged in, but he's not an admin
-            response.sendRedirect("/efake/");
-        } else if (admin == null) { //The user is not logged in
-            response.sendRedirect("/efake/login.jsp");
+        
+        if(admin == null || admin.getEsAdmin() == 0){
+            response.sendRedirect("login.jsp");
         }
         
-        
-        //Delete Account
-        Integer productId = Integer.parseInt(request.getParameter("id"));
-        Producto product = productFacade.find(productId);
-        productFacade.remove(product);
-        
-        //Set page where to come back 
+        Integer id = Integer.parseInt(request.getParameter("id"));
         String page = request.getParameter("page");
-        //Send status & redirect
+        
+        Producto p = productoFacade.find(id);
+        productoFacade.remove(p);
+        
         session.setAttribute("status", "Product Deleted");
-        response.sendRedirect("/efake/ListAdminProducts?page="+page);
-
+        response.sendRedirect("ListAdminProducts?page="+page);
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

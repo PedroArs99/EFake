@@ -1,7 +1,9 @@
 <%-- 
     Document   : valoracion_producto
     Created on : 25-mar-2020, 13:17:12
-    Author     : carlo
+    Author     : Carlos (Reviews & Ratings)
+    Author     : Juan (Product view)
+    Author     : Pedro (Refactor for reusing view in Administrator functionality)
 --%>
 
 <%@page import="java.util.List"%>
@@ -55,7 +57,8 @@
                     <span><%=p.getOwner().getNombre() + " " + p.getOwner().getApellidos()%></span>
                 </h5>
                 <p class="product-description"><%=p.getDescripcion()%> </p>
-               <%  if(user != null && user.equals(p.getOwner())) { %>
+               <%  if(user != null && (user.equals(p.getOwner()) || user.getEsAdmin() == 1 )) { %>
+         
                 <div class="action">
                     <a class ="modificar" type="submit" href="ProductoCardServlet?id=<%=p.getId()%>">Modificar producto</a>
                 </div>

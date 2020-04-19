@@ -15,13 +15,17 @@ import javax.servlet.http.HttpSession;
 /**
  *
  * @author laura
+ * @author Pedro Arenas(Refactor for reusing code in Administrator
+ * functionality)
  */
 @WebServlet(name = "ModificarPerfil", urlPatterns = {"/ModificarPerfil"})
 public class ModificarPerfil extends HttpServlet {
+
     @EJB
     UsuarioFacade usuarioFacade;
     @EJB
     UsuarioService usuarioService;
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -36,41 +40,48 @@ public class ModificarPerfil extends HttpServlet {
         //Session control
         HttpSession session = request.getSession();
         Usuario user = (Usuario) session.getAttribute("usuario");
-        
-        if(user == null){
+
+        if (user == null) {
             response.sendRedirect("login.jsp");
         }
-        
+
         response.setContentType("text/html;charset=UTF-8");
-        String correoAntiguo, nombre, apellidos, correoNuevo, telefono, status = null, goTo = "index.jsp";
+        String correoAntiguo, nombre, apellidos, correoNuevo, telefono, status = null, goTo = "/efake/";
+        Boolean saveInSession = true;
         
+        if(user.getEsAdmin() == 1){
+            goTo = "/efake/ListUsers?list=all&page=1";
+            saveInSession = false;
+        }
         
         correoAntiguo = request.getParameter("correoAntiguo");
         nombre = request.getParameter("nombre");
-        apellidos = request.getParameter("apellidos"); 
+        apellidos = request.getParameter("apellidos");
         correoNuevo = request.getParameter("correo");
         telefono = request.getParameter("telefono");
-        
+
         user = usuarioFacade.findByCorreo(correoAntiguo);
         Usuario posibleUser = usuarioFacade.findByCorreo(correoNuevo);
-        
-        
-        if(posibleUser != null && !correoNuevo.equals(correoAntiguo)){
-           status = "El correo ya existe en la base de datos";
-           session.setAttribute("status", status);
-           goTo = "signup.jsp";
-        }else{
-            status = "Todo correcto";
-            request.setAttribute("status", status);
+
+        if (posibleUser != null && !correoNuevo.equals(correoAntiguo)) {
+            status = "El correo ya existe en la base de datos";
+            session.setAttribute("status", status);
+            goTo = "signup.jsp";
+        } else {
+            status = "Updated Profile";
+            session.setAttribute("status", status);
             user.setNombre(nombre);
-            user.setApellidos(apellidos);            
-            user.setTelefono(telefono);           
+            user.setApellidos(apellidos);
+            user.setTelefono(telefono);
             user.setCorreo(correoNuevo);
             usuarioFacade.edit(user);
-            
-            session.setAttribute("usuario", user);            
+
+            if (saveInSession) {
+                session.setAttribute("usuario", user);
+            }
+
         }
-        
+
         response.sendRedirect(goTo);
     }
 

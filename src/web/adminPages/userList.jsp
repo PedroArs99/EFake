@@ -159,14 +159,10 @@
                                         </button>
                                     </td>
                                     <td>
-                                        <button type="button" class="bg-transparent border-0" data-toggle="modal"
-                                                data-target="#alterUserModal" data-id="<%= u.getId()%>"
-                                                data-user="<%= u.getCorreo()%>" data-fname="<%= u.getNombre()%>"
-                                                data-sname="<%= u.getApellidos()%>" data-age="<%= u.getEdad()%>"
-                                                data-phone="<%= u.getTelefono()%>" data-lastLogin="<%= u.getUltimaEntrada()%>"
-                                                >
+                                        <a href="/efake/AlterUser?id=<%= u.getId() %>">
                                             <i class="fas fa-edit"></i>
-                                        </button>
+                                        </a>
+                                        
                                     </td>
                                 </tr>
                                 <% }%>
@@ -176,7 +172,7 @@
                     <nav aria-label="...">
                         <ul class="pagination justify-content-center">
                             <% for (int i = 1; i <= numberOfPages; i++) {%>
-                            <li class="page-item <%= (i == currentPage)? "active":""%>">
+                            <li class="page-item <%= (i == currentPage) ? "active" : ""%>">
                                 <a class="page-link" href="/efake/ListUsers?list=<%=whichList%>&page=<%= i%>"><%= i%></a>
                             </li>
                             <%  }%>
@@ -189,64 +185,11 @@
         <%@include file="/components/footer.jspf"%>
 
         <!-- Modals -->
-        <div class="modal fade" id="alterUserModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-             aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <form class="w-100" method="POST" action="/efake/AlterUser">
-                    <div class="modal-content">
-                        <div class="modal-body">
-                            <input id="modal-form-user" type="hidden" name="user">
-                            <div class="form-group">
-                                <label for="email">Email</label>
-                                <input id="modal-form-email" class="form-control" type="email" name="email">
-                            </div>
-                            <div class="form-group">
-                                <label for="fname">First Name</label>
-                                <input id="modal-form-fname" class="form-control" type="text" name="fname">
-                            </div>
-                            <div class="form-group">
-                                <label for="sname">Second Name</label>
-                                <input id="modal-form-sname" class="form-control" type="text" name="sname">
-                            </div>
-                            <div class="form-group">
-                                <label for="age">Age</label>
-                                <input id="modal-form-age" class="form-control" type="number" name="age">
-                            </div>
-                            <div class="form-group">
-                                <label for="phone">Phone</label>
-                                <input id="modal-form-phone" class="form-control" type="text" name="phone">
-                            </div>
-                            <div class="form-group">
-                                <label for="lastLogin">Last Log In</label>
-                                <input id="modal-form-lastLogin" class="form-control" type="date" name="lastLogin" disabled>
-                            </div>
-
-                            <div id="password-group" class="form-group">
-                                <label for="password">Password</label>
-                                <div class="input-group">
-                                    <input id="modal-form-password" class="form-control" type="password" name="password">
-                                    <div class="input-group-append">
-                                        <button id="eyeButton" type="button" class="btn bg-transparent">
-                                            <i class="fas fa-eye"></i>
-                                        </button>                             
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="border-0 background-transparent"
-                                    data-dismiss="modal">Cancel</button>
-                            <input type="submit" class="btn btn-primary" value="Save">
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-
         <div class="modal fade" id="deleteConfirmationModal" tabindex="-1" role="dialog"
              aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <form method="POST" action="/efake/DeleteUser">
+                    <input type="hidden" name="page" value="<%= currentPage %>">
                     <div class="modal-content">
                         <div class="modal-body">
                             Are you sure you want to delete <span id="modal-user"></span> account?

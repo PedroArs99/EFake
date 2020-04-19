@@ -42,10 +42,10 @@ public class ProductoCardServlet extends HttpServlet {
             throws ServletException, IOException {
         //Session Control
         HttpSession session = request.getSession();
-        Usuario user = (Usuario) request.getSession();
+        Usuario user = (Usuario) session.getAttribute("usuario");
         
         if(user == null){
-            response.sendRedirect("/");
+            response.sendRedirect("/efake/");
         }
         
         

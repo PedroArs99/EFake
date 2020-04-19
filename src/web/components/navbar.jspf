@@ -38,13 +38,11 @@
             <a href="login.jsp" class="btn btn-secondary">Login</a>
         </div>
         <%} else {%>
-        <div class="btn-group">
-            <button type="button" class="btn btn-primary">Welcome, <%=user.getNombre()%></button>
-            <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="sr-only">Toggle Dropdown</span>
+        <div class="dropdown">
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Welcome, <%=user.getNombre()%>
             </button>
             <div class="dropdown-menu dropdown-menu-right">
-
                 <%if (user.getEsAdmin() == 0) {//No es admin%>
                 <a class="dropdown-item" href="signup.jsp">Edit my profile</a>
                 <a class="dropdown-item" href="#">My products</a>

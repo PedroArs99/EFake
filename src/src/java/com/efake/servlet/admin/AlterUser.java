@@ -2,12 +2,10 @@ package com.efake.servlet.admin;
 
 import com.efake.dao.UsuarioFacade;
 import com.efake.entity.Usuario;
-import com.efake.service.EmailService;
-import com.efake.service.UsuarioService;
-import com.efake.service.TemplatesEnum;
 import java.io.IOException;
-import java.util.Properties;
+import java.io.PrintWriter;
 import javax.ejb.EJB;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -21,13 +19,8 @@ import javax.servlet.http.HttpSession;
  */
 @WebServlet(name = "AlterUser", urlPatterns = {"/AlterUser"})
 public class AlterUser extends HttpServlet {
-    
     @EJB
-    UsuarioFacade userFacade;
-    @EJB
-    UsuarioService userService;
-    @EJB
-    EmailService emailService;
+    UsuarioFacade usuarioFacade;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -39,52 +32,20 @@ public class AlterUser extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //Check if the user is logged in as admin
+        //Session Control
         HttpSession session = request.getSession();
         Usuario admin = (Usuario) session.getAttribute("usuario");
-        if (admin != null && admin.getEsAdmin() == 0) {// The user is logged in, but he's not an admin
+        
+        if(admin == null || admin.getEsAdmin()==0){
             response.sendRedirect("/efake/");
-        } else if (admin == null) { //The user is not logged in
-            response.sendRedirect("/efake/login.jsp");
         }
         
-        //Load Attributtes from the form
-        Integer id = Integer.parseInt(request.getParameter("user"));
-        String email = request.getParameter("email");
-        String fname = request.getParameter("fname");
-        String sname = request.getParameter("sname");
-        Integer age = Integer.parseInt(request.getParameter("age"));
-        String phone = request.getParameter("phone");
-        String password = request.getParameter("password");
+        Integer id = Integer.parseInt(request.getParameter("id"));
+        Usuario user = usuarioFacade.find(id);
         
-        //Alter User
-        Usuario alteredUser = userFacade.find(id);
-        alteredUser.setCorreo(email);
-        alteredUser.setNombre(fname);
-        alteredUser.setApellidos(sname);
-        alteredUser.setEdad(age);
-        alteredUser.setTelefono(phone);
-        if(!password.equals("")){ //The password is going to be modified
-            byte[] hashedPassword = userService.hashPassword(password);
-            alteredUser.setPassword(hashedPassword);
-        }
-        userFacade.edit(alteredUser);
-        
-        //Send mail Notifiying changes
-        Properties mailProperties = new Properties();
-        mailProperties.setProperty("to", email);
-        mailProperties.setProperty("subject", "Your Efake account has been modified");
-        mailProperties.setProperty("email", email);
-        mailProperties.setProperty("password", password);
-        mailProperties.setProperty("fname", fname);
-        mailProperties.setProperty("sname", sname);
-        mailProperties.setProperty("age", age.toString());
-        mailProperties.setProperty("phone", phone);
-        mailProperties.setProperty("template", TemplatesEnum.EDIT_USER.toString());
-        emailService.sendEmail(mailProperties);
-        //Save status & redirect
-        session.setAttribute("status", "User Edited");
-        response.sendRedirect("ListUsers?list=all");
+        request.setAttribute("user", user);
+        RequestDispatcher rd = request.getRequestDispatcher("signup.jsp");
+        rd.forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

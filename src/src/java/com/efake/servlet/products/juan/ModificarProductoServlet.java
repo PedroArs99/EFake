@@ -45,10 +45,10 @@ public class ModificarProductoServlet extends HttpServlet {
             throws ServletException, IOException {
         //Session Control
         HttpSession session = request.getSession();
-        Usuario user = (Usuario) request.getSession();
+        Usuario user = (Usuario) session.getAttribute("usuario");
         
         if(user == null){
-            response.sendRedirect("/");
+            response.sendRedirect("/efake/");
         }
         
         
@@ -78,7 +78,8 @@ public class ModificarProductoServlet extends HttpServlet {
             Subcategoria s = new Subcategoria(subcategoria);
             p.setSubcategoria(s);
         }
-
+        
+        /*
         //Manage Keywords
         List<Keywords> kwList = p.getKeywordsList();
         Keywords oldK1 = kwList.get(0);
@@ -133,12 +134,20 @@ public class ModificarProductoServlet extends HttpServlet {
             keywordsFacade.edit(oldK3);
             keywordsFacade.edit(newK3);
         }
-
+        
+        */
         //Save changes on PRODUCT Table
         productoFacade.edit(p);
 
         //Show product
-        response.sendRedirect("/efake/ShowProduct?idProducto=" + id + "");
+        //Show product List if admin
+        if(user.getEsAdmin() == 0){
+            response.sendRedirect("/efake/ShowProduct?idProducto=" + id + "");
+        }else{
+            session.setAttribute("status", "Updated Product");
+            response.sendRedirect("/efake/ListAdminProducts?page=1");
+        }
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

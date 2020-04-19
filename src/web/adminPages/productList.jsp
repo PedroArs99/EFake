@@ -146,7 +146,6 @@
                                     <th>Seller</th>
                                     <th></th>
                                     <th></th>
-                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -170,20 +169,7 @@
                                             <i class="fas fa-trash"></i>
                                         </button>
                                     </td>
-                                    <td>
-                                        <button type="button" class="bg-transparent border-0" data-toggle="modal"
-                                                data-target="#alterProductModal"
-                                                data-id="<%= p.getId()%>"
-                                                data-name="<%= p.getNombre()%>"
-                                                data-description="<%= p.getDescripcion()%>"
-                                                data-price="<%= p.getPrecio()%>"
-                                                data-image="<%= p.getImagen()%>"
-                                                data-date="<%= p.getFecha()%>"
-                                                data-category="<%= p.getCategoria().getId()%>"
-                                                data-owner="<%= p.getOwner().getCorreo()%>">
-                                            <i class="fas fa-edit"></i>
-                                        </button>
-                                    </td>
+                                    
                                 </tr>
                                 <% }%>
                             </tbody>
@@ -203,60 +189,6 @@
             </div>
         </div>
         <%@include file="/components/footer.jspf"%>
-
-        <!-- Modals -->
-        <div class="modal fade" id="alterProductModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-             aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-                <form class="w-100" method="POST" action="/efake/EditProduct">
-                    <div class="modal-content">
-                        <div class="modal-body">
-                            <div class="row">
-                                <div class="col-md-6">
-                                <input id="modal-form-product" type="hidden" name="id">
-                                <input type="hidden" name="page" value="<%= currentPage %>">
-                                <div class="form-group">
-                                    <label for="name">Name</label>
-                                    <input id="modal-form-name" class="form-control" type="text" name="name">
-                                </div>
-                                <div class="form-group">
-                                    <label for="description">Description</label>
-                                    <textarea id="modal-form-description" class="form-control" name="description"></textarea>
-                                </div>
-                                <div class="form-group">
-                                    <label for="price">Price</label>
-                                    <input id="modal-form-price" class="form-control" type="number" name="price" step="0.01">
-                                </div>
-                                
-                                <div class="form-group">
-                                    <label for="category">Category</label>
-                                    <select id="category-selector" class="form-control">
-                                        <% for (Categoria c : categoryList) {%>
-                                        <option value="<%= c.getId()%>"> <%= c.getNombre()%></option>
-                                        <% }%>
-                                    </select>
-                                </div>
-                                
-                            </div>
-                            <div class="col-md-6">
-                                <img id="modal-image"src="" class="img-thumbnail">
-                                <div class="form-group">
-                                    <label for="image">Image</label>
-                                    <input id="modal-form-image" class="form-control" type="text" name="image">
-                                </div>
-                            </div>
-                            </div>
-                            
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="border-0 background-transparent"
-                                    data-dismiss="modal">Cancel</button>
-                            <input type="submit" class="btn btn-primary" value="Save">
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
 
         <div class="modal fade" id="deleteConfirmationModal" tabindex="-1" role="dialog"
              aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
