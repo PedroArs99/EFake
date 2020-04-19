@@ -36,7 +36,7 @@
             <h1 data-aos="fade-up" data-aos-duration="1000">
                 Most Rated Products <i class="fab fa-free-code-camp"></i>
             </h1>
-            <div id="mostRatedProducts" class="d-flex justify-content-between">
+            <div id="mostRatedProducts" class="d-flex">
             </div>
         </div>
         <%@include file="/components/footer.jspf"%>

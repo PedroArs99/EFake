@@ -16,7 +16,7 @@ function createCard(product, index) {
     //Create Div node
     let cardNode = document.createElement('div');
     //Add Bootstrap classname
-    cardNode.className = "card";
+    cardNode.className = "card ml-3 ";
     //Add animation properties
     cardNode.setAttribute("data-aos", "zoom-in-left");
     cardNode.setAttribute("data-aos-duration", "2000");

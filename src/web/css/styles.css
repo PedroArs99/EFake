@@ -61,6 +61,14 @@ a:hover{
     margin-top: 1em;
 }
 
+.page-item.active .page-link{
+    background-color: #0064d3;
+    border-color: #0064d3;
+}
+
+.page-item .page-link{
+    color: #0064d3;
+}
 #navBarSearchForm{
     width: 40em;
 }
