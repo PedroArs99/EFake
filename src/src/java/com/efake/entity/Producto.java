@@ -3,6 +3,7 @@ package com.efake.entity;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.StringJoiner;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -40,7 +41,7 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Producto.findByFecha", query = "SELECT p FROM Producto p WHERE p.fecha = :fecha")
     , @NamedQuery(name = "Producto.findByOwner", query = "SELECT p FROM Producto p WHERE p.owner = :owner")
     , @NamedQuery(name = "Producto.findByCategoria", query = "SELECT p FROM Producto p WHERE p.categoria = :categoria")
-    , @NamedQuery(name = "Producto.findByFilter", query = "SELECT p FROM Producto p INNER JOIN p.keywordsList k WHERE p.nombre LIKE :words OR p.descripcion LIKE :words OR k.palabra LIKE :words")
+    , @NamedQuery(name = "Producto.findByFilter", query = "SELECT DISTINCT p FROM Producto p INNER JOIN p.keywordsList k WHERE p.nombre LIKE :words OR p.descripcion LIKE :words OR k.palabra LIKE :words")
     , @NamedQuery(name = "Producto.findSortedByRatingsNumber", query = "SELECT p FROM Valoracion v JOIN v.productoValorado p GROUP BY v.productoValorado ORDER BY COUNT(v.productoValorado) DESC")})
 public class Producto implements Serializable {
 
@@ -228,5 +229,15 @@ public class Producto implements Serializable {
     public void setReportado(short reportado) {
         this.reportado = reportado;
     }
-
+    
+    
+    public String getKeywordsJSP(){
+        StringJoiner sj = new StringJoiner(",");
+        
+        for(Keywords k : this.getKeywordsList()){
+            sj.add(k.getPalabra());
+        }
+        
+        return sj.toString();
+    }
 }

@@ -1,9 +1,11 @@
-package com.efake.servlet.login;
+package com.efake.servlet.users;
 
+import com.efake.service.EmailService;
 import com.efake.dao.UsuarioFacade;
 import com.efake.entity.Usuario;
-import com.efake.service.UsuarioService;
+import com.efake.service.TemplatesEnum;
 import java.io.IOException;
+import java.util.Properties;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,17 +16,15 @@ import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author laura
- * @author Pedro Arenas(Refactor for reusing code in Administrator
- * functionality)
+ * @author PedroArenas
  */
-@WebServlet(name = "ModificarPerfil", urlPatterns = {"/ModificarPerfil"})
-public class ModificarPerfil extends HttpServlet {
+@WebServlet(name = "DeleteUser", urlPatterns = {"/DeleteUser"})
+public class DeleteUser extends HttpServlet {
 
     @EJB
-    UsuarioFacade usuarioFacade;
+    UsuarioFacade userFacade;
     @EJB
-    UsuarioService usuarioService;
+    EmailService emailBean;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,52 +37,37 @@ public class ModificarPerfil extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //Session control
+        //Check if the user is logged in as admin
         HttpSession session = request.getSession();
-        Usuario user = (Usuario) session.getAttribute("usuario");
-
-        if (user == null) {
-            response.sendRedirect("login.jsp");
+        Usuario admin = (Usuario) session.getAttribute("usuario");
+        if (admin != null && admin.getEsAdmin() == 0) {// The user is logged in, but he's not an admin
+            response.sendRedirect("/efake/");
+        } else if (admin == null) { //The user is not logged in
+            response.sendRedirect("/efake/login.jsp");
         }
 
-        response.setContentType("text/html;charset=UTF-8");
-        String correoAntiguo, nombre, apellidos, correoNuevo, telefono, status = null, goTo = "/efake/";
-        Boolean saveInSession = true;
+        //Delete Account
+        Integer userId = Integer.parseInt(request.getParameter("user"));
+        Usuario user = userFacade.find(userId); //Email is primary key
+        userFacade.remove(user);
+
+        //Send mail notifiying the user 
+        Properties mailProperties = new Properties();
+        mailProperties.setProperty("to", user.getCorreo());
+        mailProperties.setProperty("subject", "Efake account Deleted");
+        mailProperties.setProperty("userName", user.getNombre());
+        mailProperties.setProperty("body", request.getParameter("emailBody"));
+        mailProperties.setProperty("template", TemplatesEnum.DELETE_USER.toString());
+                
+        emailBean.sendEmail(mailProperties);
         
-        if(user.getEsAdmin() == 1){
-            goTo = "/efake/ListUsers?list=all&page=1";
-            saveInSession = false;
-        }
+        //Send status & redirect
+        session.setAttribute("status", "User Deleted");
         
-        correoAntiguo = request.getParameter("correoAntiguo");
-        nombre = request.getParameter("nombre");
-        apellidos = request.getParameter("apellidos");
-        correoNuevo = request.getParameter("correo");
-        telefono = request.getParameter("telefono");
+        //Go back to users list
+        String page = request.getParameter("page");
+        response.sendRedirect("ListUsers?list=all&page="+page);
 
-        user = usuarioFacade.findByCorreo(correoAntiguo);
-        Usuario posibleUser = usuarioFacade.findByCorreo(correoNuevo);
-
-        if (posibleUser != null && !correoNuevo.equals(correoAntiguo)) {
-            status = "El correo ya existe en la base de datos";
-            session.setAttribute("status", status);
-            goTo = "signup.jsp";
-        } else {
-            status = "Updated Profile";
-            session.setAttribute("status", status);
-            user.setNombre(nombre);
-            user.setApellidos(apellidos);
-            user.setTelefono(telefono);
-            user.setCorreo(correoNuevo);
-            usuarioFacade.edit(user);
-
-            if (saveInSession) {
-                session.setAttribute("usuario", user);
-            }
-
-        }
-
-        response.sendRedirect(goTo);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

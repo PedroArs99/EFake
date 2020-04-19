@@ -1,10 +1,13 @@
-package com.efake.servlet.admin;
+package com.efake.servlet.products;
 
 import com.efake.dao.ProductoFacade;
+import com.efake.dao.UsuarioFacade;
 import com.efake.entity.Producto;
 import com.efake.entity.Usuario;
 import java.io.IOException;
+import java.util.List;
 import javax.ejb.EJB;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -14,10 +17,12 @@ import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author PedroArenas
+ * @author laura
  */
-@WebServlet(name = "DeleteProduct", urlPatterns = {"/DeleteProduct"})
-public class DeleteProduct extends HttpServlet {
+@WebServlet(name = "showMyProductsServlet", urlPatterns = {"/MyProducts"})
+public class MyProducts extends HttpServlet {
+    @EJB
+    UsuarioFacade usuarioFacade;
     @EJB
     ProductoFacade productoFacade;
     /**
@@ -31,27 +36,19 @@ public class DeleteProduct extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //Check if the user is logged in as admin
+        //Session Control
         HttpSession session = request.getSession();
-        Usuario admin = (Usuario) session.getAttribute("usuario");
-        if (admin != null && admin.getEsAdmin() == 0) {// The user is logged in, but he's not an admin
+        Usuario user = (Usuario) session.getAttribute("usuario");
+        
+        if(user == null){
             response.sendRedirect("/efake/");
-        } else if (admin == null) { //The user is not logged in
-            response.sendRedirect("/efake/login.jsp");
         }
         
-        //Load form parameters
-        Integer id = Integer.parseInt(request.getParameter("id"));
-        String page = request.getParameter("page");
+        List<Producto> listaProducto = productoFacade.findByOwner(user);
         
-        //Find & Delete products
-        Producto p = productoFacade.find(id);
-        productoFacade.remove(p);
-        
-        //Go back to product list
-        session.setAttribute("status", "Product Deleted");
-        response.sendRedirect("ListAdminProducts?page="+page);
-        
+        request.setAttribute("productsList", listaProducto);
+        RequestDispatcher rd = request.getRequestDispatcher("productGrid.jsp");
+        rd.forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

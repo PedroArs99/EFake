@@ -1,11 +1,9 @@
-package com.efake.servlet.admin;
+package com.efake.servlet.products;
 
-import com.efake.service.EmailService;
-import com.efake.dao.UsuarioFacade;
+import com.efake.dao.ProductoFacade;
+import com.efake.entity.Producto;
 import com.efake.entity.Usuario;
-import com.efake.service.TemplatesEnum;
 import java.io.IOException;
-import java.util.Properties;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,14 +16,10 @@ import javax.servlet.http.HttpSession;
  *
  * @author PedroArenas
  */
-@WebServlet(name = "DeleteUser", urlPatterns = {"/DeleteUser"})
-public class DeleteUser extends HttpServlet {
-
+@WebServlet(name = "DeleteProduct", urlPatterns = {"/DeleteProduct"})
+public class DeleteProduct extends HttpServlet {
     @EJB
-    UsuarioFacade userFacade;
-    @EJB
-    EmailService emailBean;
-
+    ProductoFacade productoFacade;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -37,37 +31,30 @@ public class DeleteUser extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //Check if the user is logged in as admin
+        //Session Control
         HttpSession session = request.getSession();
-        Usuario admin = (Usuario) session.getAttribute("usuario");
-        if (admin != null && admin.getEsAdmin() == 0) {// The user is logged in, but he's not an admin
-            response.sendRedirect("/efake/");
-        } else if (admin == null) { //The user is not logged in
-            response.sendRedirect("/efake/login.jsp");
+        Usuario user = (Usuario) session.getAttribute("usuario");
+        if (user == null) {
+            response.sendRedirect("login.jsp");
+        } 
+        
+        //Load form parameters
+        Integer id = Integer.parseInt(request.getParameter("id"));
+        String page = request.getParameter("page"); //only for admin
+        
+        //Find & Delete products
+        Producto p = productoFacade.find(id);
+        productoFacade.remove(p);
+        
+        //Go back to product list 
+        session.setAttribute("status", "Product Deleted");
+        if(user.getEsAdmin() == 1){
+            response.sendRedirect("ListAdminProducts?page="+page);
+        }else{
+            response.sendRedirect("MyProducts");
         }
-
-        //Delete Account
-        Integer userId = Integer.parseInt(request.getParameter("user"));
-        Usuario user = userFacade.find(userId); //Email is primary key
-        userFacade.remove(user);
-
-        //Send mail notifiying the user 
-        Properties mailProperties = new Properties();
-        mailProperties.setProperty("to", user.getCorreo());
-        mailProperties.setProperty("subject", "Efake account Deleted");
-        mailProperties.setProperty("userName", user.getNombre());
-        mailProperties.setProperty("body", request.getParameter("emailBody"));
-        mailProperties.setProperty("template", TemplatesEnum.DELETE_USER.toString());
-                
-        emailBean.sendEmail(mailProperties);
         
-        //Send status & redirect
-        session.setAttribute("status", "User Deleted");
         
-        //Go back to users list
-        String page = request.getParameter("page");
-        response.sendRedirect("ListUsers?list=all&page="+page);
-
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

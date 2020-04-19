@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
  * @author carlo
  */
 @WebServlet(name = "ShowProductsCategory", urlPatterns = {"/ShowProductsCategory"})
-public class ShowProductsCategory extends HttpServlet {
+public class CategoryProducts extends HttpServlet {
     @EJB
     ProductoFacade productoFacade;
     @EJB
@@ -40,7 +40,7 @@ public class ShowProductsCategory extends HttpServlet {
         
         request.setAttribute("productsList", listaProductoCategoria);
         request.setAttribute("category", category);
-        RequestDispatcher rd = request.getRequestDispatcher("products.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("productGrid.jsp");
         rd.forward(request, response);
     }
 

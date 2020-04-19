@@ -1,11 +1,15 @@
-package com.efake.servlet.login;
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.efake.servlet.users;
 
-import com.efake.dao.ProductoFacade;
 import com.efake.dao.UsuarioFacade;
-import com.efake.entity.Producto;
 import com.efake.entity.Usuario;
+import com.efake.service.UsuarioService;
 import java.io.IOException;
-import java.util.List;
+import java.util.Arrays;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -19,12 +23,12 @@ import javax.servlet.http.HttpSession;
  *
  * @author laura
  */
-@WebServlet(name = "showMyProductsServlet", urlPatterns = {"/MyProducts"})
-public class showMyProducts extends HttpServlet {
+@WebServlet(name = "changePasswordServlet", urlPatterns = {"/changePasswordServlet"})
+public class changePassword extends HttpServlet {
     @EJB
     UsuarioFacade usuarioFacade;
     @EJB
-    ProductoFacade productoFacade;
+    UsuarioService usuarioService;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -36,19 +40,42 @@ public class showMyProducts extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //Session Control
+        //Session control
         HttpSession session = request.getSession();
         Usuario user = (Usuario) session.getAttribute("usuario");
         
         if(user == null){
-            response.sendRedirect("/efake/");
+            response.sendRedirect("/");
         }
         
-        List<Producto> listaProducto = productoFacade.findByOwner(user);
+        response.setContentType("text/html;charset=UTF-8");
+        String status = "Todo correcto", goTo = "signup.jsp";
+        String correo = request.getParameter("correo");
+        String passwordAntigua = request.getParameter("actualPassword");
+        String passwordNueva = request.getParameter("nuevaPassword");
+        String passwordRepetida = request.getParameter("repetidaPassword");
+        user = usuarioFacade.findByCorreo(correo);
+        byte[] passwordAntiguaHash = usuarioService.hashPassword(passwordAntigua);
         
-        request.setAttribute("productsList", listaProducto);
-        RequestDispatcher rd = request.getRequestDispatcher("products.jsp");
-        rd.forward(request, response);
+        RequestDispatcher rd;
+        
+        
+        if(!Arrays.equals(passwordAntiguaHash, user.getPassword())){
+            status = "Contraseña incorrecta";
+            session.setAttribute("status", status);
+            goTo = "changePassword.jsp";
+        }else if(!passwordNueva.equals(passwordRepetida)){
+            status = "Las contraseñas no coinciden";
+            session.setAttribute("status", status);
+            goTo = "changePassword.jsp";
+        }else{
+            session.setAttribute("status",status);
+            user.setPassword(usuarioService.hashPassword(passwordNueva));
+            usuarioFacade.edit(user);
+        }
+            
+        rd = request.getRequestDispatcher(goTo);
+        rd.forward(request, response); 
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

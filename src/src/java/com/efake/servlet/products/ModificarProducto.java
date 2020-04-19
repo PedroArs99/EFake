@@ -9,7 +9,9 @@ import com.efake.entity.Producto;
 import com.efake.entity.Subcategoria;
 import com.efake.entity.Usuario;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.StringTokenizer;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -23,7 +25,7 @@ import javax.servlet.http.HttpSession;
  * @author JuMed
  */
 @WebServlet(name = "ModificarProductoServlet", urlPatterns = {"/ModificarProductoServlet"})
-public class ModificarProductoServlet extends HttpServlet {
+public class ModificarProducto extends HttpServlet {
 
     @EJB
     ProductoFacade productoFacade;
@@ -46,21 +48,19 @@ public class ModificarProductoServlet extends HttpServlet {
         //Session Control
         HttpSession session = request.getSession();
         Usuario user = (Usuario) session.getAttribute("usuario");
-        
-        if(user == null){
+
+        if (user == null) {
             response.sendRedirect("/efake/");
         }
-        
-        
+
         // Get form fields
         int id = Integer.parseInt(request.getParameter("id"));
         String nombre = request.getParameter("textNombre");
         String descripcion = request.getParameter("descripcion");
         Double precio = Double.parseDouble(request.getParameter("textPrecio"));
         String imagen = request.getParameter("textImagen");
-        String keywords1 = request.getParameter("textKeywords1");
-        String keywords2 = request.getParameter("textKeywords2");
-        String keywords3 = request.getParameter("textKeywords3");
+        String keywords = request.getParameter("keywords");
+
         Integer categoria = Integer.parseInt(request.getParameter("Categoria"));
         Integer subcategoria = Integer.parseInt(request.getParameter("Subcategoria"));
 
@@ -78,76 +78,44 @@ public class ModificarProductoServlet extends HttpServlet {
             Subcategoria s = new Subcategoria(subcategoria);
             p.setSubcategoria(s);
         }
-        
-        /*
+
         //Manage Keywords
         List<Keywords> kwList = p.getKeywordsList();
-        Keywords oldK1 = kwList.get(0);
-        Keywords oldK2 = kwList.get(1);
-        Keywords oldK3 = kwList.get(2);
-
-        Keywords newK1 = keywordsFacade.findOrCreate(keywords1);
-        Keywords newK2 = keywordsFacade.findOrCreate(keywords2);
-        Keywords newK3 = keywordsFacade.findOrCreate(keywords3);
-
-        if (!oldK1.equals(newK1)) { //Keyword has been edited
-            List<Producto> oldK1products = oldK1.getProductoList();
-            List<Producto> newK1products = newK1.getProductoList();
-
-            //Remove old association
-            oldK1products.remove(p);
-
-            //Add new Association
-            newK1products.add(p);
-
-            //save changes on both entities
-            keywordsFacade.edit(oldK1);
-            keywordsFacade.edit(newK1);
-        }
-
-        if (!oldK2.equals(newK2)) { //Keyword has been edited
-            List<Producto> oldK2products = oldK2.getProductoList();
-            List<Producto> newK2products = newK2.getProductoList();
-
-            //Remove old association
-            oldK2products.remove(p);
-
-            //Add new Association
-            newK2products.add(p);
-
-            //save changes on both entities
-            keywordsFacade.edit(oldK2);
-            keywordsFacade.edit(newK2);
-        }
-
-        if (!oldK3.equals(newK3)) { //Keyword has been edited
-            List<Producto> oldK3products = oldK3.getProductoList();
-            List<Producto> newK3products = newK3.getProductoList();
-
-            //Remove old association
-            oldK3products.remove(p);
-
-            //Add new Association
-            newK3products.add(p);
-
-            //save changes on both entities
-            keywordsFacade.edit(oldK3);
-            keywordsFacade.edit(newK3);
+        
+        //Delete old list
+        for(int i = 0; i<kwList.size(); i++){
+            Keywords k = kwList.get(i);
+            
+            k.getProductoList().remove(p);
+            kwList.remove(k);
+            
+            keywordsFacade.edit(k);
         }
         
-        */
+        //Add new list
+        StringTokenizer st = new StringTokenizer(keywords, ",");
+        while (st.hasMoreTokens()) {
+            Keywords k = keywordsFacade.findOrCreate(st.nextToken());
+            
+            kwList.add(k);
+            k.getProductoList().add(p);
+            
+            keywordsFacade.edit(k);
+        }
+       
+     
         //Save changes on PRODUCT Table
         productoFacade.edit(p);
 
         //Show product
         //Show product List if admin
-        if(user.getEsAdmin() == 0){
+        if (user.getEsAdmin() == 0) {
             response.sendRedirect("/efake/ShowProduct?idProducto=" + id + "");
-        }else{
+        } else {
             session.setAttribute("status", "Updated Product");
             response.sendRedirect("/efake/ListAdminProducts?page=1");
         }
-        
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

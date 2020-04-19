@@ -1,14 +1,9 @@
-package com.efake.servlet.ratings;
+package com.efake.servlet.users;
 
-import com.efake.dao.ProductoFacade;
 import com.efake.dao.UsuarioFacade;
-import com.efake.dao.ValoracionFacade;
-import com.efake.entity.Producto;
 import com.efake.entity.Usuario;
-import com.efake.entity.Valoracion;
+import com.efake.service.UsuarioService;
 import java.io.IOException;
-import java.util.Date;
-import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,19 +12,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-
 /**
  *
- * @author carlo
+ * @author laura
+ * @author Pedro Arenas(Refactor for reusing code in Administrator
+ * functionality)
  */
-@WebServlet(name = "doReview", urlPatterns = {"/doReview"})
-public class doReview extends HttpServlet {
+@WebServlet(name = "ModificarPerfil", urlPatterns = {"/ModificarPerfil"})
+public class ModificarPerfil extends HttpServlet {
+
     @EJB
     UsuarioFacade usuarioFacade;
     @EJB
-    ValoracionFacade valoracionFacade;
-    @EJB
-    ProductoFacade productoFacade;
+    UsuarioService usuarioService;
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -39,63 +35,56 @@ public class doReview extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         //Session control
         HttpSession session = request.getSession();
-        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        Usuario user = (Usuario) session.getAttribute("usuario");
+
+        if (user == null) {
+            response.sendRedirect("login.jsp");
+        }
+
+        response.setContentType("text/html;charset=UTF-8");
+        String correoAntiguo, nombre, apellidos, correoNuevo, telefono, status = null, goTo = "/efake/";
+        Boolean saveInSession = true;
         
-        if(usuario == null){
-            response.sendRedirect("/");
+        if(user.getEsAdmin() == 1){
+            goTo = "/efake/ListUsers?list=all&page=1";
+            saveInSession = false;
         }
         
-        Integer rating = Integer.parseInt(request.getParameter("estrellas"));
-        
-        String comment = request.getParameter("comment");
-        Date date = new Date();
-        Integer idProducto = Integer.parseInt(request.getParameter("product"));
-        Producto producto = productoFacade.find(idProducto);
-        List<Valoracion> listaValoraciones = producto.getValoracionList();
-        
-        Valoracion review = new Valoracion();
-        review.setCliente(usuario);
-        review.setProductoValorado(producto);
-        review.setPuntuacion(rating);
-        review.setComentario(comment);
-        review.setFecha(date);
-        review.setHora(date);
-        
-        valoracionFacade.create(review);
-        listaValoraciones.add(review);
-        productoFacade.edit(producto);
-        response.sendRedirect("/efake/ShowProduct?idProducto=" + idProducto);
+        correoAntiguo = request.getParameter("correoAntiguo");
+        nombre = request.getParameter("nombre");
+        apellidos = request.getParameter("apellidos");
+        correoNuevo = request.getParameter("correo");
+        telefono = request.getParameter("telefono");
+
+        user = usuarioFacade.findByCorreo(correoAntiguo);
+        Usuario posibleUser = usuarioFacade.findByCorreo(correoNuevo);
+
+        if (posibleUser != null && !correoNuevo.equals(correoAntiguo)) {
+            status = "El correo ya existe en la base de datos";
+            session.setAttribute("status", status);
+            goTo = "signup.jsp";
+        } else {
+            status = "Updated Profile";
+            session.setAttribute("status", status);
+            user.setNombre(nombre);
+            user.setApellidos(apellidos);
+            user.setTelefono(telefono);
+            user.setCorreo(correoNuevo);
+            usuarioFacade.edit(user);
+
+            if (saveInSession) {
+                session.setAttribute("usuario", user);
+            }
+
+        }
+
+        response.sendRedirect(goTo);
     }
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.

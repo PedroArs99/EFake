@@ -23,7 +23,7 @@ import javax.servlet.http.HttpSession;
  * @author carlo, Juan
  */
 @WebServlet(name = "ShowProduct", urlPatterns = {"/ShowProduct"})
-public class ShowProduct extends HttpServlet {
+public class SearchProduct extends HttpServlet {
 
     @EJB
     ValoracionFacade valoricionFacade;
@@ -73,7 +73,7 @@ public class ShowProduct extends HttpServlet {
         request.setAttribute("ratings", ratings);
         request.setAttribute("listValoraciones", listValoraciones);
         request.setAttribute("valorado", valorado);
-        RequestDispatcher rd = request.getRequestDispatcher("selected_product.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("product.jsp");
 
         rd.forward(request, response);
     }

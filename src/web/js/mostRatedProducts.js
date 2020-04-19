@@ -24,26 +24,26 @@ function createCard(product, index) {
 
     //Add image
     let image = document.createElement('img');
-    image.className = "card-img-top";
+    image.className = "card-img-top h-50";
     image.setAttribute("src", product.image);
     cardNode.appendChild(image);
 
     //Add card body 
     let bodyNode = document.createElement("div");
-    bodyNode.className = "card-body";
+    bodyNode.className = "card-body h-50";
 
     let cardTitle = document.createElement("h5");
-    cardTitle.className = "card-title";
+    cardTitle.className = "card-title h-30";
     cardTitle.innerHTML = product.name;
     bodyNode.appendChild(cardTitle);
 
     let cardText = document.createElement("p");
-    cardText.className = "card-text";
+    cardText.className = "card-text h-15";
     cardText.innerHTML = product.description;
     bodyNode.appendChild(cardText);
 
     let cardLink = document.createElement("a");
-    cardLink.className = "btn btn-primary";
+    cardLink.className = "btn btn-primary h-25";
     cardLink.setAttribute("href", `/efake/ShowProduct?idProducto=${product.id}`);
     cardLink.innerHTML = "View Product";
     bodyNode.appendChild(cardLink);

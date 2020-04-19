@@ -34,24 +34,7 @@
         subcategoria = producto.getSubcategoria().getNombre();
     }
 
-    String k1palabra = "";
-    String k2palabra = "";
-    String k3palabra = "";
-
-    if (producto != null && producto.getKeywordsList() != null) {
-        if (producto.getKeywordsList().size() > 0) {
-            Keywords k1 = producto.getKeywordsList().get(0);
-            k1palabra = k1.getPalabra();
-            if (producto.getKeywordsList().size() > 1) {
-                Keywords k2 = producto.getKeywordsList().get(1);
-                k2palabra = k2.getPalabra();
-                if (producto.getKeywordsList().size() > 2) {
-                    Keywords k3 = producto.getKeywordsList().get(2);
-                    k3palabra = k3.getPalabra();
-                }
-            }
-        }
-    }
+    String keywords = (producto == null) ? "" : producto.getKeywordsJSP();
 
     String goTo = (producto == null) ? "/efake/CreateProductsServlet" : "/efake/ModificarProductoServlet";
 
@@ -112,8 +95,8 @@
         <%@include file="/components/navbar.jspf"%>
         <div class="container contact-form mt-5">
             <form action="<%= goTo%>" method="post">
-                <% if (producto != null) { %>
-                <input type="hidden" name="id" value="<%= producto.getId() %>">
+                <% if (producto != null) {%>
+                <input type="hidden" name="id" value="<%= producto.getId()%>">
                 <% }%>
                 <h3 class="text-center">Sell new product</h3>
                 <div class="row">
@@ -144,9 +127,8 @@
                     <div id="second-stage" class="col-md-6 mx-auto d-none">        
                         <div class="form-group">
                             <label>Keywords</label>
-                            <input type="text" name="textKeywords1" class="form-control mb-2" value="<%= k1palabra%>"/>
-                            <input type="text" name="textKeywords2" class="form-control mb-2" value="<%= k2palabra%>"/>
-                            <input type="text" name="textKeywords3" class="form-control mb-2" value="<%= k3palabra%>"/>
+                            <input type="text" name="keywords" class="form-control mb-2" value="<%= keywords %>"/>
+                            <small class="form-text text-muted">You can enter as many words as you want, separated by comma.</small>
                         </div>
 
                         <div class="form-group">
@@ -161,7 +143,7 @@
                             <select id="subcategory-select" name="Subcategoria" class="form-control">
                                 <option value="0">-</option>
                             </select>
-                            <small class="form-text text-muted">If you choose "Don't Change" on category value won't be edited.</small>
+                            
                         </div>
 
 
@@ -178,6 +160,13 @@
             </form>
         </div>
         <%@include file="/components/footer.jspf"%>
+
+        <!--Bootstrap -->
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+        
+        <!-- Own Scripts -->
         <script src="/efake/js/createProduct.js"></script>
     </body>
 </html>

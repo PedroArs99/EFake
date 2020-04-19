@@ -6,6 +6,7 @@
     Author     : Pedro (Refactor for reusing view in Administrator functionality)
 --%>
 
+<%@page import="com.efake.entity.Keywords"%>
 <%@page import="java.util.List"%>
 <%@page import="java.util.Map"%>
 <%@page import="com.efake.entity.Usuario"%>
@@ -52,20 +53,26 @@
             </div>
             <div class="details col-md-8">
                 <h3 class="product-title"><%=p.getNombre()%></h3>
+                <div class="row-md-4 ">
+                    <% for (Keywords kw : p.getKeywordsList()) { %>
+                    <span class="badge badge-dark">#<%= kw.getPalabra() %></span>
+                    <% }%>
+                </div>
+                
                 <h4>Current price: <span><%=p.getPrecio()%> &euro;</span></h4>
                 <h5>Seller:
                     <span><%=p.getOwner().getNombre() + " " + p.getOwner().getApellidos()%></span>
                 </h5>
                 <p class="product-description"><%=p.getDescripcion()%> </p>
-               <%  if(user != null && (user.equals(p.getOwner()) || user.getEsAdmin() == 1 )) { %>
-         
+                <%  if (user != null && (user.equals(p.getOwner()) || user.getEsAdmin() == 1)) {%>
                 <div class="action">
-                    <a class ="modificar" type="submit" href="ProductoCardServlet?id=<%=p.getId()%>">Modificar producto</a>
+                    <a class ="btn btn-primary" type="submit" href="ProductoCardServlet?id=<%=p.getId()%>">Modify Product</a>
+                    <a class ="btn btn-primary" type="submit" href="DeleteProduct?id=<%=p.getId()%>">Delete Product</a>
                 </div>
-                <% } %>
+                <% }%>
             </div>
         </div>
-        
+
         <!-- @author Carlos -->
         <div class="row mb-3">
             <div class="col-4">
