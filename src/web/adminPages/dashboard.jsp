@@ -42,7 +42,7 @@
                         </h6>
                         <ul class="nav flex-column">
                             <li class="nav-item mb-2">
-                                <a href="${pageContext.request.contextPath}/ListUsers?list=all&page=1" class="nav-link btn btn-primary text-light">
+                                <a href="/efake/ListUsers?list=all&page=1" class="nav-link btn btn-primary text-light">
                                     <i class="fas fa-users"></i> User List
                                 </a>
                             </li>
@@ -52,11 +52,27 @@
                                 </a>
                             </li>
                         </ul>
+                        <h6 
+                            class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                                Stats
+                        </h6>
+                        <ul class="nav flex-column">
+                            <li class="nav-item mb-2">
+                                <button id="global-stats" class="nav-link btn btn-primary text-light w-100">
+                                    <i class="fas fa-chart-bar"></i> Global Stats
+                                </button>
+                            </li>
+                            <li class="nav-item mb-2">
+                                <button id="today-stats" class="nav-link btn btn-primary text-light w-100">
+                                    <i class="fas fa-clock"></i> Today Stats
+                                </button>
+                            </li>
+                        </ul>
                     </div>
                 </nav>
                 <!-- Stats -->
                 <div class="col-md-10">
-                    <canvas id="myChart"></canvas> 
+                    <canvas id="myChart" class="my-5"></canvas>
                 </div>
 
             </div>

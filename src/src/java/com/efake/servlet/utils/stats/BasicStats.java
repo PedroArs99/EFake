@@ -1,32 +1,34 @@
-package com.efake.servlet.login;
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.efake.servlet.utils.stats;
 
-import com.efake.dao.UsuarioFacade;
-import com.efake.entity.Usuario;
-import com.efake.service.UsuarioService;
+import com.efake.service.StatsService;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Date;
+import java.io.PrintWriter;
+import java.util.Map;
+import java.util.Map.Entry;
 import javax.ejb.EJB;
-import javax.ejb.EJBException;
-import javax.servlet.RequestDispatcher;
+import javax.json.Json;
+import javax.json.JsonObjectBuilder;
+import javax.json.JsonWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author laura
+ * @author PedroArenas
  */
-@WebServlet(name = "AutenticarServlet", urlPatterns = {"/AutenticarServlet"})
-public class Autenthicate extends HttpServlet {
-
+@WebServlet(name = "BasicStats", urlPatterns = {"/BasicStats"})
+public class BasicStats extends HttpServlet {
     @EJB
-    UsuarioFacade usuarioFacade;
-    @EJB
-    UsuarioService usuarioService;
+    StatsService statsService;
+    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -38,46 +40,23 @@ public class Autenthicate extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //Session control
-        HttpSession session = request.getSession();
-        Usuario user = (Usuario) session.getAttribute("usuario");
+        //Get data from Service
+        Map<String,Integer> stats = statsService.getBasicStats();
         
-        if(user != null){
-            response.sendRedirect("index.jsp");
+        //Build Json
+        JsonObjectBuilder jsonBuilder = Json.createObjectBuilder();
+        
+        for(Entry<String,Integer> e : stats.entrySet()){
+            jsonBuilder.add(e.getKey(), e.getValue());
         }
         
-        
-        String correo, status = null, goTo = "index.jsp", contrasena;
-        correo = request.getParameter("correo");
-        System.out.println(correo);
-        contrasena = request.getParameter("contrasena");
-        byte[] contrasenaIntroducida = usuarioService.hashPassword(contrasena);
-
-        RequestDispatcher rd;
-        
-
-        try{
-           user = usuarioFacade.findByCorreo(correo);
+        //Send Json
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        PrintWriter out = response.getWriter();
+        try (JsonWriter jsonWriter = Json.createWriter(out)) {
+            jsonWriter.writeObject(jsonBuilder.build());
         }
-        catch(EJBException ex){
-            user = null;
-        }
-        
-        
-        if(user == null){
-           status = "El correo es incorrecto";
-           goTo = "login.jsp";
-        }else if(!Arrays.equals(contrasenaIntroducida,user.getPassword())){
-           status = "La contraseña es incorrecta";
-           goTo = "login.jsp";
-        }else{            
-            session.setAttribute("usuario", user);
-            user.setUltimaEntrada(new Date());
-            usuarioFacade.edit(user);
-                  
-        }
-        session.setAttribute("status", status);
-        response.sendRedirect(goTo);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

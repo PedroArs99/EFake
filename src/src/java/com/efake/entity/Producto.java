@@ -76,7 +76,7 @@ public class Producto implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "Fecha")
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.DATE)
     private Date fecha;
     @ManyToMany(mappedBy = "productoList", fetch = FetchType.LAZY)
     private List<Keywords> keywordsList;

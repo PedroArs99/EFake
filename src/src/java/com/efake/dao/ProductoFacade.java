@@ -3,6 +3,7 @@ package com.efake.dao;
 import com.efake.entity.Categoria;
 import com.efake.entity.Producto;
 import com.efake.entity.Usuario;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -79,5 +80,16 @@ public class ProductoFacade extends AbstractFacade<Producto> {
         productList = q.getResultList();
         
         return productList;
+    }
+    
+    public List<Producto> findByFecha(Date date){
+        Query q;
+        List<Producto> res;
+        
+        q = this.getEntityManager().createNamedQuery("Producto.findByFecha");
+        q.setParameter("fecha", date);
+        res = q.getResultList();
+        
+        return res;
     }
 }

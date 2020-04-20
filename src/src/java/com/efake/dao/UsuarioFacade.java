@@ -1,6 +1,7 @@
  package com.efake.dao;
 
 import com.efake.entity.Usuario;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -68,4 +69,15 @@ public class UsuarioFacade extends AbstractFacade<Usuario> {
         
         return res;
     }   
+    
+    public List<Usuario> findByUltimaEntrada(Date date){
+        Query q;
+        List<Usuario> res;
+        
+        q = this.getEntityManager().createNamedQuery("Usuario.findByUltimaEntrada");
+        q.setParameter("fecha", date);
+        res = q.getResultList();
+        
+        return res;
+    }
 }

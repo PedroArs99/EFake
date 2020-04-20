@@ -38,8 +38,9 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Usuario.findByApellidos", query = "SELECT u FROM Usuario u WHERE u.apellidos = :apellidos")
     , @NamedQuery(name = "Usuario.findByEdad", query = "SELECT u FROM Usuario u WHERE u.edad = :edad")
     , @NamedQuery(name = "Usuario.findByTelefono", query = "SELECT u FROM Usuario u WHERE u.telefono = :telefono")
-    , @NamedQuery(name = "Usuario.findByEsAdmin", query = "SELECT u FROM Usuario u WHERE u.esAdmin = :esAdmin")})
- 
+    , @NamedQuery(name = "Usuario.findByEsAdmin", query = "SELECT u FROM Usuario u WHERE u.esAdmin = :esAdmin")
+    , @NamedQuery(name = "Usuario.findByUltimaEntrada", query = "SELECT u FROM Usuario u WHERE u.ultimaEntrada = :fecha")})
+
 public class Usuario implements Serializable {
 
     @Basic(optional = false)
@@ -120,7 +121,6 @@ public class Usuario implements Serializable {
     public void setCorreo(String correo) {
         this.correo = correo;
     }
-
 
     public String getNombre() {
         return nombre;
@@ -213,7 +213,6 @@ public class Usuario implements Serializable {
         this.id = id;
     }
 
-
     public String getMotivo() {
         return motivo;
     }
@@ -254,5 +253,5 @@ public class Usuario implements Serializable {
     public void setPassword(byte[] password) {
         this.password = password;
     }
-    
+
 }
