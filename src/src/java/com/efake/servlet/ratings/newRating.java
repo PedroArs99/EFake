@@ -48,7 +48,12 @@ public class newRating extends HttpServlet {
             response.sendRedirect("/efake/");
         }
         
-        Integer rating = Integer.parseInt(request.getParameter("estrellas"));
+        String estrellas = request.getParameter("estrellas");
+        if(estrellas == null){
+            estrellas = "1";
+        }
+        Integer rating = Integer.parseInt(estrellas);
+        
         
         String comment = request.getParameter("comment");
         Date date = new Date();
@@ -62,7 +67,6 @@ public class newRating extends HttpServlet {
         review.setPuntuacion(rating);
         review.setComentario(comment);
         review.setFecha(date);
-        review.setHora(date);
         
         valoracionFacade.create(review);
         listaValoraciones.add(review);

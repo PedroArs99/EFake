@@ -103,12 +103,12 @@
                     <div  id="first-stage" class="col-md-6 mx-auto">
                         <div class="form-group">
                             <label>Name</label>
-                            <input type="text" name="textNombre" class="form-control" value="<%= nombre%>"/>
+                            <input type="text" name="textNombre" class="form-control" value="<%= nombre%>" required/>
                         </div>
 
                         <div class="form-group">
                             <label>Price</label>
-                            <input type="number" step="0.01" name="textPrecio" class="form-control" value="<%= precio%>"/>
+                            <input type="number" step="0.01" name="textPrecio" class="form-control" value="<%= precio%>" required/>
                         </div>
 
                         <div class="form-group">

@@ -92,4 +92,16 @@ public class ProductoFacade extends AbstractFacade<Producto> {
         
         return res;
     }
+    
+    public List<Object[]> countByDate(Date start, Date end){
+        Query q;
+        List<Object[]> res;
+        
+        q = this.getEntityManager().createNamedQuery("Producto.CountByDate");
+        q.setParameter("start", start);
+        q.setParameter("end", end);
+        res = q.getResultList();
+        
+        return res;
+    }
 }

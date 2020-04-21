@@ -1,4 +1,8 @@
-
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package com.efake.entity;
 
 import java.io.Serializable;
@@ -6,6 +10,7 @@ import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -40,7 +45,7 @@ public class Keywords implements Serializable {
     @JoinTable(name = "PRODUCTO_KEYWORDS", joinColumns = {
         @JoinColumn(name = "Palabra", referencedColumnName = "Palabra")}, inverseJoinColumns = {
         @JoinColumn(name = "Producto", referencedColumnName = "ID")})
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     private List<Producto> productoList;
 
     public Keywords() {

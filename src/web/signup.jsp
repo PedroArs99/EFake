@@ -120,9 +120,9 @@
             <%if (status != null) {%>
             <div class="alert alert-danger"><%=status%></div>
             <%}%>
-            <input type="text" name="nombre" id="defaultRegisterFormFirstName" class="form-control" placeholder="First name" autofocus="">
+            <input type="text" name="nombre" id="defaultRegisterFormFirstName" class="form-control" placeholder="First name" autofocus="" required>
 
-            <input type="text" name="apellidos" id="defaultRegisterFormLastName" class="form-control" placeholder="Last name"><br/>
+            <input type="text" name="apellidos" id="defaultRegisterFormLastName" class="form-control" placeholder="Last name" required><br/>
 
             <label for="inputEmail" class="sr-only">Email address</label>
             <input type="email" name="correo" id="inputEmail" class="form-control" placeholder="Email address" required="">

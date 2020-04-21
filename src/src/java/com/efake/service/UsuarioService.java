@@ -15,26 +15,26 @@ import javax.ejb.Stateless;
  */
 @Stateless
 public class UsuarioService {
+
     @EJB
     UsuarioFacade usuarioFacade;
-    
-    public byte[] hashPassword(String password){
+
+    public byte[] hashPassword(String password) {
         byte[] hash = null;
-        
+
         try {
             //Create Hash algorithm instance for SHA-256
             MessageDigest md = MessageDigest.getInstance("SHA-256");
-            
+
             //Set text that's gonna be hashed in UTF-8 encoding
             md.update(password.getBytes("UTF-8"));
             //Apply hash function
             hash = md.digest();
         } catch (NoSuchAlgorithmException | UnsupportedEncodingException ex) {
             Logger.getLogger(UsuarioService.class.getName()).log(Level.SEVERE, null, ex);
-        } finally{
+        } finally {
             return hash;
         }
     }
-    
-    
+
 }

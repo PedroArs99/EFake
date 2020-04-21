@@ -3,6 +3,7 @@
     Created on : 28-mar-2020, 1:11:13
     Author     : PedroArenas
 --%>
+<%@page import="java.text.SimpleDateFormat"%>
 <%@page import="com.efake.entity.Usuario"%>
 <%@page import="java.util.List"%>
 <%@page import="com.efake.entity.Categoria"%>
@@ -24,7 +25,11 @@
     String whichList = request.getParameter("list");
 
     String status = (String) session.getAttribute("status");
-    session.removeAttribute("status");
+    session.removeAttribute("status"); 
+%>
+
+<% //Other Tools
+    SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MM-yyyy");
 %>
 <!DOCTYPE html>
 <html>
@@ -45,84 +50,9 @@
         <%@include file="/components/navbar.jspf"%>
         <div class="container-fluid ">
             <div class="row">
-                <nav class="col-md-2 d-none d-md-block bg-transparent sidebar border-right border-thin">
-                    <div class="sidebar-sticky">
-                        <ul class="nav flex-column">
-                            <li class="nav-item">
-                                <a class="nav-link active" href="#">
-                                    <span data-feather="home"></span>
-                                    Dashboard <span class="sr-only">(current)</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">
-                                    <span data-feather="file"></span>
-                                    Orders
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">
-                                    <span data-feather="shopping-cart"></span>
-                                    Products
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">
-                                    <span data-feather="users"></span>
-                                    Customers
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">
-                                    <span data-feather="bar-chart-2"></span>
-                                    Reports
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">
-                                    <span data-feather="layers"></span>
-                                    Integrations
-                                </a>
-                            </li>
-                        </ul>
 
-                        <h6
-                            class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-                            <span>Saved reports</span>
-                            <a class="d-flex align-items-center text-muted" href="#" aria-label="Add a new report">
-                                <span data-feather="plus-circle"></span>
-                            </a>
-                        </h6>
-                        <ul class="nav flex-column mb-2">
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">
-                                    <span data-feather="file-text"></span>
-                                    Current month
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">
-                                    <span data-feather="file-text"></span>
-                                    Last quarter
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">
-                                    <span data-feather="file-text"></span>
-                                    Social engagement
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">
-                                    <span data-feather="file-text"></span>
-                                    Year-end sale
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </nav>
 
-                <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+                <main role="main" class="col-md-9  col-lg-10 px-4">
                     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
                         <h1 class="h2">User List</h1>
                     </div>
@@ -153,7 +83,7 @@
                                     <td><%= u.getApellidos()%></td>
                                     <td><%= u.getEdad()%></td>
                                     <td><%= u.getTelefono()%></td>
-                                    <td><%= (u.getUltimaEntrada() == null) ? '-' : u.getUltimaEntrada()%></td>
+                                    <td><%= (u.getUltimaEntrada() == null) ? '-' : dateFormatter.format(u.getUltimaEntrada())%></td>
                                     <td>
                                         <button type="button" class="bg-transparent border-0" data-toggle="modal"
                                                 data-target="#deleteConfirmationModal" data-user="<%= u.getCorreo()%>"
@@ -162,10 +92,10 @@
                                         </button>
                                     </td>
                                     <td>
-                                        <a href="/efake/AlterUser?id=<%= u.getId() %>">
+                                        <a href="/efake/AlterUser?id=<%= u.getId()%>">
                                             <i class="fas fa-edit"></i>
                                         </a>
-                                        
+
                                     </td>
                                 </tr>
                                 <% }%>
@@ -192,7 +122,7 @@
              aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <form method="POST" action="/efake/DeleteUser">
-                    <input type="hidden" name="page" value="<%= currentPage %>">
+                    <input type="hidden" name="page" value="<%= currentPage%>">
                     <div class="modal-content">
                         <div class="modal-body">
                             Are you sure you want to delete <span id="modal-user"></span> account?

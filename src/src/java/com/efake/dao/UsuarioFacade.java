@@ -29,7 +29,7 @@ public class UsuarioFacade extends AbstractFacade<Usuario> {
         super(Usuario.class);
     }
     
-    //Self Queries
+    
     public Integer findByEsAdminCount(int esAdmin){
         Query q;
         List<Usuario> userList;
@@ -76,6 +76,18 @@ public class UsuarioFacade extends AbstractFacade<Usuario> {
         
         q = this.getEntityManager().createNamedQuery("Usuario.findByUltimaEntrada");
         q.setParameter("fecha", date);
+        res = q.getResultList();
+        
+        return res;
+    }
+    
+    public List<Object[]> countByDate(Date start, Date end){
+        Query q;
+        List<Object[]> res;
+        
+        q = this.getEntityManager().createNamedQuery("Usuario.CountByDate");
+        q.setParameter("start", start);
+        q.setParameter("end", end);
         res = q.getResultList();
         
         return res;

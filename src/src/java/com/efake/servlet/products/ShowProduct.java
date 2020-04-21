@@ -23,7 +23,7 @@ import javax.servlet.http.HttpSession;
  * @author carlo, Juan
  */
 @WebServlet(name = "ShowProduct", urlPatterns = {"/ShowProduct"})
-public class SearchProduct extends HttpServlet {
+public class ShowProduct extends HttpServlet {
 
     @EJB
     ValoracionFacade valoricionFacade;

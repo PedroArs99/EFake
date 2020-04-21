@@ -13,9 +13,11 @@ import java.io.PrintWriter;
 import java.io.StringReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 import javax.ejb.EJB;
 import javax.json.Json;
 import javax.json.JsonArray;
@@ -57,7 +59,6 @@ public class RandProductGenerator extends HttpServlet {
         //Get User 
         List<Usuario> allUsers = userFacade.findAll();
         List<Categoria> allCategories = categoryFacade.findAll();
-       
 
         PrintWriter out = response.getWriter();
         String number = request.getParameter("number");
@@ -86,17 +87,25 @@ public class RandProductGenerator extends HttpServlet {
             for (int i = 0; i < productsJson.size(); i++) {
                 JsonObject productJson = productsJson.getJsonObject(i);
                 Producto newProduct = new Producto();
-                
+
                 newProduct.setNombre(productJson.getString("name"));
                 newProduct.setDescripcion(productJson.getString("description"));
                 newProduct.setPrecio(r.nextDouble());
-                newProduct.setImagen(productJson.getString("image"));
-                newProduct.setFecha(new Date());
+                newProduct.setImagen("https://b1.pngbarn.com/png/1015/575/simply-styled-icon-set-731-icons-free-ebay-alt-multicolored-striped-bag-icon-png-clip-art-thumbnail.png");
+
+                Calendar today = Calendar.getInstance();
+                today.setTime(new Date());
+
+                Calendar oneMonthAgo = (Calendar) today.clone();
+                oneMonthAgo.roll(Calendar.DAY_OF_YEAR, -30);
+
+                newProduct.setFecha(dateBetween(oneMonthAgo.getTime(), today.getTime()));
+
                 Categoria cat = allCategories.get(r.nextInt(allCategories.size()));
                 newProduct.setCategoria(cat);
                 Usuario owner = allUsers.get(r.nextInt(allUsers.size()));
                 newProduct.setOwner(owner);
-                
+
                 productFacade.create(newProduct);
             }
 
@@ -109,6 +118,16 @@ public class RandProductGenerator extends HttpServlet {
         } finally {
             out.close();
         }
+    }
+
+    public Date dateBetween(Date startInclusive, Date endExclusive) {
+        long startMillis = startInclusive.getTime();
+        long endMillis = endExclusive.getTime();
+        long randomMillisSinceEpoch = ThreadLocalRandom
+                .current()
+                .nextLong(startMillis, endMillis);
+
+        return new Date(randomMillisSinceEpoch);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

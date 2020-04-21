@@ -164,7 +164,7 @@
                                     <label for='radio5'>★</label>
                                 </p>
                                 <label class="col-form-label">Comments</label>
-                                <textarea class="form-control" name="comment"></textarea>
+                                <textarea class="form-control" name="comment" required></textarea>
                             </div>
 
                         </div>

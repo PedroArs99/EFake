@@ -1,3 +1,8 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package com.efake.entity;
 
 import java.io.Serializable;
@@ -5,6 +10,7 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -20,7 +26,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
-
 /**
  *
  * @author PedroArenas
@@ -33,14 +38,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Valoracion.findById", query = "SELECT v FROM Valoracion v WHERE v.id = :id")
     , @NamedQuery(name = "Valoracion.findByPuntuacion", query = "SELECT v FROM Valoracion v WHERE v.puntuacion = :puntuacion")
     , @NamedQuery(name = "Valoracion.findByFecha", query = "SELECT v FROM Valoracion v WHERE v.fecha = :fecha")
-    , @NamedQuery(name = "Valoracion.findByHora", query = "SELECT v FROM Valoracion v WHERE v.hora = :hora")
-    , @NamedQuery(name = "Valoracion.findByProducto", query = "SELECT v FROM Valoracion v WHERE v.productoValorado = :productoValorado")})
+    , @NamedQuery(name = "Valoracion.findByProducto", query = "SELECT v FROM Valoracion v WHERE v.productoValorado = :productoValorado")
+    , @NamedQuery(name = "Valoracion.CountByDate", query = "SELECT v.fecha, count(v) FROM  Valoracion v WHERE v.fecha BETWEEN :start and :end GROUP BY v.fecha ORDER BY v.fecha ASC")})
 public class Valoracion implements Serializable {
-
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "Reportado")
-    private short reportado;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -59,18 +59,13 @@ public class Valoracion implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "Fecha")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date fecha;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "Hora")
-    @Temporal(TemporalType.TIME)
-    private Date hora;
     @JoinColumn(name = "Cliente", referencedColumnName = "ID")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Usuario cliente;
     @JoinColumn(name = "ProductoValorado", referencedColumnName = "ID")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Producto productoValorado;
 
     public Valoracion() {
@@ -80,11 +75,10 @@ public class Valoracion implements Serializable {
         this.id = id;
     }
 
-    public Valoracion(Integer id, int puntuacion, Date fecha, Date hora) {
+    public Valoracion(Integer id, int puntuacion, Date fecha) {
         this.id = id;
         this.puntuacion = puntuacion;
         this.fecha = fecha;
-        this.hora = hora;
     }
 
     public Integer getId() {
@@ -114,25 +108,9 @@ public class Valoracion implements Serializable {
     public Date getFecha() {
         return fecha;
     }
-    
-    public String getFechaString(){
-        int day = fecha.getDay();
-        int month = fecha.getMonth();
-        int year = fecha.getYear() + 1900;
-        
-        return day + "/" + month + "/" + year;
-    }
 
     public void setFecha(Date fecha) {
         this.fecha = fecha;
-    }
-
-    public Date getHora() {
-        return hora;
-    }
-
-    public void setHora(Date hora) {
-        this.hora = hora;
     }
 
     public Usuario getCliente() {
@@ -174,14 +152,6 @@ public class Valoracion implements Serializable {
     @Override
     public String toString() {
         return "com.efake.entity.Valoracion[ id=" + id + " ]";
-    }
-
-    public short getReportado() {
-        return reportado;
-    }
-
-    public void setReportado(short reportado) {
-        this.reportado = reportado;
     }
     
 }

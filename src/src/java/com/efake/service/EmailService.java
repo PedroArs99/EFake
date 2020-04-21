@@ -183,7 +183,7 @@ public class EmailService {
                 + "<img src='https://github.com/PedroArs99/EFake/raw/master/img/logo.png'>\n"
                 + "<hr>\n"
                 + "<p>\n"
-                + "    Dear"+ mailProperties.getProperty("fname") + ", <br>\n"
+                + "    Dear " + mailProperties.getProperty("fname") + ", <br>\n"
                 + "    As a new member of our great community we would like to give you a warm welcome from the Efake team!<br>\n"
                 + "    Since now you can announce your products and other users can tell you their opinion about it,\n"
                 + "    as well as you can give your opinion about other users products, isn't it great? :) \n"

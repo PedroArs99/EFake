@@ -38,7 +38,7 @@
                     <div class="sidebar-sticky">
                         <h6 
                             class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-                                Dashboard
+                            Dashboard
                         </h6>
                         <ul class="nav flex-column">
                             <li class="nav-item mb-2">
@@ -54,7 +54,7 @@
                         </ul>
                         <h6 
                             class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-                                Stats
+                            Stats
                         </h6>
                         <ul class="nav flex-column">
                             <li class="nav-item mb-2">
@@ -67,7 +67,36 @@
                                     <i class="fas fa-clock"></i> Today Stats
                                 </button>
                             </li>
+                            <li class="nav-item mb-2">
+                                <button id="monthly-stats" class="nav-link btn btn-primary text-light w-100">
+                                    <i class="fas fa-calendar"></i> Monthly Stats
+                                </button>
+                            </li>
                         </ul>
+                        <div id="monthly-panel" class="d-none">
+                            <h6 
+                                class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                                Monthly Stats
+                            </h6>
+                            <ul class="nav flex-column">
+                                <li class="nav-item mb-2">
+                                    <button id="users-dataset" class="nav-link btn btn-danger text-light w-100">
+                                        <i class="fas fa-chart-line"></i> Users Logged In
+                                    </button>
+                                </li>
+                                <li class="nav-item mb-2">
+                                    <button id="products-dataset" class="nav-link btn btn-info text-light w-100">
+                                        <i class="fas fa-chart-line"></i> New Products
+                                    </button>
+                                </li>
+                                <li class="nav-item mb-2">
+                                    <button id="ratings-dataset" class="nav-link btn btn-warning text-light w-100">
+                                        <i class="fas fa-chart-line"></i> New Ratings
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
+
                     </div>
                 </nav>
                 <!-- Stats -->

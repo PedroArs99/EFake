@@ -3,14 +3,14 @@ const MostRatedProductsDiv = document.querySelector("#mostRatedProducts");
 
 //Fetch Api & get Products
 fetch("/efake/MostRatedProducts")
-    .then(response => response.json())
-    .then(data => {
-        let i = 0;
-        data.products.forEach(product => {
-            createCard(product, i);
-            i++;
+        .then(response => response.json())
+        .then(data => {
+            let i = 0;
+            data.products.forEach(product => {
+                createCard(product, i);
+                i++;
+            });
         });
-    });
 
 function createCard(product, index) {
     //Create Div node

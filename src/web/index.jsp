@@ -1,3 +1,7 @@
+<%-- 
+    Document   : index
+    Author     : Pedro Arenas
+--%>
 <%@page import="com.efake.entity.Usuario"%>
 <%@page import="java.util.List"%>
 <%@page import="com.efake.entity.Categoria"%>

@@ -1,7 +1,6 @@
 package com.efake.dao;
 
 import com.efake.entity.Producto;
-import com.efake.entity.Usuario;
 import com.efake.entity.Valoracion;
 import java.util.Date;
 import java.util.List;
@@ -37,12 +36,25 @@ public class ValoracionFacade extends AbstractFacade<Valoracion> {
         listaValoracion = q.getResultList();
         return listaValoracion;
     }
+    
     public List<Valoracion> findByFecha(Date date){
         Query q;
         List<Valoracion> res;
         
         q = this.getEntityManager().createNamedQuery("Valoracion.findByFecha");
         q.setParameter("fecha", date);
+        res = q.getResultList();
+        
+        return res;
+    }
+    
+    public List<Object[]> countByDate(Date start, Date end){
+        Query q;
+        List<Object[]> res;
+        
+        q = this.getEntityManager().createNamedQuery("Valoracion.CountByDate");
+        q.setParameter("start", start);
+        q.setParameter("end", end);
         res = q.getResultList();
         
         return res;

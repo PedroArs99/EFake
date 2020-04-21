@@ -18,8 +18,10 @@ import javax.servlet.http.HttpSession;
  */
 @WebServlet(name = "AlterUser", urlPatterns = {"/AlterUser"})
 public class AlterUser extends HttpServlet {
+
     @EJB
     UsuarioFacade usuarioFacade;
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -39,13 +41,13 @@ public class AlterUser extends HttpServlet {
         } else if (admin == null) { //The user is not logged in
             response.sendRedirect("/efake/login.jsp");
         }
-        
+
         //Load parameters
         Integer id = Integer.parseInt(request.getParameter("id"));
-        
+
         //Find User
         Usuario user = usuarioFacade.find(id);
-        
+
         //Resend to signup form
         request.setAttribute("user", user);
         RequestDispatcher rd = request.getRequestDispatcher("signup.jsp");

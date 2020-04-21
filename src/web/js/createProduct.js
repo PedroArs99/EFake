@@ -58,7 +58,7 @@ categorySelect.addEventListener('change', (e) => {
     while (subcategorySelect.lastElementChild) {
         subcategorySelect.removeChild(subcategorySelect.lastElementChild);
     }
-    
+
     //Add default
     let node = document.createElement('option');
     node.setAttribute("value", 0);

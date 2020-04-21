@@ -12,11 +12,11 @@ import javax.ejb.Stateless;
  */
 @Stateless
 public class ProductoService {
-    
+
     @EJB
     ProductoFacade productoFacade;
-    
-    public List<Producto> getMostRated(int howMany){
+
+    public List<Producto> getMostRated(int howMany) {
         return productoFacade.findMostRated(5);
     }
 }

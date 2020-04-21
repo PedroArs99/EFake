@@ -1,3 +1,8 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package com.efake.entity;
 
 import java.io.Serializable;
@@ -39,39 +44,26 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Usuario.findByEdad", query = "SELECT u FROM Usuario u WHERE u.edad = :edad")
     , @NamedQuery(name = "Usuario.findByTelefono", query = "SELECT u FROM Usuario u WHERE u.telefono = :telefono")
     , @NamedQuery(name = "Usuario.findByEsAdmin", query = "SELECT u FROM Usuario u WHERE u.esAdmin = :esAdmin")
-    , @NamedQuery(name = "Usuario.findByUltimaEntrada", query = "SELECT u FROM Usuario u WHERE u.ultimaEntrada = :fecha")})
-
+    , @NamedQuery(name = "Usuario.findByUltimaEntrada", query = "SELECT u FROM Usuario u WHERE u.ultimaEntrada = :fecha")
+    , @NamedQuery(name = "Usuario.CountByDate", query = "SELECT u.ultimaEntrada, count(u) FROM  Usuario u WHERE u.ultimaEntrada BETWEEN :start and :end GROUP BY u.ultimaEntrada ORDER BY u.ultimaEntrada ASC")})
 public class Usuario implements Serializable {
 
-    @Basic(optional = false)
-    @NotNull
-    @Lob
-    @Column(name = "Password")
-    private byte[] password;
-
-    @Id()
+    private static final long serialVersionUID = 1L;
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "ID")
     private Integer id;
-    @Lob
-    @Size(max = 2147483647)
-    @Column(name = "Motivo")
-    private String motivo;
-    @Column(name = "UltimaEntrada")
-    @Temporal(TemporalType.DATE)
-    private Date ultimaEntrada;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "Reportado")
-    private short reportado;
-
-    private static final long serialVersionUID = 1L;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 100)
     @Column(name = "Correo")
     private String correo;
+    @Basic(optional = false)
+    @NotNull
+    @Lob
+    @Column(name = "Password")
+    private byte[] password;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 45)
@@ -93,6 +85,9 @@ public class Usuario implements Serializable {
     @NotNull
     @Column(name = "esAdmin")
     private short esAdmin;
+    @Column(name = "UltimaEntrada")
+    @Temporal(TemporalType.DATE)
+    private Date ultimaEntrada;
     @OneToMany(mappedBy = "cliente", fetch = FetchType.LAZY)
     private List<Valoracion> valoracionList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.LAZY)
@@ -101,11 +96,12 @@ public class Usuario implements Serializable {
     public Usuario() {
     }
 
-    public Usuario(String correo) {
-        this.correo = correo;
+    public Usuario(Integer id) {
+        this.id = id;
     }
 
-    public Usuario(String correo, byte[] password, String nombre, String apellidos, int edad, short esAdmin) {
+    public Usuario(Integer id, String correo, byte[] password, String nombre, String apellidos, int edad, short esAdmin) {
+        this.id = id;
         this.correo = correo;
         this.password = password;
         this.nombre = nombre;
@@ -114,12 +110,37 @@ public class Usuario implements Serializable {
         this.esAdmin = esAdmin;
     }
 
+    public Usuario(String correo, byte[] contrasenaCifrada, String nombre, String apellidos, int edad, short esAdmin) {
+        this.correo = correo;
+        this.password = contrasenaCifrada;
+        this.nombre = nombre;
+        this.apellidos = apellidos;
+        this.edad = edad;
+        this.esAdmin = esAdmin;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     public String getCorreo() {
         return correo;
     }
 
     public void setCorreo(String correo) {
         this.correo = correo;
+    }
+
+    public byte[] getPassword() {
+        return password;
+    }
+
+    public void setPassword(byte[] password) {
+        this.password = password;
     }
 
     public String getNombre() {
@@ -162,6 +183,14 @@ public class Usuario implements Serializable {
         this.esAdmin = esAdmin;
     }
 
+    public Date getUltimaEntrada() {
+        return ultimaEntrada;
+    }
+
+    public void setUltimaEntrada(Date ultimaEntrada) {
+        this.ultimaEntrada = ultimaEntrada;
+    }
+
     @XmlTransient
     public List<Valoracion> getValoracionList() {
         return valoracionList;
@@ -178,47 +207,6 @@ public class Usuario implements Serializable {
 
     public void setProductoList(List<Producto> productoList) {
         this.productoList = productoList;
-    }
-
-    public Date getUltimaEntrada() {
-        return ultimaEntrada;
-    }
-
-    public void setUltimaEntrada(Date ultimaEntrada) {
-        this.ultimaEntrada = ultimaEntrada;
-    }
-
-    public short getReportado() {
-        return reportado;
-    }
-
-    public void setReportado(short reportado) {
-        this.reportado = reportado;
-    }
-
-    public Usuario(Integer id) {
-        this.id = id;
-    }
-
-    public Usuario(Integer id, byte[] password) {
-        this.id = id;
-        this.password = password;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getMotivo() {
-        return motivo;
-    }
-
-    public void setMotivo(String motivo) {
-        this.motivo = motivo;
     }
 
     @Override
@@ -245,13 +233,5 @@ public class Usuario implements Serializable {
     public String toString() {
         return "com.efake.entity.Usuario[ id=" + id + " ]";
     }
-
-    public byte[] getPassword() {
-        return password;
-    }
-
-    public void setPassword(byte[] password) {
-        this.password = password;
-    }
-
+    
 }

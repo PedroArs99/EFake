@@ -1,3 +1,8 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package com.efake.entity;
 
 import java.io.Serializable;
@@ -10,7 +15,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -44,10 +48,6 @@ public class Categoria implements Serializable {
     @Size(min = 1, max = 45)
     @Column(name = "Nombre")
     private String nombre;
-    @Lob
-    @Size(max = 2147483647)
-    @Column(name = "Descripcion")
-    private String descripcion;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "categoria", fetch = FetchType.LAZY)
     private List<Producto> productoList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "categoria", fetch = FetchType.LAZY)
@@ -79,14 +79,6 @@ public class Categoria implements Serializable {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
-    }
-
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
     }
 
     @XmlTransient

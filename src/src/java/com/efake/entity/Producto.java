@@ -1,3 +1,8 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package com.efake.entity;
 
 import java.io.Serializable;
@@ -42,13 +47,9 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Producto.findByOwner", query = "SELECT p FROM Producto p WHERE p.owner = :owner")
     , @NamedQuery(name = "Producto.findByCategoria", query = "SELECT p FROM Producto p WHERE p.categoria = :categoria")
     , @NamedQuery(name = "Producto.findByFilter", query = "SELECT DISTINCT p FROM Producto p INNER JOIN p.keywordsList k WHERE p.nombre LIKE :words OR p.descripcion LIKE :words OR k.palabra LIKE :words")
-    , @NamedQuery(name = "Producto.findSortedByRatingsNumber", query = "SELECT p FROM Valoracion v JOIN v.productoValorado p GROUP BY v.productoValorado ORDER BY COUNT(v.productoValorado) DESC")})
+    , @NamedQuery(name = "Producto.findSortedByRatingsNumber", query = "SELECT p FROM Valoracion v JOIN v.productoValorado p GROUP BY v.productoValorado ORDER BY COUNT(v.productoValorado) DESC")
+    , @NamedQuery(name = "Producto.CountByDate", query = "SELECT p.fecha, count(p) FROM  Producto p WHERE p.fecha BETWEEN :start and :end GROUP BY p.fecha ORDER BY p.fecha DESC")})
 public class Producto implements Serializable {
-
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "Reportado")
-    private short reportado;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -70,7 +71,7 @@ public class Producto implements Serializable {
     @Column(name = "Precio")
     private double precio;
     @Lob
-    @Size(max = 65535)
+    @Size(max = 2147483647)
     @Column(name = "Imagen")
     private String imagen;
     @Basic(optional = false)
@@ -83,13 +84,13 @@ public class Producto implements Serializable {
     @OneToMany(mappedBy = "productoValorado", fetch = FetchType.LAZY)
     private List<Valoracion> valoracionList;
     @JoinColumn(name = "Categoria", referencedColumnName = "ID")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Categoria categoria;
     @JoinColumn(name = "Owner", referencedColumnName = "ID")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Usuario owner;
     @JoinColumn(name = "Subcategoria", referencedColumnName = "ID")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Subcategoria subcategoria;
 
     public Producto() {
@@ -104,7 +105,6 @@ public class Producto implements Serializable {
         this.nombre = nombre;
         this.precio = precio;
         this.fecha = fecha;
-
     }
 
     public Integer getId() {
@@ -221,23 +221,14 @@ public class Producto implements Serializable {
     public String toString() {
         return "com.efake.entity.Producto[ id=" + id + " ]";
     }
-
-    public short getReportado() {
-        return reportado;
-    }
-
-    public void setReportado(short reportado) {
-        this.reportado = reportado;
-    }
     
-    
-    public String getKeywordsJSP(){
+    public String getKeywordsJSP() {
         StringJoiner sj = new StringJoiner(",");
-        
-        for(Keywords k : this.getKeywordsList()){
+
+        for (Keywords k : this.getKeywordsList()) {
             sj.add(k.getPalabra());
         }
-        
+
         return sj.toString();
     }
 }

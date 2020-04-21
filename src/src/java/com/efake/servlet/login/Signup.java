@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package com.efake.servlet.login;
 
 import com.efake.dao.UsuarioFacade;
@@ -121,7 +117,7 @@ public class Signup extends HttpServlet {
         }else{
            status = "Todo correcto";
            request.setAttribute("status", status);
-           newUser = new Usuario(correo,contrasenaCifrada,nombre,apellidos,edad,(short)0);
+           newUser = new Usuario(correo,contrasenaCifrada,nombre,apellidos,edad,(short) 0);
            newUser.setTelefono(telefono);
            usuarioFacade.create(newUser);           
            session.setAttribute("usuario", newUser);
@@ -129,7 +125,7 @@ public class Signup extends HttpServlet {
            Properties mailProperties = new Properties();
            mailProperties.setProperty("to", newUser.getCorreo());
            mailProperties.setProperty("subject", "Welcome to Efake");
-           mailProperties.setProperty("userName", newUser.getNombre());
+           mailProperties.setProperty("fname", newUser.getNombre());
            mailProperties.setProperty("template", TemplatesEnum.REGISTER_USER.toString());
            
            emailService.sendEmail(mailProperties);
