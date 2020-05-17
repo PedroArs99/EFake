@@ -1,16 +1,22 @@
-package com.efake.entity;
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.efake.dto;
 
-import com.efake.dto.CategoriaDTO;
+import com.efake.entity.*;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -25,13 +31,14 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author PedroArenas
  */
 @Entity
-@Table(name = "CATEGORIA")
+@Table(name = "SUBCATEGORIA")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Categoria.findAll", query = "SELECT c FROM Categoria c")
-    , @NamedQuery(name = "Categoria.findById", query = "SELECT c FROM Categoria c WHERE c.id = :id")
-    , @NamedQuery(name = "Categoria.findByNombre", query = "SELECT c FROM Categoria c WHERE c.nombre = :nombre")})
-public class Categoria implements Serializable {
+    @NamedQuery(name = "Subcategoria.findAll", query = "SELECT s FROM Subcategoria s")
+    , @NamedQuery(name = "Subcategoria.findById", query = "SELECT s FROM Subcategoria s WHERE s.id = :id")
+    , @NamedQuery(name = "Subcategoria.findByNombre", query = "SELECT s FROM Subcategoria s WHERE s.nombre = :nombre")
+    , @NamedQuery(name = "Subcategoria.findByCategoria", query = "SELECT s FROM Subcategoria s WHERE s.categoria = :categoria")})
+public class Subcategoria implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -44,19 +51,20 @@ public class Categoria implements Serializable {
     @Size(min = 1, max = 45)
     @Column(name = "Nombre")
     private String nombre;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "categoria", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "subcategoria", fetch = FetchType.LAZY)
     private List<Producto> productoList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "categoria", fetch = FetchType.LAZY)
-    private List<Subcategoria> subcategoriaList;
+    @JoinColumn(name = "Categoria", referencedColumnName = "ID")
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    private Categoria categoria;
 
-    public Categoria() {
+    public Subcategoria() {
     }
 
-    public Categoria(Integer id) {
+    public Subcategoria(Integer id) {
         this.id = id;
     }
 
-    public Categoria(Integer id, String nombre) {
+    public Subcategoria(Integer id, String nombre) {
         this.id = id;
         this.nombre = nombre;
     }
@@ -86,13 +94,12 @@ public class Categoria implements Serializable {
         this.productoList = productoList;
     }
 
-    @XmlTransient
-    public List<Subcategoria> getSubcategoriaList() {
-        return subcategoriaList;
+    public Categoria getCategoria() {
+        return categoria;
     }
 
-    public void setSubcategoriaList(List<Subcategoria> subcategoriaList) {
-        this.subcategoriaList = subcategoriaList;
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
     }
 
     @Override
@@ -105,10 +112,10 @@ public class Categoria implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Categoria)) {
+        if (!(object instanceof Subcategoria)) {
             return false;
         }
-        Categoria other = (Categoria) object;
+        Subcategoria other = (Subcategoria) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -117,19 +124,7 @@ public class Categoria implements Serializable {
 
     @Override
     public String toString() {
-        return "com.efake.entity.Categoria[ id=" + id + " ]";
-    }
-    
-    //Dto
-    public CategoriaDTO getDTO(){
-        CategoriaDTO dto = new CategoriaDTO();
-        dto.setId(this.id);
-        dto.setNombre(this.nombre);
-        dto.setProductoList(this.productoList);
-        dto.setSubcategoriaList(this.subcategoriaList);
-        
-        
-        return dto;
+        return "com.efake.entity.Subcategoria[ id=" + id + " ]";
     }
     
 }
