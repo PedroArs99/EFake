@@ -67,7 +67,7 @@ public class Valoracion implements Serializable {
     private Usuario cliente;
     @JoinColumn(name = "ProductoValorado", referencedColumnName = "ID")
     @ManyToOne(fetch = FetchType.LAZY)
-    private Producto productoValorado;
+    private ProductoDTO productoValorado;
 
     public Valoracion() {
     }
@@ -122,11 +122,11 @@ public class Valoracion implements Serializable {
         this.cliente = cliente;
     }
 
-    public Producto getProductoValorado() {
+    public ProductoDTO getProductoValorado() {
         return productoValorado;
     }
 
-    public void setProductoValorado(Producto productoValorado) {
+    public void setProductoValorado(ProductoDTO productoValorado) {
         this.productoValorado = productoValorado;
     }
 

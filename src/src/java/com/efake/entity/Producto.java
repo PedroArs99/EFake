@@ -5,6 +5,7 @@
  */
 package com.efake.entity;
 
+import com.efake.dto.ProductoDTO;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -230,5 +231,19 @@ public class Producto implements Serializable {
         }
 
         return sj.toString();
+    }
+    
+    public ProductoDTO getDTO(){
+        ProductoDTO prodDTO = new ProductoDTO();
+        prodDTO.setCategoria(this.categoria);
+        prodDTO.setDescripcion(this.descripcion);
+        prodDTO.setFecha(this.fecha);
+        prodDTO.setImagen(this.imagen);
+        prodDTO.setNombre(this.nombre);
+        prodDTO.setOwner(this.owner);
+        prodDTO.setPrecio(this.precio);
+        prodDTO.setSubcategoria(this.subcategoria);
+        
+        return prodDTO;
     }
 }

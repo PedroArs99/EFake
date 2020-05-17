@@ -5,6 +5,7 @@
  */
 package com.efake.entity;
 
+import com.efake.dto.KeywordsDTO;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
@@ -95,6 +96,13 @@ public class Keywords implements Serializable {
     @Override
     public String toString() {
         return "com.efake.entity.Keywords[ palabra=" + palabra + " ]";
+    }
+    
+    public KeywordsDTO getDTO(){
+        KeywordsDTO keyDTO = new KeywordsDTO();
+        keyDTO.setPalabra(this.palabra);
+        
+        return keyDTO;
     }
     
 }

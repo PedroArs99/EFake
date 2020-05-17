@@ -52,7 +52,7 @@ public class Subcategoria implements Serializable {
     @Column(name = "Nombre")
     private String nombre;
     @OneToMany(mappedBy = "subcategoria", fetch = FetchType.LAZY)
-    private List<Producto> productoList;
+    private List<ProductoDTO> productoList;
     @JoinColumn(name = "Categoria", referencedColumnName = "ID")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Categoria categoria;
@@ -86,11 +86,11 @@ public class Subcategoria implements Serializable {
     }
 
     @XmlTransient
-    public List<Producto> getProductoList() {
+    public List<ProductoDTO> getProductoList() {
         return productoList;
     }
 
-    public void setProductoList(List<Producto> productoList) {
+    public void setProductoList(List<ProductoDTO> productoList) {
         this.productoList = productoList;
     }
 

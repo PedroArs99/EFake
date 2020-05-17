@@ -10,7 +10,7 @@ public class CategoriaDTO {
     //Attributes
     private Integer id;
     private String nombre;
-    private List<Producto> productoList;
+    private List<ProductoDTO> productoList;
     private List<Subcategoria> subcategoriaList;
 
     public CategoriaDTO() {
@@ -33,11 +33,11 @@ public class CategoriaDTO {
         this.nombre = nombre;
     }
 
-    public List<Producto> getProductoList() {
+    public List<ProductoDTO> getProductoList() {
         return productoList;
     }
 
-    public void setProductoList(List<Producto> productoList) {
+    public void setProductoList(List<ProductoDTO> productoList) {
         this.productoList = productoList;
     }
 

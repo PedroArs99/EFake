@@ -20,7 +20,7 @@ public class UsuarioDTO {
     private short esAdmin;
     private Date ultimaEntrada;
     private List<Valoracion> valoracionList;
-    private List<Producto> productoList;
+    private List<ProductoDTO> productoList;
     
     //Getters & Setters
 
@@ -104,11 +104,11 @@ public class UsuarioDTO {
         this.valoracionList = valoracionList;
     }
 
-    public List<Producto> getProductoList() {
+    public List<ProductoDTO> getProductoList() {
         return productoList;
     }
 
-    public void setProductoList(List<Producto> productoList) {
+    public void setProductoList(List<ProductoDTO> productoList) {
         this.productoList = productoList;
     }
 }

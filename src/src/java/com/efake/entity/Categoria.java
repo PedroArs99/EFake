@@ -124,10 +124,7 @@ public class Categoria implements Serializable {
     public CategoriaDTO getDTO(){
         CategoriaDTO dto = new CategoriaDTO();
         dto.setId(this.id);
-        dto.setNombre(this.nombre);
-        dto.setProductoList(this.productoList);
-        dto.setSubcategoriaList(this.subcategoriaList);
-        
+        dto.setNombre(this.nombre);        
         
         return dto;
     }
