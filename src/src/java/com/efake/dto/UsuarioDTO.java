@@ -19,11 +19,8 @@ public class UsuarioDTO {
     private String telefono;
     private short esAdmin;
     private Date ultimaEntrada;
-    private List<Valoracion> valoracionList;
-    private List<ProductoDTO> productoList;
-    
+   
     //Getters & Setters
-
     public Integer getId() {
         return id;
     }
@@ -94,21 +91,5 @@ public class UsuarioDTO {
 
     public void setUltimaEntrada(Date ultimaEntrada) {
         this.ultimaEntrada = ultimaEntrada;
-    }
-
-    public List<Valoracion> getValoracionList() {
-        return valoracionList;
-    }
-
-    public void setValoracionList(List<Valoracion> valoracionList) {
-        this.valoracionList = valoracionList;
-    }
-
-    public List<ProductoDTO> getProductoList() {
-        return productoList;
-    }
-
-    public void setProductoList(List<ProductoDTO> productoList) {
-        this.productoList = productoList;
     }
 }

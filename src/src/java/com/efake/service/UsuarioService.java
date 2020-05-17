@@ -1,9 +1,15 @@
 package com.efake.service;
 
 import com.efake.dao.UsuarioFacade;
+import com.efake.dto.CategoriaDTO;
+import com.efake.dto.UsuarioDTO;
+import com.efake.entity.Categoria;
+import com.efake.entity.Usuario;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
@@ -11,14 +17,27 @@ import javax.ejb.Stateless;
 
 /**
  *
- * @author PedroArenas
+ * @author PedroArenas 
  */
 @Stateless
 public class UsuarioService {
 
     @EJB
-    UsuarioFacade usuarioFacade;
-
+    UsuarioFacade userFacade;
+    
+    //Tools
+    private List<UsuarioDTO> convertToDTO(List<Usuario> userList){
+        List<UsuarioDTO> listaDTO = null;
+        if (userList != null) {
+            listaDTO = new ArrayList<>();
+            for (Usuario user: userList) {
+                listaDTO.add(user.getDTO());
+            }
+        }
+        return listaDTO;
+    }
+    
+    //Services
     public byte[] hashPassword(String password) {
         byte[] hash = null;
 
@@ -36,5 +55,25 @@ public class UsuarioService {
             return hash;
         }
     }
-
+    
+    public int countByEsAdmin(int esAdmin){
+        return userFacade.findByEsAdminCount(esAdmin);
+    }
+    
+    //Finds
+    public UsuarioDTO findById(int id){
+        Usuario user = userFacade.find(id);
+        
+        return user.getDTO();
+    }
+    
+    public List<UsuarioDTO> findByEsAdminAndRange(int esAdmin, int pageNumber, int pageSize){
+        List<Usuario> userList = userFacade.findByEsAdminAndRange(esAdmin, pageNumber, pageSize);
+        List<UsuarioDTO> dtoList = convertToDTO(userList);
+        
+        return dtoList;
+    }
+    
+    
+    
 }

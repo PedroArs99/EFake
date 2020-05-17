@@ -1,36 +1,33 @@
 package com.efake.dto;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 import com.efake.entity.Categoria;
 import com.efake.entity.Subcategoria;
 import com.efake.entity.Usuario;
-import com.efake.entity.Valoracion;
 import java.util.Date;
-import java.util.List;
 
 /**
  *
- * @author PedroArenas
+ * @author Carlos Diestro
  */
 public class ProductoDTO {
+    private Integer id;
     private String nombre;
     private String descripcion;
     private double precio;
     private String imagen;
     private Date fecha;
-    private List<KeywordsDTO> keywordsList;
-    private List<Valoracion> valoracionList;
     private Categoria categoria;
     private Usuario owner;
     private Subcategoria subcategoria;
-    
-    public ProductoDTO() {
+
+    public Integer getId() {
+        return id;
     }
 
+    public void setId(Integer id) {
+        this.id = id;
+    }
+   
     public String getNombre() {
         return nombre;
     }
@@ -69,22 +66,6 @@ public class ProductoDTO {
 
     public void setFecha(Date fecha) {
         this.fecha = fecha;
-    }
-
-    public List<KeywordsDTO> getKeywordsList() {
-        return keywordsList;
-    }
-
-    public void setKeywordsList(List<KeywordsDTO> keywordsList) {
-        this.keywordsList = keywordsList;
-    }
-
-    public List<Valoracion> getValoracionList() {
-        return valoracionList;
-    }
-
-    public void setValoracionList(List<Valoracion> valoracionList) {
-        this.valoracionList = valoracionList;
     }
 
     public Categoria getCategoria() {

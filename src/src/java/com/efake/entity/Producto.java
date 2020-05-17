@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.efake.entity;
 
 import com.efake.dto.ProductoDTO;
@@ -47,7 +42,7 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Producto.findByFecha", query = "SELECT p FROM Producto p WHERE p.fecha = :fecha")
     , @NamedQuery(name = "Producto.findByOwner", query = "SELECT p FROM Producto p WHERE p.owner = :owner")
     , @NamedQuery(name = "Producto.findByCategoria", query = "SELECT p FROM Producto p WHERE p.categoria = :categoria")
-    , @NamedQuery(name = "Producto.findByFilter", query = "SELECT DISTINCT p FROM Producto p INNER JOIN p.keywordsList k WHERE p.nombre LIKE :words OR p.descripcion LIKE :words OR k.palabra LIKE :words")
+    , @NamedQuery(name = "Producto.findByFilter", query = "SELECT DISTINCT p FROM Producto p LEFT JOIN p.keywordsList k WHERE p.nombre LIKE :words OR p.descripcion LIKE :words OR k.palabra LIKE :words")
     , @NamedQuery(name = "Producto.findSortedByRatingsNumber", query = "SELECT p FROM Valoracion v JOIN v.productoValorado p GROUP BY v.productoValorado ORDER BY COUNT(v.productoValorado) DESC")
     , @NamedQuery(name = "Producto.CountByDate", query = "SELECT p.fecha, count(p) FROM  Producto p WHERE p.fecha BETWEEN :start and :end GROUP BY p.fecha ORDER BY p.fecha DESC")})
 public class Producto implements Serializable {

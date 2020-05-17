@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.efake.service;
 
 import com.efake.dao.ProductoFacade;
@@ -19,7 +14,7 @@ import javax.ejb.Stateless;
 
 /**
  *
- * @author carlo
+ * @author Carlos Diestro
  */
 @Stateless
 public class ValoracionService {
@@ -30,8 +25,6 @@ public class ValoracionService {
     @EJB
     ValoracionFacade valoracionFacade;
     
-    // Add business logic below. (Right-click in editor and choose
-    // "Insert Code > Add Business Method")
     public void newRating(Integer idUsuario, Integer idProducto, Integer rating, String comment, Date date){
         Usuario usuario = usuarioFacade.find(idUsuario);
         Producto producto = productoFacade.find(idProducto);

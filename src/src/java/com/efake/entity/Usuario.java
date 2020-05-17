@@ -1,10 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.efake.entity;
 
+import com.efake.dto.UsuarioDTO;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -232,6 +228,20 @@ public class Usuario implements Serializable {
     @Override
     public String toString() {
         return "com.efake.entity.Usuario[ id=" + id + " ]";
+    }
+    
+    public UsuarioDTO getDTO(){
+        UsuarioDTO dto = new UsuarioDTO();
+        dto.setId(this.id);
+        dto.setNombre(this.nombre);
+        dto.setApellidos(this.apellidos);
+        dto.setCorreo(this.correo);
+        dto.setEdad(this.edad);
+        dto.setEsAdmin(this.esAdmin);
+        dto.setTelefono(this.telefono);
+        dto.setUltimaEntrada(this.ultimaEntrada);
+        
+        return dto;
     }
     
 }

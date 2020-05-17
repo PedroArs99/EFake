@@ -1,6 +1,5 @@
 package com.efake.dto;
 
-import java.util.List;
 
 /**
  *
@@ -10,9 +9,7 @@ public class CategoriaDTO {
     //Attributes
     private Integer id;
     private String nombre;
-    private List<ProductoDTO> productoList;
-    private List<Subcategoria> subcategoriaList;
-
+    
     public CategoriaDTO() {
     }
     
@@ -32,21 +29,4 @@ public class CategoriaDTO {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-
-    public List<ProductoDTO> getProductoList() {
-        return productoList;
-    }
-
-    public void setProductoList(List<ProductoDTO> productoList) {
-        this.productoList = productoList;
-    }
-
-    public List<Subcategoria> getSubcategoriaList() {
-        return subcategoriaList;
-    }
-
-    public void setSubcategoriaList(List<Subcategoria> subcategoriaList) {
-        this.subcategoriaList = subcategoriaList;
-    }
-    
 }
