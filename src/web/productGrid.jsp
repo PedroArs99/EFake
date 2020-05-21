@@ -32,7 +32,7 @@
         <%@include file="/components/navbar.jspf"%>
 
         <%if (status != null) {%>
-            <div class="alert alert-success m-3"><%=status%></div>
+        <div class="alert alert-success m-3"><%=status%></div>
         <%}%>
         <div class="px-3 my-5">
             <h1 data-aos="fade-up" data-aos-duration="1000">

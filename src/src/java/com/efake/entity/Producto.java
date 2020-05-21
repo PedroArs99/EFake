@@ -230,6 +230,7 @@ public class Producto implements Serializable {
     
     public ProductoDTO getDTO(){
         ProductoDTO prodDTO = new ProductoDTO();
+        prodDTO.setId(id);
         prodDTO.setCategoria(this.categoria);
         prodDTO.setDescripcion(this.descripcion);
         prodDTO.setFecha(this.fecha);
