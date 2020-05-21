@@ -1,7 +1,9 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:cc="http://xmlns.jcp.org/jsf/composite">
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
     <!-- INTERFACE -->
     <cc:interface>
@@ -27,7 +29,17 @@
                             Categories
                         </a>
                         <div id="categoriesDiv" class="dropdown-menu" aria-labelledby="categoriesDropdown">
-                            
+                            <ui:repeat value="#{transport.categorias}" var="categoria">        
+                                <div class="dropdown-submenu">
+                                    <a id ="dropdownMenu2" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" 
+                                       class="dropdown-item dropdown-toggle">#{categoria.nombre}</a>
+                                    <div class="dropdown-menu">
+                                        <ui:repeat value="#{transport.getSubCategoriasByCategoria(categoria)}" var="subcategoria">
+                                            <h:link outcome="all" styleClass="dropdown-item">#{subcategoria.nombre}</h:link>
+                                        </ui:repeat>
+                                    </div>
+                                </div>
+                            </ui:repeat>
                         </div>
                     </li>
 

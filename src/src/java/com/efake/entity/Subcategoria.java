@@ -5,6 +5,7 @@
  */
 package com.efake.entity;
 
+import com.efake.dto.SubCategoriaDTO;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
@@ -124,6 +125,14 @@ public class Subcategoria implements Serializable {
     @Override
     public String toString() {
         return "com.efake.entity.Subcategoria[ id=" + id + " ]";
+    }
+    
+        public SubCategoriaDTO getDTO(){
+        SubCategoriaDTO dto = new SubCategoriaDTO();
+        dto.setId(this.id);
+        dto.setNombre(this.nombre);        
+        
+        return dto;
     }
     
 }

@@ -73,7 +73,6 @@ a:hover{
     width: 40em;
 }
 
-
 @media(min-width: 375px){
     #navBarSearchForm{
         width: 15em;
