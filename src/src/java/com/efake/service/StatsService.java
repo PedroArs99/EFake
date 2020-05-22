@@ -35,9 +35,9 @@ public class StatsService {
         int productCount = productFacade.count();
         int ratingCount = ratingFacade.count();
 
-        basicStats.put("userCount", userCount);
-        basicStats.put("productCount", productCount);
-        basicStats.put("ratingCount", ratingCount);
+        basicStats.put("Number of Users", userCount);
+        basicStats.put("Number of Products", productCount);
+        basicStats.put("Number of Ratings", ratingCount);
 
         return basicStats;
     }

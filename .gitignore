@@ -8,3 +8,4 @@ src/dist/
 
 #java
 *.class
+/nbproject/private/

@@ -1,4 +1,7 @@
 <?xml version='1.0' encoding='UTF-8' ?>
+<!--
+    Author: Pedro Arenas
+-->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
@@ -9,7 +12,7 @@
         <title>Efake</title>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
+        
         <!--Favicon-->
         <link rel="shortcut icon" href="/efake/img/favicon.png" type="image/png" />
         <!--AOS-->
@@ -20,27 +23,26 @@
         <h:outputStylesheet library="css" name="styles.css" />
     </h:head>
 
-    <h:body styleClass="d-flex flex-column h-100">
+    <h:body styleClass="d-flex flex-column">
         <efake:nav />
         <div class="jumbotron bg-transparent">
             <h1 class="display-3 text-center">Welcome to the newest product social media!</h1>
         </div>
-        <div class="px-3 py-3">
+        <div class="mx-3 py-3">
             <h1 data-aos="fade-up" data-aos-duration="1000">
                 Most Rated Products <i class="fab fa-free-code-camp"></i>
             </h1>
-            <div id="mostRatedProducts" class="d-flex">
+            <div class="d-flex justify-content-around">
+                <ui:repeat value="#{index.mostRatedProductList}" var="product">
+                    <efake:product productId="#{product.id}"
+                                   name="#{product.nombre}"
+                                   description="#{product.descripcion}"
+                                   image="#{product.imagen}" />
+                </ui:repeat>
             </div>
         </div>
 
-        <div class="d-flex justify-content-start mb-3">
-            <ui:repeat value="#{index.mostRatedProductList}" var="product">
-                <efake:product productId="#{product.id}"
-                               name="#{product.nombre}"
-                               description="#{product.descripcion}"
-                               image="#{product.imagen}" />
-            </ui:repeat>
-        </div>
+
 
         <efake:footer />
 
