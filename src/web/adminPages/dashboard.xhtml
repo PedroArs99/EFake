@@ -6,7 +6,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:efake="http://java.sun.com/jsf/composite/components"
-      xmlns:prime="http://primefaces.org/ui">
+      xmlns:prime="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -53,19 +54,34 @@
                         </h6>
                         <ul class="nav flex-column">
                             <li class="nav-item mb-2">
-                                <button id="global-stats" class="nav-link btn btn-primary text-light w-100">
-                                    <i class="fas fa-chart-bar"></i> Global Stats
-                                </button>
+                                <h:form id="form">
+                                    <h:commandLink id="global-stats"
+                                                   styleClass="nav-link btn btn-primary text-light w-100"
+                                                   action="#{stats.drawGlobalStats()}">
+                                        <i class="fas fa-chart-bar"></i> Global Stats
+                                        <f:ajax render="barChart" />
+                                    </h:commandLink>
+                                </h:form>
                             </li>
                             <li class="nav-item mb-2">
-                                <button id="today-stats" class="nav-link btn btn-primary text-light w-100">
-                                    <i class="fas fa-clock"></i> Today Stats
-                                </button>
+                                <h:form id="form2">
+                                    <h:commandLink id="today-stats"
+                                                   styleClass="nav-link btn btn-primary text-light w-100"
+                                                   action="#{stats.drawTodayStats()}">
+                                        <i class="fas fa-clock"></i> Today Stats
+                                        <f:ajax render="barChart" />
+                                    </h:commandLink>
+                                </h:form>
                             </li>
                             <li class="nav-item mb-2">
-                                <button id="monthly-stats" class="nav-link btn btn-primary text-light w-100">
-                                    <i class="fas fa-calendar"></i> Monthly Stats
-                                </button>
+                                <h:form id="form3">
+                                    <h:commandLink id="today-stats"
+                                                   styleClass="nav-link btn btn-primary text-light w-100"
+                                                   action="#{stats.drawMonthlyUserStats()}">
+                                        <i class="fas fa-calendar"></i> Monthly Stats
+                                        <f:ajax render="barChart" />
+                                    </h:commandLink>
+                                </h:form>
                             </li>
                         </ul>
                         <div id="monthly-panel" class="d-none">
@@ -75,19 +91,34 @@
                             </h6>
                             <ul class="nav flex-column">
                                 <li class="nav-item mb-2">
-                                    <button id="users-dataset" class="nav-link btn btn-danger text-light w-100">
-                                        <i class="fas fa-chart-line"></i> Users Logged In
-                                    </button>
+                                    <h:form>
+                                        <h:commandLink
+                                                       styleClass="nav-link btn btn-secondary text-light w-100"
+                                                       action="#{stats.drawMonthlyUserStats()}">
+                                            <i class="fas fa-chart-line"></i> Users Logged In
+                                            <f:ajax render="barChart" />
+                                        </h:commandLink>
+                                    </h:form>
                                 </li>
                                 <li class="nav-item mb-2">
-                                    <button id="products-dataset" class="nav-link btn btn-info text-light w-100">
-                                        <i class="fas fa-chart-line"></i> New Products
-                                    </button>
+                                    <h:form>
+                                        <h:commandLink
+                                                       styleClass="nav-link btn btn-secondary text-light w-100"
+                                                       action="#{stats.drawMonthlyNewProductStats()}">
+                                            <i class="fas fa-chart-line"></i> New Products
+                                            <f:ajax render="barChart" />
+                                        </h:commandLink>
+                                    </h:form>
                                 </li>
                                 <li class="nav-item mb-2">
-                                    <button id="ratings-dataset" class="nav-link btn btn-warning text-light w-100">
-                                        <i class="fas fa-chart-line"></i> New Ratings
-                                    </button>
+                                    <h:form>
+                                        <h:commandLink
+                                                       styleClass="nav-link btn btn-secondary text-light w-100"
+                                                       action="#{stats.drawMonthlyRatingStats()}">
+                                            <i class="fas fa-chart-line"></i> New Ratings
+                                            <f:ajax render="barChart" />
+                                        </h:commandLink>
+                                    </h:form>
                                 </li>
                             </ul>
                         </div>
@@ -96,12 +127,17 @@
                 </nav>
                 <!-- Stats -->
                 <div class="col-md-10">
-                    <prime:barChart model="#{stats.globalStats}"/>
+                    <prime:barChart id="barChart"
+                                    model="#{stats.barChart}"/>
+
                 </div>
 
             </div>
         </div>
         <efake:footer />
+
+        <!-- Own Scripts -->
+        <h:outputScript library="js" name="stats.js" />
         <!--Font Awesome-->
         <script src="https://kit.fontawesome.com/998261dc3d.js" crossorigin="anonymous"></script>
         <!-- JS, Popper.js, and jQuery -->

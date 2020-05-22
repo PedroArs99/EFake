@@ -59,7 +59,7 @@ public class StatsService {
 
     public Map<String, SortedMap<String, Number>> getMonthlyStats(String name) {
         Map<String, SortedMap<String, Number>> stats = new HashMap<>();
-        SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MM");
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("MM-dd");
 
         Calendar today = Calendar.getInstance();
         today.setTime(new Date());
@@ -68,15 +68,6 @@ public class StatsService {
         oneMonthAgo.roll(Calendar.DAY_OF_YEAR, -30);
 
         switch (name) {
-            case "user":
-                //Add Users Count
-                SortedMap<String, Number> usersCountMap = new TreeMap<>();
-                List<Object[]> usersCount = userFacade.countByDate(oneMonthAgo.getTime(), today.getTime());
-                for (Object[] o : usersCount) {
-                    usersCountMap.put(dateFormatter.format(o[0]), (Number) o[1]);
-                }
-                stats.put("userCount", usersCountMap);
-                break;
             case "product":
                 //Add Products Count
                 SortedMap<String, Number> productCountMap = new TreeMap<>();
@@ -98,5 +89,59 @@ public class StatsService {
         }
 
         return stats;
+    }
+
+    public SortedMap<String, Integer> getMonthlyUserStats() {
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("MM-dd");
+
+        Calendar today = Calendar.getInstance();
+        today.setTime(new Date());
+
+        Calendar oneMonthAgo = (Calendar) today.clone();
+        oneMonthAgo.roll(Calendar.DAY_OF_YEAR, -30);
+
+        SortedMap<String, Integer> usersCountMap = new TreeMap<>();
+        List<Object[]> usersCount = userFacade.countByDate(oneMonthAgo.getTime(), today.getTime());
+        for (Object[] o : usersCount) {
+            usersCountMap.put(dateFormatter.format(o[0]), (int) (long) o[1]);
+        }
+        
+        return usersCountMap;
+    }
+    
+    public SortedMap<String, Integer> getMonthlyNewProductStats() {
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("MM-dd");
+
+        Calendar today = Calendar.getInstance();
+        today.setTime(new Date());
+
+        Calendar oneMonthAgo = (Calendar) today.clone();
+        oneMonthAgo.roll(Calendar.DAY_OF_YEAR, -30);
+
+        SortedMap<String, Integer> productCountMap = new TreeMap<>();
+                List<Object[]> productCount = productFacade.countByDate(oneMonthAgo.getTime(), today.getTime());
+                for (Object[] o : productCount) {
+                    productCountMap.put(dateFormatter.format(o[0]), (int) (long) o[1]);
+                }
+        
+        return productCountMap;
+    }
+    
+    public SortedMap<String, Integer> getMonthlyRatingStats() {
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("MM-dd");
+
+        Calendar today = Calendar.getInstance();
+        today.setTime(new Date());
+
+        Calendar oneMonthAgo = (Calendar) today.clone();
+        oneMonthAgo.roll(Calendar.DAY_OF_YEAR, -30);
+
+        SortedMap<String, Integer> ratingsCountMap = new TreeMap<>();
+                List<Object[]> ratingCount = ratingFacade.countByDate(oneMonthAgo.getTime(), today.getTime());
+                for (Object[] o : ratingCount) {
+                    ratingsCountMap.put(dateFormatter.format(o[0]), (int) (long) o[1]);
+                }
+        
+        return ratingsCountMap;
     }
 }

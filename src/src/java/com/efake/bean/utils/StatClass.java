@@ -10,5 +10,5 @@ package com.efake.bean.utils;
  * @author PedroArenas
  */
 public enum StatClass {
-    GLOBAL,TODAY
+    BAR,LINE
 }

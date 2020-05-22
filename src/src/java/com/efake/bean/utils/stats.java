@@ -9,6 +9,7 @@ import com.efake.service.StatsService;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.SortedMap;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.inject.Named;
@@ -20,6 +21,10 @@ import org.primefaces.model.charts.axes.cartesian.linear.CartesianLinearTicks;
 import org.primefaces.model.charts.bar.BarChartDataSet;
 import org.primefaces.model.charts.bar.BarChartModel;
 import org.primefaces.model.charts.bar.BarChartOptions;
+import org.primefaces.model.charts.line.LineChartDataSet;
+import org.primefaces.model.charts.line.LineChartModel;
+import org.primefaces.model.charts.line.LineChartOptions;
+import org.primefaces.model.charts.optionconfig.title.Title;
 
 /**
  *
@@ -36,24 +41,41 @@ public class stats {
     //Beans
     //Attributes
     private BarChartModel barChart;
-    
 
     @PostConstruct
-    public void init() {
+    public void drawGlobalStats() {
         Map<String, Integer> globalStats = statsService.getBasicStats();
-        List<String> labels = new ArrayList<>(globalStats.keySet());
-        List<Number> values = new ArrayList<>(globalStats.values());
-        
-        drawChart("Global Stats", labels, values);
-        
+        drawBarChart("Global Stats", globalStats,true);
     }
 
-    public BarChartModel getGlobalStats() {
-        return barChart;
+    public void drawTodayStats() {
+        Map<String, Integer> todayStats = statsService.getTodayStats();
+        drawBarChart("Today Stats", todayStats,true);
+    }
+
+    public void drawMonthlyUserStats() {
+        SortedMap<String, Integer> monthStats = statsService.getMonthlyUserStats();
+        drawBarChart("Users logged in the last month", monthStats,false);
     }
     
+    public void drawMonthlyNewProductStats() {
+        SortedMap<String, Integer> monthStats = statsService.getMonthlyNewProductStats();
+        drawBarChart("New Products created in the last month", monthStats,false);
+    }
     
-    private void drawChart(String chartTitle, List<String> labels, List<Number> values){
+    public void drawMonthlyRatingStats() {
+        SortedMap<String, Integer> monthStats = statsService.getMonthlyRatingStats();
+        drawBarChart("New Ratings maded in the last month", monthStats,false);
+    }
+
+    public BarChartModel getBarChart() {
+        return barChart;
+    }
+
+    private void drawBarChart(String chartTitle, Map<String, Integer> stats, boolean manyColors) {
+        List<String> labels = new ArrayList<>(stats.keySet());
+        List<Number> values = new ArrayList<>(stats.values());
+
         barChart = new BarChartModel();
         ChartData data = new ChartData();
 
@@ -61,21 +83,23 @@ public class stats {
         barDataSet.setLabel(chartTitle);
         barDataSet.setData(values);
 
-        List<String> bgColor = new ArrayList<>();
-        bgColor.add("rgba(255, 99, 132, 0.2)");
-        bgColor.add("rgba(255, 205, 86, 0.2)");
-        bgColor.add("rgba(153, 102, 255, 0.2)");
-        barDataSet.setBackgroundColor(bgColor);
+        if (manyColors) {
+            List<String> bgColor = new ArrayList<>();
+            bgColor.add("rgba(255, 99, 132, 0.2)");
+            bgColor.add("rgba(255, 205, 86, 0.2)");
+            bgColor.add("rgba(153, 102, 255, 0.2)");
+            barDataSet.setBackgroundColor(bgColor);
 
-        List<String> borderColor = new ArrayList<>();
-        borderColor.add("rgb(255, 99, 132)");
-        borderColor.add("rgb(255, 205, 86)");
-        borderColor.add("rgb(153, 102, 255)");
-        barDataSet.setBorderColor(borderColor);
-        barDataSet.setBorderWidth(1);
+            List<String> borderColor = new ArrayList<>();
+            borderColor.add("rgb(255, 99, 132)");
+            borderColor.add("rgb(255, 205, 86)");
+            borderColor.add("rgb(153, 102, 255)");
+            barDataSet.setBorderColor(borderColor);
+            barDataSet.setBorderWidth(1);
+        }
 
         data.addChartDataSet(barDataSet);
-        
+
         data.setLabels(labels);
 
         //Data
