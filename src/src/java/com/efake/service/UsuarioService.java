@@ -60,6 +60,11 @@ public class UsuarioService {
         return userFacade.findByEsAdminCount(esAdmin);
     }
     
+    public void delete(UsuarioDTO userDTO){
+        Usuario user = userFacade.find(userDTO.getId());
+        
+        userFacade.remove(user);
+    }
     //Finds
     public UsuarioDTO findById(int id){
         Usuario user = userFacade.find(id);

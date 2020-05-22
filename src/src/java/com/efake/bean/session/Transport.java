@@ -23,13 +23,25 @@ import javax.ejb.EJB;
 @Named(value = "transport")
 @SessionScoped
 public class Transport implements Serializable {
+    //Services
     @EJB
     private CategoryService categoriaService;
     @EJB
     private SubCategoryService subCategoriaService;
-    protected List<CategoriaDTO> listaCategoria;
-    protected List<SubCategoriaDTO> listaSubCategoria;
+    
+    //Attributes
+    private List<CategoriaDTO> listaCategoria;
+    private List<SubCategoriaDTO> listaSubCategoria;
+    private String status;
+    
+    //Constructor
     public Transport() {
+    }
+    
+    @PostConstruct
+    public void init(){
+        this.listaCategoria = this.categoriaService.findAll();
+        this.listaSubCategoria = this.subCategoriaService.findAll();
     }
     
     public List<CategoriaDTO> getCategorias(){
@@ -43,12 +55,16 @@ public class Transport implements Serializable {
     public List<SubCategoriaDTO> getSubCategoriasByCategoria(CategoriaDTO c){
         return this.subCategoriaService.finByCategory(c);
     }
-    
-    @PostConstruct
-    public void init(){
-        this.listaCategoria = this.categoriaService.findAll();
-        this.listaSubCategoria = this.subCategoriaService.findAll();
+
+    public String getStatus() {
+        return status;
     }
-            
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
     
+    
+    
+
 }
