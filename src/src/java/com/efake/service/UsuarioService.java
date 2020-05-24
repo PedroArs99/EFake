@@ -1,9 +1,7 @@
 package com.efake.service;
 
 import com.efake.dao.UsuarioFacade;
-import com.efake.dto.CategoriaDTO;
 import com.efake.dto.UsuarioDTO;
-import com.efake.entity.Categoria;
 import com.efake.entity.Usuario;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;

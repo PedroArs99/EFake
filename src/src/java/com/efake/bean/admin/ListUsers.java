@@ -17,31 +17,29 @@ import javax.inject.Inject;
 @Named(value = "listUsers")
 @Dependent
 public class ListUsers {
+
     //Beans
     @Inject
     private Transport transportBean;
     //Services
     @EJB
     private UsuarioService usuarioService;
-    
-    
+
     //Attributes
     private List<UsuarioDTO> userList;
-    
+
     //Constructor
     public ListUsers() {
     }
-    
+
     @PostConstruct
-    public void init(){
+    public void init() {
         userList = usuarioService.findByEsAdminAndRange(0, 1, 16);
         transportBean.setStatus(null);
     }
-    
-    
-    
+
     //Bean methods
-    public String deleteUser(UsuarioDTO user){
+    public String deleteUser(UsuarioDTO user) {
         usuarioService.delete(user);
         transportBean.setStatus("Deleted user");
         return "userList.jsf?faces-redirect=true";
@@ -51,6 +49,5 @@ public class ListUsers {
     public List<UsuarioDTO> getUserList() {
         return userList;
     }
-    
-    
+
 }
