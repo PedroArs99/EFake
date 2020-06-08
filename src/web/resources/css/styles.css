@@ -69,6 +69,11 @@ a:hover{
 .page-item .page-link{
     color: #0064d3;
 }
+
+.blue-hover:hover{
+    background-color: #0064d3;
+    color: #0064d3;
+}
 #navBarSearchForm{
     width: 40em;
 }
