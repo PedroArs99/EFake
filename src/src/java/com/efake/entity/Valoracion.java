@@ -5,6 +5,7 @@
  */
 package com.efake.entity;
 
+import com.efake.dto.ValoracionDTO;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
@@ -152,6 +153,18 @@ public class Valoracion implements Serializable {
     @Override
     public String toString() {
         return "com.efake.entity.Valoracion[ id=" + id + " ]";
+    }
+
+    public ValoracionDTO getDTO() {
+        ValoracionDTO valDTO = new ValoracionDTO();
+        valDTO.setCliente(this.cliente);
+        valDTO.setComentario(this.comentario);
+        valDTO.setFecha(this.fecha);
+        valDTO.setId(this.id);
+        valDTO.setProductoValorado(this.productoValorado);
+        valDTO.setPuntuacion(this.puntuacion);
+        
+        return valDTO;
     }
     
 }

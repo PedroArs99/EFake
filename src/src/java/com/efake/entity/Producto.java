@@ -47,6 +47,18 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Producto.CountByDate", query = "SELECT p.fecha, count(p) FROM  Producto p WHERE p.fecha BETWEEN :start and :end GROUP BY p.fecha ORDER BY p.fecha DESC")})
 public class Producto implements Serializable {
 
+    @Column(name = "1Estrella")
+    private Integer estrella1;
+    @Column(name = "2Estrella")
+    private Integer estrella2; 
+    @Column(name = "3Estrella")
+    private Integer estrella3;
+    @Column(name = "4Estrella")
+    private Integer estrella4;
+    @Column(name = "5Estrella")
+    private Integer estrella5;
+    
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -241,5 +253,47 @@ public class Producto implements Serializable {
         prodDTO.setSubcategoria(this.subcategoria);
         
         return prodDTO;
+    }
+
+ 
+
+    public Integer getEstrella1() {
+        return estrella1;
+    }
+
+    public void setEstrella1(Integer estrella1) {
+        this.estrella1 = estrella1;
+    }
+
+    public Integer getEstrella2() {
+        return estrella2;
+    }
+
+    public void setEstrella2(Integer estrella2) {
+        this.estrella2 = estrella2;
+    }
+
+    public Integer getEstrella3() {
+        return estrella3;
+    }
+
+    public void setEstrella3(Integer estrella3) {
+        this.estrella3 = estrella3;
+    }
+
+    public Integer getEstrella4() {
+        return estrella4;
+    }
+
+    public void setEstrella4(Integer estrella4) {
+        this.estrella4 = estrella4;
+    }
+    
+       public Integer getEstrella5() {
+        return estrella5;
+    }
+
+    public void setEstrella5(Integer estrella5) {
+        this.estrella5 = estrella5;
     }
 }

@@ -44,6 +44,12 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Usuario.CountByDate", query = "SELECT u.ultimaEntrada, count(u) FROM  Usuario u WHERE u.ultimaEntrada BETWEEN :start and :end GROUP BY u.ultimaEntrada ORDER BY u.ultimaEntrada ASC")})
 public class Usuario implements Serializable {
 
+    @Basic(optional = false)
+    @NotNull
+    @Lob
+    @Column(name = "Password")
+    private byte[] password;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -55,11 +61,6 @@ public class Usuario implements Serializable {
     @Size(min = 1, max = 100)
     @Column(name = "Correo")
     private String correo;
-    @Basic(optional = false)
-    @NotNull
-    @Lob
-    @Column(name = "Password")
-    private byte[] password;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 45)
@@ -131,13 +132,6 @@ public class Usuario implements Serializable {
         this.correo = correo;
     }
 
-    public byte[] getPassword() {
-        return password;
-    }
-
-    public void setPassword(byte[] password) {
-        this.password = password;
-    }
 
     public String getNombre() {
         return nombre;
@@ -242,6 +236,14 @@ public class Usuario implements Serializable {
         dto.setUltimaEntrada(this.ultimaEntrada);
         
         return dto;
+    }
+
+    public byte[] getPassword() {
+        return password;
+    }
+
+    public void setPassword(byte[] password) {
+        this.password = password;
     }
     
 }

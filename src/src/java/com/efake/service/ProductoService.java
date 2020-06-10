@@ -3,6 +3,7 @@ package com.efake.service;
 import com.efake.dao.CategoriaFacade;
 import com.efake.dao.ProductoFacade;
 import com.efake.dto.ProductoDTO;
+import com.efake.dto.ValoracionDTO;
 import com.efake.entity.Categoria;
 import com.efake.entity.Producto;
 import com.efake.entity.Usuario;
@@ -24,10 +25,15 @@ import javax.ejb.Stateless;
 public class ProductoService {
 
     @EJB
+    private ValoracionService valoracionService;
+
+    @EJB
     private CategoriaFacade categoryFacade;
 
     @EJB
     private ProductoFacade productFacade;
+    
+    
     
     
     //Tool
@@ -42,7 +48,7 @@ public class ProductoService {
         return listaDTO;
     }
     
-    private boolean rated(List<Valoracion> listValoraciones, Usuario user) {
+    public boolean rated(List<Valoracion> listValoraciones, Usuario user) {
         boolean valorado = false;
         for (int i = 0; i < listValoraciones.size() && !valorado; i++) {
             Usuario u = listValoraciones.get(i).getCliente();
@@ -53,16 +59,21 @@ public class ProductoService {
         return valorado;
     }
     
-    private void inicializarMapa(Map<Integer, Double> ratings) {
-         for (int i = 0; i < 5; i++) { //Pone las estrellas a 0
-            ratings.put(i + 1, 0.0);
-        }
+    public Map<Integer, Double> getRatings(Integer id){
+        Map<Integer, Double> ratings = new HashMap<>();
+        Producto producto = this.productFacade.find(id);
+        double total = producto.getValoracionList().size();
+        
+        ratings.put(1, ((producto.getEstrella1()*100)/total));
+        ratings.put(2, ((producto.getEstrella2()*100)/total));
+        ratings.put(3, ((producto.getEstrella3()*100)/total));
+        ratings.put(4, ((producto.getEstrella4()*100)/total));
+        ratings.put(5, ((producto.getEstrella5()*100)/total));
+        ratings.put(0, total);
+        
+        return ratings;
     }
 
-    private double formatearDecimales(double numero) {
-        return Math.round(numero * Math.pow(10, 2)) / Math.pow(10, 2);
-    }
-    
     //Services
     public void remove(int id){
         Producto product = productFacade.find(id);
@@ -75,51 +86,25 @@ public class ProductoService {
         
         return count;
     }
-    
-    public Map<Integer, Double> getProductRatings(Integer idProducto){
-        Map<Integer, Double> ratings = new HashMap<>();
-        inicializarMapa(ratings);
-        List<Valoracion> listValoraciones = getRatingList(idProducto);
-       
-        for(Valoracion v : listValoraciones){
-            Double value = ratings.get(v.getPuntuacion());
-            ratings.put(v.getPuntuacion(), value + 1);
-        }
-        return ratings;
+   
+    public double getMeanRating(Integer idProducto){
+        Producto p = this.productFacade.find(idProducto);
+        Map<Integer, Double> ratings = this.getRatings(idProducto);
+        
+        int cont = 1 * p.getEstrella1();
+        cont += 2 * p.getEstrella2();
+        cont += 3 * p.getEstrella3();
+        cont += 4 * p.getEstrella4();
+        cont += 5 * p.getEstrella5();
+        
+        
+        return formatearDecimales(cont/(ratings.get(0)));
     }
     
-    public double getMeanRating(Map<Integer, Double> ratings, Integer idProducto){
-        List<Valoracion> listValoraciones = getRatingList(idProducto);
-        double mediaValoraciones = 0.0;
-        
-        for(Valoracion v : listValoraciones){
-            mediaValoraciones += v.getPuntuacion();
-        }
-        
-        if (!listValoraciones.isEmpty()) {
-            ratings.entrySet().forEach((entry) -> {
-                Integer key = entry.getKey();
-                Double value = entry.getValue();
-                value = (value / listValoraciones.size()) * 100;
-                ratings.put(key, value);
-            });
-            mediaValoraciones = mediaValoraciones / listValoraciones.size();
-            mediaValoraciones = formatearDecimales(mediaValoraciones);
-
-        }
-        
-        return mediaValoraciones;
-    }    
-    /*
-     * Change to DTO!!
-    */
-    public List<Valoracion> getRatingList(Integer idProducto){
-        Producto producto = productFacade.find(idProducto);
-        List<Valoracion> listValoraciones = producto.getValoracionList();
-        
-        return listValoraciones;
+    private double formatearDecimales(double numero) {
+        return Math.round(numero * Math.pow(10, 2)) / Math.pow(10, 2);
     }
-    
+        
     //Finds
     public List<ProductoDTO> findMostRated(int howMany) {
         List<Producto> mostRatedProducts = productFacade.findMostRated(howMany);
