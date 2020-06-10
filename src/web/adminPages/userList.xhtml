@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!--
+    Author: Pedro Arenas
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:efake="http://java.sun.com/jsf/composite/components"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        <title>Efake | User List </title>
+
+        <!--Favicon-->
+        <link rel="shortcut icon" href="/efake/img/favicon.png" type="image/png" />
+
+        <!-- Bootstrap Css-->
+        <h:outputStylesheet library="css" name="bootstrap.css" />
+        <!-- Own Stylesheets --> 
+        <h:outputStylesheet library="css" name="styles.css" />
+    </h:head>
+    <h:body>
+        <efake:nav />
+        <div class="container-fluid ">
+            <div class="row">
+                <main role="main" class="col-md-9  col-lg-10 px-4">
+                    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
+                        <h1 class="h2">User List</h1>
+                    </div>
+
+                    <h:panelGroup styleClass="list-group-item list-group-item-success my-3"
+                                  rendered="#{transport.status != null}">
+                        <i class="fas fa-check" /> #{transport.status}
+                    </h:panelGroup>
+
+                    <h:form styleClass="table-responsive">
+                        <h:dataTable styleClass="table table-striped table-md"
+                                     value="#{listUsers.userList}"
+                                     var="user">
+                            <h:column>
+                                <f:facet name="header">Email</f:facet>
+                                    #{user.correo}
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Name</f:facet>
+                                    #{user.nombre}
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Surname</f:facet>
+                                    #{user.apellidos}
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Age</f:facet>
+                                    #{user.edad}
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Phone Number</f:facet>
+                                    #{user.telefono}
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Last Login</f:facet>
+                                <h:outputText value="#{user.ultimaEntrada}">
+                                    <f:convertDateTime pattern="dd.MM.yyyy" />
+                                </h:outputText>
+                                    
+                            </h:column>
+                            <h:column>
+                                <h:commandLink styleClass="bg-transparent border-0"
+                                                 action="#{listUsers.deleteUser(user)}">
+                                    <i class="fas fa-trash"></i>
+                                </h:commandLink>
+                                
+                            </h:column>
+                            <h:column>
+                                <i class="fas fa-edit"></i>
+                            </h:column>
+                        </h:dataTable>
+                    </h:form>
+                </main>
+            </div>
+        </div>
+        <efake:footer />
+        <!--Font Awesome-->
+        <script src="https://kit.fontawesome.com/998261dc3d.js" crossorigin="anonymous"></script>
+        <!-- JS, Popper.js, and jQuery -->
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+    </h:body>
+</html>
+

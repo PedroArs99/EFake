@@ -1,0 +1,9 @@
+#MAC OS Metadata
+.DS_Store
+
+#Netbeans
+src/build/
+src/dist/
+
+#java
+*.class
