@@ -30,15 +30,7 @@
                         </a>
                         <div id="categoriesDiv" class="dropdown-menu" aria-labelledby="categoriesDropdown">
                             <ui:repeat value="#{transport.categorias}" var="categoria">        
-                                <div class="dropdown-submenu">
-                                    <a id ="dropdownMenu2" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" 
-                                       class="dropdown-item dropdown-toggle">#{categoria.nombre}</a>
-                                    <div class="dropdown-menu">
-                                        <ui:repeat value="#{transport.getSubCategoriasByCategoria(categoria)}" var="subcategoria">
-                                            <h:link outcome="all" styleClass="dropdown-item">#{subcategoria.nombre}</h:link>
-                                        </ui:repeat>
-                                    </div>
-                                </div>
+                                    <a href="#" class="dropdown-item">#{categoria.nombre}</a>
                             </ui:repeat>
                         </div>
                     </li>
