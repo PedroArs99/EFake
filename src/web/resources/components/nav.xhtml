@@ -28,18 +28,20 @@
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Categories
                         </a>
-                        <div id="categoriesDiv" class="dropdown-menu" aria-labelledby="categoriesDropdown">
-                            <ui:repeat value="#{transport.categorias}" var="categoria">        
-                                    <a href="#" class="dropdown-item">#{categoria.nombre}</a>
-                            </ui:repeat>
-                        </div>
+                        <h:form>
+                            <div id="categoriesDiv" class="dropdown-menu" aria-labelledby="categoriesDropdown">
+                                <ui:repeat value="#{transport.categorias}" var="categoria">        
+                                    <h:commandLink action="#{productoCategoriaBean.doShowProductoByCategory(categoria)}" class="dropdown-item">#{categoria.nombre}</h:commandLink>
+                                </ui:repeat>
+                            </div>
+                        </h:form>
                     </li>
 
                     <form class="form-inline my-2 my-lg-0 " action="ListProducts" method="get">
                         <div class="form-group">
                             <input id="navBarSearchForm" class="form-control mr-3" type="search" placeholder="Search"
                                    aria-label="Search" name="search" />
-                                <button class="btn btn-primary my-2 my-sm-0" type="submit">Search</button>
+                            <button class="btn btn-primary my-2 my-sm-0" type="submit">Search</button>
                         </div>
                     </form>
                 </ul>
@@ -70,7 +72,7 @@
                 -->
             </div>
 
-            
+
         </nav>
     </cc:implementation>
 </html>

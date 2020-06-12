@@ -243,19 +243,19 @@ public class Producto implements Serializable {
     public ProductoDTO getDTO(){
         ProductoDTO prodDTO = new ProductoDTO();
         prodDTO.setId(id);
-        prodDTO.setCategoria(this.categoria);
-        prodDTO.setDescripcion(this.descripcion);
-        prodDTO.setFecha(this.fecha);
-        prodDTO.setImagen(this.imagen);
         prodDTO.setNombre(this.nombre);
-        prodDTO.setOwner(this.owner);
+        prodDTO.setDescripcion(this.descripcion);
         prodDTO.setPrecio(this.precio);
+        prodDTO.setImagen(this.imagen);
+        prodDTO.setFecha(this.fecha);
+        prodDTO.setListaKeywords(this.keywordsList);
+        prodDTO.setCategoria(this.categoria);
+        prodDTO.setOwner(this.owner);
         prodDTO.setSubcategoria(this.subcategoria);
+        prodDTO.setListaValoraciones(this.valoracionList);
         
         return prodDTO;
     }
-
- 
 
     public Integer getEstrella1() {
         return estrella1;

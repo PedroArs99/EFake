@@ -1,6 +1,7 @@
 package com.efake.dto;
 
 import com.efake.entity.Categoria;
+import com.efake.entity.Keywords;
 import com.efake.entity.Subcategoria;
 import com.efake.entity.Usuario;
 import com.efake.entity.Valoracion;
@@ -18,6 +19,7 @@ public class ProductoDTO {
     private double precio;
     private String imagen;
     private Date fecha;
+    private List<Keywords> listaKeywords;
     private Categoria categoria;
     private Usuario owner;
     private Subcategoria subcategoria;
@@ -74,6 +76,14 @@ public class ProductoDTO {
 
     public void setFecha(Date fecha) {
         this.fecha = fecha;
+    }
+
+    public List<Keywords> getListaKeywords() {
+        return listaKeywords;
+    }
+
+    public void setListaKeywords(List<Keywords> listaKeywords) {
+        this.listaKeywords = listaKeywords;
     }
 
     public Categoria getCategoria() {

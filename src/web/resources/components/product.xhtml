@@ -20,7 +20,10 @@
                 <div class="card-body d-flex flex-column">
                     <h5 class="card-title">#{cc.attrs.name}</h5>
                     <p class="card-text">#{cc.attrs.description}</p>
-                    <h:link outcome="#{transport.redirectProducto(cc.attrs.productId)}" styleClass="btn btn-primary mt-auto">View Product</h:link>
+                    <h:form>
+                        <h:commandLink action="#{transport.redirectProducto(cc.attrs.productId)}" styleClass="btn btn-primary mt-auto">View Product</h:commandLink>
+                    </h:form>
+                    
                 </div>
         </div>
     </cc:implementation>

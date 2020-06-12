@@ -6,6 +6,7 @@ import com.efake.dto.ProductoDTO;
 import com.efake.dto.ValoracionDTO;
 import com.efake.entity.Valoracion;
 import com.efake.service.ProductoService;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.PostConstruct;
@@ -33,7 +34,7 @@ public class ProductoBean {
     private ProductoDTO producto;
     private double mediaValoraciones;
     private List<Valoracion> listaValoraciones;
-    private Map<Integer, Double> ratings;
+    private List<Integer> ratings;
     private boolean valorado;
     
     public ProductoBean() {
@@ -41,11 +42,16 @@ public class ProductoBean {
     
     @PostConstruct
     public void init(){
+        Map<Integer, Integer> ratingsDictionary;
         producto = transport.getProductoSeleccionado();
         //Usuario user = this.usuarioSesion.getUser();
         mediaValoraciones = this.productoService.getMeanRating(producto.getId());
         listaValoraciones = producto.getListaValoraciones();
-        ratings = this.productoService.getRatings(producto.getId());
+        ratingsDictionary = this.productoService.getRatings(producto.getId());
+        ratings = new ArrayList<>();
+        for(Integer i : ratingsDictionary.values()){
+            ratings.add(i);
+        }
         //valorado = this.productoService.rated(listaValoraciones, user);
     }
 
@@ -65,11 +71,11 @@ public class ProductoBean {
         this.listaValoraciones = listaValoraciones;
     }
 
-    public Map<Integer, Double> getRatings() {
+    public List<Integer> getRatings() {
         return ratings;
     }
 
-    public void setRatings(Map<Integer, Double> ratings) {
+    public void setRatings(List<Integer> ratings) {
         this.ratings = ratings;
     }
 
@@ -89,7 +95,12 @@ public class ProductoBean {
         this.valorado = valorado;
     }
     
-    
-    
+    public String renderStars(Valoracion comentario) {
+        StringBuilder sb = new StringBuilder();
+        for(int i = 0; i< comentario.getPuntuacion(); i++) {
+            sb.append(    "&#9733;");
+        }
+        return sb.toString();
+    }
     
 }

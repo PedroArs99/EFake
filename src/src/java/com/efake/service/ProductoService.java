@@ -2,6 +2,7 @@ package com.efake.service;
 
 import com.efake.dao.CategoriaFacade;
 import com.efake.dao.ProductoFacade;
+import com.efake.dto.CategoriaDTO;
 import com.efake.dto.ProductoDTO;
 import com.efake.dto.ValoracionDTO;
 import com.efake.entity.Categoria;
@@ -59,17 +60,17 @@ public class ProductoService {
         return valorado;
     }
     
-    public Map<Integer, Double> getRatings(Integer id){
-        Map<Integer, Double> ratings = new HashMap<>();
+    public Map<Integer, Integer> getRatings(Integer id){
+        Map<Integer, Integer> ratings = new HashMap<>();
         Producto producto = this.productFacade.find(id);
-        double total = producto.getValoracionList().size();
+        int total = producto.getValoracionList().size();
         
+        ratings.put(0, total);
         ratings.put(1, ((producto.getEstrella1()*100)/total));
         ratings.put(2, ((producto.getEstrella2()*100)/total));
         ratings.put(3, ((producto.getEstrella3()*100)/total));
         ratings.put(4, ((producto.getEstrella4()*100)/total));
         ratings.put(5, ((producto.getEstrella5()*100)/total));
-        ratings.put(0, total);
         
         return ratings;
     }
@@ -89,7 +90,7 @@ public class ProductoService {
    
     public double getMeanRating(Integer idProducto){
         Producto p = this.productFacade.find(idProducto);
-        Map<Integer, Double> ratings = this.getRatings(idProducto);
+        Map<Integer, Integer> ratings = this.getRatings(idProducto);
         
         int cont = 1 * p.getEstrella1();
         cont += 2 * p.getEstrella2();
@@ -130,6 +131,14 @@ public class ProductoService {
     public List<ProductoDTO> findAllInRange(int pageNumber, int pageSize){
         List<Producto> productList = productFacade.findRange(pageNumber, pageSize);
         List<ProductoDTO> dtoList = convertToDTO(productList);
+        
+        return dtoList;
+    }
+    
+    public List<ProductoDTO> findByCategoria(CategoriaDTO categoria){
+        Categoria cat = this.categoryFacade.find(categoria.getId());
+        List<Producto> lista = this.productFacade.findByCategoria(cat);
+        List<ProductoDTO> dtoList = convertToDTO(lista);
         
         return dtoList;
     }

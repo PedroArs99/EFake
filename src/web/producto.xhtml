@@ -19,6 +19,7 @@
         <h:outputStylesheet library="css" name="bootstrap.css" />
         <!-- Own Stylesheets --> 
         <h:outputStylesheet library="css" name="styles.css" />
+        <h:outputStylesheet library="css" name="valoracionStyle.css" />
     </h:head>
     <h:body>
 
@@ -41,35 +42,35 @@
 
                 <div class="progress margen-barras">
                     <div class="progress-bar bg-color text-center" role="progressbar" aria-valuenow="#{productoBean.ratings.get(1)}"
-                         aria-valuemin="0" aria-valuemax="100" style="width:#{productoBean.ratings.get(1)} ; color: black; overflow: visible;">
+                         aria-valuemin="0" aria-valuemax="100" style="width:#{productoBean.ratings.get(1)}%; color: black; overflow: visible;">
                         1 stars
                     </div>
                 </div> 
 
                 <div class="progress margen-barras">
                     <div class="progress-bar bg-color text-center" role="progressbar" aria-valuenow="#{productoBean.ratings.get(2)}"
-                         aria-valuemin="0" aria-valuemax="100" style="width:#{productoBean.ratings.get(2)} ; color: black; overflow: visible;">
+                         aria-valuemin="0" aria-valuemax="100" style="width:#{productoBean.ratings.get(2)}%; color: black; overflow: visible;">
                         2 stars
                     </div>
                 </div> 
 
                 <div class="progress margen-barras">
                     <div class="progress-bar bg-color text-center" role="progressbar" aria-valuenow="#{productoBean.ratings.get(3)}"
-                         aria-valuemin="0" aria-valuemax="100" style="width:#{productoBean.ratings.get(3)} ; color: black; overflow: visible;">
+                         aria-valuemin="0" aria-valuemax="100" style="width:#{productoBean.ratings.get(3)}%; color: black; overflow: visible;">
                         3 stars
                     </div>
                 </div> 
 
                 <div class="progress margen-barras">
                     <div class="progress-bar bg-color text-center" role="progressbar" aria-valuenow="#{productoBean.ratings.get(4)}"
-                         aria-valuemin="0" aria-valuemax="100" style="width:#{productoBean.ratings.get(4)} ; color: black; overflow: visible;">
+                         aria-valuemin="0" aria-valuemax="100" style="width:#{productoBean.ratings.get(4)}%; color: black; overflow: visible;">
                         4 stars
                     </div>
                 </div> 
 
                 <div class="progress margen-barras">
                     <div class="progress-bar bg-color text-center" role="progressbar" aria-valuenow="#{productoBean.ratings.get(5)}"
-                         aria-valuemin="0" aria-valuemax="100" style="width:#{productoBean.ratings.get(5)} ; color: black; overflow: visible;">
+                         aria-valuemin="0" aria-valuemax="100" style="width:#{productoBean.ratings.get(5)}%; color: black; overflow: visible;">
                         5 stars
                     </div>
                 </div> 
@@ -78,7 +79,7 @@
                         <button type="button" class="btn rounded btn-primary margen-boton" data-toggle="modal" data-target="#review">
                             Review
                         </button>
-                        <h:outputText styleClass="alert alert-danger" value="Already rated" rendered="#{productoBean.valorado}"/>
+                        <!--<h:outputText styleClass="alert alert-danger" value="Already rated" rendered="#{productoBean.valorado}"/>-->
                     </div>
                 </div>
             </div>
@@ -95,12 +96,7 @@
                             </h:outputText> 
                         </span> <br/>
                         <p>
-                            <c:forEach begin="1" end="#{comentario.puntuacion}">
-                                <span class="comment-stars filled-star">★</span>
-                            </c:forEach>
-                            <c:forEach begin="#{comentario.puntuacion + 1}" end="5">
-                                <span class="comment-stars cero-stars">★</span>
-                            </c:forEach>
+                           <span class="comment-stars filled-star"> #{productoBean.renderStars(comentario)}</span>
                         </p>
                         <p>
                             #{comentario.comentario}
