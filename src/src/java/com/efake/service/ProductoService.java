@@ -34,9 +34,6 @@ public class ProductoService {
     @EJB
     private ProductoFacade productFacade;
     
-    
-    
-    
     //Tool
     private List<ProductoDTO> convertToDTO (List<Producto> listaProducto) {
         List<ProductoDTO> listaDTO = null;
@@ -120,14 +117,6 @@ public class ProductoService {
         return producto.getDTO();
     }
     
-    public List<ProductoDTO> findByCategory(String category){
-        Categoria categoria = categoryFacade.find(category);
-        List<Producto> productList = productFacade.findByCategoria(categoria);
-        List<ProductoDTO> productDTOList = convertToDTO(productList);
-        
-        return productDTOList;       
-    }
-   
     public List<ProductoDTO> findAllInRange(int pageNumber, int pageSize){
         List<Producto> productList = productFacade.findRange(pageNumber, pageSize);
         List<ProductoDTO> dtoList = convertToDTO(productList);

@@ -54,7 +54,11 @@ public class ProductoBean {
         }
         //valorado = this.productoService.rated(listaValoraciones, user);
     }
-
+    
+    public Object[] createDummyArray(int size){
+        return new Object[size];
+    }
+    
     public double getMediaValoraciones() {
         return mediaValoraciones;
     }
@@ -93,14 +97,6 @@ public class ProductoBean {
 
     public void setValorado(boolean valorado) {
         this.valorado = valorado;
-    }
-    
-    public String renderStars(Valoracion comentario) {
-        StringBuilder sb = new StringBuilder();
-        for(int i = 0; i< comentario.getPuntuacion(); i++) {
-            sb.append(    "&#9733;");
-        }
-        return sb.toString();
     }
     
 }

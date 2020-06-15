@@ -36,7 +36,7 @@
                         <h:form>
                             <div id="categoriesDiv" class="dropdown-menu" aria-labelledby="categoriesDropdown">
                                 <ui:repeat value="#{transport.categorias}" var="categoria">        
-                                    <h:commandLink action="#{productoCategoriaBean.doShowProductoByCategory(categoria)}" class="dropdown-item">#{categoria.nombre}</h:commandLink>
+                                    <h:commandLink action="#{transport.redirectCategory(categoria)}" class="dropdown-item">#{categoria.nombre}</h:commandLink>
                                 </ui:repeat>
                             </div>
                         </h:form>

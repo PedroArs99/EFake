@@ -5,7 +5,7 @@
  */
 package com.efake.bean.producto;
 
-import com.efake.dao.ProductoFacade;
+import com.efake.bean.session.Transport;
 import com.efake.dto.CategoriaDTO;
 import com.efake.dto.ProductoDTO;
 import com.efake.service.ProductoService;
@@ -14,6 +14,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 
 /**
  *
@@ -26,9 +27,10 @@ public class ProductoCategoriaBean {
     @EJB
     private ProductoService productoService;
     
-    /**
-     * Creates a new instance of ProductoCategoriaBean
-     */
+    @Inject
+    private Transport transport;
+    
+    private CategoriaDTO categoria;
     private List<ProductoDTO> listaProductosByCategoria;
     
     public ProductoCategoriaBean() {
@@ -37,14 +39,14 @@ public class ProductoCategoriaBean {
     
     @PostConstruct
     public void init(){
+        CategoriaDTO categoriaSeleccionada = transport.getCategoriaSeleccionada();
         
+        if(categoriaSeleccionada != null){
+            categoria = categoriaSeleccionada;
+            listaProductosByCategoria = productoService.findByCategoria(categoria);
+        }
     }
     
-    public String doShowProductoByCategory(CategoriaDTO categoria) {
-        listaProductosByCategoria = this.productoService.findByCategoria(categoria);
-        
-        return "productGrid";
-    }
 
     public List<ProductoDTO> getListaProductosByCategoria() {
         return listaProductosByCategoria;

@@ -3,6 +3,7 @@ package com.efake.bean.admin;
 import com.efake.bean.session.Transport;
 import com.efake.dto.UsuarioDTO;
 import com.efake.service.UsuarioService;
+import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -31,6 +32,7 @@ public class ListUsers {
 
     //Attributes
     private List<UsuarioDTO> userList;
+    private Date lastLoginFilter;
 
     //Constructor
     public ListUsers() {
@@ -53,5 +55,15 @@ public class ListUsers {
     public List<UsuarioDTO> getUserList() {
         return userList;
     }
+
+    public Date getLastLoginFilter() {
+        return lastLoginFilter;
+    }
+
+    public void setLastLoginFilter(Date lastLoginFilter) {
+        this.lastLoginFilter = lastLoginFilter;
+    }
+    
+    
 
 }

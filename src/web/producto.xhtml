@@ -99,7 +99,13 @@
                             </h:outputText> 
                         </span> <br/>
                         <p>
-                           <span class="comment-stars filled-star"> #{productoBean.renderStars(comentario)}</span>
+                            <ui:repeat value="#{productoBean.createDummyArray(comentario.puntuacion)}" var="i" >
+                                <span class="comment-stars filled-star">&#9733;</span>
+                            </ui:repeat>
+                            
+                            <ui:repeat value="#{productoBean.createDummyArray(5 - comentario.puntuacion)}" var="i" >
+                                <span class="comment-stars">&#9733;</span>
+                            </ui:repeat>  
                         </p>
                         <p>
                             #{comentario.comentario}
