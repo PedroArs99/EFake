@@ -9,7 +9,6 @@ import com.efake.dao.ProductoFacade;
 import com.efake.dto.CategoriaDTO;
 import com.efake.dto.ProductoDTO;
 import com.efake.dto.SubCategoriaDTO;
-import com.efake.entity.Producto;
 import com.efake.service.CategoryService;
 import com.efake.service.ProductoService;
 import com.efake.service.SubCategoryService;
@@ -33,8 +32,6 @@ public class Transport implements Serializable {
     private CategoryService categoriaService;
     @EJB
     private SubCategoryService subCategoriaService;
-    @EJB
-    private ProductoFacade productoFacade;
     @EJB
     private ProductoService productoService;
     
@@ -106,6 +103,7 @@ public class Transport implements Serializable {
     public void setCategoriaSeleccionada(CategoriaDTO categoriaSeleccionada) {
         this.categoriaSeleccionada = categoriaSeleccionada;
     }
+
     
     public String redirectCategory(CategoriaDTO categoria) {
         this.categoriaSeleccionada = categoria;

@@ -4,7 +4,6 @@ import com.efake.dao.CategoriaFacade;
 import com.efake.dao.ProductoFacade;
 import com.efake.dto.CategoriaDTO;
 import com.efake.dto.ProductoDTO;
-import com.efake.dto.ValoracionDTO;
 import com.efake.entity.Categoria;
 import com.efake.entity.Producto;
 import com.efake.entity.Usuario;
@@ -25,8 +24,6 @@ import javax.ejb.Stateless;
 @Stateless
 public class ProductoService {
 
-    @EJB
-    private ValoracionService valoracionService;
 
     @EJB
     private CategoriaFacade categoryFacade;
