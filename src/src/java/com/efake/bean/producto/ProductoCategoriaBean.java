@@ -8,6 +8,7 @@ package com.efake.bean.producto;
 import com.efake.dao.ProductoFacade;
 import com.efake.dto.CategoriaDTO;
 import com.efake.dto.ProductoDTO;
+import com.efake.dto.SubCategoriaDTO;
 import com.efake.service.ProductoService;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -30,6 +31,8 @@ public class ProductoCategoriaBean {
      * Creates a new instance of ProductoCategoriaBean
      */
     private List<ProductoDTO> listaProductosByCategoria;
+    private List<SubCategoriaDTO> listaSubCategoriasByCategoria;
+    private List<ProductoDTO> listaProductosBySubCategoria;
     
     public ProductoCategoriaBean() {
     }
@@ -42,8 +45,15 @@ public class ProductoCategoriaBean {
     
     public String doShowProductoByCategory(CategoriaDTO categoria) {
         listaProductosByCategoria = this.productoService.findByCategoria(categoria);
+        listaSubCategoriasByCategoria = categoria.getListaSubcategorias();
         
-        return "productGrid";
+        return "productGrid?faces-redirect=true";
+    }
+    
+    public String doShowProductBySubCategory(SubCategoriaDTO subcategoria){
+        //listaProductosBySubCategoria = this.productoService.findBySubcategoria(subcategoria);
+        
+        return "productoGrid?faces-redirect=true";
     }
 
     public List<ProductoDTO> getListaProductosByCategoria() {
@@ -53,6 +63,25 @@ public class ProductoCategoriaBean {
     public void setListaProductosByCategoria(List<ProductoDTO> listaProductosByCategoria) {
         this.listaProductosByCategoria = listaProductosByCategoria;
     }
+
+    public List<SubCategoriaDTO> getListaSubCategoriasByCategoria() {
+        return listaSubCategoriasByCategoria;
+    }
+
+    public void setListaSubCategoriasByCategoria(List<SubCategoriaDTO> listaSubCategoriasByCategoria) {
+        this.listaSubCategoriasByCategoria = listaSubCategoriasByCategoria;
+    }
+
+    public List<ProductoDTO> getListaProductosBySubCategoria() {
+        return listaProductosBySubCategoria;
+    }
+
+    public void setListaProductosBySubCategoria(List<ProductoDTO> listaProductosBySubCategoria) {
+        this.listaProductosBySubCategoria = listaProductosBySubCategoria;
+    }
+    
+    
+    
     
     
     

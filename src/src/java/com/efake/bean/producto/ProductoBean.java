@@ -2,11 +2,16 @@ package com.efake.bean.producto;
 
 import com.efake.bean.session.Transport;
 import com.efake.dao.ProductoFacade;
+import com.efake.dao.ValoracionFacade;
 import com.efake.dto.ProductoDTO;
 import com.efake.dto.ValoracionDTO;
+import com.efake.entity.Producto;
+import com.efake.entity.Usuario;
 import com.efake.entity.Valoracion;
 import com.efake.service.ProductoService;
+import com.efake.service.ValoracionService;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.PostConstruct;
@@ -27,15 +32,17 @@ public class ProductoBean {
     
     @EJB
     private ProductoService productoService;
-
+    
     @EJB
-    private ProductoFacade productoFacade;
+    private ValoracionService valoracionService;
     
     private ProductoDTO producto;
     private double mediaValoraciones;
     private List<Valoracion> listaValoraciones;
     private List<Integer> ratings;
     private boolean valorado;
+    private String comentario;
+    private Integer puntuacion;
     
     public ProductoBean() {
     }
@@ -101,6 +108,32 @@ public class ProductoBean {
             sb.append(    "&#9733;");
         }
         return sb.toString();
+    }
+
+    public String getComentario() {
+        return comentario;
+    }
+
+    public void setComentario(String comentario) {
+        this.comentario = comentario;
+    }
+
+    public Integer getPuntuacion() {
+        return puntuacion;
+    }
+
+    public void setPuntuacion(Integer puntuacion) {
+        this.puntuacion = puntuacion;
+    }
+    
+    public String doCancel(){
+        return "producto?faces-redirect=true";
+    }
+    
+    public String doReview(Integer idProducto, Integer idUsuario){
+        this.valoracionService.newRating(idUsuario, idProducto, this.puntuacion, this.comentario, new Date());
+        
+        return "producto?faces-redirect=true";
     }
     
 }

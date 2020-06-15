@@ -115,8 +115,35 @@
         <efake:footer />
 
         <!-- Pop up -->
+        <div class="modal fade" id="review" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <h:form class="w-100">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label class="col-form-label">Rating</label>
+                                <p class='clasificacion'>
+                                    <h:selectOneRadio value="#{productoBean.puntuacion}" required>
+                                        <f:selectItem itemValue="1" itemLabel="★"/>
+                                        <f:selectItem itemValue="2" itemLabel="★"/>
+                                        <f:selectItem itemValue="3" itemLabel="★"/>
+                                        <f:selectItem itemValue="4" itemLabel="★"/>
+                                        <f:selectItem itemValue="5" itemLabel="★"/>
+                                    </h:selectOneRadio>
+                                </p>
+                                <label class="col-form-label">Comments</label>
+                                <h:inputTextarea class="form-control" required value="#{productoBean.comentario}"/>
+                            </div>
 
-
+                        </div>
+                        <div class="modal-footer">
+                            <h:commandButton value="Cancel" class="border-0 background-transparent" action="#{productoBean.doCancel()}"/>
+                            <h:commandButton value="Send" class="btn btn-primary" action="#{productoBean.doReview(productoBean.producto.id, 1)}">
+                        </div>
+                    </div>
+                </h:form>
+            </div>
+        </div>
         <!--Font Awesome-->
         <script src="https://kit.fontawesome.com/998261dc3d.js" crossorigin="anonymous"></script>
         <!-- JS, Popper.js, and jQuery -->
