@@ -1,3 +1,7 @@
+/*
+ * Author: Pedro Arenas
+ */
+
 const globalButton = document.querySelector("[id='form:global-stats']");
 const todayButton = document.querySelector("[id='form2:today-stats']");
 const monthlyButton = document.querySelector("[id='form3:today-stats']");

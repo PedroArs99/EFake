@@ -22,7 +22,7 @@ import javax.ejb.EJB;
 
 /**
  *
- * @author PedroArenas
+ * @author Carlos Diestro
  */
 @Named(value = "transport")
 @SessionScoped

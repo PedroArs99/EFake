@@ -1,6 +1,5 @@
 package com.efake.dto;
 
-
 /**
  *
  * @author PedroArenas

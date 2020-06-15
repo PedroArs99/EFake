@@ -1,0 +1,117 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!--
+    Author: Carlos Diestro (Refactor a JSF)
+    Author: Laura Rosón, Lorenzo De Linares (Diseño en JSP)
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:efake="http://java.sun.com/jsf/composite/components"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Producto</title> 
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <!--Favicon-->
+        <link rel="shortcut icon" href="/efake/img/favicon.png" type="image/png" />
+        <!--AOS-->
+        <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+        <!-- Bootstrap Css-->
+        <h:outputStylesheet library="css" name="bootstrap.css" />
+        <!-- Own Stylesheets --> 
+        <h:outputStylesheet library="css" name="styles.css" />
+        <h:outputStylesheet library="css" name="valoracionStyle.css" />
+        <h:outputStylesheet library="css" name="grid.css" />
+        
+    </h:head>
+    <h:body>
+        <efake:nav />
+
+        <div class="row mb-3 container">
+            <!-- Left Nav -->
+            <nav class="col-md-2 d-none d-md-block bg-transparent sidebar border-right border-thin">
+                <div class="sidebar-sticky">
+                    <h6 
+                        class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                        Dashboard
+                    </h6>
+                    <ul class="nav flex-column">
+                        <li class="nav-item mb-2">
+                            
+                        </li>
+                        <li class="nav-item mb-2">
+                            
+                        </li>
+                    </ul>
+                    <h6 
+                        class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                        Stats
+                    </h6>
+                    <ul class="nav flex-column">
+                        <li class="nav-item mb-2">
+                            
+                        </li>
+                        <li class="nav-item mb-2">
+                            
+                        </li>
+                        <li class="nav-item mb-2">
+                            
+                        </li>
+                    </ul>
+                    <div id="monthly-panel" class="d-none">
+                        <h6 
+                            class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                            Monthly Stats
+                        </h6>
+                        <ul class="nav flex-column">
+                            <li class="nav-item mb-2">
+                                
+                            </li>
+                            <li class="nav-item mb-2">
+                                
+                            </li>
+                            <li class="nav-item mb-2">
+                                
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+            </nav>
+
+            <!-- Product Grid -->
+            <div class="col-md-10 grid">
+                <ui:repeat value="#{productoCategoriaBean.listaProductosByCategoria}" var="product">
+                <efake:product productId="#{product.id}"
+                               name="#{product.nombre}"
+                               description="#{product.descripcion}"
+                               image="#{product.imagen}"/>
+            </ui:repeat>
+            </div>
+
+            
+
+
+
+        </div>
+
+
+
+
+        <efake:footer />
+        <!--Font Awesome-->
+        <script src="https://kit.fontawesome.com/998261dc3d.js" crossorigin="anonymous"></script>
+        <!-- JS, Popper.js, and jQuery -->
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+        <!--AOS-->
+        <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+        <script>
+            AOS.init();
+        </script>
+    </h:body>
+</html>
+

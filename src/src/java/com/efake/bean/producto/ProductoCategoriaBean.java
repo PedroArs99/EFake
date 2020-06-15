@@ -43,7 +43,7 @@ public class ProductoCategoriaBean {
     public String doShowProductoByCategory(CategoriaDTO categoria) {
         listaProductosByCategoria = this.productoService.findByCategoria(categoria);
         
-        return "productoCategoria";
+        return "productGrid";
     }
 
     public List<ProductoDTO> getListaProductosByCategoria() {
