@@ -24,7 +24,7 @@
         <h:outputStylesheet library="css" name="styles.css" />
         <h:outputStylesheet library="css" name="valoracionStyle.css" />
         <h:outputStylesheet library="css" name="grid.css" />
-        
+
     </h:head>
     <h:body>
         <efake:nav />
@@ -38,28 +38,28 @@
                         Subcategories
                     </h6>
                     <h:form>
-                       <ui:repeat class="nav flex-column" value="#{productoCategoriaBean.listaSubCategoriasByCategoria}" var="subcat">
-                        <h6>
-                            <h:commandLink value="#{subcat.nombre}">
-                                <f:ajax render="listaProductos" listener="#{productoCategoriaBean.doFiltrarBySubcategoria(subcat)}"/>
-                            </h:commandLink> 
-                        </h6> 
-                    </ui:repeat> 
+                        <ui:repeat class="nav flex-column" value="#{productoCategoriaBean.listaSubCategoriasByCategoria}" var="subcat">
+                            <h6 class="nav-item ml-5">
+                                <h:commandLink value="#{subcat.nombre}">
+                                    <f:ajax render="listaProductos" listener="#{productoCategoriaBean.doFiltrarBySubcategoria(subcat)}"/>
+                                </h:commandLink> 
+                            </h6> 
+                        </ui:repeat> 
                     </h:form>
                 </div>
             </nav>
 
             <!-- Product Grid -->
-            <div id="listaProductos" class="col-md-10 grid">
+             <h:panelGroup id="listaProductos" class="col-md-10 grid">
                 <ui:repeat value="#{productoCategoriaBean.listaProductos}" var="product">
-                <efake:product productId="#{product.id}"
-                               name="#{product.nombre}"
-                               description="#{product.descripcion}"
-                               image="#{product.imagen}"/>
-            </ui:repeat>
-            </div>
+                    <efake:product productId="#{product.id}"
+                                   name="#{product.nombre}"
+                                   description="#{product.descripcion}"
+                                   image="#{product.imagen}"/>
+                </ui:repeat>
+            </h:panelGroup>
 
-            
+
 
 
 

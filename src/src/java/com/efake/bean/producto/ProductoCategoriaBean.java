@@ -9,7 +9,6 @@ import com.efake.bean.session.Transport;
 import com.efake.dto.CategoriaDTO;
 import com.efake.dto.ProductoDTO;
 import com.efake.dto.SubCategoriaDTO;
-import com.efake.service.CategoryService;
 import com.efake.service.ProductoService;
 import com.efake.service.SubCategoryService;
 import java.util.List;
@@ -32,9 +31,7 @@ public class ProductoCategoriaBean {
 
     @EJB
     private ProductoService productoService;
-    
-    
-    
+
     @Inject
     private Transport transport;
     
@@ -50,12 +47,11 @@ public class ProductoCategoriaBean {
     public void init(){
         CategoriaDTO categoriaSeleccionada = transport.getCategoriaSeleccionada();
         
-        
         if(categoriaSeleccionada != null){
             categoria = categoriaSeleccionada;
             listaProductos = productoService.findByCategoria(categoria);
             listaSubCategoriasByCategoria = this.subCategoryService.finByCategory(categoriaSeleccionada);
-        }
+        } 
     }
     
 
@@ -75,10 +71,8 @@ public class ProductoCategoriaBean {
         this.listaSubCategoriasByCategoria = listaSubCategoriasByCategoria;
     }
     
-    public String doFiltrarBySubcategoria(SubCategoriaDTO subcategoria){
+    public void doFiltrarBySubcategoria(SubCategoriaDTO subcategoria){
         this.listaProductos = this.productoService.findBySubCategoria(subcategoria);
-        
-        return "producGrid?faces-redirect=true";
     }
     
     

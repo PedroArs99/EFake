@@ -52,14 +52,6 @@ public class Transport implements Serializable {
         this.listaSubCategoria = this.subCategoriaService.findAll();
     }
     
-    public List<CategoriaDTO> getCategorias(){
-        return listaCategoria;
-    }
-    
-    public List<SubCategoriaDTO> getSubCategorias(){
-        return listaSubCategoria;
-    }
-    
     public List<SubCategoriaDTO> getSubCategoriasByCategoria(CategoriaDTO c){
         return this.subCategoriaService.finByCategory(c);
     }
@@ -104,13 +96,12 @@ public class Transport implements Serializable {
         this.categoriaSeleccionada = categoriaSeleccionada;
     }
 
-    
     public String redirectCategory(CategoriaDTO categoria) {
         this.categoriaSeleccionada = categoria;
         
         return "productGrid?faces-redirect=true";
     }
-    
+        
     public String redirectProducto(Integer idProducto){
         productoSeleccionado = this.productoService.findById(idProducto);
         
