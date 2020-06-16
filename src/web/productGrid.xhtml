@@ -37,18 +37,21 @@
                         class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
                         Subcategories
                     </h6>
-                    <ui:repeat class="nav flex-column" value="#{productoCategoriaBean.listaSubCategoriasByCategoria}" var="subcat">
-                        <li class="nav-item mb-2">
-                            <h:commandLink value="#{subcat.nombre}" action="#{productoCategoriaBean.doShowProductBySubCategory(subcat)}"/>
-                        </li>
-                    </ui:repeat>
-
+                    <h:form>
+                       <ui:repeat class="nav flex-column" value="#{productoCategoriaBean.listaSubCategoriasByCategoria}" var="subcat">
+                        <h6>
+                            <h:commandLink value="#{subcat.nombre}">
+                                <f:ajax render="listaProductos" listener="#{productoCategoriaBean.doFiltrarBySubcategoria(subcat)}"/>
+                            </h:commandLink> 
+                        </h6> 
+                    </ui:repeat> 
+                    </h:form>
                 </div>
             </nav>
 
             <!-- Product Grid -->
-            <div class="col-md-10 grid">
-                <ui:repeat value="#{productoCategoriaBean.listaProductosByCategoria}" var="product">
+            <div id="listaProductos" class="col-md-10 grid">
+                <ui:repeat value="#{productoCategoriaBean.listaProductos}" var="product">
                 <efake:product productId="#{product.id}"
                                name="#{product.nombre}"
                                description="#{product.descripcion}"

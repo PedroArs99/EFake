@@ -9,7 +9,9 @@ import com.efake.bean.session.Transport;
 import com.efake.dto.CategoriaDTO;
 import com.efake.dto.ProductoDTO;
 import com.efake.dto.SubCategoriaDTO;
+import com.efake.service.CategoryService;
 import com.efake.service.ProductoService;
+import com.efake.service.SubCategoryService;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -26,15 +28,19 @@ import javax.inject.Inject;
 public class ProductoCategoriaBean {
 
     @EJB
+    private SubCategoryService subCategoryService;
+
+    @EJB
     private ProductoService productoService;
+    
+    
     
     @Inject
     private Transport transport;
     
     private CategoriaDTO categoria;
-    private List<ProductoDTO> listaProductosByCategoria;
+    private List<ProductoDTO> listaProductos;
     private List<SubCategoriaDTO> listaSubCategoriasByCategoria;
-    private List<ProductoDTO> listaProductosBySubCategoria;
     
     public ProductoCategoriaBean() {
     }
@@ -44,19 +50,21 @@ public class ProductoCategoriaBean {
     public void init(){
         CategoriaDTO categoriaSeleccionada = transport.getCategoriaSeleccionada();
         
+        
         if(categoriaSeleccionada != null){
             categoria = categoriaSeleccionada;
-            listaProductosByCategoria = productoService.findByCategoria(categoria);
+            listaProductos = productoService.findByCategoria(categoria);
+            listaSubCategoriasByCategoria = this.subCategoryService.finByCategory(categoriaSeleccionada);
         }
     }
     
 
-    public List<ProductoDTO> getListaProductosByCategoria() {
-        return listaProductosByCategoria;
+    public List<ProductoDTO> getListaProductos() {
+        return listaProductos;
     }
 
-    public void setListaProductosByCategoria(List<ProductoDTO> listaProductosByCategoria) {
-        this.listaProductosByCategoria = listaProductosByCategoria;
+    public void setListaProductos(List<ProductoDTO> listaProductosByCategoria) {
+        this.listaProductos = listaProductosByCategoria;
     }
 
     public List<SubCategoriaDTO> getListaSubCategoriasByCategoria() {
@@ -66,15 +74,12 @@ public class ProductoCategoriaBean {
     public void setListaSubCategoriasByCategoria(List<SubCategoriaDTO> listaSubCategoriasByCategoria) {
         this.listaSubCategoriasByCategoria = listaSubCategoriasByCategoria;
     }
-
-    public List<ProductoDTO> getListaProductosBySubCategoria() {
-        return listaProductosBySubCategoria;
-    }
-
-    public void setListaProductosBySubCategoria(List<ProductoDTO> listaProductosBySubCategoria) {
-        this.listaProductosBySubCategoria = listaProductosBySubCategoria;
-    }
     
+    public String doFiltrarBySubcategoria(SubCategoriaDTO subcategoria){
+        this.listaProductos = this.productoService.findBySubCategoria(subcategoria);
+        
+        return "producGrid?faces-redirect=true";
+    }
     
     
     

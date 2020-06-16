@@ -52,13 +52,25 @@ public class ProductoBean {
         Map<Integer, Integer> ratingsDictionary;
         producto = transport.getProductoSeleccionado();
         //Usuario user = this.usuarioSesion.getUser();
-        mediaValoraciones = this.productoService.getMeanRating(producto.getId());
-        listaValoraciones = producto.getListaValoraciones();
-        ratingsDictionary = this.productoService.getRatings(producto.getId());
-        ratings = new ArrayList<>();
-        for(Integer i : ratingsDictionary.values()){
-            ratings.add(i);
+        if(!producto.getListaValoraciones().isEmpty()){
+            listaValoraciones = producto.getListaValoraciones();
+            mediaValoraciones = this.productoService.getMeanRating(producto.getId());
+            ratingsDictionary = this.productoService.getRatings(producto.getId());
+            ratings = new ArrayList<>();
+            for(Integer i : ratingsDictionary.values()){
+                ratings.add(i);
+            }
+        } else {
+            mediaValoraciones = 0.0;
+            ratings = new ArrayList<>();
+            for(int i = 0; i < 6; i++){
+                ratings.add(0);
+            }
         }
+        
+        
+        
+        
         //valorado = this.productoService.rated(listaValoraciones, user);
     }
     

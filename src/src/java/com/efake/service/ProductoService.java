@@ -2,10 +2,13 @@ package com.efake.service;
 
 import com.efake.dao.CategoriaFacade;
 import com.efake.dao.ProductoFacade;
+import com.efake.dao.SubcategoriaFacade;
 import com.efake.dto.CategoriaDTO;
 import com.efake.dto.ProductoDTO;
+import com.efake.dto.SubCategoriaDTO;
 import com.efake.entity.Categoria;
 import com.efake.entity.Producto;
+import com.efake.entity.Subcategoria;
 import com.efake.entity.Usuario;
 import com.efake.entity.Valoracion;
 import java.util.ArrayList;
@@ -24,6 +27,8 @@ import javax.ejb.Stateless;
 @Stateless
 public class ProductoService {
 
+    @EJB
+    private SubcategoriaFacade subcategoriaFacade;
 
     @EJB
     private CategoriaFacade categoryFacade;
@@ -127,5 +132,14 @@ public class ProductoService {
         List<ProductoDTO> dtoList = convertToDTO(lista);
         
         return dtoList;
+    }
+    
+    public List<ProductoDTO> findBySubCategoria(SubCategoriaDTO subcategoria){
+        Subcategoria subcat = this.subcategoriaFacade.find(subcategoria.getId());
+        List<Producto> lista = this.productFacade.findBySubCategoria(subcat);
+        List<ProductoDTO> dtoList = convertToDTO(lista);
+        
+        return dtoList;
+        
     }
 }
