@@ -27,10 +27,43 @@
     <h:body>
 
         <efake:nav />
-
+        
 
         <!-- Parte de Producto -->
-
+        <div class="wrapper row my-5 ml-5">
+            <div class="preview col-md-4">
+                <div class="preview-pic tab-content">
+                    <div class="tab-pane active" id="pic-1">
+                        <!--<img src="#{productoBean.imagen}" width="400px" height="300px"/>-->
+                        <h:graphicImage url="#{productoBean.imagen}" width="400px" height="300px"/>
+                    </div>
+                </div>
+            </div>
+            <div class="details col-md-8">
+                <h3 class="product-title">#{productoBean.nombre}</h3>
+                <div class="row-md-4 ">
+                    <h:form>
+                        <ui:repeat value="#{productoBean.listakeywords}" var="item">
+                         <span class="badge badge-dark">#{item.palabra}</span>
+                        </ui:repeat>   
+                     </h:form>
+                </div>
+                
+                <h4>Current price: <span>#{productoBean.precio} &euro;</span></h4>
+                <h5>Seller:
+                    <span>#{productoBean.owner.nombre}  #{productoBean.owner.apellidos}</span>
+                </h5>
+                <p class="product-description">#{productoBean.descripcion} </p>
+                
+                
+            <!--    <%  if (user != null && (user.equals(p.getOwner()) || user.getEsAdmin() == 1)) {%>
+                <div class="action">
+                    <a class ="btn btn-primary" type="submit" href="ProductoCardServlet?id=<%=p.getId()%>">Modify Product</a>
+                    <a class ="btn btn-primary" type="submit" href="DeleteProduct?id=<%=p.getId()%>">Delete Product</a>
+                </div>
+                <% }%>-->
+            </div>
+        </div>
 
 
 
