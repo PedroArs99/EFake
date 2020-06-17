@@ -38,32 +38,46 @@
                                         <label>Email</label>
                                         <h:inputText styleClass="form-control" id="email" value="#{listUsers.emailFilter}">
                                             <f:ajax render="form:userTable" event="keyup" listener="#{listUsers.filterUsers()}" 
-                                                    execute="email" />
+                                                    execute="email name surname age lastLogin" />
                                         </h:inputText>
                                     </div>
                                 </li>
                                 <li class="nav-item ml-3">
                                     <div class="form-group">
                                         <label>Name</label>
-                                        <h:inputText styleClass="form-control" />
+                                        <h:inputText styleClass="form-control" id="name" value="#{listUsers.nameFilter}">
+                                            <f:ajax render="form:userTable" event="keyup" listener="#{listUsers.filterUsers()}" 
+                                                    execute="email name surname age lastLogin" />
+                                        </h:inputText>
                                     </div>
                                 </li>
                                 <li class="nav-item ml-3">
                                     <div class="form-group">
                                         <label>Surname</label>
-                                        <h:inputText styleClass="form-control" />
+                                        <h:inputText styleClass="form-control" id="surname" value="#{listUsers.surnameFilter}">
+                                            <f:ajax render="form:userTable" event="keyup" listener="#{listUsers.filterUsers()}" 
+                                                    execute="email name surname age lastLogin" />
+                                        </h:inputText>
                                     </div>
                                 </li>
                                 <li class="nav-item ml-3">
                                     <div class="form-group">
                                         <label>Age</label>
-                                        <h:inputText styleClass="form-control col-md-4" />
+                                        <h:inputText styleClass="form-control col-md-4" id="age" value="#{listUsers.ageFilter}">
+                                            <f:ajax render="form:userTable" event="keyup" listener="#{listUsers.filterUsers()}" 
+                                                    execute="email name surname age lastLogin" />
+                                        </h:inputText>
                                     </div>
                                 </li>
                                 <li class="nav-item ml-3">
                                     <div class="form-group">
                                         <label>Last Login</label>
-                                        <h:inputText styleClass="form-control" />
+                                        <h:inputText styleClass="form-control" id="lastLogin" value="#{listUsers.lastLoginFilter}">
+                                            <f:ajax render="form:userTable" event="keyup" listener="#{listUsers.filterUsers()}" 
+                                                    execute="email name surname age lastLogin" />
+                                            
+                                            <f:convertDateTime pattern="dd.MM.yyyy" />
+                                        </h:inputText>
                                     </div>
                                 </li>
                                 
@@ -114,7 +128,7 @@
                         </h:column>
                         <h:column>
                             <f:facet name="header">Last Login</f:facet>
-                            <h:outputText value="#{user.ultimaEntrada}">
+                            <h:outputText value="#{user.ultimaEntrada}">       
                                 <f:convertDateTime pattern="dd.MM.yyyy" />
                             </h:outputText>
 

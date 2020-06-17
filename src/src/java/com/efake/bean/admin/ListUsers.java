@@ -28,7 +28,13 @@ public class ListUsers {
 
     //Attributes
     private List<UsuarioDTO> userList;
+
+    //Filters
     private String emailFilter;
+    private String nameFilter;
+    private String surnameFilter;
+    private Integer ageFilter;
+    private Date lastLoginFilter;
 
     //Constructor
     @PostConstruct
@@ -43,11 +49,11 @@ public class ListUsers {
         transportBean.setStatus("Deleted user");
         return "userList.jsf?faces-redirect=true";
     }
-    
-    public void filterUsers(){
-        this.userList = userService.findByFilters(emailFilter);
+
+    public void filterUsers() {
+        this.userList = userService.findByFilters(emailFilter, nameFilter, surnameFilter, ageFilter, lastLoginFilter);
     }
-    
+
     //Getter & Setters
     public List<UsuarioDTO> getUserList() {
         return userList;
@@ -61,6 +67,36 @@ public class ListUsers {
         this.emailFilter = emailFilter;
     }
 
-    
-    
+    public String getNameFilter() {
+        return nameFilter;
+    }
+
+    public void setNameFilter(String nameFilter) {
+        this.nameFilter = nameFilter;
+    }
+
+    public String getSurnameFilter() {
+        return surnameFilter;
+    }
+
+    public void setSurnameFilter(String surnameFilter) {
+        this.surnameFilter = surnameFilter;
+    }
+
+    public Integer getAgeFilter() {
+        return ageFilter;
+    }
+
+    public void setAgeFilter(Integer ageFilter) {
+        this.ageFilter = ageFilter;
+    }
+
+    public Date getLastLoginFilter() {
+        return lastLoginFilter;
+    }
+
+    public void setLastLoginFilter(Date lastLoginFilter) {
+        this.lastLoginFilter = lastLoginFilter;
+    }
+
 }

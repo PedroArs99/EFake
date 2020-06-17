@@ -97,7 +97,7 @@ public class UsuarioFacade extends AbstractFacade<Usuario> {
         return res;
     }
 
-    public List<Usuario> findByFilters(String email) {
+    public List<Usuario> findByFilters(String email, String name, String surname, Integer age, Date lastLogin) {
         //Create Criteria Builder
         CriteriaBuilder cb = this.getEntityManager().getCriteriaBuilder();
        
@@ -120,7 +120,29 @@ public class UsuarioFacade extends AbstractFacade<Usuario> {
             allConditions = cb.and(allConditions,emailFilter);
         }
         
+        //3. By name
+        if(name != null){
+            Predicate nameFilter = cb.like(allUsers.get("nombre"), '%' + name + '%');
+            allConditions = cb.and(allConditions,nameFilter);
+        }
         
+        //4. By surname
+        if(surname != null){
+            Predicate surnameFilter = cb.like(allUsers.get("apellidos"), '%' + surname + '%');
+            allConditions = cb.and(allConditions,surnameFilter);
+        }
+        
+        //5. By age
+        if(age != null){
+            Predicate ageFilter = cb.equal(allUsers.get("edad"), age);
+            allConditions = cb.and(allConditions,ageFilter);
+        }
+        
+        //6. By last login date
+        if(lastLogin != null){
+            Predicate lastLoginFilter = cb.equal(allUsers.get("ultimaEntrada"), lastLogin);
+            allConditions = cb.and(allConditions,lastLoginFilter);
+        }
         
         //Dump query to DB
         query.select(allUsers).where(allConditions);

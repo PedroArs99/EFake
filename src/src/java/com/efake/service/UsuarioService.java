@@ -7,6 +7,7 @@ import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -78,8 +79,8 @@ public class UsuarioService {
         return dtoList;
     }
     
-    public List<UsuarioDTO> findByFilters(String email){
-        List<Usuario> userList = userFacade.findByFilters(email);
+    public List<UsuarioDTO> findByFilters(String email, String name, String surname, Integer age, Date lastLogin){
+        List<Usuario> userList = userFacade.findByFilters(email, name, surname, age, lastLogin);
         
         return this.convertToDTO(userList);
     }
