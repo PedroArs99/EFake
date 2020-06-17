@@ -9,7 +9,6 @@ import com.efake.dao.ProductoFacade;
 import com.efake.dto.CategoriaDTO;
 import com.efake.dto.ProductoDTO;
 import com.efake.dto.SubCategoriaDTO;
-import com.efake.entity.Producto;
 import com.efake.service.CategoryService;
 import com.efake.service.ProductoService;
 import com.efake.service.SubCategoryService;
@@ -34,8 +33,6 @@ public class Transport implements Serializable {
     @EJB
     private SubCategoryService subCategoriaService;
     @EJB
-    private ProductoFacade productoFacade;
-    @EJB
     private ProductoService productoService;
     
     //Attributes
@@ -43,6 +40,7 @@ public class Transport implements Serializable {
     private List<SubCategoriaDTO> listaSubCategoria;
     private String status;
     private ProductoDTO productoSeleccionado;
+    private CategoriaDTO categoriaSeleccionada;
     
     //Constructor
     public Transport() {
@@ -52,14 +50,6 @@ public class Transport implements Serializable {
     public void init(){
         this.listaCategoria = this.categoriaService.findAll();
         this.listaSubCategoria = this.subCategoriaService.findAll();
-    }
-    
-    public List<CategoriaDTO> getCategorias(){
-        return listaCategoria;
-    }
-    
-    public List<SubCategoriaDTO> getSubCategorias(){
-        return listaSubCategoria;
     }
     
     public List<SubCategoriaDTO> getSubCategoriasByCategoria(CategoriaDTO c){
@@ -97,11 +87,25 @@ public class Transport implements Serializable {
     public void setProductoSeleccionado(ProductoDTO productoSeleccionado) {
         this.productoSeleccionado = productoSeleccionado;
     }
-    
+
+    public CategoriaDTO getCategoriaSeleccionada() {
+        return categoriaSeleccionada;
+    }
+
+    public void setCategoriaSeleccionada(CategoriaDTO categoriaSeleccionada) {
+        this.categoriaSeleccionada = categoriaSeleccionada;
+    }
+
+    public String redirectCategory(CategoriaDTO categoria) {
+        this.categoriaSeleccionada = categoria;
+        
+        return "productGrid?faces-redirect=true";
+    }
+        
     public String redirectProducto(Integer idProducto){
         productoSeleccionado = this.productoService.findById(idProducto);
         
-        return "producto?faces-redirect=true";
+        return "producto";
     }
     
     

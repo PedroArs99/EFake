@@ -2,11 +2,13 @@ package com.efake.service;
 
 import com.efake.dao.CategoriaFacade;
 import com.efake.dao.ProductoFacade;
+import com.efake.dao.SubcategoriaFacade;
 import com.efake.dto.CategoriaDTO;
 import com.efake.dto.ProductoDTO;
-import com.efake.dto.ValoracionDTO;
+import com.efake.dto.SubCategoriaDTO;
 import com.efake.entity.Categoria;
 import com.efake.entity.Producto;
+import com.efake.entity.Subcategoria;
 import com.efake.entity.Usuario;
 import com.efake.entity.Valoracion;
 import java.util.ArrayList;
@@ -26,16 +28,13 @@ import javax.ejb.Stateless;
 public class ProductoService {
 
     @EJB
-    private ValoracionService valoracionService;
+    private SubcategoriaFacade subcategoriaFacade;
 
     @EJB
     private CategoriaFacade categoryFacade;
 
     @EJB
     private ProductoFacade productFacade;
-    
-    
-    
     
     //Tool
     private List<ProductoDTO> convertToDTO (List<Producto> listaProducto) {
@@ -120,14 +119,6 @@ public class ProductoService {
         return producto.getDTO();
     }
     
-    public List<ProductoDTO> findByCategory(String category){
-        Categoria categoria = categoryFacade.find(category);
-        List<Producto> productList = productFacade.findByCategoria(categoria);
-        List<ProductoDTO> productDTOList = convertToDTO(productList);
-        
-        return productDTOList;       
-    }
-   
     public List<ProductoDTO> findAllInRange(int pageNumber, int pageSize){
         List<Producto> productList = productFacade.findRange(pageNumber, pageSize);
         List<ProductoDTO> dtoList = convertToDTO(productList);
@@ -141,5 +132,14 @@ public class ProductoService {
         List<ProductoDTO> dtoList = convertToDTO(lista);
         
         return dtoList;
+    }
+    
+    public List<ProductoDTO> findBySubCategoria(SubCategoriaDTO subcategoria){
+        Subcategoria subcat = this.subcategoriaFacade.find(subcategoria.getId());
+        List<Producto> lista = this.productFacade.findBySubCategoria(subcat);
+        List<ProductoDTO> dtoList = convertToDTO(lista);
+        
+        return dtoList;
+        
     }
 }
