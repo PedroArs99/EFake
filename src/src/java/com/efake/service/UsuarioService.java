@@ -63,7 +63,8 @@ public class UsuarioService {
         
         userFacade.remove(user);
     }
-    //Finds
+    
+//Finds
     public UsuarioDTO findById(int id){
         Usuario user = userFacade.find(id);
         
@@ -77,6 +78,11 @@ public class UsuarioService {
         return dtoList;
     }
     
+    public List<UsuarioDTO> findByFilters(String email){
+        List<Usuario> userList = userFacade.findByFilters(email);
+        
+        return this.convertToDTO(userList);
+    }
     
     
 }
