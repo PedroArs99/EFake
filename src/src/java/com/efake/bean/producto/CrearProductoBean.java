@@ -67,7 +67,7 @@ public class CrearProductoBean {
             this.isEditar = true;
             this.categoria = this.productoseleccionado.getCategoria().getId();
             this.subcategoria = this.productoseleccionado.getSubcategoria().getId();
-            
+            this.keywords="";
         }
         
         

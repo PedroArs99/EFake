@@ -31,6 +31,10 @@ public class ProductoDTO {
     private int estrella3;
     private int estrella4;
     private int estrella5;
+    
+    public ProductoDTO(){
+        
+    }
 
     public Integer getId() {
         return id;
