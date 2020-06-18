@@ -28,6 +28,12 @@ public class ListUsers {
 
     //Attributes
     private List<UsuarioDTO> userList;
+    private String status;
+    
+    //Pagination
+    private final int MAX_PAGE_SIZE = 10;
+    private int numberOfPages;
+    private int currentPage;
 
     //Filters
     private String emailFilter;
@@ -39,8 +45,16 @@ public class ListUsers {
     //Constructor
     @PostConstruct
     public void init() {
-        userList = userService.findByEsAdminAndRange(0, 1, 16);
-        transportBean.setStatus(null);
+        //Calculate number of pages
+        int usersCount = userService.countByEsAdmin(0);
+        System.out.println(usersCount);
+        numberOfPages = usersCount / MAX_PAGE_SIZE; 
+        if(usersCount % MAX_PAGE_SIZE != 0){
+            numberOfPages++;
+        }
+        
+        //Initialize Page 1
+        this.changePage(1);
     }
 
     //Bean methods
@@ -52,6 +66,11 @@ public class ListUsers {
 
     public void filterUsers() {
         this.userList = userService.findByFilters(emailFilter, nameFilter, surnameFilter, ageFilter, lastLoginFilter);
+    }
+    
+    public void changePage(int pageNumber){
+        currentPage = pageNumber;
+        userList = userService.findByEsAdminAndRange(0, pageNumber, MAX_PAGE_SIZE);
     }
 
     //Getter & Setters
@@ -98,5 +117,31 @@ public class ListUsers {
     public void setLastLoginFilter(Date lastLoginFilter) {
         this.lastLoginFilter = lastLoginFilter;
     }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public int getNumberOfPages() {
+        return numberOfPages;
+    }
+
+    public void setNumberOfPages(int numberOfPages) {
+        this.numberOfPages = numberOfPages;
+    }
+
+    public int getCurrentPage() {
+        return currentPage;
+    }
+
+    public void setCurrentPage(int currentPage) {
+        this.currentPage = currentPage;
+    }
+    
+    
 
 }

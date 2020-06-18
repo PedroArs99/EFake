@@ -105,7 +105,7 @@ public class Transport implements Serializable {
     public String redirectProducto(Integer idProducto){
         productoSeleccionado = this.productoService.findById(idProducto);
         
-        return "producto";
+        return "producto?faces-redirect=true";
     }
     
     

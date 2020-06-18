@@ -7,7 +7,7 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:efake="http://java.sun.com/jsf/composite/components"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -26,69 +26,69 @@
         <efake:nav />
         <div class="row">
             <!-- Left Nav -->         
-                <nav class="col-md-2 d-none d-md-block bg-transparent sidebar border-right border-thin">
-                    <div class="sidebar-sticky">
-                        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-                            Find User
-                        </h6>
-                        <ul class="nav flex-column">
-                            <h:form>
-                                <li class="nav-item ml-3">
-                                    <div class="form-group">
-                                        <label>Email</label>
-                                        <h:inputText styleClass="form-control" id="email" value="#{listUsers.emailFilter}">
-                                            <f:ajax render="form:userTable" event="keyup" listener="#{listUsers.filterUsers()}" 
-                                                    execute="email name surname age lastLogin" />
-                                        </h:inputText>
-                                    </div>
-                                </li>
-                                <li class="nav-item ml-3">
-                                    <div class="form-group">
-                                        <label>Name</label>
-                                        <h:inputText styleClass="form-control" id="name" value="#{listUsers.nameFilter}">
-                                            <f:ajax render="form:userTable" event="keyup" listener="#{listUsers.filterUsers()}" 
-                                                    execute="email name surname age lastLogin" />
-                                        </h:inputText>
-                                    </div>
-                                </li>
-                                <li class="nav-item ml-3">
-                                    <div class="form-group">
-                                        <label>Surname</label>
-                                        <h:inputText styleClass="form-control" id="surname" value="#{listUsers.surnameFilter}">
-                                            <f:ajax render="form:userTable" event="keyup" listener="#{listUsers.filterUsers()}" 
-                                                    execute="email name surname age lastLogin" />
-                                        </h:inputText>
-                                    </div>
-                                </li>
-                                <li class="nav-item ml-3">
-                                    <div class="form-group">
-                                        <label>Age</label>
-                                        <h:inputText styleClass="form-control col-md-4" id="age" value="#{listUsers.ageFilter}">
-                                            <f:ajax render="form:userTable" event="keyup" listener="#{listUsers.filterUsers()}" 
-                                                    execute="email name surname age lastLogin" />
-                                        </h:inputText>
-                                    </div>
-                                </li>
-                                <li class="nav-item ml-3">
-                                    <div class="form-group">
-                                        <label>Last Login</label>
-                                        <h:inputText styleClass="form-control" id="lastLogin" value="#{listUsers.lastLoginFilter}">
-                                            <f:ajax render="form:userTable" event="keyup" listener="#{listUsers.filterUsers()}" 
-                                                    execute="email name surname age lastLogin" />
-                                            
-                                            <f:convertDateTime pattern="dd.MM.yyyy" />
-                                        </h:inputText>
-                                    </div>
-                                </li>
-                                
-                            </h:form>
-                        </ul>
+            <nav class="col-md-2 d-none d-md-block bg-transparent sidebar border-right border-thin">
+                <div class="sidebar-sticky">
+                    <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                        Find User
+                    </h6>
+                    <ul class="nav flex-column">
+                        <h:form>
+                            <li class="nav-item ml-3">
+                                <div class="form-group">
+                                    <label>Email</label>
+                                    <h:inputText styleClass="form-control" id="email" value="#{listUsers.emailFilter}">
+                                        <f:ajax render="form:userTable" event="keyup" listener="#{listUsers.filterUsers()}" 
+                                                execute="email name surname age lastLogin" />
+                                    </h:inputText>
+                                </div>
+                            </li>
+                            <li class="nav-item ml-3">
+                                <div class="form-group">
+                                    <label>Name</label>
+                                    <h:inputText styleClass="form-control" id="name" value="#{listUsers.nameFilter}">
+                                        <f:ajax render="form:userTable" event="keyup" listener="#{listUsers.filterUsers()}" 
+                                                execute="email name surname age lastLogin" />
+                                    </h:inputText>
+                                </div>
+                            </li>
+                            <li class="nav-item ml-3">
+                                <div class="form-group">
+                                    <label>Surname</label>
+                                    <h:inputText styleClass="form-control" id="surname" value="#{listUsers.surnameFilter}">
+                                        <f:ajax render="form:userTable" event="keyup" listener="#{listUsers.filterUsers()}" 
+                                                execute="email name surname age lastLogin" />
+                                    </h:inputText>
+                                </div>
+                            </li>
+                            <li class="nav-item ml-3">
+                                <div class="form-group">
+                                    <label>Age</label>
+                                    <h:inputText styleClass="form-control col-md-4" id="age" value="#{listUsers.ageFilter}">
+                                        <f:ajax render="form:userTable" event="keyup" listener="#{listUsers.filterUsers()}" 
+                                                execute="email name surname age lastLogin" />
+                                    </h:inputText>
+                                </div>
+                            </li>
+                            <li class="nav-item ml-3">
+                                <div class="form-group">
+                                    <label>Last Login</label>
+                                    <h:inputText styleClass="form-control" id="lastLogin" value="#{listUsers.lastLoginFilter}">
+                                        <f:ajax render="form:userTable" event="keyup" listener="#{listUsers.filterUsers()}" 
+                                                execute="email name surname age lastLogin" />
+
+                                        <f:convertDateTime pattern="dd.MM.yyyy" />
+                                    </h:inputText>
+                                </div>
+                            </li>
+
+                        </h:form>
+                    </ul>
 
 
 
 
-                    </div>
-                </nav> 
+                </div>
+            </nav> 
 
             <!-- User List -->
             <main role="main" class="col-md-9  col-lg-9 p-3">
@@ -145,9 +145,37 @@
                         </h:column>
                     </h:dataTable>
                 </h:form>
+
+                <!-- Pagination -->
+                <h:form>
+                    <nav>
+                        <ul class="pagination justify-content-center">
+                            <c:forEach id="pagination" begin="1" end="#{listUsers.numberOfPages}" var="i">
+                                <c:if test="#{i == listUsers.currentPage}">
+                                    <li class="page-item active">
+                                        <h:commandLink styleClass="page-link" action="#{listUsers.changePage(i)}" >
+                                            #{i}
+                                            <f:ajax render="form:userTable pagination" />
+                                        </h:commandLink>
+                                    </li>
+                                </c:if>
+
+                                <c:if test="#{i != listUsers.currentPage}">
+                                    <li class="page-item">
+                                        <h:commandLink styleClass="page-link" action="#{listUsers.changePage(i)}" >
+                                            #{i}
+                                            <f:ajax render="form:userTable pagination" />
+                                        </h:commandLink>
+                                    </li>
+                                </c:if>
+
+
+                            </c:forEach>
+                        </ul>
+                    </nav>
+                </h:form>
+
             </main>
-
-
         </div>
         <efake:footer />
         <!--Font Awesome-->

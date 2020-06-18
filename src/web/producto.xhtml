@@ -34,7 +34,6 @@
             <div class="preview col-md-4">
                 <div class="preview-pic tab-content">
                     <div class="tab-pane active" id="pic-1">
-                        <!--<img src="#{productoBean.imagen}" width="400px" height="300px"/>-->
                         <h:graphicImage url="#{productoBean.imagen}" width="400px" height="300px"/>
                     </div>
                 </div>
@@ -44,7 +43,7 @@
                 <div class="row-md-4 ">
                     <h:form>
                         <ui:repeat value="#{productoBean.listakeywords}" var="item">
-                         <span class="badge badge-dark">#{item.palabra}</span>
+                         <span class="badge badge-dark">##{item.palabra}</span>
                         </ui:repeat>   
                      </h:form>
                 </div>
