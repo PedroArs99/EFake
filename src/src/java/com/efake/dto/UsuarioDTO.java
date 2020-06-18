@@ -19,6 +19,9 @@ public class UsuarioDTO {
     private String telefono;
     private short esAdmin;
     private Date ultimaEntrada;
+    
+    public UsuarioDTO(){        
+    }
    
     //Getters & Setters
     public Integer getId() {

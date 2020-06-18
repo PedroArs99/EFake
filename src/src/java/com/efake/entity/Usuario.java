@@ -115,6 +115,17 @@ public class Usuario implements Serializable {
         this.edad = edad;
         this.esAdmin = esAdmin;
     }
+    
+    public Usuario(UsuarioDTO usuario){
+        this.correo = usuario.getCorreo();
+        this.password = usuario.getPassword();
+        this.nombre = usuario.getNombre();
+        this.apellidos = usuario.getApellidos();
+        this.edad = usuario.getEdad();
+        this.telefono = usuario.getTelefono();
+        this.esAdmin = usuario.getEsAdmin();
+        this.ultimaEntrada = usuario.getUltimaEntrada();
+    }
 
     public Integer getId() {
         return id;

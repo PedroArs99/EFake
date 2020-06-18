@@ -6,12 +6,16 @@ import com.efake.entity.Usuario;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.servlet.RequestDispatcher;
 
 /**
  *
@@ -58,11 +62,24 @@ public class UsuarioService {
         return userFacade.findByEsAdminCount(esAdmin);
     }
     
+    public void create(UsuarioDTO userDTO){
+       Usuario user = new Usuario(userDTO);
+        
+        userFacade.create(user); 
+    }
+    
     public void delete(UsuarioDTO userDTO){
         Usuario user = userFacade.find(userDTO.getId());
         
         userFacade.remove(user);
     }
+    
+    public void edit(UsuarioDTO userDTO){
+        Usuario user = userFacade.find(userDTO.getId());
+        
+        userFacade.edit(user);
+    }
+    
     //Finds
     public UsuarioDTO findById(int id){
         Usuario user = userFacade.find(id);
@@ -77,6 +94,71 @@ public class UsuarioService {
         return dtoList;
     }
     
-    
+    public UsuarioDTO findByCorreo(String correo){
+        Usuario user = userFacade.findByCorreo(correo);
+        if (user == null) {
+            return null;
+        } else {
+            return user.getDTO();
+        }
+    }
+
+    public boolean esMenor(Date nacimiento) {
+        int mes, dia, edad;
+        
+        java.util.Date fechaSistema = new Date();
+        
+        edad = fechaSistema.getYear() - nacimiento.getYear();
+        
+        boolean esMenor = edad < 18;
+
+        if (edad == 18) {
+            mes = fechaSistema.getMonth() - nacimiento.getMonth();
+            if (mes == 0) {
+                dia = fechaSistema.getDay() - nacimiento.getDay();
+                if (dia >= 0) {
+                    esMenor = false;
+                } else {
+                    esMenor = true;
+                }
+            } else if (mes < 0) {
+                esMenor = true;
+            }else{
+                esMenor = false;
+            }
+        }
+        
+        return esMenor;
+    }
+
+    public int calcularEdad(Date nacimiento) {
+        int mes, dia;
+
+        Date fechaSistema = new Date();
+        int edad = fechaSistema.getYear() - nacimiento.getYear();
+        Usuario newUser = null, posibleUser;
+        byte[] contrasenaCifrada;
+        boolean esMenor = edad < 18;
+
+        if (edad == 18) {
+            mes = fechaSistema.getMonth() - nacimiento.getMonth();
+            if (mes == 0) {
+                dia = fechaSistema.getDay() - nacimiento.getDay();
+                if (dia >= 0) {
+                    esMenor = false;
+                } else {
+                    esMenor = true;
+                    edad = 17;
+                }
+            } else if (mes < 0) {
+                esMenor = true;
+                edad = 17;
+            }else{
+                esMenor = false;
+            }
+        }
+        
+        return edad;
+    }
     
 }
