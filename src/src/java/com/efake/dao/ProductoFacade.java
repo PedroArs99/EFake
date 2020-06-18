@@ -2,6 +2,7 @@ package com.efake.dao;
 
 import com.efake.entity.Categoria;
 import com.efake.entity.Producto;
+import com.efake.entity.Subcategoria;
 import com.efake.entity.Usuario;
 import java.util.Date;
 import java.util.List;
@@ -37,6 +38,15 @@ public class ProductoFacade extends AbstractFacade<Producto> {
         Query q = this.getEntityManager().createNamedQuery("Producto.findByCategoria");
         q.setParameter("categoria", categoria);
         listaProducto = q.getResultList();
+        return listaProducto;
+    }
+    
+    public List<Producto> findBySubCategoria(Subcategoria subcategoria){
+        List<Producto> listaProducto;
+        Query q = this.getEntityManager().createNamedQuery("Producto.findBySubCategoria");
+        q.setParameter("subcategoria", subcategoria);
+        listaProducto = q.getResultList();
+        
         return listaProducto;
     }
     

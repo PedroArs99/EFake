@@ -27,10 +27,42 @@
     <h:body>
 
         <efake:nav />
-
+        
 
         <!-- Parte de Producto -->
-
+        <div class="wrapper row my-5 ml-5">
+            <div class="preview col-md-4">
+                <div class="preview-pic tab-content">
+                    <div class="tab-pane active" id="pic-1">
+                        <h:graphicImage url="#{productoBean.imagen}" width="400px" height="300px"/>
+                    </div>
+                </div>
+            </div>
+            <div class="details col-md-8">
+                <h3 class="product-title">#{productoBean.nombre}</h3>
+                <div class="row-md-4 ">
+                    <h:form>
+                        <ui:repeat value="#{productoBean.listakeywords}" var="item">
+                         <span class="badge badge-dark">##{item.palabra}</span>
+                        </ui:repeat>   
+                     </h:form>
+                </div>
+                
+                <h4>Current price: <span>#{productoBean.precio} &euro;</span></h4>
+                <h5>Seller:
+                    <span>#{productoBean.owner.nombre}  #{productoBean.owner.apellidos}</span>
+                </h5>
+                <p class="product-description">#{productoBean.descripcion} </p>
+                
+                
+            <!--    <%  if (user != null && (user.equals(p.getOwner()) || user.getEsAdmin() == 1)) {%>
+                <div class="action">
+                    <a class ="btn btn-primary" type="submit" href="ProductoCardServlet?id=<%=p.getId()%>">Modify Product</a>
+                    <a class ="btn btn-primary" type="submit" href="DeleteProduct?id=<%=p.getId()%>">Delete Product</a>
+                </div>
+                <% }%>-->
+            </div>
+        </div>
 
 
 
@@ -44,23 +76,9 @@
                 </div>
 
                 <div class="progress margen-barras">
-                    <div class="progress-bar bg-color text-center" role="progressbar" aria-valuenow="#{productoBean.ratings.get(1)}"
-                         aria-valuemin="0" aria-valuemax="100" style="width:#{productoBean.ratings.get(1)}%; color: black; overflow: visible;">
-                        1 stars
-                    </div>
-                </div> 
-
-                <div class="progress margen-barras">
-                    <div class="progress-bar bg-color text-center" role="progressbar" aria-valuenow="#{productoBean.ratings.get(2)}"
-                         aria-valuemin="0" aria-valuemax="100" style="width:#{productoBean.ratings.get(2)}%; color: black; overflow: visible;">
-                        2 stars
-                    </div>
-                </div> 
-
-                <div class="progress margen-barras">
-                    <div class="progress-bar bg-color text-center" role="progressbar" aria-valuenow="#{productoBean.ratings.get(3)}"
-                         aria-valuemin="0" aria-valuemax="100" style="width:#{productoBean.ratings.get(3)}%; color: black; overflow: visible;">
-                        3 stars
+                    <div class="progress-bar bg-color text-center" role="progressbar" aria-valuenow="#{productoBean.ratings.get(5)}"
+                         aria-valuemin="0" aria-valuemax="100" style="width:#{productoBean.ratings.get(5)}%; color: black; overflow: visible;">
+                        5 stars
                     </div>
                 </div> 
 
@@ -72,9 +90,23 @@
                 </div> 
 
                 <div class="progress margen-barras">
-                    <div class="progress-bar bg-color text-center" role="progressbar" aria-valuenow="#{productoBean.ratings.get(5)}"
-                         aria-valuemin="0" aria-valuemax="100" style="width:#{productoBean.ratings.get(5)}%; color: black; overflow: visible;">
-                        5 stars
+                    <div class="progress-bar bg-color text-center" role="progressbar" aria-valuenow="#{productoBean.ratings.get(3)}"
+                         aria-valuemin="0" aria-valuemax="100" style="width:#{productoBean.ratings.get(3)}%; color: black; overflow: visible;">
+                        3 stars
+                    </div>
+                </div> 
+
+                <div class="progress margen-barras">
+                    <div class="progress-bar bg-color text-center" role="progressbar" aria-valuenow="#{productoBean.ratings.get(2)}"
+                         aria-valuemin="0" aria-valuemax="100" style="width:#{productoBean.ratings.get(2)}%; color: black; overflow: visible;">
+                        2 stars
+                    </div>
+                </div> 
+
+                <div class="progress margen-barras">
+                    <div class="progress-bar bg-color text-center" role="progressbar" aria-valuenow="#{productoBean.ratings.get(1)}"
+                         aria-valuemin="0" aria-valuemax="100" style="width:#{productoBean.ratings.get(1)}%; color: black; overflow: visible;">
+                        1 stars
                     </div>
                 </div> 
                 <div class="row">
@@ -99,7 +131,13 @@
                             </h:outputText> 
                         </span> <br/>
                         <p>
-                           <span class="comment-stars filled-star"> #{productoBean.renderStars(comentario)}</span>
+                            <ui:repeat value="#{productoBean.createDummyArray(comentario.puntuacion)}" var="i" >
+                                <span class="comment-stars filled-star">&#9733;</span>
+                            </ui:repeat>
+                            
+                            <ui:repeat value="#{productoBean.createDummyArray(5 - comentario.puntuacion)}" var="i" >
+                                <span class="comment-stars">&#9733;</span>
+                            </ui:repeat>  
                         </p>
                         <p>
                             #{comentario.comentario}
@@ -115,8 +153,35 @@
         <efake:footer />
 
         <!-- Pop up -->
+        <div class="modal fade" id="review" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <h:form class="w-100">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label class="col-form-label">Rating</label>
+                                <p class='clasificacion'>
+                                    <h:selectOneRadio value="#{productoBean.puntuacion}" required="true">
+                                        <f:selectItem itemValue="1" itemLabel="★"/>
+                                        <f:selectItem itemValue="2" itemLabel="★"/>
+                                        <f:selectItem itemValue="3" itemLabel="★"/>
+                                        <f:selectItem itemValue="4" itemLabel="★"/>
+                                        <f:selectItem itemValue="5" itemLabel="★"/>
+                                    </h:selectOneRadio>
+                                </p>
+                                <label class="col-form-label">Comments</label>
+                                <h:inputTextarea class="form-control" required="true" value="#{productoBean.comentario}"/>
+                            </div>
 
-
+                        </div>
+                        <div class="modal-footer">
+                            <h:commandButton value="Cancel" class="border-0 background-transparent" action="#{productoBean.doCancel()}"/>
+                            <h:commandButton value="Send" class="btn btn-primary" action="#{productoBean.doReview(productoBean.producto.id, 1)}" />
+                        </div>
+                    </div>
+                </h:form>
+            </div>
+        </div>
         <!--Font Awesome-->
         <script src="https://kit.fontawesome.com/998261dc3d.js" crossorigin="anonymous"></script>
         <!-- JS, Popper.js, and jQuery -->

@@ -19,14 +19,14 @@ import javax.servlet.RequestDispatcher;
 
 /**
  *
- * @author PedroArenas 
+ * @author PedroArenas
  */
 @Stateless
 public class UsuarioService {
 
     @EJB
     UsuarioFacade userFacade;
-    
+
     //Tools
     private List<UsuarioDTO> convertToDTO(List<Usuario> userList){
         List<UsuarioDTO> listaDTO = null;
@@ -38,7 +38,7 @@ public class UsuarioService {
         }
         return listaDTO;
     }
-    
+
     //Services
     public byte[] hashPassword(String password) {
         byte[] hash = null;
@@ -57,43 +57,43 @@ public class UsuarioService {
             return hash;
         }
     }
-    
+
     public int countByEsAdmin(int esAdmin){
         return userFacade.findByEsAdminCount(esAdmin);
     }
-    
+
     public void create(UsuarioDTO userDTO){
        Usuario user = new Usuario(userDTO);
-        
-        userFacade.create(user); 
+
+        userFacade.create(user);
     }
-    
+
     public void delete(UsuarioDTO userDTO){
         Usuario user = userFacade.find(userDTO.getId());
-        
+
         userFacade.remove(user);
     }
-    
+
     public void edit(UsuarioDTO userDTO){
         Usuario user = userFacade.find(userDTO.getId());
-        
+
         userFacade.edit(user);
     }
-    
+
     //Finds
     public UsuarioDTO findById(int id){
         Usuario user = userFacade.find(id);
-        
+
         return user.getDTO();
     }
-    
+
     public List<UsuarioDTO> findByEsAdminAndRange(int esAdmin, int pageNumber, int pageSize){
         List<Usuario> userList = userFacade.findByEsAdminAndRange(esAdmin, pageNumber, pageSize);
         List<UsuarioDTO> dtoList = convertToDTO(userList);
-        
+
         return dtoList;
     }
-    
+
     public UsuarioDTO findByCorreo(String correo){
         Usuario user = userFacade.findByCorreo(correo);
         if (user == null) {
@@ -105,11 +105,11 @@ public class UsuarioService {
 
     public boolean esMenor(Date nacimiento) {
         int mes, dia, edad;
-        
+
         java.util.Date fechaSistema = new Date();
-        
+
         edad = fechaSistema.getYear() - nacimiento.getYear();
-        
+
         boolean esMenor = edad < 18;
 
         if (edad == 18) {
@@ -127,7 +127,7 @@ public class UsuarioService {
                 esMenor = false;
             }
         }
-        
+
         return esMenor;
     }
 
@@ -157,8 +157,13 @@ public class UsuarioService {
                 esMenor = false;
             }
         }
-        
+
         return edad;
     }
-    
+
+    public List<UsuarioDTO> findByFilters(String email, String name, String surname, Integer age, Date lastLogin){
+        List<Usuario> userList = userFacade.findByFilters(email, name, surname, age, lastLogin);
+
+        return this.convertToDTO(userList);
+    }
 }

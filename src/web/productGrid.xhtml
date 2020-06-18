@@ -24,7 +24,7 @@
         <h:outputStylesheet library="css" name="styles.css" />
         <h:outputStylesheet library="css" name="valoracionStyle.css" />
         <h:outputStylesheet library="css" name="grid.css" />
-        
+
     </h:head>
     <h:body>
         <efake:nav />
@@ -35,63 +35,31 @@
                 <div class="sidebar-sticky">
                     <h6 
                         class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-                        Dashboard
+                        Subcategories
                     </h6>
-                    <ul class="nav flex-column">
-                        <li class="nav-item mb-2">
-                            
-                        </li>
-                        <li class="nav-item mb-2">
-                            
-                        </li>
-                    </ul>
-                    <h6 
-                        class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-                        Stats
-                    </h6>
-                    <ul class="nav flex-column">
-                        <li class="nav-item mb-2">
-                            
-                        </li>
-                        <li class="nav-item mb-2">
-                            
-                        </li>
-                        <li class="nav-item mb-2">
-                            
-                        </li>
-                    </ul>
-                    <div id="monthly-panel" class="d-none">
-                        <h6 
-                            class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-                            Monthly Stats
-                        </h6>
-                        <ul class="nav flex-column">
-                            <li class="nav-item mb-2">
-                                
-                            </li>
-                            <li class="nav-item mb-2">
-                                
-                            </li>
-                            <li class="nav-item mb-2">
-                                
-                            </li>
-                        </ul>
-                    </div>
-
+                    <h:form>
+                        <ui:repeat class="nav flex-column" value="#{productoCategoriaBean.listaSubCategoriasByCategoria}" var="subcat">
+                            <h6 class="nav-item ml-5">
+                                <h:commandLink value="#{subcat.nombre}">
+                                    <f:ajax render="listaProductos" listener="#{productoCategoriaBean.doFiltrarBySubcategoria(subcat)}"/>
+                                </h:commandLink> 
+                            </h6> 
+                        </ui:repeat> 
+                    </h:form>
                 </div>
             </nav>
 
             <!-- Product Grid -->
-            <div class="col-md-10 grid">
-                <ui:repeat value="#{productoCategoriaBean.listaProductosByCategoria}" var="product">
-                <efake:product productId="#{product.id}"
-                               name="#{product.nombre}"
-                               description="#{product.descripcion}"
-                               image="#{product.imagen}"/>
-            </ui:repeat>
-            </div>
+             <h:panelGroup id="listaProductos" class="col-md-10 grid">
+                <ui:repeat value="#{productoCategoriaBean.listaProductos}" var="product">
+                    <efake:product productId="#{product.id}"
+                                   name="#{product.nombre}"
+                                   description="#{product.descripcion}"
+                                   image="#{product.imagen}"/>
+                </ui:repeat>
+            </h:panelGroup>
 
-            
+
 
 
 

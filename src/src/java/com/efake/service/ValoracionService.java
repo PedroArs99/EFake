@@ -56,6 +56,33 @@ public class ValoracionService {
         review.setPuntuacion(rating);
         review.setComentario(comment);
         review.setFecha(date);
+        Integer i;
+        switch (rating){
+            case 2:
+                i = producto.getEstrella2();
+                i++;
+                producto.setEstrella2(i);
+                break;
+            case 3:
+                i = producto.getEstrella3();
+                i++;
+                producto.setEstrella3(i);
+                break;
+            case 4:
+                i = producto.getEstrella4();
+                i++;
+                producto.setEstrella4(i);
+                break;
+            case 5:
+                i = producto.getEstrella5();
+                i++;
+                producto.setEstrella5(i);
+                break;
+            default:
+                i = producto.getEstrella1();
+                i++;
+                producto.setEstrella1(i);
+        }
         
         valoracionFacade.create(review);
         producto.getValoracionList().add(review);
