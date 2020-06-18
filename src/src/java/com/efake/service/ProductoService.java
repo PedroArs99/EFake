@@ -38,7 +38,7 @@ public class ProductoService {
     
     //Tool
     private List<ProductoDTO> convertToDTO (List<Producto> listaProducto) {
-        List<ProductoDTO> listaDTO = null;
+        List<ProductoDTO> listaDTO = new ArrayList<>();
         if (listaProducto != null) {
             listaDTO = new ArrayList<>();
             for (Producto cliente: listaProducto) {
@@ -142,4 +142,12 @@ public class ProductoService {
         return dtoList;
         
     }
+    
+    public void create(ProductoDTO productoDTO){
+       Producto p = new Producto(productoDTO);
+
+        productFacade.create(p);
+    }
+            
+    
 }

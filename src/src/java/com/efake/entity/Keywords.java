@@ -50,6 +50,10 @@ public class Keywords implements Serializable {
     public Keywords(String palabra) {
         this.palabra = palabra;
     }
+    public Keywords(KeywordsDTO k) {
+        this.palabra = k.getPalabra();
+        this.productoList = k.getlistaproducto();
+    }
 
     public String getPalabra() {
         return palabra;

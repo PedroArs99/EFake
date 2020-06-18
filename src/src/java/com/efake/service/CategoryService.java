@@ -42,4 +42,8 @@ public class CategoryService {
         Categoria categoria = categoryFacade.find(category);
         return categoria.getDTO();
     }
+    public CategoriaDTO find(Integer category){
+        Categoria categoria = categoryFacade.find(category);
+        return categoria.getDTO();
+    }
 }

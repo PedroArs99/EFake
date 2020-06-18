@@ -5,6 +5,8 @@ import com.efake.entity.Keywords;
 import com.efake.entity.Subcategoria;
 import com.efake.entity.Usuario;
 import com.efake.entity.Valoracion;
+import java.util.ArrayList;
+
 import java.util.Date;
 import java.util.List;
 
@@ -19,11 +21,11 @@ public class ProductoDTO {
     private double precio;
     private String imagen;
     private Date fecha;
-    private List<Keywords> listaKeywords;
-    private Categoria categoria;
-    private Usuario owner;
-    private Subcategoria subcategoria;
-    private List<Valoracion> listaValoraciones;
+    private List<KeywordsDTO> listaKeywords;
+    private CategoriaDTO categoria;
+    private UsuarioDTO owner;
+    private SubCategoriaDTO subcategoria;
+    private List<ValoracionDTO> listaValoraciones;
     private int estrella1;
     private int estrella2;
     private int estrella3;
@@ -78,43 +80,43 @@ public class ProductoDTO {
         this.fecha = fecha;
     }
 
-    public List<Keywords> getListaKeywords() {
+    public List<KeywordsDTO> getListaKeywords() {
         return listaKeywords;
     }
 
-    public void setListaKeywords(List<Keywords> listaKeywords) {
+    public void setListaKeywords(List<KeywordsDTO> listaKeywords) {
         this.listaKeywords = listaKeywords;
     }
 
-    public Categoria getCategoria() {
+    public CategoriaDTO getCategoria() {
         return categoria;
     }
 
-    public void setCategoria(Categoria categoria) {
+    public void setCategoria(CategoriaDTO categoria) {
         this.categoria = categoria;
     }
 
-    public Usuario getOwner() {
+    public UsuarioDTO getOwner() {
         return owner;
     }
 
-    public void setOwner(Usuario owner) {
+    public void setOwner(UsuarioDTO owner) {
         this.owner = owner;
     }
 
-    public Subcategoria getSubcategoria() {
+    public SubCategoriaDTO getSubcategoria() {
         return subcategoria;
     }
 
-    public void setSubcategoria(Subcategoria subcategoria) {
+    public void setSubcategoria(SubCategoriaDTO subcategoria) {
         this.subcategoria = subcategoria;
     }
 
-    public List<Valoracion> getListaValoraciones() {
+    public List<ValoracionDTO> getListaValoraciones() {
         return listaValoraciones;
     }
 
-    public void setListaValoraciones(List<Valoracion> listaValoraciones) {
+    public void setListaValoraciones(List<ValoracionDTO> listaValoraciones) {
         this.listaValoraciones = listaValoraciones;
     }
 
@@ -158,5 +160,22 @@ public class ProductoDTO {
         this.estrella5 = estrella5;
     }
     
+    public List<Keywords> getlistakeywords(){
+        List<Keywords> res = new ArrayList<>();
+        for (KeywordsDTO k : this.listaKeywords){
+            res.add(new Keywords(k));
+        }
+       return res;
+                
+    }
+    
+    public List<Valoracion> getlistavaloraciones(){
+        List<Valoracion> res = new ArrayList<>();
+        for (ValoracionDTO k : this.listaValoraciones){
+            res.add(new Valoracion(k));
+        }
+       return res;
+                
+    }
     
 }

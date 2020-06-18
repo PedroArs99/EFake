@@ -68,6 +68,11 @@ public class Subcategoria implements Serializable {
         this.id = id;
         this.nombre = nombre;
     }
+    public Subcategoria(SubCategoriaDTO subc) {
+        this.id = subc.getId();
+        this.nombre = subc.getNombre();
+    }
+    
 
     public Integer getId() {
         return id;
@@ -127,7 +132,7 @@ public class Subcategoria implements Serializable {
         return "com.efake.entity.Subcategoria[ id=" + id + " ]";
     }
     
-        public SubCategoriaDTO getDTO(){
+    public SubCategoriaDTO getDTO(){
         SubCategoriaDTO dto = new SubCategoriaDTO();
         dto.setId(this.id);
         dto.setNombre(this.nombre);        

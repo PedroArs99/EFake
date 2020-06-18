@@ -52,5 +52,10 @@ public class SubCategoryService {
         
         return dtoList;
     }
+    
+    public SubCategoriaDTO find(Integer subcategory){
+        Subcategoria subcategoria = subCategoryFacade.find(subcategory);
+        return subcategoria.getDTO();
+    }
 }
 

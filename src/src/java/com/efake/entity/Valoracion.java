@@ -82,6 +82,16 @@ public class Valoracion implements Serializable {
         this.fecha = fecha;
     }
 
+    public Valoracion(ValoracionDTO k) {
+        this.id = k.getId();
+        this.puntuacion = k.getPuntuacion();
+        this.fecha = k.getFecha();
+        this.cliente = k.getCliente();
+        this.comentario = k.getComentario();
+        this.productoValorado = k.getProductoValorado();
+    }
+       
+
     public Integer getId() {
         return id;
     }

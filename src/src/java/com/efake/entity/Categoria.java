@@ -60,6 +60,10 @@ public class Categoria implements Serializable {
         this.id = id;
         this.nombre = nombre;
     }
+    public Categoria (CategoriaDTO cat){
+        this.id = cat.getId();
+        this.nombre = cat.getNombre();
+    }
 
     public Integer getId() {
         return id;
