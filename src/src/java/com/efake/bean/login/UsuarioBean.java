@@ -10,6 +10,7 @@ import com.efake.service.UsuarioService;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.Date;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -23,13 +24,10 @@ import javax.inject.Inject;
 @Named(value = "usuarioBean")
 @SessionScoped
 public class UsuarioBean implements Serializable {
-    @Inject
-    private LoginBean loginBean;
 
     protected UsuarioDTO usuario;
-    protected UsuarioDTO usuarioLogeado;
     
-    protected String nombre, apellido, correo, contrasena, telefono, status = "";
+    protected String nombre, apellido, correo, contrasena, status = "";
     protected Date nacimiento;
     
     @EJB
@@ -38,11 +36,6 @@ public class UsuarioBean implements Serializable {
      * Creates a new instance of usuarioBean
      */
     public UsuarioBean() {
-    }
-    
-    @PostConstruct
-    public void init(){
-        usuarioLogeado = loginBean.getUsuario();
     }
 
     public UsuarioDTO getUsuario() {
@@ -93,14 +86,6 @@ public class UsuarioBean implements Serializable {
         this.nacimiento = nacimiento;
     }
 
-    public String getTelefono() {
-        return telefono;
-    }
-
-    public void setTelefono(String telefono) {
-        this.telefono = telefono;
-    }
-
     public String getStatus() {
         return status;
     }
@@ -108,48 +93,31 @@ public class UsuarioBean implements Serializable {
     public void setStatus(String status) {
         this.status = status;
     }
-
-    public UsuarioDTO getUsuarioLogeado() {
-        return usuarioLogeado;
-    }
-
-    public void setUsuarioLogeado(UsuarioDTO usuarioLogeado) {
-        this.usuarioLogeado = usuarioLogeado;
-    }
     
-    public String doSignUp(){
-        UsuarioDTO posibleUser = null;
-        try {
-            posibleUser = usuarioService.findByCorreo(correo);
-        } catch (Exception e) {
-            posibleUser = null;
-        }
+    public String doLogIn(String correo, String contrasena){
         
-        if(posibleUser != null){
-            status = "The email address is already registered";
+        UsuarioDTO posibleUsuario = usuarioService.findByCorreo(correo);
+        System.out.println("EL USUARIO ES " + posibleUsuario.getNombre() + " " + posibleUsuario.getCorreo());
+        
+        byte[] contrasenaIntroducida = usuarioService.hashPassword(contrasena);
+        
+        if(posibleUsuario == null){
+            status = "Wrong email address";
             this.correo = "";
+            this.contrasena = "";
             return null;
-        }else if(usuarioService.esMenor(nacimiento)){
-            
-            status = "Sorry, You are under-age";
-            return null;
+        }else if(!Arrays.equals(contrasenaIntroducida,posibleUsuario.getPassword())){
+           status = "Wrong password";
+           this.contrasena = "";
+           return null;
         }else{
             status = "Todo correcto";
-            UsuarioDTO usuarioNuevo = new UsuarioDTO();
-            usuarioNuevo.setNombre(nombre);
-            usuarioNuevo.setApellidos(apellido);
-            usuarioNuevo.setCorreo(correo);
-            byte[] contrasenaHash = usuarioService.hashPassword(contrasena);
-            usuarioNuevo.setPassword(contrasenaHash);
-            usuarioNuevo.setEdad(usuarioService.calcularEdad(nacimiento));
-            usuarioNuevo.setUltimaEntrada(new Date());
-            System.out.println("EL TELEFONO ES: "+telefono);
-            usuarioNuevo.setTelefono(telefono);
-            usuarioService.create(usuarioNuevo);
-            usuario = usuarioService.findByCorreo(usuarioNuevo.getCorreo());
-            return "index.jsf";
-        }       
-    }   
+            usuario = posibleUsuario;
+            usuario.setUltimaEntrada(new Date());
+            usuarioService.edit(usuario);
+            return "index.jsf";                  
+        }        
+    }  
     
     public boolean hayStatus(){
         return !status.equals("") && !status.equals("Todo correcto");
@@ -161,13 +129,23 @@ public class UsuarioBean implements Serializable {
             status = "This email address is already registered";
             return null;
         }else{
-            usuarioLogeado.setNombre(nombre);
-            usuarioLogeado.setApellidos(apellido);
-            usuarioLogeado.setCorreo(correo);
-            usuarioLogeado.setTelefono(telefono);
-            usuarioLogeado.setEdad(usuarioService.calcularEdad(nacimiento));
+            usuario.setNombre(nombre);
+            usuario.setApellidos(apellido);
+            usuario.setCorreo(correo);
+            usuario.setEdad(usuarioService.calcularEdad(nacimiento));
             usuarioService.edit(usuario);
             return "index";            
         }
+    }
+    
+    public String doLogOut(){
+        this.usuario = null;
+        this.status = "";
+        this.correo = "";
+        this.nombre = "";
+        this.apellido = "";
+        this.contrasena = "";
+        this.nacimiento = null;
+        return "index?faces-redirect=true";
     }
 }

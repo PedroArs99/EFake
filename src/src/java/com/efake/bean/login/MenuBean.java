@@ -18,9 +18,6 @@ import javax.inject.Inject;
 @Named(value = "menuBean")
 @RequestScoped
 public class MenuBean {
-    
-    @Inject
-    protected LoginBean loginBean;
     @Inject 
     protected UsuarioBean usuarioBean;
     
@@ -34,8 +31,7 @@ public class MenuBean {
     
     @PostConstruct
     public void init(){
-        usuario = loginBean.getUsuario();
-        usuario = usuarioBean.getUsuario();//En un futuro hay que quitarlo
+        usuario = usuarioBean.getUsuario();
     }
 
     public UsuarioDTO getUsuario() {
@@ -47,7 +43,6 @@ public class MenuBean {
     }
     
     public String doLogOut(){
-        this.usuario = null;
-        return "";
+        return usuarioBean.doLogOut();
     }
 }

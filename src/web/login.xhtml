@@ -96,7 +96,7 @@
             <h:outputLabel for="contrasena" class="sr-only" value="Password">Password</h:outputLabel>
             <h:inputSecret id="contrasena" value="#{loginBean.contrasena}" class="form-control" a:placeholder="Password" required="true"/>
             
-            <h:commandButton class="btn btn-lg btn-primary btn-block" value="Sign in" action="#{loginBean.doSignIn()}"/><br/>
+            <h:commandButton class="btn btn-lg btn-primary btn-block" value="Sign in" action="#{loginBean.doLogIn()}"/><br/>
             <h:link value="Don't you have an account?" outcome="signup"/>
             <p class="mt-5 mb-3 text-muted">Copyright &copy; 2020 eFake Inc. All Rights Reserved.</p>
         </h:form>

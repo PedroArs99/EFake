@@ -245,6 +245,7 @@ public class Usuario implements Serializable {
         dto.setEsAdmin(this.esAdmin);
         dto.setTelefono(this.telefono);
         dto.setUltimaEntrada(this.ultimaEntrada);
+        dto.setPassword(this.password);
         
         return dto;
     }

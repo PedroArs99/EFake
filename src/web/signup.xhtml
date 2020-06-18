@@ -85,47 +85,47 @@
         <h:form class="form-signin">
             <img class="d-inline-block align-top" src="https://raw.githubusercontent.com/PedroArs99/EFake/master/img/logo.png" alt="" width="72" height="30"/><br/>
             <h1 class="h3 mb-3 font-weight-normal">
-                <c:if test="#{usuarioBean.usuarioLogeado == null}">
+                <c:if test="#{usuarioBean.usuario == null}">
                     <h:outputText value="Please sign up"/>
                 </c:if>
-                <c:if test="#{usuarioBean.usuarioLogeado != null}">
+                <c:if test="#{usuarioBean.usuario != null}">
                     <h:outputText value="Edit your profile"/>
                 </c:if>                    
             </h1>
 
-            <c:if test="#{usuarioBean.hayStatus()}">
+            <c:if test="#{signUpBean.hayStatus()}">
                 <div class="alert alert-danger">#{usuarioBean.status}</div>
             </c:if>
 
-            <h:inputText value="#{usuarioBean.nombre}" class="form-control" a:placeholder="First name" a:autofocus="" required="true"/>
-            <h:inputText value="#{usuarioBean.apellido}" class="form-control" a:placeholder="Last name" required="true"/><br/>
+            <h:inputText value="#{signUpBean.usuario.nombre}" class="form-control" a:placeholder="First name" a:autofocus="" required="true"/>
+            <h:inputText value="#{signUpBean.usuario.apellidos}" class="form-control" a:placeholder="Last name" required="true"/><br/>
 
 
-            <h:inputText value="#{usuarioBean.correo}" class="form-control" a:placeholder="Email address" required="true"/>
+            <h:inputText value="#{signUpBean.usuario.correo}" class="form-control" a:placeholder="Email address" required="true"/>
 
-            <c:if test="#{usuarioBean.usuarioLogeado == null}">
-               <h:inputSecret value="#{usuarioBean.contrasena}" class="form-control" a:placeholder="Password" required="true"/><br/>
+            <c:if test="#{usuarioBean.usuario == null}">
+               <h:inputSecret value="#{signUpBean.contrasena}" class="form-control" a:placeholder="Password" required="true"/><br/>
             </c:if>
-            <c:if test="#{usuarioBean.usuarioLogeado != null}">
+            <c:if test="#{usuarioBean.usuario != null}">
                 <h:link outcome="changePassword" value="Do you want to change your password?"/>
             </c:if>            
             
 
-            <h:inputText class="form-control" a:placeholder="Birth date: DD-MM-YYYY" required="true" value="#{usuarioBean.nacimiento}">
+            <h:inputText class="form-control" a:placeholder="Birth date: DD-MM-YYYY" required="true" value="#{signUpBean.nacimiento}">
                 <f:convertDateTime pattern = "dd-mm-yyyy" />
             </h:inputText><br/>
 
-            <h:inputText value="#{usuarioBean.telefono}" class="form-control" a:placeholder="Phone number" required="true"/><br/>
+            <h:inputText value="#{signUpBean.usuario.telefono}" class="form-control" a:placeholder="Phone number" required="true"/><br/>
 
-            <c:if test="#{usuarioBean.usuarioLogeado == null}">
-                <h:commandButton class="btn btn-lg btn-primary btn-block" value="Sign up" action="#{usuarioBean.doSignUp()}"/><br/>
+            <c:if test="#{usuarioBean.usuario == null}">
+                <h:commandButton class="btn btn-lg btn-primary btn-block" value="Sign up" action="#{signUpBean.doSignUp()}"/><br/>
                 <h:link outcome="login" value="I already have an account"/><br/><br/>
 
                 <p>By clicking
                     <em>Sign up</em> you agree to our terms of service
                 </p>
             </c:if>
-            <c:if test="#{usuarioBean.usuarioLogeado != null}">
+            <c:if test="#{usuarioBean.usuario != null}">
                 <h:commandButton class="btn btn-lg btn-primary btn-block" value="Edit my profile" action="#{usuarioBean.doEditProfile()}"/><br/>
             </c:if> 
 
