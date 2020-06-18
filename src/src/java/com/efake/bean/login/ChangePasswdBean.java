@@ -25,7 +25,7 @@ public class ChangePasswdBean {
     protected UsuarioService usuarioService;
     
     @Inject
-    protected LoginBean loginBean;
+    protected UsuarioBean usuarioBean;
     
     protected UsuarioDTO usuarioLogeado;
 
@@ -38,7 +38,7 @@ public class ChangePasswdBean {
     
     @PostConstruct
     public void init(){
-        usuarioLogeado = loginBean.getUsuario();
+        usuarioLogeado = usuarioBean.getUsuario();
     }
 
     public String getActual() {

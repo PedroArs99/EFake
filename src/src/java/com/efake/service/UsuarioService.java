@@ -63,9 +63,9 @@ public class UsuarioService {
     }
 
     public void create(UsuarioDTO userDTO){
-       Usuario user = new Usuario(userDTO);
-
+        Usuario user = new Usuario(userDTO);
         userFacade.create(user);
+        System.out.println("LA CONTRASEÑA DESPUES DE CREARLO"+user.getPassword());
     }
 
     public void delete(UsuarioDTO userDTO){

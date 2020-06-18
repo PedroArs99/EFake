@@ -10,26 +10,24 @@ import com.efake.service.UsuarioService;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Date;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
-import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 
 /**
  *
  * @author laura
  */
 @Named(value = "loginBean")
-@SessionScoped
+@RequestScoped
 public class LoginBean implements Serializable{
+    @Inject UsuarioBean usuarioBean;
     
     protected String correo;
     protected String contrasena;
     protected String status = "";
-    
-    protected UsuarioDTO usuario;
-    
-    @EJB private UsuarioService usuarioService;
 
     /**
      * Creates a new instance of loginBean
@@ -53,47 +51,19 @@ public class LoginBean implements Serializable{
         this.contrasena = contrasena;
     }
 
-    public UsuarioDTO getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(UsuarioDTO usuario) {
-        this.usuario = usuario;
-    }
-
     public String getStatus() {
-        return status;
+        return usuarioBean.getStatus();
     }
 
     public void setStatus(String status) {
         this.status = status;
     }
     
-    public String doSignIn(){
-        
-        UsuarioDTO posibleUsuario = usuarioService.findByCorreo(correo); 
-        
-        byte[] contrasenaIntroducida = usuarioService.hashPassword(contrasena);
-        
-        if(posibleUsuario == null){
-            status = "Wrong email address";
-            this.correo = "";
-            this.contrasena = "";
-            return null;
-        }else if(!Arrays.equals(contrasenaIntroducida,posibleUsuario.getPassword())){
-           status = "Wrong password";
-           this.contrasena = "";
-           return null;
-        }else{
-            status = "Todo correcto";
-            usuario = posibleUsuario;
-            usuario.setUltimaEntrada(new Date());
-            usuarioService.edit(usuario);
-            return "index.jsf";                  
-        }        
+    public String doLogIn(){
+        return usuarioBean.doLogIn(correo,contrasena);
     }
     
     public boolean hayStatus(){
-        return !status.equals("");
+        return usuarioBean.hayStatus();
     }
 }
