@@ -140,8 +140,6 @@ public class SignUpBean {
         }else{
             usuario.setUltimaEntrada(new Date());
             usuarioService.edit(usuario);
-            //usuarioBean.setUsuario(usuario);
-            //return usuarioBean.doLogIn(usuario.getCorreo(), usuario.getPassword());
             return "index";            
         }
     }
@@ -158,9 +156,7 @@ public class SignUpBean {
         } else {
             status = "Todo correcto";
             usuario.setPassword(nuevaContrasena);
-            System.out.println("LA CONTRASEÑA NUEVA ANTES DE EDITARLA: "+nuevaContrasena);
             usuarioService.edit(usuario);
-            System.out.println("LA CONTRASEÑA NUEVA DESPUES DE EDITARLA: "+usuario.getPassword());
             return "signup";
         }
     }

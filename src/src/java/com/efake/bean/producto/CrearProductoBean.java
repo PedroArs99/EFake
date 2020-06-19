@@ -113,6 +113,24 @@ public class CrearProductoBean {
         this.keywords = keywords;
     }
 
+    public List<CategoriaDTO> getListacategorias() {
+        return listacategorias;
+    }
+
+    public void setListacategorias(List<CategoriaDTO> listacategorias) {
+        this.listacategorias = listacategorias;
+    }
+
+    public List<SubCategoriaDTO> getListasubcategoria() {
+        return listasubcategoria;
+    }
+
+    public void setListasubcategoria(List<SubCategoriaDTO> listasubcategoria) {
+        this.listasubcategoria = listasubcategoria;
+    }
+    
+    
+
     public String doEditar() {
         if (!this.isEditar) {//when create
             StringTokenizer st = new StringTokenizer(this.keywords, ",");
