@@ -1,9 +1,6 @@
 package com.efake.dto;
 
-import com.efake.entity.Categoria;
 import com.efake.entity.Keywords;
-import com.efake.entity.Subcategoria;
-import com.efake.entity.Usuario;
 import com.efake.entity.Valoracion;
 import java.util.ArrayList;
 

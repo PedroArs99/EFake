@@ -274,7 +274,7 @@ public class Producto implements Serializable {
             prodDTO.setSubcategoria(null);
         }
         
-        prodDTO.setListaValoraciones(valoracionlist());
+        prodDTO.setListaValoraciones(valoracionlist(prodDTO));
         
         return prodDTO;
     }
@@ -287,10 +287,10 @@ public class Producto implements Serializable {
         return lista;
     }
     
-    public List<ValoracionDTO> valoracionlist(){
+    public List<ValoracionDTO> valoracionlist(ProductoDTO prodDTO){
         List<ValoracionDTO> lista = new ArrayList<>();
-        for(Valoracion k : this.valoracionList){
-            lista.add(k.getDTO());
+        for(Valoracion v : this.valoracionList){
+            lista.add(v.getDTO(prodDTO));
         }
         return lista;
     }

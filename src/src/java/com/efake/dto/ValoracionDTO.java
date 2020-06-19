@@ -1,7 +1,5 @@
 package com.efake.dto;
 
-import com.efake.entity.Producto;
-import com.efake.entity.Usuario;
 import java.io.Serializable;
 import java.util.Date;
 
