@@ -127,9 +127,7 @@ public class CrearProductoBean {
 
     public void setListasubcategoria(List<SubCategoriaDTO> listasubcategoria) {
         this.listasubcategoria = listasubcategoria;
-    }
-    
-    
+    }   
 
     public String doEditar() {
         if (!this.isEditar) {//when create
