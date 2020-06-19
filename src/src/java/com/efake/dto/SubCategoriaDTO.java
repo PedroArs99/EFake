@@ -8,6 +8,7 @@ public class SubCategoriaDTO {
     //Attributes
     private Integer id;
     private String nombre;
+    private CategoriaDTO categoria;
     
     public SubCategoriaDTO() {
     }
@@ -28,4 +29,13 @@ public class SubCategoriaDTO {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
+
+    public CategoriaDTO getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(CategoriaDTO categoria) {
+        this.categoria = categoria;
+    }
+    
 }

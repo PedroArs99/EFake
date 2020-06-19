@@ -38,11 +38,11 @@ public class ProductoService {
     
     //Tool
     private List<ProductoDTO> convertToDTO (List<Producto> listaProducto) {
-        List<ProductoDTO> listaDTO = null;
+        List<ProductoDTO> listaDTO = new ArrayList<>();
         if (listaProducto != null) {
             listaDTO = new ArrayList<>();
-            for (Producto cliente: listaProducto) {
-                listaDTO.add(cliente.getDTO());
+            for (Producto p: listaProducto) {
+                listaDTO.add(p.getDTO());
             }
         }
         return listaDTO;
@@ -142,4 +142,18 @@ public class ProductoService {
         return dtoList;
         
     }
+    
+    public void create(ProductoDTO productoDTO){
+       Producto p = new Producto(productoDTO);
+
+        productFacade.create(p);
+    }
+    
+    public void edit(ProductoDTO productoDTO){
+       Producto p = new Producto(productoDTO);
+
+        productFacade.edit(p);
+    }
+            
+    
 }

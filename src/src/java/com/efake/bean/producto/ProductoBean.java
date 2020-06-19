@@ -68,7 +68,7 @@ public class ProductoBean {
         producto = transport.getProductoSeleccionado();
         //Usuario user = this.usuarioSesion.getUser();
         if(!producto.getListaValoraciones().isEmpty()){
-            listaValoraciones = producto.getListaValoraciones();
+            listaValoraciones = producto.getlistavaloraciones();
             mediaValoraciones = this.productoService.getMeanRating(producto.getId());
             ratingsDictionary = this.productoService.getRatings(producto.getId());
             ratings = new ArrayList<>();
@@ -85,10 +85,10 @@ public class ProductoBean {
         imagen = producto.getImagen();
         descripcion = producto.getDescripcion();
         nombre = producto.getNombre();
-        listakeywords = producto.getListaKeywords();
+        listakeywords = producto.getlistakeywords();
         precio = producto.getPrecio();
         id = producto.getId();
-        owner = producto.getOwner();
+        owner = new Usuario(producto.getOwner());
         
         
         

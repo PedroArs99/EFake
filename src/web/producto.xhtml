@@ -55,12 +55,12 @@
                 <p class="product-description">#{productoBean.descripcion} </p>
                 
                 
-            <!--    <%  if (user != null && (user.equals(p.getOwner()) || user.getEsAdmin() == 1)) {%>
+            <!--    <%  if (user != null && (user.equals(p.getOwner()) || user.getEsAdmin() == 1)) {%>-->
                 <div class="action">
-                    <a class ="btn btn-primary" type="submit" href="ProductoCardServlet?id=<%=p.getId()%>">Modify Product</a>
-                    <a class ="btn btn-primary" type="submit" href="DeleteProduct?id=<%=p.getId()%>">Delete Product</a>
+                    <h:commandButton id="modify-button" value="Modify" class="btn btn-primary mr-3"></h:commandButton>
+                     <h:commandButton id="delete-button" value="Delete" class="btn btn-primary  "></h:commandButton>
                 </div>
-                <% }%>-->
+             <!--   <% }%>-->
             </div>
         </div>
 

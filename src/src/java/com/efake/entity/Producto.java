@@ -1,7 +1,10 @@
 package com.efake.entity;
 
+import com.efake.dto.KeywordsDTO;
 import com.efake.dto.ProductoDTO;
+import com.efake.dto.ValoracionDTO;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.StringJoiner;
@@ -114,6 +117,19 @@ public class Producto implements Serializable {
         this.nombre = nombre;
         this.precio = precio;
         this.fecha = fecha;
+    }
+    public Producto(ProductoDTO product){
+        this.id= product.getId();
+        this.nombre = product.getNombre();
+        this.precio = product.getPrecio();
+        this.fecha = product.getFecha();
+        this.imagen = product.getImagen();
+        this.owner = new Usuario(product.getOwner());
+        this.descripcion = product.getDescripcion();
+        this.keywordsList = product.getlistakeywords();
+        this.subcategoria = new Subcategoria(product.getSubcategoria());
+        this.categoria = new Categoria(product.getCategoria());
+        
     }
 
     public Integer getId() {
@@ -249,13 +265,34 @@ public class Producto implements Serializable {
         prodDTO.setPrecio(this.precio);
         prodDTO.setImagen(this.imagen);
         prodDTO.setFecha(this.fecha);
-        prodDTO.setListaKeywords(this.keywordsList);
-        prodDTO.setCategoria(this.categoria);
-        prodDTO.setOwner(this.owner);
-        prodDTO.setSubcategoria(this.subcategoria);
-        prodDTO.setListaValoraciones(this.valoracionList);
+        prodDTO.setListaKeywords(keywordslist());
+        prodDTO.setCategoria(this.categoria.getDTO());
+        prodDTO.setOwner(this.owner.getDTO());
+        if(this.subcategoria!=null){
+            prodDTO.setSubcategoria(this.subcategoria.getDTO());
+        }else{
+            prodDTO.setSubcategoria(null);
+        }
+        
+        prodDTO.setListaValoraciones(valoracionlist());
         
         return prodDTO;
+    }
+    
+    public List<KeywordsDTO> keywordslist(){
+        List<KeywordsDTO> lista = new ArrayList<>();
+        for(Keywords k : this.keywordsList){
+            lista.add(k.getDTO());
+        }
+        return lista;
+    }
+    
+    public List<ValoracionDTO> valoracionlist(){
+        List<ValoracionDTO> lista = new ArrayList<>();
+        for(Valoracion k : this.valoracionList){
+            lista.add(k.getDTO());
+        }
+        return lista;
     }
 
     public Integer getEstrella1() {

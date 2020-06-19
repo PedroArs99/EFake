@@ -9,6 +9,7 @@ import com.efake.dao.ProductoFacade;
 import com.efake.dto.CategoriaDTO;
 import com.efake.dto.ProductoDTO;
 import com.efake.dto.SubCategoriaDTO;
+import com.efake.entity.Producto;
 import com.efake.service.CategoryService;
 import com.efake.service.ProductoService;
 import com.efake.service.SubCategoryService;
@@ -106,6 +107,16 @@ public class Transport implements Serializable {
         productoSeleccionado = this.productoService.findById(idProducto);
         
         return "producto?faces-redirect=true";
+    }
+    public String sellProduct(){
+        productoSeleccionado = null;
+        
+        return "productForm?faces-redirect=true";
+    }
+    public String modifyProcut(Integer idProducto){
+        productoSeleccionado = this.productoService.findById(idProducto);
+        
+        return "productForm?faces-redirect=true";
     }
     
     

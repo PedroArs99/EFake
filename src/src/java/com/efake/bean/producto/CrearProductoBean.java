@@ -5,16 +5,25 @@
  */
 package com.efake.bean.producto;
 
+import com.efake.bean.session.Transport;
 import com.efake.dao.CategoriaFacade;
 import com.efake.dao.KeywordsFacade;
 import com.efake.dao.ProductoFacade;
 import com.efake.dao.SubcategoriaFacade;
 import com.efake.dao.UsuarioFacade;
+import com.efake.dto.CategoriaDTO;
+import com.efake.dto.KeywordsDTO;
+import com.efake.dto.ProductoDTO;
+import com.efake.dto.SubCategoriaDTO;
 import com.efake.entity.Categoria;
 import com.efake.entity.Keywords;
 import com.efake.entity.Producto;
 import com.efake.entity.Subcategoria;
 import com.efake.entity.Usuario;
+import com.efake.service.CategoryService;
+import com.efake.service.KeywordService;
+import com.efake.service.ProductoService;
+import com.efake.service.SubCategoryService;
 import java.util.Date;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -22,6 +31,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 
 /**
  *
@@ -31,85 +41,54 @@ import javax.enterprise.context.RequestScoped;
 @RequestScoped
 public class CrearProductoBean {
 
-    @EJB CategoriaFacade categoriafacade;
-    protected List<Categoria> listacategorias;
-    @EJB SubcategoriaFacade subcategoriafacade;
-    protected List<Subcategoria> listasubcategoria;
-    protected String nombre;
-    protected String descripcion;
-    protected double precio;
-    protected String imagen;
-    protected String keywords;
+    @EJB ProductoDTO productoseleccionado;
+    @Inject Transport productobean;
+    @EJB CategoryService categoryservice;
+    @EJB SubCategoryService subcategoryservice;
+    protected List<CategoriaDTO> listacategorias;
+    protected List<SubCategoriaDTO> listasubcategoria;
+    protected boolean isEditar;
     protected Integer categoria;
     protected Integer subcategoria;
-    @EJB ProductoFacade productofacade;
-    @EJB UsuarioFacade usuariofacade;
-    @EJB KeywordsFacade keywordsfacade;
-    
+    protected String keywords;
+    @EJB KeywordService keywordservice;
+    @EJB ProductoService productoservice;
     
     public CrearProductoBean() {
     }
     
     @PostConstruct
     public void init(){
-      this.listacategorias = categoriafacade.findAll();
-      this.listasubcategoria = subcategoriafacade.findAll();
+        this.productoseleccionado = this.productobean.getProductoSeleccionado();
+        if(this.productoseleccionado==null){//to create
+            this.isEditar=false;
+            this.productoseleccionado = new ProductoDTO();
+        }else{//to edit
+            this.isEditar = true;
+            this.categoria = this.productoseleccionado.getCategoria().getId();
+            this.subcategoria = this.productoseleccionado.getSubcategoria().getId();
+            this.keywords="";
+        }
+        
+        
+      this.listacategorias = categoryservice.findAll();
+      this.listasubcategoria = subcategoryservice.findAll();
     }
 
-    public List<Categoria> getListacategorias() {
-        return listacategorias;
+    public ProductoDTO getProductoseleccionado() {
+        return productoseleccionado;
     }
 
-    public void setListacategorias(List<Categoria> listacategorias) {
-        this.listacategorias = listacategorias;
+    public void setProductoseleccionado(ProductoDTO productoseleccionado) {
+        this.productoseleccionado = productoseleccionado;
     }
 
-    public List<Subcategoria> getListasubcategoria() {
-        return listasubcategoria;
+    public boolean isIsEditar() {
+        return isEditar;
     }
 
-    public void setListasubcategoria(List<Subcategoria> listasubcategoria) {
-        this.listasubcategoria = listasubcategoria;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
-
-    public double getPrecio() {
-        return precio;
-    }
-
-    public void setPrecio(double precio) {
-        this.precio = precio;
-    }
-
-    public String getImagen() {
-        return imagen;
-    }
-
-    public void setImagen(String imagen) {
-        this.imagen = imagen;
-    }
-
-    public String getKeywords() {
-        return keywords;
-    }
-
-    public void setKeywords(String keywords) {
-        this.keywords = keywords;
+    public void setIsEditar(boolean isEditar) {
+        this.isEditar = isEditar;
     }
 
     public Integer getCategoria() {
@@ -127,37 +106,62 @@ public class CrearProductoBean {
     public void setSubcategoria(Integer subcategoria) {
         this.subcategoria = subcategoria;
     }
-    
-    public String doCrear(){     
-        Producto p = new Producto();
-        p.setNombre(nombre);
-        p.setDescripcion(descripcion);
-        p.setPrecio(precio);
-        Date now = new Date();
-        p.setFecha(now);
-        p.setImagen(imagen);
-        Categoria c = new Categoria(categoria);
-        p.setCategoria(c);
-        if (subcategoria != 0) {
-            Subcategoria s = new Subcategoria(subcategoria);
-            p.setSubcategoria(s);
-        }
-        Usuario user = usuariofacade.find(130);
-        p.setOwner(user);
-        productofacade.create(p);
-        StringTokenizer st = new StringTokenizer(keywords, ",");
-        while (st.hasMoreTokens()) {
-            Keywords k = keywordsfacade.findOrCreate(st.nextToken());
-            
-            p.getKeywordsList().add(k);
-            k.getProductoList().add(p);
-            
-            keywordsfacade.edit(k);
-        }
 
-        //Update product on db & exit
-        productofacade.edit(p);
-        return "transport";
+    public String getKeywords() {
+        return keywords;
+    }
+
+    public void setKeywords(String keywords) {
+        this.keywords = keywords;
+    }
+
+
+    public String doEditar(){
+        if(!this.isEditar){//when create
+            StringTokenizer st = new StringTokenizer(this.keywords, ",");
+        while (st.hasMoreTokens()) {
+            KeywordsDTO k = keywordservice.findOrCreate(st.nextToken());
+            
+            this.productoseleccionado.getListaKeywords().add(k);
+            k.getProductoList().add(productoseleccionado);
+            
+            keywordservice.edit(k);
+        }
+        productoseleccionado.setFecha(new Date());
+        productoseleccionado.setCategoria(categoryservice.find(this.categoria));
+        productoseleccionado.setSubcategoria(subcategoryservice.find(this.subcategoria));
+        productoservice.create(productoseleccionado);
+        }else{//when edit
+            //Manage Keywords
+        List<Keywords> kwList = productoseleccionado.getlistakeywords();
+        
+        //Delete old list
+        for(int i = 0; i<kwList.size(); i++){
+            Keywords k = kwList.get(i);
+            
+            k.getProductoList().remove(new Producto(productoseleccionado));
+            kwList.remove(k);
+            
+            keywordservice.edit(k.getDTO());
+        }
+        
+        //Add new list
+        StringTokenizer st = new StringTokenizer(this.keywords, ",");
+        while (st.hasMoreTokens()) {
+            KeywordsDTO k = keywordservice.findOrCreate(st.nextToken());
+            
+            this.productoseleccionado.getListaKeywords().add(k);
+            k.getProductoList().add(productoseleccionado);
+            
+            keywordservice.edit(k);
+        }
+        productoseleccionado.setCategoria(categoryservice.find(this.categoria));
+        productoseleccionado.setSubcategoria(subcategoryservice.find(subcategoria));
+     
+        //Save changes on PRODUCT Table
+        productoservice.edit(productoseleccionado);
+        }
+        return "index";
     }
     
 }

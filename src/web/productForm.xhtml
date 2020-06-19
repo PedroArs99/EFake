@@ -60,22 +60,22 @@
                     <div  id="first-stage" class="col-md-6 mx-auto">
                         <div class="form-group">
                             <h:outputText value="Nombre: "/>
-                            <h:inputText class="form-control" value="#{crearProductoBean.nombre}" />
+                            <h:inputText class="form-control" value="#{crearProductoBean.productoseleccionado.nombre}" />
                         </div>
 
                         <div class="form-group">
                             <h:outputText value="Precio: "/>
-                            <h:inputText class="form-control" value="#{crearProductoBean.precio}" />
+                            <h:inputText class="form-control" value="#{crearProductoBean.productoseleccionado.precio}" />
                         </div>
 
                         <div class="form-group">
                             <h:outputText value="Imagen: "/>
-                            <h:inputText class="form-control" value="#{crearProductoBean.imagen}" />
+                            <h:inputText class="form-control" value="#{crearProductoBean.productoseleccionado.imagen}" />
                         </div> 
 
                         <div class="form-group">
-                            <h:outputText value="#{crearProductoBean.descripcion}"/>
-                            <h:inputTextarea value="descripcion" class="form-control"/>
+                            <h:outputText value="descripcion"/>
+                            <h:inputTextarea value="#{crearProductoBean.productoseleccionado.descripcion}" class="form-control"/>
                         </div>
                         <div class="form-group">
                             <h:outputText value="Categorías: "/><br/>
@@ -103,7 +103,7 @@
                       
                     </div>
                         <div class="form-group">           
-                            <h:commandButton id="send-button" value="Send" action="#{crearProductoBean.doCrear()}" class="btn btn-primary mx-auto"></h:commandButton>
+                            <h:commandButton id="send-button" value="Send" action="#{crearProductoBean.doEditar()}" class="btn btn-primary mx-auto"></h:commandButton>
                         </div>
                         
                     
