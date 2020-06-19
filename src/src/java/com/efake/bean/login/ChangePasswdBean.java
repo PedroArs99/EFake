@@ -27,7 +27,7 @@ public class ChangePasswdBean {
     @Inject
     protected UsuarioBean usuarioBean;
     
-    protected UsuarioDTO usuarioLogeado;
+    protected UsuarioDTO usuario;
 
     private String actual, nueva, repetida, status = "";
     /**
@@ -38,7 +38,7 @@ public class ChangePasswdBean {
     
     @PostConstruct
     public void init(){
-        usuarioLogeado = usuarioBean.getUsuario();
+        usuario = usuarioBean.getUsuario();
     }
 
     public String getActual() {
@@ -76,17 +76,24 @@ public class ChangePasswdBean {
     public String doChangePasswd(){
         byte[] contrasenaHash = usuarioService.hashPassword(actual);
         byte[] nuevaContrasena = usuarioService.hashPassword(nueva);
-        if(!repetida.equals(nueva)){
-            status = "The new password must match the repeated one";
-            return null;
-        }else if(!Arrays.equals(contrasenaHash, usuarioLogeado.getPassword())){
+        if (!Arrays.equals(contrasenaHash, usuario.getPassword())) {
             status = "This is not your password";
             return null;
-        }else{
-            usuarioLogeado.setPassword(nuevaContrasena);
-            usuarioService.edit(usuarioLogeado);
-            return "signup";
+        } else if (!repetida.equals(nueva)) {
+            status = "The new password must match the repeated one";
+            return null;
+        } else {
+            status = "Todo correcto";
+            usuario.setPassword(nuevaContrasena);
+            System.out.println("LA CONTRASEÑA NUEVA ANTES DE EDITARLA: "+nuevaContrasena);
+            usuarioService.edit(usuario);
+            System.out.println("LA CONTRASEÑA NUEVA DESPUES DE EDITARLA: "+usuario.getPassword());
+            //usuarioBean.setUsuario(usuario);
+            return "signup?faces-redirect=true";
         }
-        
+    }
+    
+    public boolean hayStatus(){
+        return !status.equals("") && !status.equals("Todo correcto");
     }
 }

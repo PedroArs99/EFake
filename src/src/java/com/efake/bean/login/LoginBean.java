@@ -25,6 +25,8 @@ import javax.inject.Inject;
 public class LoginBean implements Serializable{
     @Inject UsuarioBean usuarioBean;
     
+    @EJB UsuarioService usuarioService;
+    
     protected String correo;
     protected String contrasena;
     protected String status = "";
@@ -60,7 +62,7 @@ public class LoginBean implements Serializable{
     }
     
     public String doLogIn(){
-        return usuarioBean.doLogIn(correo,contrasena);
+        return usuarioBean.doLogIn(correo,usuarioService.hashPassword(contrasena));
     }
     
     public boolean hayStatus(){
