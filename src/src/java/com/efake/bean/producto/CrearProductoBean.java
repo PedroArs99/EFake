@@ -60,10 +60,10 @@ public class CrearProductoBean {
     @PostConstruct
     public void init(){
         this.productoseleccionado = this.productobean.getProductoSeleccionado();
-        if(this.productoseleccionado==null){
+        if(this.productoseleccionado==null){//to create
             this.isEditar=false;
             this.productoseleccionado = new ProductoDTO();
-        }else{
+        }else{//to edit
             this.isEditar = true;
             this.categoria = this.productoseleccionado.getCategoria().getId();
             this.subcategoria = this.productoseleccionado.getSubcategoria().getId();
@@ -117,7 +117,7 @@ public class CrearProductoBean {
 
 
     public String doEditar(){
-        if(!this.isEditar){
+        if(!this.isEditar){//when create
             StringTokenizer st = new StringTokenizer(this.keywords, ",");
         while (st.hasMoreTokens()) {
             KeywordsDTO k = keywordservice.findOrCreate(st.nextToken());
@@ -129,10 +129,37 @@ public class CrearProductoBean {
         }
         productoseleccionado.setFecha(new Date());
         productoseleccionado.setCategoria(categoryservice.find(this.categoria));
-        productoseleccionado.setSubcategoria(subcategoryservice.find(subcategoria));
+        productoseleccionado.setSubcategoria(subcategoryservice.find(this.subcategoria));
         productoservice.create(productoseleccionado);
-        }else{
+        }else{//when edit
+            //Manage Keywords
+        List<Keywords> kwList = productoseleccionado.getlistakeywords();
+        
+        //Delete old list
+        for(int i = 0; i<kwList.size(); i++){
+            Keywords k = kwList.get(i);
             
+            k.getProductoList().remove(new Producto(productoseleccionado));
+            kwList.remove(k);
+            
+            keywordservice.edit(k.getDTO());
+        }
+        
+        //Add new list
+        StringTokenizer st = new StringTokenizer(this.keywords, ",");
+        while (st.hasMoreTokens()) {
+            KeywordsDTO k = keywordservice.findOrCreate(st.nextToken());
+            
+            this.productoseleccionado.getListaKeywords().add(k);
+            k.getProductoList().add(productoseleccionado);
+            
+            keywordservice.edit(k);
+        }
+        productoseleccionado.setCategoria(categoryservice.find(this.categoria));
+        productoseleccionado.setSubcategoria(subcategoryservice.find(subcategoria));
+     
+        //Save changes on PRODUCT Table
+        productoservice.edit(productoseleccionado);
         }
         return "index";
     }

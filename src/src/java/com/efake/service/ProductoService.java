@@ -148,6 +148,12 @@ public class ProductoService {
 
         productFacade.create(p);
     }
+    
+    public void edit(ProductoDTO productoDTO){
+       Producto p = new Producto(productoDTO);
+
+        productFacade.edit(p);
+    }
             
     
 }
