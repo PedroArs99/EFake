@@ -86,9 +86,9 @@ public class Valoracion implements Serializable {
         this.id = k.getId();
         this.puntuacion = k.getPuntuacion();
         this.fecha = k.getFecha();
-        this.cliente = k.getCliente();
+        this.cliente = new Usuario(k.getCliente());
         this.comentario = k.getComentario();
-        this.productoValorado = k.getProductoValorado();
+        this.productoValorado = new Producto(k.getProductoValorado());
     }
        
 
@@ -167,11 +167,11 @@ public class Valoracion implements Serializable {
 
     public ValoracionDTO getDTO() {
         ValoracionDTO valDTO = new ValoracionDTO();
-        valDTO.setCliente(this.cliente);
+        valDTO.setCliente(this.cliente.getDTO());
         valDTO.setComentario(this.comentario);
         valDTO.setFecha(this.fecha);
         valDTO.setId(this.id);
-        valDTO.setProductoValorado(this.productoValorado);
+        valDTO.setProductoValorado(this.productoValorado.getDTO());
         valDTO.setPuntuacion(this.puntuacion);
         
         return valDTO;

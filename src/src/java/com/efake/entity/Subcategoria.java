@@ -71,6 +71,7 @@ public class Subcategoria implements Serializable {
     public Subcategoria(SubCategoriaDTO subc) {
         this.id = subc.getId();
         this.nombre = subc.getNombre();
+        this.categoria = new Categoria(subc.getCategoria());
     }
     
 
@@ -135,7 +136,8 @@ public class Subcategoria implements Serializable {
     public SubCategoriaDTO getDTO(){
         SubCategoriaDTO dto = new SubCategoriaDTO();
         dto.setId(this.id);
-        dto.setNombre(this.nombre);        
+        dto.setNombre(this.nombre);      
+        dto.setCategoria(this.categoria.getDTO());
         
         return dto;
     }

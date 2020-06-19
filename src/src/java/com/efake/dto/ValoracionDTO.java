@@ -14,8 +14,8 @@ public class ValoracionDTO implements Serializable {
     private int puntuacion;
     private String comentario;
     private Date fecha;
-    private Usuario cliente;
-    private Producto productoValorado;
+    private UsuarioDTO cliente;
+    private ProductoDTO productoValorado;
 
     public ValoracionDTO() {
     }
@@ -62,19 +62,19 @@ public class ValoracionDTO implements Serializable {
         this.fecha = fecha;
     }
 
-    public Usuario getCliente() {
+    public UsuarioDTO getCliente() {
         return cliente;
     }
 
-    public void setCliente(Usuario cliente) {
+    public void setCliente(UsuarioDTO cliente) {
         this.cliente = cliente;
     }
 
-    public Producto getProductoValorado() {
+    public ProductoDTO getProductoValorado() {
         return productoValorado;
     }
 
-    public void setProductoValorado(Producto productoValorado) {
+    public void setProductoValorado(ProductoDTO productoValorado) {
         this.productoValorado = productoValorado;
     }
     

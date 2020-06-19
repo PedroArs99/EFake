@@ -41,8 +41,8 @@ public class ProductoService {
         List<ProductoDTO> listaDTO = new ArrayList<>();
         if (listaProducto != null) {
             listaDTO = new ArrayList<>();
-            for (Producto cliente: listaProducto) {
-                listaDTO.add(cliente.getDTO());
+            for (Producto p: listaProducto) {
+                listaDTO.add(p.getDTO());
             }
         }
         return listaDTO;
