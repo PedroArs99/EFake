@@ -44,6 +44,7 @@ public class UsuarioBean implements Serializable {
 
     public void setUsuario(UsuarioDTO usuario) {
         this.usuario = usuario;
+        //usuarioService.edit(this.usuario);
     }
 
     public String getNombre() {
@@ -94,25 +95,25 @@ public class UsuarioBean implements Serializable {
         this.status = status;
     }
     
-    public String doLogIn(String correo, String contrasena){
+    public String doLogIn(String correo, byte[] contrasenaIntroducida){
         
         UsuarioDTO posibleUsuario = usuarioService.findByCorreo(correo);
-        System.out.println("EL USUARIO ES " + posibleUsuario.getNombre() + " " + posibleUsuario.getCorreo());
-        
-        byte[] contrasenaIntroducida = usuarioService.hashPassword(contrasena);
         
         if(posibleUsuario == null){
             status = "Wrong email address";
+            System.out.println(status);
             this.correo = "";
             this.contrasena = "";
             return null;
         }else if(!Arrays.equals(contrasenaIntroducida,posibleUsuario.getPassword())){
            status = "Wrong password";
+           System.out.println(status);
            this.contrasena = "";
            return null;
         }else{
             status = "Todo correcto";
-            usuario = posibleUsuario;
+            System.out.println(status);
+            this.usuario = posibleUsuario;
             usuario.setUltimaEntrada(new Date());
             usuarioService.edit(usuario);
             return "index.jsf";                  
@@ -121,21 +122,6 @@ public class UsuarioBean implements Serializable {
     
     public boolean hayStatus(){
         return !status.equals("") && !status.equals("Todo correcto");
-    }
-    
-    public String doEditProfile(){
-        UsuarioDTO posibleCorreoExistente = usuarioService.findByCorreo(correo);
-        if(posibleCorreoExistente != null){
-            status = "This email address is already registered";
-            return null;
-        }else{
-            usuario.setNombre(nombre);
-            usuario.setApellidos(apellido);
-            usuario.setCorreo(correo);
-            usuario.setEdad(usuarioService.calcularEdad(nacimiento));
-            usuarioService.edit(usuario);
-            return "index";            
-        }
     }
     
     public String doLogOut(){

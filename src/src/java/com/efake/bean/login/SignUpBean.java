@@ -7,6 +7,7 @@ package com.efake.bean.login;
 
 import com.efake.dto.UsuarioDTO;
 import com.efake.service.UsuarioService;
+import java.util.Arrays;
 import java.util.Date;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -29,7 +30,7 @@ public class SignUpBean {
     
     private UsuarioDTO usuario;
     
-    protected String correo, contrasena, telefono, status = "";
+    protected String contrasena, status = "", actual, nueva, repetida;
     protected Date nacimiento;
 
     /**
@@ -41,14 +42,9 @@ public class SignUpBean {
     @PostConstruct
     public void init(){
         usuario = usuarioBean.getUsuario();
-    }
-
-    public String getCorreo() {
-        return correo;
-    }
-
-    public void setCorreo(String correo) {
-        this.correo = correo;
+        if(usuario == null){
+            usuario = new UsuarioDTO();
+        }
     }
 
     public String getContrasena() {
@@ -58,15 +54,7 @@ public class SignUpBean {
     public void setContrasena(String contrasena) {
         this.contrasena = contrasena;
     }
-
-    public String getTelefono() {
-        return telefono;
-    }
-
-    public void setTelefono(String telefono) {
-        this.telefono = telefono;
-    }
-
+    
     public String getStatus() {
         return status;
     }
@@ -81,7 +69,7 @@ public class SignUpBean {
 
     public void setNacimiento(Date nacimiento) {
         this.nacimiento = nacimiento;
-    }  
+    }
 
     public UsuarioDTO getUsuario() {
         return usuario;
@@ -89,35 +77,92 @@ public class SignUpBean {
 
     public void setUsuario(UsuarioDTO usuario) {
         this.usuario = usuario;
+    }  
+
+    public String getActual() {
+        return actual;
     }
-    
-    
+
+    public void setActual(String actual) {
+        this.actual = actual;
+    }
+
+    public String getNueva() {
+        return nueva;
+    }
+
+    public void setNueva(String nueva) {
+        this.nueva = nueva;
+    }
+
+    public String getRepetida() {
+        return repetida;
+    }
+
+    public void setRepetida(String repetida) {
+        this.repetida = repetida;
+    }
     
     public String doSignUp(){
         UsuarioDTO posibleUser = null;
         try {
-            posibleUser = usuarioService.findByCorreo(correo);
+            posibleUser = usuarioService.findByCorreo(usuario.getCorreo());
         } catch (Exception e) {
             posibleUser = null;
         }
         
         if(posibleUser != null){
             status = "The email address is already registered";
-            this.correo = "";
+            this.usuario.setCorreo("");
             return null;
         }else if(usuarioService.esMenor(nacimiento)){            
             status = "Sorry, You are under-age";
             return null;
         }else{
             status = "Todo correcto";
-            UsuarioDTO usuarioNuevo = new UsuarioDTO();
             byte[] contrasenaHash = usuarioService.hashPassword(contrasena);
-            usuarioNuevo.setPassword(contrasenaHash);
-            usuarioNuevo.setEdad(usuarioService.calcularEdad(nacimiento));
-            usuarioNuevo.setUltimaEntrada(new Date());
-            usuarioService.create(usuarioNuevo);
-            return usuarioBean.doLogIn(correo, contrasena);
+            usuario.setPassword(contrasenaHash);
+            usuario.setEdad(usuarioService.calcularEdad(nacimiento));
+            usuario.setUltimaEntrada(new Date());
+            usuarioService.create(usuario);
+            return usuarioBean.doLogIn(usuario.getCorreo(), usuarioService.hashPassword(contrasena));
         }       
+    }
+    
+    
+    
+    public String doEditProfile(){
+        UsuarioDTO posibleCorreoExistente = usuarioService.findByCorreo(usuario.getCorreo());
+        
+        if(posibleCorreoExistente != null && usuario.getId() != posibleCorreoExistente.getId()){
+            status = "This email address is already registered";            
+            return null;
+        }else{
+            usuario.setUltimaEntrada(new Date());
+            usuarioService.edit(usuario);
+            //usuarioBean.setUsuario(usuario);
+            //return usuarioBean.doLogIn(usuario.getCorreo(), usuario.getPassword());
+            return "index";            
+        }
+    }
+    
+    public String doChangePasswd(){
+        byte[] contrasenaHash = usuarioService.hashPassword(actual);
+        byte[] nuevaContrasena = usuarioService.hashPassword(nueva);
+        if (!Arrays.equals(contrasenaHash, usuario.getPassword())) {
+            status = "This is not your password";
+            return null;
+        } else if (!repetida.equals(nueva)) {
+            status = "The new password must match the repeated one";
+            return null;
+        } else {
+            status = "Todo correcto";
+            usuario.setPassword(nuevaContrasena);
+            System.out.println("LA CONTRASEÑA NUEVA ANTES DE EDITARLA: "+nuevaContrasena);
+            usuarioService.edit(usuario);
+            System.out.println("LA CONTRASEÑA NUEVA DESPUES DE EDITARLA: "+usuario.getPassword());
+            return "signup";
+        }
     }
     
     public boolean hayStatus(){

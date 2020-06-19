@@ -94,26 +94,25 @@
             </h1>
 
             <c:if test="#{signUpBean.hayStatus()}">
-                <div class="alert alert-danger">#{usuarioBean.status}</div>
+                <div class="alert alert-danger">#{signUpBean.status}</div>
             </c:if>
 
-            <h:inputText value="#{signUpBean.usuario.nombre}" class="form-control" a:placeholder="First name" a:autofocus="" required="true"/>
+            <h:inputText value="#{signUpBean.usuario.nombre}" class="form-control" a:placeholder="First name" a:autofocus="true" required="true"/>
             <h:inputText value="#{signUpBean.usuario.apellidos}" class="form-control" a:placeholder="Last name" required="true"/><br/>
 
 
             <h:inputText value="#{signUpBean.usuario.correo}" class="form-control" a:placeholder="Email address" required="true"/>
 
             <c:if test="#{usuarioBean.usuario == null}">
-               <h:inputSecret value="#{signUpBean.contrasena}" class="form-control" a:placeholder="Password" required="true"/><br/>
-            </c:if>
+                <h:inputSecret value="#{signUpBean.contrasena}" class="form-control" a:placeholder="Password" required="true"/><br/>
+                <h:inputText class="form-control" a:placeholder="Birth date: DD-MM-YYYY" required="true" value="#{signUpBean.nacimiento}">
+                    <f:convertDateTime pattern = "dd-mm-yyyy" />
+                </h:inputText><br/>
+            </c:if>        
             <c:if test="#{usuarioBean.usuario != null}">
-                <h:link outcome="changePassword" value="Do you want to change your password?"/>
-            </c:if>            
-            
-
-            <h:inputText class="form-control" a:placeholder="Birth date: DD-MM-YYYY" required="true" value="#{signUpBean.nacimiento}">
-                <f:convertDateTime pattern = "dd-mm-yyyy" />
-            </h:inputText><br/>
+                <br/>
+                <h:outputText value="#{signUpBean.usuario.edad}" class="form-control" a:readonly="true" style="text-align:left"/>
+            </c:if>
 
             <h:inputText value="#{signUpBean.usuario.telefono}" class="form-control" a:placeholder="Phone number" required="true"/><br/>
 
@@ -126,7 +125,8 @@
                 </p>
             </c:if>
             <c:if test="#{usuarioBean.usuario != null}">
-                <h:commandButton class="btn btn-lg btn-primary btn-block" value="Edit my profile" action="#{usuarioBean.doEditProfile()}"/><br/>
+                <h:link outcome="changePassword" value="Do you want to change your password?"/><br/><br/>
+                <h:commandButton class="btn btn-lg btn-primary btn-block" value="Edit my profile" action="#{signUpBean.doEditProfile()}"/><br/>
             </c:if> 
 
             <p class="mt-5 mb-3 text-muted">Copyrigth © 2020 eFake Inc. All Rights Reserved.</p>
