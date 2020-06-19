@@ -6,20 +6,12 @@
 package com.efake.bean.producto;
 
 import com.efake.bean.session.Transport;
-import com.efake.dao.CategoriaFacade;
-import com.efake.dao.KeywordsFacade;
-import com.efake.dao.ProductoFacade;
-import com.efake.dao.SubcategoriaFacade;
-import com.efake.dao.UsuarioFacade;
 import com.efake.dto.CategoriaDTO;
 import com.efake.dto.KeywordsDTO;
 import com.efake.dto.ProductoDTO;
 import com.efake.dto.SubCategoriaDTO;
-import com.efake.entity.Categoria;
 import com.efake.entity.Keywords;
 import com.efake.entity.Producto;
-import com.efake.entity.Subcategoria;
-import com.efake.entity.Usuario;
 import com.efake.service.CategoryService;
 import com.efake.service.KeywordService;
 import com.efake.service.ProductoService;
@@ -33,6 +25,7 @@ import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 
+
 /**
  *
  * @author JuMed
@@ -41,38 +34,43 @@ import javax.inject.Inject;
 @RequestScoped
 public class CrearProductoBean {
 
-    @EJB ProductoDTO productoseleccionado;
-    @Inject Transport productobean;
-    @EJB CategoryService categoryservice;
-    @EJB SubCategoryService subcategoryservice;
+    
+    ProductoDTO productoseleccionado;
+    @Inject
+    Transport productobean;
+    @EJB
+    CategoryService categoryservice;
+    @EJB
+    SubCategoryService subcategoryservice;
     protected List<CategoriaDTO> listacategorias;
     protected List<SubCategoriaDTO> listasubcategoria;
     protected boolean isEditar;
     protected Integer categoria;
     protected Integer subcategoria;
     protected String keywords;
-    @EJB KeywordService keywordservice;
-    @EJB ProductoService productoservice;
-    
+    @EJB
+    KeywordService keywordservice;
+    @EJB
+    ProductoService productoservice;
+
     public CrearProductoBean() {
     }
-    
+
     @PostConstruct
-    public void init(){
+    public void init() {
         this.productoseleccionado = this.productobean.getProductoSeleccionado();
-        if(this.productoseleccionado==null){//to create
-            this.isEditar=false;
+        if (this.productoseleccionado == null) {//to create
+            this.isEditar = false;
             this.productoseleccionado = new ProductoDTO();
-        }else{//to edit
+        } else {//to edit
             this.isEditar = true;
             this.categoria = this.productoseleccionado.getCategoria().getId();
             this.subcategoria = this.productoseleccionado.getSubcategoria().getId();
-            this.keywords="";
+            this.keywords = "";
         }
-        
-        
-      this.listacategorias = categoryservice.findAll();
-      this.listasubcategoria = subcategoryservice.findAll();
+
+        this.listacategorias = categoryservice.findAll();
+        this.listasubcategoria = subcategoryservice.findAll();
     }
 
     public ProductoDTO getProductoseleccionado() {
@@ -115,53 +113,52 @@ public class CrearProductoBean {
         this.keywords = keywords;
     }
 
-
-    public String doEditar(){
-        if(!this.isEditar){//when create
+    public String doEditar() {
+        if (!this.isEditar) {//when create
             StringTokenizer st = new StringTokenizer(this.keywords, ",");
-        while (st.hasMoreTokens()) {
-            KeywordsDTO k = keywordservice.findOrCreate(st.nextToken());
-            
-            this.productoseleccionado.getListaKeywords().add(k);
-            k.getProductoList().add(productoseleccionado);
-            
-            keywordservice.edit(k);
-        }
-        productoseleccionado.setFecha(new Date());
-        productoseleccionado.setCategoria(categoryservice.find(this.categoria));
-        productoseleccionado.setSubcategoria(subcategoryservice.find(this.subcategoria));
-        productoservice.create(productoseleccionado);
-        }else{//when edit
+            while (st.hasMoreTokens()) {
+                KeywordsDTO k = keywordservice.findOrCreate(st.nextToken());
+
+                this.productoseleccionado.getListaKeywords().add(k);
+                k.getProductoList().add(productoseleccionado);
+
+                keywordservice.edit(k);
+            }
+            productoseleccionado.setFecha(new Date());
+            productoseleccionado.setCategoria(categoryservice.find(this.categoria));
+            productoseleccionado.setSubcategoria(subcategoryservice.find(this.subcategoria));
+            productoservice.create(productoseleccionado);
+        } else {//when edit
             //Manage Keywords
-        List<Keywords> kwList = productoseleccionado.getlistakeywords();
-        
-        //Delete old list
-        for(int i = 0; i<kwList.size(); i++){
-            Keywords k = kwList.get(i);
-            
-            k.getProductoList().remove(new Producto(productoseleccionado));
-            kwList.remove(k);
-            
-            keywordservice.edit(k.getDTO());
-        }
-        
-        //Add new list
-        StringTokenizer st = new StringTokenizer(this.keywords, ",");
-        while (st.hasMoreTokens()) {
-            KeywordsDTO k = keywordservice.findOrCreate(st.nextToken());
-            
-            this.productoseleccionado.getListaKeywords().add(k);
-            k.getProductoList().add(productoseleccionado);
-            
-            keywordservice.edit(k);
-        }
-        productoseleccionado.setCategoria(categoryservice.find(this.categoria));
-        productoseleccionado.setSubcategoria(subcategoryservice.find(subcategoria));
-     
-        //Save changes on PRODUCT Table
-        productoservice.edit(productoseleccionado);
+            List<Keywords> kwList = productoseleccionado.getlistakeywords();
+
+            //Delete old list
+            for (int i = 0; i < kwList.size(); i++) {
+                Keywords k = kwList.get(i);
+
+                k.getProductoList().remove(new Producto(productoseleccionado));
+                kwList.remove(k);
+
+                keywordservice.edit(k.getDTO());
+            }
+
+            //Add new list
+            StringTokenizer st = new StringTokenizer(this.keywords, ",");
+            while (st.hasMoreTokens()) {
+                KeywordsDTO k = keywordservice.findOrCreate(st.nextToken());
+
+                this.productoseleccionado.getListaKeywords().add(k);
+                k.getProductoList().add(productoseleccionado);
+
+                keywordservice.edit(k);
+            }
+            productoseleccionado.setCategoria(categoryservice.find(this.categoria));
+            productoseleccionado.setSubcategoria(subcategoryservice.find(subcategoria));
+
+            //Save changes on PRODUCT Table
+            productoservice.edit(productoseleccionado);
         }
         return "index";
     }
-    
+
 }
