@@ -117,6 +117,7 @@ public class Usuario implements Serializable {
     }
     
     public Usuario(UsuarioDTO usuario){
+        this.id = usuario.getId();
         this.correo = usuario.getCorreo();
         this.password = usuario.getPassword();
         this.nombre = usuario.getNombre();

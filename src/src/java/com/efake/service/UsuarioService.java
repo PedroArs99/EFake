@@ -6,8 +6,6 @@ import com.efake.entity.Usuario;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -15,7 +13,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import javax.servlet.RequestDispatcher;
 
 /**
  *
@@ -75,8 +72,8 @@ public class UsuarioService {
     }
 
     public void edit(UsuarioDTO userDTO){
-        Usuario user = userFacade.find(userDTO.getId());
-
+        Usuario user = new Usuario(userDTO);
+        
         userFacade.edit(user);
     }
 

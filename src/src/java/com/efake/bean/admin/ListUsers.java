@@ -60,7 +60,7 @@ public class ListUsers {
     //Bean methods
     public String deleteUser(UsuarioDTO user) {
         userService.delete(user);
-        transportBean.setStatus("Deleted user");
+        transportBean.setStatus("User deleted");
         return "userList.jsf?faces-redirect=true";
     }
 
