@@ -69,7 +69,8 @@
                             <div class="dropdown-menu dropdown-menu-right">
                                 <c:if test="#{menuBean.usuario.esAdmin == 0}">
                                     <h:link class="dropdown-item" outcome="signup" value="Edit my profile"/>
-                                    <a class="dropdown-item" href="MyProducts">My products</a>                                    
+                                    <h:link class="dropdown-item" outcome="productGrid" value="My products"/>
+                                    <!--a class="dropdown-item" href="MyProducts">My products</a-->                                    
                                     <h:commandLink class="dropdown-item" action="#{transport.sellProduct()}" value="Sell a new product"/>
                                 </c:if>
                                 <c:if test="#{menuBean.usuario.esAdmin == 1}">

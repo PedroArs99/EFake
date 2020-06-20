@@ -11,7 +11,7 @@
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
-        <title>Producto</title> 
+        <title>Productos</title> 
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <!--Favicon-->
@@ -30,39 +30,48 @@
         <efake:nav />
 
         <div class="row mb-3 container">
+            <c:if test="#{productoCategoriaBean.categoria!=null}">
             <!-- Left Nav -->
             <nav class="col-md-2 d-none d-md-block bg-transparent sidebar border-right border-thin">
                 <div class="sidebar-sticky">
-                    <h6 
-                        class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-                        Subcategories
-                    </h6>
-                    <h:form>
-                        <ui:repeat class="nav flex-column" value="#{productoCategoriaBean.listaSubCategoriasByCategoria}" var="subcat">
-                            <h6 class="nav-item ml-5">
-                                <h:commandLink value="#{subcat.nombre}">
-                                    <f:ajax render="listaProductos" listener="#{productoCategoriaBean.doFiltrarBySubcategoria(subcat)}"/>
-                                </h:commandLink> 
-                            </h6> 
-                        </ui:repeat> 
-                    </h:form>
+                    
+                        <h6 
+                            class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                            Subcategories
+                        </h6>
+                        <h:form>
+                            <ui:repeat class="nav flex-column" value="#{productoCategoriaBean.listaSubCategoriasByCategoria}" var="subcat">
+                                <h6 class="nav-item ml-5">
+                                    <h:commandLink value="#{subcat.nombre}">
+                                        <f:ajax render="listaProductos" listener="#{productoCategoriaBean.doFiltrarBySubcategoria(subcat)}"/>
+                                    </h:commandLink> 
+                                </h6> 
+                            </ui:repeat> 
+                        </h:form>
+                                        
                 </div>
             </nav>
-
-            <!-- Product Grid -->
-             <h:panelGroup id="listaProductos" class="col-md-10 grid">
-                <ui:repeat value="#{productoCategoriaBean.listaProductos}" var="product">
-                    <efake:product productId="#{product.id}"
-                                   name="#{product.nombre}"
-                                   description="#{product.descripcion}"
-                                   image="#{product.imagen}"/>
-                </ui:repeat>
-            </h:panelGroup>
-
-
-
-
-
+                <!-- Product Grid -->
+                <h:panelGroup id="listaProductos" class="col-md-10 grid">
+                    <ui:repeat value="#{productoCategoriaBean.listaProductos}" var="product">
+                        <efake:product productId="#{product.id}"
+                                       name="#{product.nombre}"
+                                       description="#{product.descripcion}"
+                                       image="#{product.imagen}"/>
+                    </ui:repeat>
+                </h:panelGroup>
+            </c:if>
+            <c:if test="#{productoCategoriaBean.categoria==null}">
+                <!-- Product Grid -->
+                <h:panelGroup id="listaProductos" class="col-md-10 grid">
+                    <ui:repeat value="#{productoCategoriaBean.listaMisProductos}" var="product">
+                        <efake:product productId="#{product.id}"
+                                       name="#{product.nombre}"
+                                       description="#{product.descripcion}"
+                                       image="#{product.imagen}"/>
+                    </ui:repeat>
+                </h:panelGroup>  
+            </c:if>
         </div>
 
 

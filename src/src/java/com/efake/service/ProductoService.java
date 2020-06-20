@@ -3,9 +3,12 @@ package com.efake.service;
 import com.efake.dao.CategoriaFacade;
 import com.efake.dao.ProductoFacade;
 import com.efake.dao.SubcategoriaFacade;
+import com.efake.dao.UsuarioFacade;
 import com.efake.dto.CategoriaDTO;
 import com.efake.dto.ProductoDTO;
 import com.efake.dto.SubCategoriaDTO;
+import com.efake.dto.UsuarioDTO;
+import com.efake.dto.ValoracionDTO;
 import com.efake.entity.Categoria;
 import com.efake.entity.Producto;
 import com.efake.entity.Subcategoria;
@@ -36,6 +39,9 @@ public class ProductoService {
     @EJB
     private ProductoFacade productFacade;
     
+    @EJB
+    private UsuarioFacade usuarioFacade;
+    
     //Tool
     private List<ProductoDTO> convertToDTO (List<Producto> listaProducto) {
         List<ProductoDTO> listaDTO = new ArrayList<>();
@@ -48,10 +54,10 @@ public class ProductoService {
         return listaDTO;
     }
     
-    public boolean rated(List<Valoracion> listValoraciones, Usuario user) {
+    public boolean rated(List<ValoracionDTO> listValoraciones, UsuarioDTO user) {
         boolean valorado = false;
         for (int i = 0; i < listValoraciones.size() && !valorado; i++) {
-            Usuario u = listValoraciones.get(i).getCliente();
+            UsuarioDTO u = listValoraciones.get(i).getCliente();
             if (u.equals(user)) {
                 valorado = true;
             }
@@ -153,6 +159,14 @@ public class ProductoService {
        Producto p = new Producto(productoDTO);
 
         productFacade.edit(p);
+    }
+
+    public List<ProductoDTO> findByUsuario(UsuarioDTO usuario) {
+        Usuario user = this.usuarioFacade.find(usuario.getId());
+        List<Producto> lista = this.productFacade.findByOwner(user);
+        List<ProductoDTO> dtoList = convertToDTO(lista);
+        
+        return dtoList;
     }
             
     
