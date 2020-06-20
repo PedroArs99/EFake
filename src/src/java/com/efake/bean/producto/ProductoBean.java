@@ -1,11 +1,14 @@
 package com.efake.bean.producto;
 
+import com.efake.bean.login.UsuarioBean;
 import com.efake.bean.session.Transport;
 import com.efake.dao.CategoriaFacade;
 import com.efake.dao.KeywordsFacade;
 import com.efake.dao.ProductoFacade;
 import com.efake.dao.ValoracionFacade;
+import com.efake.dto.KeywordsDTO;
 import com.efake.dto.ProductoDTO;
+import com.efake.dto.UsuarioDTO;
 import com.efake.dto.ValoracionDTO;
 import com.efake.entity.Categoria;
 import com.efake.entity.Keywords;
@@ -34,6 +37,9 @@ public class ProductoBean {
     @Inject
     private Transport transport;
     
+    @Inject
+    private UsuarioBean usuarioBean;
+    
     @EJB
     private ProductoService productoService;
     
@@ -45,16 +51,16 @@ public class ProductoBean {
     
     private ProductoDTO producto;
     private double mediaValoraciones;
-    private List<Valoracion> listaValoraciones;
+    private List<ValoracionDTO> listaValoraciones;
     private List<Integer> ratings;
     private boolean valorado;
     private String imagen;
     private String nombre;
     private String descripcion;
-    private List<Keywords> listakeywords;
+    private List<KeywordsDTO> listakeywords;
     private Double precio;
     private Integer id;
-    private Usuario owner;
+    private UsuarioDTO owner;
  
     private String comentario;
     private Integer puntuacion;
@@ -66,9 +72,9 @@ public class ProductoBean {
     public void init(){
         Map<Integer, Integer> ratingsDictionary;
         producto = transport.getProductoSeleccionado();
-        //Usuario user = this.usuarioSesion.getUser();
+            
         if(!producto.getListaValoraciones().isEmpty()){
-            listaValoraciones = producto.getlistavaloraciones();
+            listaValoraciones = producto.getListaValoraciones();
             mediaValoraciones = this.productoService.getMeanRating(producto.getId());
             ratingsDictionary = this.productoService.getRatings(producto.getId());
             ratings = new ArrayList<>();
@@ -82,18 +88,21 @@ public class ProductoBean {
                 ratings.add(0);
             }
         }
+        
+        if(usuarioBean.getUsuario() != null){
+           UsuarioDTO user = this.usuarioBean.getUsuario(); 
+           valorado = this.productoService.rated(listaValoraciones, user);
+        } else {
+            valorado = true;
+        }
         imagen = producto.getImagen();
         descripcion = producto.getDescripcion();
         nombre = producto.getNombre();
-        listakeywords = producto.getlistakeywords();
+        listakeywords = producto.getListaKeywords();
         precio = producto.getPrecio();
         id = producto.getId();
-        owner = new Usuario(producto.getOwner());
+        owner = producto.getOwner();
         
-        
-        
-        
-        //valorado = this.productoService.rated(listaValoraciones, user);
     }
     
     public Object[] createDummyArray(int size){
@@ -108,11 +117,11 @@ public class ProductoBean {
         this.mediaValoraciones = mediaValoraciones;
     }
 
-    public List<Valoracion> getListaValoraciones() {
+    public List<ValoracionDTO> getListaValoraciones() {
         return listaValoraciones;
     }
 
-    public void setListaValoraciones(List<Valoracion> listaValoraciones) {
+    public void setListaValoraciones(List<ValoracionDTO> listaValoraciones) {
         this.listaValoraciones = listaValoraciones;
     }
 
@@ -172,11 +181,11 @@ public class ProductoBean {
         this.descripcion = descripcion;
     }
 
-    public List<Keywords> getListakeywords() {
+    public List<KeywordsDTO> getListakeywords() {
         return listakeywords;
     }
 
-    public void setListakeywords(List<Keywords> listakeywords) {
+    public void setListakeywords(List<KeywordsDTO> listakeywords) {
         this.listakeywords = listakeywords;
     }
 
@@ -196,11 +205,11 @@ public class ProductoBean {
         this.id = id;
     }
 
-    public Usuario getOwner() {
+    public UsuarioDTO getOwner() {
         return owner;
     }
 
-    public void setOwner(Usuario owner) {
+    public void setOwner(UsuarioDTO owner) {
         this.owner = owner;
     }
     

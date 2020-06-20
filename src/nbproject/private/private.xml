@@ -3,7 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/Users/PedroArenas/Library/Mobile%20Documents/com~apple~CloudDocs/WKS/TAW/Efake/src/src/java/com/efake/bean/producto/CrearProductoBean.java</file>
+            <file>file:/C:/Users/carlo/Documents/NetBeansProjects/EFake/src/src/java/com/efake/bean/login/UsuarioBean.java</file>
+            <file>file:/C:/Users/carlo/Documents/NetBeansProjects/EFake/src/src/java/com/efake/bean/producto/ProductoBean.java</file>
+            <file>file:/C:/Users/carlo/Documents/NetBeansProjects/EFake/src/src/java/com/efake/service/ProductoService.java</file>
+            <file>file:/C:/Users/carlo/Documents/NetBeansProjects/EFake/src/web/productGrid.xhtml</file>
+            <file>file:/C:/Users/carlo/Documents/NetBeansProjects/EFake/src/web/producto.xhtml</file>
+            <file>file:/C:/Users/carlo/Documents/NetBeansProjects/EFake/src/src/java/com/efake/bean/session/Transport.java</file>
+            <file>file:/C:/Users/carlo/Documents/NetBeansProjects/EFake/src/src/java/com/efake/bean/producto/ProductoCategoriaBean.java</file>
         </group>
     </open-files>
 </project-private>

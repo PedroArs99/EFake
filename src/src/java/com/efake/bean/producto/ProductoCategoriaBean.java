@@ -59,7 +59,10 @@ public class ProductoCategoriaBean {
         } 
         
         usuario = usuarioBean.getUsuario();
-        listaMisProductos = this.productoService.findByUsuario(usuario);
+        if(usuario != null){
+           listaMisProductos = this.productoService.findByUsuario(usuario); 
+        }
+        
     }
     
 

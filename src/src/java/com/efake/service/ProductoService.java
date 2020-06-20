@@ -8,6 +8,7 @@ import com.efake.dto.CategoriaDTO;
 import com.efake.dto.ProductoDTO;
 import com.efake.dto.SubCategoriaDTO;
 import com.efake.dto.UsuarioDTO;
+import com.efake.dto.ValoracionDTO;
 import com.efake.entity.Categoria;
 import com.efake.entity.Producto;
 import com.efake.entity.Subcategoria;
@@ -53,10 +54,10 @@ public class ProductoService {
         return listaDTO;
     }
     
-    public boolean rated(List<Valoracion> listValoraciones, Usuario user) {
+    public boolean rated(List<ValoracionDTO> listValoraciones, UsuarioDTO user) {
         boolean valorado = false;
         for (int i = 0; i < listValoraciones.size() && !valorado; i++) {
-            Usuario u = listValoraciones.get(i).getCliente();
+            UsuarioDTO u = listValoraciones.get(i).getCliente();
             if (u.equals(user)) {
                 valorado = true;
             }
