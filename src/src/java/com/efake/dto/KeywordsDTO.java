@@ -3,6 +3,7 @@ package com.efake.dto;
 import com.efake.entity.Producto;
 import java.util.ArrayList;
 import java.util.List;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -24,6 +25,7 @@ public class KeywordsDTO {
     public void setPalabra(String palabra) {
         this.palabra = palabra;
     }
+    
 
     public List<ProductoDTO> getProductoList() {
         return ProductoList;

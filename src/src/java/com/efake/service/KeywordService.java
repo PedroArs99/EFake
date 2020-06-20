@@ -29,9 +29,22 @@ public class KeywordService {
     }
 
     public void edit(KeywordsDTO k){
-        Keywords keyword = keywordsfacade.find(k.getPalabra());
+        Keywords keyword = new Keywords(k);
 
         keywordsfacade.edit(keyword);
+    } 
+    
+    public KeywordsDTO find(String keyword){
+        Keywords k = keywordsfacade.find(keyword);
+        if(k==null){
+            return null;
+        }else{
+            return k.getDTO();
+        }
+    }
+    public void create(KeywordsDTO k){
+        Keywords keyword = new Keywords(k);
+        keywordsfacade.create(keyword);
     } 
 
 }
