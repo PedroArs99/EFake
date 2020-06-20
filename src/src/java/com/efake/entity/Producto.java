@@ -129,7 +129,6 @@ public class Producto implements Serializable {
         this.keywordsList = product.getlistakeywords();
         this.subcategoria = new Subcategoria(product.getSubcategoria());
         this.categoria = new Categoria(product.getCategoria());
-        
     }
 
     public Integer getId() {
@@ -286,6 +285,7 @@ public class Producto implements Serializable {
         }
         return lista;
     }
+    
     
     public List<ValoracionDTO> valoracionlist(ProductoDTO prodDTO){
         List<ValoracionDTO> lista = new ArrayList<>();
