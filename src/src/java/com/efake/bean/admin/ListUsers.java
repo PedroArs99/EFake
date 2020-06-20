@@ -47,7 +47,6 @@ public class ListUsers {
     public void init() {
         //Calculate number of pages
         int usersCount = userService.countByEsAdmin(0);
-        System.out.println(usersCount);
         numberOfPages = usersCount / MAX_PAGE_SIZE; 
         if(usersCount % MAX_PAGE_SIZE != 0){
             numberOfPages++;

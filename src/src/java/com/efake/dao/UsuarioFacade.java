@@ -52,7 +52,11 @@ public class UsuarioFacade extends AbstractFacade<Usuario> {
         q= this.getEntityManager().createNamedQuery("Usuario.findByEsAdmin");
         q.setParameter("esAdmin", esAdmin);
         q.setMaxResults(pageSize);
-        q.setFirstResult(page*pageSize);
+        
+        /*
+            Pages are 1 indexed, but results are 0 indexed.
+        */
+        q.setFirstResult((page - 1 )*pageSize);
         userList = q.getResultList();
         
         return userList;
