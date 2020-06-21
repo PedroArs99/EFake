@@ -82,7 +82,15 @@ public class ProductoDTO {
     }
 
     public List<KeywordsDTO> getListaKeywords() {
-        return listaKeywords;
+        List<KeywordsDTO> res = new ArrayList<>();
+        if (this.listaKeywords==null){
+            return res;
+        }
+        for (KeywordsDTO k : this.listaKeywords){
+            // Add this to break infinite recursion
+            res.add((k));
+        }
+       return res;
     }
 
     public void setListaKeywords(List<KeywordsDTO> listaKeywords) {
@@ -163,7 +171,11 @@ public class ProductoDTO {
     
     public List<Keywords> getlistakeywords(){
         List<Keywords> res = new ArrayList<>();
+        if (this.listaKeywords==null){
+            return res;
+        }
         for (KeywordsDTO k : this.listaKeywords){
+            // Add this to break infinite recursion
             res.add(new Keywords(k));
         }
        return res;

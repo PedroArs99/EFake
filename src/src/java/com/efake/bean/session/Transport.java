@@ -119,7 +119,12 @@ public class Transport implements Serializable {
         return "productForm?faces-redirect=true";
     }
     
-    
+    public String deleteProduct(Integer idProducto){
+        productoSeleccionado = this.productoService.findById(idProducto);
+        productoService.delete(productoSeleccionado);
+        
+        return "index?faces-redirect=true";
+    }
     
 
 }

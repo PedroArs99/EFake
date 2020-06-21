@@ -75,7 +75,6 @@
                                     <h:inputText styleClass="form-control" id="lastLogin" value="#{listUsers.lastLoginFilter}">
                                         <f:ajax render="form:userTable" event="keyup" listener="#{listUsers.filterUsers()}" 
                                                 execute="email name surname age lastLogin" />
-
                                         <f:convertDateTime pattern="dd.MM.yyyy" />
                                     </h:inputText>
                                 </div>
