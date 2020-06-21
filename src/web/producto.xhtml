@@ -58,8 +58,8 @@
             <!--    <%  if (user != null && (user.equals(p.getOwner()) || user.getEsAdmin() == 1)) {%>-->
             <h:form>
                 <div class="action">
-                    <h:commandButton id="modify-button" value="Modify" class="btn btn-primary mr-3" action="#{transport.modifyProcut(productoBean.id)}"></h:commandButton>
-                    <h:commandButton id="delete-button" value="Delete" class="btn btn-primary  "action="#{transport.deleteProduct(productoBean.id)}"></h:commandButton>
+                    <h:commandButton id="modify-button" value="Modify" class="btn btn-primary mr-3" action="#{transport.modifyProcut(productoBean.id)}"/>
+                    <h:commandButton id="delete-button" value="Delete" class="btn btn-primary" action="#{transport.deleteProduct(productoBean.id)}"/>
                 </div>
             </h:form>
              <!--   <% }%>-->
@@ -114,9 +114,11 @@
                 </div> 
                 <div class="row">
                     <div class="col">
+                        <c:if test="#{!productoBean.valorado}">
                         <button type="button" class="btn rounded btn-primary margen-boton" data-toggle="modal" data-target="#review">
                             Review
                         </button> <br></br>
+                        </c:if>
                         <h:outputText styleClass="alert alert-danger margen-boton" value="Already rated" rendered="#{productoBean.valorado}"/>
                     </div>
                 </div>
@@ -124,7 +126,7 @@
             <div class="col-8">
                 <h2>Customer Reviews</h2>
                 <br/>
-                <h:outputText rendered="#{productoBean.listaValoraciones.isEmpty()}" value="Be the first one rating this product!"/>
+                <h:outputText rendered="#{productoBean.listaValoraciones == null}" value="Be the first one rating this product!"/>
                 <ui:repeat value="#{productoBean.listaValoraciones}" var="comentario">
                     <div class="border border-primary rounded rounded-primary p-3 margen-comentarios">
                         <strong style="font-size: 20px; margin-right: 15px;"> #{comentario.cliente.nombre} #{comentario.cliente.apellidos} </strong> 
@@ -179,7 +181,7 @@
                         </div>
                         <div class="modal-footer">
                             <h:commandButton value="Cancel" class="border-0 background-transparent" action="#{productoBean.doCancel()}"/>
-                            <h:commandButton value="Send" class="btn btn-primary" action="#{productoBean.doReview(productoBean.producto.id, 1)}" />
+                            <h:commandButton value="Send" class="btn btn-primary" action="#{productoBean.doReview(productoBean.producto.id, usuarioBean.usuario.id)}" />
                         </div>
                     </div>
                 </h:form>

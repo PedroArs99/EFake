@@ -237,7 +237,7 @@ public class ProductoBean {
     
     public String doReview(Integer idProducto, Integer idUsuario){
         this.valoracionService.newRating(idUsuario, idProducto, this.puntuacion, this.comentario, new Date());
-        
-        return "producto?faces-redirect=true";
+        this.init();
+        return "";
     }
 }
