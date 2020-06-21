@@ -1,5 +1,6 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!--
+    Author: Lorenzo De Linares (Formulario de búsqueda en Ajax)
     Author: Calors Diestro (Dropdown de categorias)
     Author: Pedro Arenas (Esquema general)
 -->
@@ -9,7 +10,9 @@
       xmlns:cc="http://xmlns.jcp.org/jsf/composite"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <!-- INTERFACE -->
     <cc:interface>
@@ -47,9 +50,9 @@
 
                     <h:form class="form-inline my-2 my-lg-0">
                         <div class="form-group">
-                            <input id="navBarSearchForm" class="form-control mr-3" type="search" placeholder="Search"
-                                   aria-label="Search" name="search" />
-                            <button class="btn btn-primary my-2 my-sm-0" type="submit">Search</button>
+                            <h:inputText id="search" class="form-control mr-3" value="#{transport.search}" a:placeholder="Search" a:type="search" />
+                            <h:commandButton value="Search" class="btn btn-primary my-2 my-sm-0" action="#{productoBuscarBean.doBuscar()}" />
+                            <f:ajax execute="search" render="busqueda" event="keyup" listener="#{productoBuscarBean.doBuscar()}" />
                         </div>
                     </h:form>
                 </ul>

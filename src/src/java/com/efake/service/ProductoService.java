@@ -148,6 +148,13 @@ public class ProductoService {
         
     }
     
+    public List<ProductoDTO> findByFilter(String filter){
+        List<Producto> lista = this.productFacade.findByFilter(filter);
+        List<ProductoDTO> dtoList = convertToDTO(lista);
+        
+        return dtoList;
+    }
+    
     public void create(ProductoDTO productoDTO){
        Producto p = new Producto(productoDTO,false);
 

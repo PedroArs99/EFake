@@ -1,5 +1,6 @@
 package com.efake.bean.utils;
 
+import com.efake.bean.session.Transport;
 import com.efake.dto.ProductoDTO;
 import com.efake.service.ProductoService;
 import java.util.List;
@@ -7,6 +8,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 
 /**
  *

@@ -42,6 +42,7 @@ public class Transport implements Serializable {
     private String status;
     private ProductoDTO productoSeleccionado;
     private CategoriaDTO categoriaSeleccionada;
+    private String search;
     
     //Constructor
     public Transport() {
@@ -95,6 +96,14 @@ public class Transport implements Serializable {
 
     public void setCategoriaSeleccionada(CategoriaDTO categoriaSeleccionada) {
         this.categoriaSeleccionada = categoriaSeleccionada;
+    }
+    
+    public String getSearch() {
+        return search;
+    }
+    
+    public void setSearch(String search){
+        this.search = search;
     }
 
     public String redirectCategory(CategoriaDTO categoria) {
