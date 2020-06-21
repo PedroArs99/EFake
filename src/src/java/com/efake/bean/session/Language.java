@@ -41,6 +41,9 @@ public class Language implements Serializable {
 
     //value change event listener
     public void changeLocale(String newLocale) {
+        
+        this.localeCode = newLocale;
+        
         //loop country map to compare the newLocale code
         for (Map.Entry<String, Object> entry : countries.entrySet()) {
 
