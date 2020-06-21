@@ -105,7 +105,7 @@ public class ProductoService {
         cont += 4 * p.getEstrella4();
         cont += 5 * p.getEstrella5();
 
-        return formatearDecimales(cont / (ratings.get(0)));
+        return formatearDecimales(cont / (double) (ratings.get(0)));
     }
 
     private double formatearDecimales(double numero) {

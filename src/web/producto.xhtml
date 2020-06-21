@@ -25,9 +25,8 @@
         <h:outputStylesheet library="css" name="valoracionStyle.css" />
     </h:head>
     <h:body>
-        <h1>#{productoBean}</h1>
         <efake:nav />
-        
+
 
         <!-- Parte de Producto -->
         <div class="wrapper row my-5 ml-5">
@@ -43,28 +42,28 @@
                 <div class="row-md-4 ">
                     <h:form>
                         <ui:repeat value="#{productoBean.listakeywords}" var="item">
-                         <span class="badge badge-dark">##{item.palabra}</span>
+                            <span class="badge badge-dark">##{item.palabra}</span>
                         </ui:repeat>   
-                     </h:form>
+                    </h:form>
                 </div>
-                
+
                 <h4>Current price: <span>#{productoBean.precio} &euro;</span></h4>
                 <h5>Seller:
                     <span>#{productoBean.owner.nombre}  #{productoBean.owner.apellidos}</span>
                 </h5>
                 <p class="product-description">#{productoBean.descripcion} </p>
-                
-                
-            <!--    <%  if (user != null && (user.equals(p.getOwner()) || user.getEsAdmin() == 1)) {%>-->
-            <h:form>
-                <div class="action">
-                    <h:commandButton id="modify-button" value="Modify" class="btn btn-primary mr-3" action="#{transport.modifyProcut(productoBean.id)}"/>
-                    <h:commandButton id="delete-button" value="Delete" class="btn btn-primary" action="#{transport.deleteProduct(productoBean.id)}"/>
-                </div>
-            </h:form>
-             <!--   <% }%>-->
+
+
+                <!--    <%  if (user != null && (user.equals(p.getOwner()) || user.getEsAdmin() == 1)) {%>-->
+                <h:form>
+                    <div class="action">
+                        <h:commandButton id="modify-button" value="Modify" class="btn btn-primary mr-3" action="#{transport.modifyProcut(productoBean.id)}"/>
+                        <h:commandButton id="delete-button" value="Delete" class="btn btn-primary" action="#{transport.deleteProduct(productoBean.id)}"/>
+                    </div>
+                </h:form>
+                <!--   <% }%>-->
             </div>
-       
+
         </div>
 
 
@@ -115,11 +114,15 @@
                 <div class="row">
                     <div class="col">
                         <c:if test="#{!productoBean.valorado}">
-                        <button type="button" class="btn rounded btn-primary margen-boton" data-toggle="modal" data-target="#review">
-                            Review
-                        </button> <br></br>
+                            <button type="button" class="btn rounded btn-primary margen-boton" data-toggle="modal" data-target="#review">
+                                Review
+                            </button> <br></br>
                         </c:if>
-                        <h:outputText styleClass="alert alert-danger margen-boton" value="Already rated" rendered="#{productoBean.valorado}"/>
+
+                        <h:panelGroup layout="block" styleClass="my-3">
+                            <h:outputText styleClass="alert alert-danger margen-boton" value="Already rated" rendered="#{productoBean.valorado}"/>
+                        </h:panelGroup>
+
                     </div>
                 </div>
             </div>
@@ -139,7 +142,7 @@
                             <ui:repeat value="#{productoBean.createDummyArray(comentario.puntuacion)}" var="i" >
                                 <span class="comment-stars filled-star">&#9733;</span>
                             </ui:repeat>
-                            
+
                             <ui:repeat value="#{productoBean.createDummyArray(5 - comentario.puntuacion)}" var="i" >
                                 <span class="comment-stars">&#9733;</span>
                             </ui:repeat>  

@@ -82,12 +82,13 @@ public class ProductoBean {
             }
         }
         
-        if(usuarioBean.getUsuario() != null){
+        if(usuarioBean.getUsuario() != null && usuarioBean.getUsuario().getEsAdmin() != 1){
            UsuarioDTO user = this.usuarioBean.getUsuario(); 
            valorado = this.productoService.rated(listaValoraciones, user);
         } else {
             valorado = true;
         }
+        
         imagen = producto.getImagen();
         descripcion = producto.getDescripcion();
         nombre = producto.getNombre();
