@@ -1,5 +1,7 @@
 package com.efake.dto;
 
+import com.efake.entity.Subcategoria;
+
 /**
  *
  * @author carlo
@@ -11,6 +13,12 @@ public class SubCategoriaDTO {
     private CategoriaDTO categoria;
     
     public SubCategoriaDTO() {
+    }
+    
+    public SubCategoriaDTO(Subcategoria s){
+        this.id = s.getId();
+        this.nombre = s.getNombre();
+        this.categoria = s.getCategoria().getDTO();
     }
     
     //Getters & setters

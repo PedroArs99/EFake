@@ -55,7 +55,7 @@ public class ProductoCategoriaBean {
         if(categoriaSeleccionada != null){
             categoria = categoriaSeleccionada;
             listaProductos = productoService.findByCategoria(categoria);
-            listaSubCategoriasByCategoria = this.subCategoryService.finByCategory(categoriaSeleccionada);            
+            listaSubCategoriasByCategoria = this.subCategoryService.finByCategory(categoriaSeleccionada);
         } 
         
         usuario = usuarioBean.getUsuario();
