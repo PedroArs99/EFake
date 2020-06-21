@@ -56,12 +56,15 @@
                 
                 
             <!--    <%  if (user != null && (user.equals(p.getOwner()) || user.getEsAdmin() == 1)) {%>-->
+            <h:form>
                 <div class="action">
-                    <h:commandButton id="modify-button" value="Modify" class="btn btn-primary mr-3"></h:commandButton>
-                     <h:commandButton id="delete-button" value="Delete" class="btn btn-primary  "></h:commandButton>
+                    <h:commandButton id="modify-button" value="Modify" class="btn btn-primary mr-3" action="#{transport.modifyProcut(productoBean.id)}"></h:commandButton>
+                    <h:commandButton id="delete-button" value="Delete" class="btn btn-primary  "action="#{transport.deleteProduct(productoBean.id)}"></h:commandButton>
                 </div>
+            </h:form>
              <!--   <% }%>-->
             </div>
+       
         </div>
 
 

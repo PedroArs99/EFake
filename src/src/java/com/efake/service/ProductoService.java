@@ -167,6 +167,12 @@ public class ProductoService {
         
         return dtoList;
     }
+
+    public void delete(ProductoDTO productoSeleccionado) {
+        Producto p = new Producto(productoSeleccionado,false);
+
+        productFacade.remove(p);
+    }
             
     
 }

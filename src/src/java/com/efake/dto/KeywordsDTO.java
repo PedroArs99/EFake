@@ -27,7 +27,17 @@ public class KeywordsDTO {
     
 
     public List<ProductoDTO> getProductoList() {
-        return ProductoList;
+        List<ProductoDTO> res = new ArrayList<>();
+        if (this.ProductoList==null){
+            return res;
+        }else{
+             for (ProductoDTO k : this.ProductoList){
+            //Break infinite recursion
+            res.add(k);
+        }
+       return res;
+        }
+       
     }
 
     public void setProductoList(List<ProductoDTO> ProductoList) {
@@ -36,6 +46,9 @@ public class KeywordsDTO {
  
     public List<Producto> getlistaproducto(){
         List<Producto> res = new ArrayList<>();
+        if(this.ProductoList==null){
+            return res;
+        }
         for (ProductoDTO k : this.ProductoList){
             //Break infinite recursion
             res.add(new Producto(k,true));
