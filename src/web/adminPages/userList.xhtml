@@ -140,7 +140,11 @@
 
                         </h:column>
                         <h:column>
-                            <i class="fas fa-edit"></i>
+                            <h:commandLink styleClass="bg-transparent border-0"
+                                           action="#{transport.redirectEditUser(user)}">
+                                <i class="fas fa-edit"></i>
+                            </h:commandLink>
+                            
                         </h:column>
                     </h:dataTable>
                 </h:form>

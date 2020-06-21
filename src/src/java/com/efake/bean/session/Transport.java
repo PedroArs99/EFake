@@ -9,6 +9,7 @@ import com.efake.dao.ProductoFacade;
 import com.efake.dto.CategoriaDTO;
 import com.efake.dto.ProductoDTO;
 import com.efake.dto.SubCategoriaDTO;
+import com.efake.dto.UsuarioDTO;
 import com.efake.entity.Producto;
 import com.efake.service.CategoryService;
 import com.efake.service.ProductoService;
@@ -43,6 +44,7 @@ public class Transport implements Serializable {
     private ProductoDTO productoSeleccionado;
     private CategoriaDTO categoriaSeleccionada;
     private String search;
+    private UsuarioDTO toEditUser;
     
     //Constructor
     public Transport() {
@@ -105,6 +107,14 @@ public class Transport implements Serializable {
     public void setSearch(String search){
         this.search = search;
     }
+    
+    public UsuarioDTO getToEditUser() {
+        return toEditUser;
+    }
+
+    public void setToEditUser(UsuarioDTO toEditUser) {
+        this.toEditUser = toEditUser;
+    }
 
     public String redirectCategory(CategoriaDTO categoria) {
         this.categoriaSeleccionada = categoria;
@@ -117,6 +127,13 @@ public class Transport implements Serializable {
         
         return "producto?faces-redirect=true";
     }
+    
+    public String redirectEditUser(UsuarioDTO user){
+        toEditUser = user;
+        
+        return "editUser?faces-redirect=true";
+    }
+    
     public String sellProduct(){
         productoSeleccionado = null;
         
@@ -134,6 +151,8 @@ public class Transport implements Serializable {
         
         return "index?faces-redirect=true";
     }
-    
 
+    
+    
+    
 }

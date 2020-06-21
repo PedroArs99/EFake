@@ -5,15 +5,20 @@
  */
 package com.efake.bean.utils;
 
+import com.efake.bean.login.UsuarioBean;
+import com.efake.dto.UsuarioDTO;
 import com.efake.service.StatsService;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import org.primefaces.model.charts.ChartData;
 import org.primefaces.model.charts.axes.cartesian.CartesianScales;
 import org.primefaces.model.charts.axes.cartesian.linear.CartesianLinearAxes;
@@ -29,39 +34,58 @@ import org.primefaces.model.charts.bar.BarChartOptions;
 @Named(value = "stats")
 @RequestScoped
 public class stats {
+    //Logger
+    private static final Logger LOG = Logger.getLogger(stats.class.getName());    
 
     //Services
     @EJB
     private StatsService statsService;
 
     //Beans
+    @Inject
+    private UsuarioBean sessionBean;
+
     //Attributes
     private BarChartModel barChart;
 
     @PostConstruct
+    public void init() {
+        UsuarioDTO sessionUser = sessionBean.getUsuario();
+
+        if (sessionUser == null || sessionUser.getEsAdmin() == 0) {
+            try {
+                FacesContext.getCurrentInstance().getExternalContext().redirect("../login.jsf");
+            } catch (Exception e) {
+                LOG.severe(String.format("Exception: %s", e.getMessage()));
+            }
+        }else{
+            this.drawGlobalStats();
+        }
+    }
+
     public void drawGlobalStats() {
         Map<String, Integer> globalStats = statsService.getBasicStats();
-        drawBarChart("Global Stats", globalStats,true);
+        drawBarChart("Global Stats", globalStats, true);
     }
 
     public void drawTodayStats() {
         Map<String, Integer> todayStats = statsService.getTodayStats();
-        drawBarChart("Today Stats", todayStats,true);
+        drawBarChart("Today Stats", todayStats, true);
     }
 
     public void drawMonthlyUserStats() {
         SortedMap<String, Integer> monthStats = statsService.getMonthlyUserStats();
-        drawBarChart("Users logged in the last month", monthStats,false);
+        drawBarChart("Users logged in the last month", monthStats, false);
     }
-    
+
     public void drawMonthlyNewProductStats() {
         SortedMap<String, Integer> monthStats = statsService.getMonthlyNewProductStats();
-        drawBarChart("New Products created in the last month", monthStats,false);
+        drawBarChart("New Products created in the last month", monthStats, false);
     }
-    
+
     public void drawMonthlyRatingStats() {
         SortedMap<String, Integer> monthStats = statsService.getMonthlyRatingStats();
-        drawBarChart("New Ratings maded in the last month", monthStats,false);
+        drawBarChart("New Ratings maded in the last month", monthStats, false);
     }
 
     public BarChartModel getBarChart() {

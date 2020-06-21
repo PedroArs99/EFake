@@ -75,7 +75,7 @@
                                     <h:commandLink class="dropdown-item" action="#{transport.sellProduct()}" value="Sell a new product"/>
                                 </c:if>
                                 <c:if test="#{menuBean.usuario.esAdmin == 1}">
-                                    <a class="dropdown-item" href="/efake/adminPages/dashboard.jsp">Administration Panel</a>
+                                    <h:link class="dropdown-item" outcome="adminPages/dashboard" value="Administration Panel"/>
                                 </c:if>
                                 <div class="dropdown-divider"></div>
                                 <h:commandLink class="dropdown-item" action="#{menuBean.doLogOut()}" value="Sign Out"/>     

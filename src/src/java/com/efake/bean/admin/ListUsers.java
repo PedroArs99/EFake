@@ -1,14 +1,17 @@
 package com.efake.bean.admin;
 
+import com.efake.bean.login.UsuarioBean;
 import com.efake.bean.session.Transport;
 import com.efake.dto.UsuarioDTO;
 import com.efake.service.UsuarioService;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
 /**
@@ -19,9 +22,14 @@ import javax.inject.Inject;
 @RequestScoped
 public class ListUsers {
 
+    private static final Logger LOG = Logger.getLogger(ListUsers.class.getName());
+
     //Beans
     @Inject
     private Transport transportBean;
+    @Inject
+    private UsuarioBean sessionBean;
+
     //Services
     @EJB
     private UsuarioService userService;
@@ -29,7 +37,7 @@ public class ListUsers {
     //Attributes
     private List<UsuarioDTO> userList;
     private String status;
-    
+
     //Pagination
     private final int MAX_PAGE_SIZE = 10;
     private int numberOfPages;
@@ -45,22 +53,31 @@ public class ListUsers {
     //Constructor
     @PostConstruct
     public void init() {
-        //Calculate number of pages
-        int usersCount = userService.countByEsAdmin(0);
-        numberOfPages = usersCount / MAX_PAGE_SIZE; 
-        if(usersCount % MAX_PAGE_SIZE != 0){
-            numberOfPages++;
-        }
-        
-        //Initialize Page 1
-        this.changePage(1);
-        
-        
-        //Show Success Message
-        String transportStatus = transportBean.getStatus();
-        if(transportStatus != null){
-            this.status = transportStatus;
-            transportBean.setStatus(null);
+        UsuarioDTO sessionUser = sessionBean.getUsuario();
+
+        if (sessionUser == null || sessionUser.getEsAdmin() == 0) {
+            try {
+                FacesContext.getCurrentInstance().getExternalContext().redirect("../login.jsf");
+            } catch (Exception e) {
+                LOG.severe(String.format("Exception: %s", e.getMessage()));
+            }
+        } else {
+            //Calculate number of pages
+            int usersCount = userService.countByEsAdmin(0);
+            numberOfPages = usersCount / MAX_PAGE_SIZE;
+            if (usersCount % MAX_PAGE_SIZE != 0) {
+                numberOfPages++;
+            }
+
+            //Initialize Page 1
+            this.changePage(1);
+
+            //Show Success Message
+            String transportStatus = transportBean.getStatus();
+            if (transportStatus != null) {
+                this.status = transportStatus;
+                transportBean.setStatus(null);
+            }
         }
     }
 
@@ -74,8 +91,8 @@ public class ListUsers {
     public void filterUsers() {
         this.userList = userService.findByFilters(emailFilter, nameFilter, surnameFilter, ageFilter, lastLoginFilter);
     }
-    
-    public void changePage(int pageNumber){
+
+    public void changePage(int pageNumber) {
         currentPage = pageNumber;
         userList = userService.findByEsAdminAndRange(0, pageNumber, MAX_PAGE_SIZE);
     }
@@ -148,7 +165,5 @@ public class ListUsers {
     public void setCurrentPage(int currentPage) {
         this.currentPage = currentPage;
     }
-    
-    
 
 }
