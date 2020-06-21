@@ -96,8 +96,8 @@
                 </div>
 
                 <h:panelGroup styleClass="list-group-item list-group-item-success my-3"
-                              rendered="#{transport.status != null}">
-                    <i class="fas fa-check" /> #{transport.status}
+                              rendered="#{listUsers.status != null}">
+                    <i class="fas fa-check" /> #{listUsers.status}
                 </h:panelGroup>
 
                 <h:form id="form" styleClass="table-responsive">
@@ -147,32 +147,20 @@
 
                 <!-- Pagination -->
                 <h:form>
-                    <nav>
-                        <ul class="pagination justify-content-center">
-                            <c:forEach id="pagination" begin="1" end="#{listUsers.numberOfPages}" var="i">
-                                <c:if test="#{i == listUsers.currentPage}">
-                                    <li class="page-item active">
-                                        <h:commandLink styleClass="page-link" action="#{listUsers.changePage(i)}" >
-                                            #{i}
-                                            <f:ajax render="form:userTable pagination" />
-                                        </h:commandLink>
-                                    </li>
-                                </c:if>
-
-                                <c:if test="#{i != listUsers.currentPage}">
-                                    <li class="page-item">
-                                        <h:commandLink styleClass="page-link" action="#{listUsers.changePage(i)}" >
-                                            #{i}
-                                            <f:ajax render="form:userTable pagination" />
-                                        </h:commandLink>
-                                    </li>
-                                </c:if>
-
-
-                            </c:forEach>
-                        </ul>
-                    </nav>
+                    <ul class="pagination justify-content-center">
+                        <c:forEach begin="1" end="#{listUsers.numberOfPages}" var="i">
+                            <li class="page-item">
+                                <h:commandLink styleClass="page-link" action="#{listUsers.changePage(i)}" >
+                                    #{i}
+                                    <f:ajax render="form:userTable pagination" />
+                                </h:commandLink>
+                            </li>
+                        </c:forEach>
+                    </ul>
                 </h:form>
+                <h:panelGroup layout="block" id="pagination" styleClass="text-center">
+                    Current page: #{listUsers.currentPage}
+                </h:panelGroup>
 
             </main>
         </div>

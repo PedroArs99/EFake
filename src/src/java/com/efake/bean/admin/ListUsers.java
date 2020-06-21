@@ -54,6 +54,14 @@ public class ListUsers {
         
         //Initialize Page 1
         this.changePage(1);
+        
+        
+        //Show Success Message
+        String transportStatus = transportBean.getStatus();
+        if(transportStatus != null){
+            this.status = transportStatus;
+            transportBean.setStatus(null);
+        }
     }
 
     //Bean methods
