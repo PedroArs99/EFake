@@ -3,17 +3,10 @@ package com.efake.bean.producto;
 import com.efake.bean.login.UsuarioBean;
 import com.efake.bean.session.Transport;
 import com.efake.dao.CategoriaFacade;
-import com.efake.dao.KeywordsFacade;
-import com.efake.dao.ProductoFacade;
-import com.efake.dao.ValoracionFacade;
 import com.efake.dto.KeywordsDTO;
 import com.efake.dto.ProductoDTO;
 import com.efake.dto.UsuarioDTO;
 import com.efake.dto.ValoracionDTO;
-import com.efake.entity.Categoria;
-import com.efake.entity.Keywords;
-import com.efake.entity.Producto;
-import com.efake.entity.Usuario;
 import com.efake.entity.Valoracion;
 import com.efake.service.ProductoService;
 import com.efake.service.ValoracionService;
@@ -214,7 +207,6 @@ public class ProductoBean {
     }
     
     
-    
     public String getComentario() {
         return comentario;
     }
@@ -237,7 +229,8 @@ public class ProductoBean {
     
     public String doReview(Integer idProducto, Integer idUsuario){
         this.valoracionService.newRating(idUsuario, idProducto, this.puntuacion, this.comentario, new Date());
-        this.init();
-        return "";
+        
+        
+        return transport.redirectProducto(producto.getId());
     }
 }
