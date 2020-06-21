@@ -89,7 +89,7 @@ public class Valoracion implements Serializable {
         this.fecha = k.getFecha();
         this.cliente = new Usuario(k.getCliente());
         this.comentario = k.getComentario();
-        this.productoValorado = new Producto(k.getProductoValorado());
+        this.productoValorado = new Producto(k.getProductoValorado(),false);
     }
        
 

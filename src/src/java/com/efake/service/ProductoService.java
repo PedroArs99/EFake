@@ -13,7 +13,6 @@ import com.efake.entity.Categoria;
 import com.efake.entity.Producto;
 import com.efake.entity.Subcategoria;
 import com.efake.entity.Usuario;
-import com.efake.entity.Valoracion;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -150,13 +149,13 @@ public class ProductoService {
     }
     
     public void create(ProductoDTO productoDTO){
-       Producto p = new Producto(productoDTO);
+       Producto p = new Producto(productoDTO,false);
 
         productFacade.create(p);
     }
     
     public void edit(ProductoDTO productoDTO){
-       Producto p = new Producto(productoDTO);
+       Producto p = new Producto(productoDTO,false);
 
         productFacade.edit(p);
     }

@@ -118,7 +118,7 @@ public class Producto implements Serializable {
         this.precio = precio;
         this.fecha = fecha;
     }
-    public Producto(ProductoDTO product){
+    public Producto(ProductoDTO product, boolean stopRecursion){
         this.id= product.getId();
         this.nombre = product.getNombre();
         this.precio = product.getPrecio();
@@ -126,7 +126,10 @@ public class Producto implements Serializable {
         this.imagen = product.getImagen();
         this.owner = new Usuario(product.getOwner());
         this.descripcion = product.getDescripcion();
-        this.keywordsList = product.getlistakeywords();
+        if(!stopRecursion){
+            this.keywordsList = product.getlistakeywords();
+        }
+        
         this.subcategoria = new Subcategoria(product.getSubcategoria());
         this.categoria = new Categoria(product.getCategoria());
     }

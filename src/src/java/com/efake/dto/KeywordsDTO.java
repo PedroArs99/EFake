@@ -3,7 +3,6 @@ package com.efake.dto;
 import com.efake.entity.Producto;
 import java.util.ArrayList;
 import java.util.List;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -38,7 +37,8 @@ public class KeywordsDTO {
     public List<Producto> getlistaproducto(){
         List<Producto> res = new ArrayList<>();
         for (ProductoDTO k : this.ProductoList){
-            res.add(new Producto(k));
+            //Break infinite recursion
+            res.add(new Producto(k,true));
         }
        return res;
         

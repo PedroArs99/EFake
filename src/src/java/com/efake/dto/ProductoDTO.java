@@ -164,6 +164,7 @@ public class ProductoDTO {
     public List<Keywords> getlistakeywords(){
         List<Keywords> res = new ArrayList<>();
         for (KeywordsDTO k : this.listaKeywords){
+            // Add this to break infinite recursion
             res.add(new Keywords(k));
         }
        return res;

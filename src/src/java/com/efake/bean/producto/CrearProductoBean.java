@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.efake.bean.producto;
 
 import com.efake.bean.login.UsuarioBean;
@@ -37,11 +32,9 @@ import javax.inject.Inject;
 @Named(value = "crearProductoBean")
 @RequestScoped
 public class CrearProductoBean {
-
-    
     ProductoDTO productoseleccionado;
     @Inject
-    Transport productobean;
+    Transport transport;
     @EJB
     CategoryService categoryservice;
     @EJB
@@ -65,7 +58,7 @@ public class CrearProductoBean {
 
     @PostConstruct
     public void init() {
-        this.productoseleccionado = this.productobean.getProductoSeleccionado();
+        this.productoseleccionado = this.transport.getProductoSeleccionado();
         this.usuariolog = this.usuariobean.getUsuario();
         if (this.productoseleccionado == null) {//to create
             this.isEditar = false;
@@ -78,8 +71,8 @@ public class CrearProductoBean {
             this.keywords = "";
         }
 
-        this.listacategorias = categoryservice.findAll();
-        this.listasubcategoria = subcategoryservice.findAll();
+        this.listacategorias = transport.getListaCategoria();
+        this.listasubcategoria = transport.getListaSubCategoria();
     }
 
     public ProductoDTO getProductoseleccionado() {
@@ -94,7 +87,6 @@ public class CrearProductoBean {
         this.usuariolog = usuariolog;
     }
 
-    
     public void setProductoseleccionado(ProductoDTO productoseleccionado) {
         this.productoseleccionado = productoseleccionado;
     }
@@ -153,10 +145,7 @@ public class CrearProductoBean {
             List<KeywordsDTO> list = new ArrayList<>();
             List<ProductoDTO> lista = new ArrayList<>();
            
-            productoseleccionado.setFecha(new Date());
-            productoseleccionado.setCategoria(categoryservice.find(this.categoria));
-            productoseleccionado.setSubcategoria(subcategoryservice.find(this.subcategoria));
-            productoseleccionado.setOwner(usuariolog);
+            
             productoseleccionado.setListaKeywords(list);
             productoservice.create(productoseleccionado);
             
@@ -207,7 +196,7 @@ public class CrearProductoBean {
             for (int i = 0; i < kwList.size(); i++) {
                 Keywords k = kwList.get(i);
 
-                k.getProductoList().remove(new Producto(productoseleccionado));
+                k.getProductoList().remove(new Producto(productoseleccionado,false));
                 kwList.remove(k);
 
                 keywordservice.edit(k.getDTO());
@@ -229,6 +218,8 @@ public class CrearProductoBean {
             //Save changes on PRODUCT Table
             productoservice.edit(productoseleccionado);
         }
+        
+        
         return "index";
     }
 
