@@ -13,7 +13,7 @@ import javax.ejb.Stateless;
 
 /**
  *
- * @author JuMed
+ * @author Juan
  */
 @Stateless
 public class KeywordService {

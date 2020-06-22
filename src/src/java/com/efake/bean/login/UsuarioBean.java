@@ -12,10 +12,7 @@ import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Date;
-import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.ejb.EJBException;
-import javax.inject.Inject;
 
 /**
  *
