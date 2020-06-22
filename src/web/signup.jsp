@@ -135,10 +135,8 @@
             <button class="btn btn-lg btn-primary btn-block" type="submit" >Sign up</button><br/>
             <a href="login.jsp" type="submit">I already have an account</a><br/><br/>
 
-            <p>By clicking
-                <em>Sign up</em> you agree to our
-                terms of service
-            </p>
+            <p>By clicking <em>Sign up</em> you agree to our terms of service</p>
+            
             <%} else {%>
             <h1 class="h3 mb-3 font-weight-normal">Your profile</h1>
             <% if (status != null) {%>
