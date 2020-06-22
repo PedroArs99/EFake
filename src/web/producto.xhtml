@@ -47,8 +47,8 @@
                     </h:form>
                 </div>
 
-                <h4>Current price: <span>#{productoBean.precio} &euro;</span></h4>
-                <h5>Seller:
+                <h4> #{intern['productPage.product.price']} <span>#{productoBean.precio} &euro;</span></h4>
+                <h5>#{intern['productPage.product.seller']}
                     <span>#{productoBean.owner.nombre}  #{productoBean.owner.apellidos}</span>
                 </h5>
                 <p class="product-description">#{productoBean.descripcion} </p>
@@ -57,8 +57,8 @@
                 <!--    <%  if (user != null && (user.equals(p.getOwner()) || user.getEsAdmin() == 1)) {%>-->
                 <h:form>
                     <div class="action">
-                        <h:commandButton id="modify-button" value="Modify" class="btn btn-primary mr-3" action="#{transport.modifyProcut(productoBean.id)}"/>
-                        <h:commandButton id="delete-button" value="Delete" class="btn btn-primary" action="#{transport.deleteProduct(productoBean.id)}"/>
+                        <h:commandButton id="modify-button" value="#{intern['productPage.product.modify']}" class="btn btn-primary mr-3" action="#{transport.modifyProcut(productoBean.id)}"/>
+                        <h:commandButton id="delete-button" value="#{intern['productPage.product.delete']}" class="btn btn-primary" action="#{transport.deleteProduct(productoBean.id)}"/>
                     </div>
                 </h:form>
                 <!--   <% }%>-->
