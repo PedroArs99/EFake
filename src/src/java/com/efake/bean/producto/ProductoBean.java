@@ -2,7 +2,6 @@ package com.efake.bean.producto;
 
 import com.efake.bean.login.UsuarioBean;
 import com.efake.bean.session.Transport;
-import com.efake.dao.CategoriaFacade;
 import com.efake.dto.KeywordsDTO;
 import com.efake.dto.ProductoDTO;
 import com.efake.dto.UsuarioDTO;
