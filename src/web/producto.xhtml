@@ -120,7 +120,12 @@
                         </c:if>
 
                         <h:panelGroup layout="block" styleClass="my-3">
-                            <h:outputText styleClass="alert alert-danger margen-boton" value="Already rated" rendered="#{productoBean.valorado}"/>
+                            <c:if test="#{productoBean.user == null}">
+                                <h:outputText styleClass="alert alert-danger margen-boton" value="Sign In to Review"/>
+                            </c:if>
+                            <c:if test="#{productoBean.user != null}">
+                                <h:outputText styleClass="alert alert-danger margen-boton" value="Already rated" rendered="#{productoBean.valorado}"/>
+                            </c:if>
                         </h:panelGroup>
 
                     </div>

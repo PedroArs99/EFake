@@ -108,7 +108,7 @@ public class ProductoService {
         return formatearDecimales(cont / (double) (ratings.get(0)));
     }
 
-    private double formatearDecimales(double numero) {
+    public double formatearDecimales(double numero) {
         return Math.round(numero * Math.pow(10, 2)) / Math.pow(10, 2);
     }
 
