@@ -100,5 +100,6 @@ public class ProductoCategoriaBean {
     
     public void doFiltrarBySubcategoria(SubCategoriaDTO subcategoria){
         this.listaProductos = this.productoService.findBySubCategoria(subcategoria);
-    }   
+    }
+    
 }

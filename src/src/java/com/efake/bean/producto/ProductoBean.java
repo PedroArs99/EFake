@@ -39,8 +39,6 @@ public class ProductoBean {
     @EJB
     private ValoracionService valoracionService;
     
-    @EJB
-    private CategoriaFacade categoriafacade;
     
     private ProductoDTO producto;
     private double mediaValoraciones;
@@ -54,6 +52,7 @@ public class ProductoBean {
     private Double precio;
     private Integer id;
     private UsuarioDTO owner;
+    private UsuarioDTO user;
  
     private String comentario;
     private Integer puntuacion;
@@ -65,6 +64,10 @@ public class ProductoBean {
     public void init(){
         Map<Integer, Integer> ratingsDictionary;
         producto = transport.getProductoSeleccionado();
+        
+        if(this.usuarioBean.getUsuario() != null){
+            user = this.usuarioBean.getUsuario();
+        }
             
         if(!producto.getListaValoraciones().isEmpty()){
             listaValoraciones = producto.getListaValoraciones();
@@ -93,12 +96,12 @@ public class ProductoBean {
         descripcion = producto.getDescripcion();
         nombre = producto.getNombre();
         listakeywords = producto.getListaKeywords();
-        precio = producto.getPrecio();
+        precio = this.productoService.formatearDecimales(producto.getPrecio());
         id = producto.getId();
         owner = producto.getOwner();
         
     }
-    
+       
     public Object[] createDummyArray(int size){
         return new Object[size];
     }
@@ -223,7 +226,15 @@ public class ProductoBean {
     public void setPuntuacion(Integer puntuacion) {
         this.puntuacion = puntuacion;
     }
-    
+
+    public UsuarioDTO getUser() {
+        return user;
+    }
+
+    public void setUser(UsuarioDTO user) {
+        this.user = user;
+    }
+        
     public String doCancel(){
         return "producto?faces-redirect=true";
     }
