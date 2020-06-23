@@ -49,8 +49,8 @@
 
                     <h:form class="form-inline my-2 my-lg-0">
                         <div class="form-group">
-                            <h:inputText class="form-control mr-3" value="#{transport.search}" a:placeholder="Search" a:type="search" />
-                            <h:commandButton value="Search" class="btn btn-primary my-2 my-sm-0" action="#{productoBuscarBean.doBuscar()}" />
+                            <h:inputText class="form-control mr-3" value="#{transport.search}" a:placeholder="#{intern['nav.buscar']}" a:type="search" />
+                            <h:commandButton value="#{intern['nav.buscar']}" class="btn btn-primary my-2 my-sm-0" action="#{productoBuscarBean.doBuscar()}" />
                         </div>
                     </h:form>
                 </ul>
