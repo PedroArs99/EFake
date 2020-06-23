@@ -98,11 +98,11 @@
                 <div class="alert alert-danger">#{signUpBean.status}</div>
             </c:if>
 
-            <h:inputText value="#{signUpBean.usuario.nombre}" class="form-control" a:placeholder="#{intern['signup.nombre']}" a:autofocus="true" required="true"/>
-            <h:inputText value="#{signUpBean.usuario.apellidos}" class="form-control" a:placeholder="#{intern['signup.apellido']}" required="true"/><br/>
+            <h:inputText value="#{signUpBean.usuario.nombre}" class="form-control" a:placeholder="#{intern['signup.nombre']}" a:autofocus="true" required="true"><f:validateLength minimum="1" maximum="45"/></h:inputText>
+            <h:inputText value="#{signUpBean.usuario.apellidos}" class="form-control" a:placeholder="#{intern['signup.apellido']}" required="true"><f:validateLength minimum="1" maximum="100"/></h:inputText><br/>
 
 
-            <h:inputText value="#{signUpBean.usuario.correo}" class="form-control" a:placeholder="#{intern['signup.correo']}" required="true"/>
+            <h:inputText value="#{signUpBean.usuario.correo}" class="form-control" a:placeholder="#{intern['signup.correo']}" required="true"><f:validateLength minimum="1" maximum="100"/></h:inputText>
 
             <c:if test="#{usuarioBean.usuario == null}">
                 <h:inputSecret value="#{signUpBean.contrasena}" class="form-control" a:placeholder="#{intern['signup.contrasena']}" required="true"/><br/>
@@ -115,7 +115,7 @@
                 <h:outputText value="#{signUpBean.usuario.edad}" class="form-control" a:readonly="true" style="text-align:left"/>
             </c:if>
 
-            <h:inputText value="#{signUpBean.usuario.telefono}" class="form-control" a:placeholder="#{intern['signup.contrasena']}" required="true"/><br/>
+            <h:inputText value="#{signUpBean.usuario.telefono}" class="form-control" a:placeholder="#{intern['signup.telefono']}"><f:validateLength maximum="13"/></h:inputText><br/>
 
             <c:if test="#{usuarioBean.usuario == null}">
                 <h:commandButton class="btn btn-lg btn-primary btn-block" value="#{intern['signup.botonRegistrar']}" action="#{signUpBean.doSignUp()}"/><br/>
