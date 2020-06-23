@@ -38,13 +38,13 @@
                             <li class="nav-item mb-2">
                                 <h:link styleClass="nav-link btn btn-primary text-light"
                                         outcome="userList">
-                                    <i class="fas fa-users" /> User List
+                                    <i class="fas fa-users" /> #{intern['dashboard.userList']}
                                 </h:link>
                             </li>
                             <li class="nav-item mb-2">
                                 <h:link styleClass="nav-link btn btn-primary text-light"
                                         outcome="productList">
-                                    <i class="fas fa-boxes" /> Product List
+                                    <i class="fas fa-boxes" /> #{intern['dashboard.productList']}
                                 </h:link>
                             </li>
                         </ul>
@@ -58,7 +58,7 @@
                                     <h:commandLink id="global-stats"
                                                    styleClass="nav-link btn btn-primary text-light w-100"
                                                    action="#{stats.drawGlobalStats()}">
-                                        <i class="fas fa-chart-bar"></i> Global Stats
+                                        <i class="fas fa-chart-bar"></i> #{intern['dashboard.globalStats']}
                                         <f:ajax render="barChart" />
                                     </h:commandLink>
                                 </h:form>
@@ -68,7 +68,7 @@
                                     <h:commandLink id="today-stats"
                                                    styleClass="nav-link btn btn-primary text-light w-100"
                                                    action="#{stats.drawTodayStats()}">
-                                        <i class="fas fa-clock"></i> Today Stats
+                                        <i class="fas fa-clock"></i> #{intern['dashboard.todayStats']}
                                         <f:ajax render="barChart" />
                                     </h:commandLink>
                                 </h:form>
@@ -78,7 +78,7 @@
                                     <h:commandLink id="today-stats"
                                                    styleClass="nav-link btn btn-primary text-light w-100"
                                                    action="#{stats.drawMonthlyUserStats()}">
-                                        <i class="fas fa-calendar"></i> Monthly Stats
+                                        <i class="fas fa-calendar"></i> #{intern['dashboard.monthlyStats']}
                                         <f:ajax render="barChart" />
                                     </h:commandLink>
                                 </h:form>
@@ -87,7 +87,7 @@
                         <div id="monthly-panel" class="d-none">
                             <h6 
                                 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-                                Monthly Stats
+                                #{intern['dashboard.monthlyStats']}
                             </h6>
                             <ul class="nav flex-column">
                                 <li class="nav-item mb-2">
@@ -95,7 +95,7 @@
                                         <h:commandLink
                                                        styleClass="nav-link btn btn-secondary text-light w-100"
                                                        action="#{stats.drawMonthlyUserStats()}">
-                                            <i class="fas fa-chart-line"></i> Users Logged In
+                                            <i class="fas fa-chart-line"></i> #{intern['dashboard.usersLoggedIn']}
                                             <f:ajax render="barChart" />
                                         </h:commandLink>
                                     </h:form>
@@ -105,7 +105,7 @@
                                         <h:commandLink
                                                        styleClass="nav-link btn btn-secondary text-light w-100"
                                                        action="#{stats.drawMonthlyNewProductStats()}">
-                                            <i class="fas fa-chart-line"></i> New Products
+                                            <i class="fas fa-chart-line"></i> #{intern['dashboard.newProducts']}
                                             <f:ajax render="barChart" />
                                         </h:commandLink>
                                     </h:form>
@@ -115,7 +115,7 @@
                                         <h:commandLink
                                                        styleClass="nav-link btn btn-secondary text-light w-100"
                                                        action="#{stats.drawMonthlyRatingStats()}">
-                                            <i class="fas fa-chart-line"></i> New Ratings
+                                            <i class="fas fa-chart-line"></i> #{intern['dashboard.newRatings']}
                                             <f:ajax render="barChart" />
                                         </h:commandLink>
                                     </h:form>

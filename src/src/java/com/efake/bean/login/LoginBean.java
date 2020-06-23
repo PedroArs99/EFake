@@ -5,12 +5,8 @@
  */
 package com.efake.bean.login;
 
-import com.efake.dto.UsuarioDTO;
 import com.efake.service.UsuarioService;
 import java.io.Serializable;
-import java.util.Arrays;
-import java.util.Date;
-import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
