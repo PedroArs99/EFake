@@ -49,7 +49,7 @@ public class ListProducts {
     //Filters
     private String nameFilter;
     private Date dateFilter;
-    private CategoriaDTO categoryFilter;
+    private Integer categoryIdFilter;
     private SubCategoriaDTO subcategoryFilter;
     private String ownerEmailFilter;
 
@@ -93,7 +93,10 @@ public class ListProducts {
     }
 
     public void filterProducts() {
-        this.productList = productService.findByMultipleFilters(nameFilter, dateFilter);       
+        CategoriaDTO categoryFilter = new CategoriaDTO();
+        categoryFilter.setId(this.categoryIdFilter);
+        
+        this.productList = productService.findByMultipleFilters(nameFilter, dateFilter,categoryFilter);       
     }
 
     public void changePage(int pageNumber) {
@@ -147,13 +150,14 @@ public class ListProducts {
         this.dateFilter = dateFilter;
     }
 
-    public CategoriaDTO getCategoryFilter() {
-        return categoryFilter;
+    public Integer getCategoryIdFilter() {
+        return categoryIdFilter;
     }
 
-    public void setCategoryFilter(CategoriaDTO categoryFilter) {
-        this.categoryFilter = categoryFilter;
+    public void setCategoryIdFilter(Integer categoryIdFilter) {
+        this.categoryIdFilter = categoryIdFilter;
     }
+
 
     public SubCategoriaDTO getSubcategoryFilter() {
         return subcategoryFilter;

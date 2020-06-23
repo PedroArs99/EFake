@@ -120,7 +120,7 @@ public class ProductoFacade extends AbstractFacade<Producto> {
         return res;
     }
 
-    public List<Producto> findByMultipleFilters(String name, Date date) {
+    public List<Producto> findByMultipleFilters(String name, Date date, Categoria category) {
         //Create Criteria Builder
         CriteriaBuilder cb = this.getEntityManager().getCriteriaBuilder();
 
@@ -150,6 +150,19 @@ public class ProductoFacade extends AbstractFacade<Producto> {
             }
 
         }
+        
+        //3. By category
+        if (category != null) {
+            Predicate categoryFilter = cb.equal(allProducts.get("categoria"), category);
+
+            if (allConditions == null) {
+                allConditions = categoryFilter;
+            } else {
+                allConditions = cb.and(allConditions, categoryFilter);
+            }
+
+        }
+        
         
         //Dump query to DB
         query.select(allProducts).where(allConditions);
