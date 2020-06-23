@@ -39,7 +39,7 @@
                                         <label>Name</label>
                                         <h:inputText styleClass="form-control" id="name" value="#{listProducts.nameFilter}">
                                             <f:ajax render="form:productList" event="keyup" listener="#{listProducts.filterProducts()}" 
-                                                    execute="name date category" />
+                                                    execute="name date category email" />
                                         </h:inputText>
                                     </div>
                                 </li>
@@ -49,7 +49,7 @@
                                         <label>Date</label>
                                         <h:inputText styleClass="form-control" id="date" value="#{listProducts.dateFilter}">
                                             <f:ajax render="form:productList" event="keyup" listener="#{listProducts.filterProducts()}" 
-                                                    execute="name date category" />
+                                                    execute="name date category email" />
                                             <f:convertDateTime pattern="dd.MM.yyyy" />
                                         </h:inputText>
                                     </div>
@@ -64,17 +64,19 @@
                                             <f:selectItems value="#{transport.listaCategoria}" var="category"
                                                            itemLabel="#{category.nombre}" itemValue="#{category.id}"/>
                                             <f:ajax render="form:productList" listener="#{listProducts.filterProducts()}" 
-                                                    execute="name date category" />
+                                                    execute="name date category email" />
                                         </h:selectOneMenu>
 
                                     </div>
                                 </li>
 
+
                                 <li class="nav-item ml-3">
                                     <div class="form-group">
                                         <label>Owner Email</label>
-                                        <h:inputText styleClass="form-control" id="surname" value="#{listProducts.ownerEmailFilter}">
-
+                                        <h:inputText styleClass="form-control" id="email" value="#{listProducts.ownerEmailFilter}">
+                                            <f:ajax render="form:productList" event="keyup" listener="#{listProducts.filterProducts()}" 
+                                                    execute="name date category email" />
                                         </h:inputText>
                                     </div>
                                 </li>
@@ -125,12 +127,7 @@
                             </h:column>
 
                             <h:column>
-                                <f:facet name="header">Subcategory</f:facet>
-                                    #{product.subcategoria.nombre}
-                            </h:column>
-
-                            <h:column>
-                                <f:facet name="header">Seller</f:facet>
+                                <f:facet name="header">Owner</f:facet>
                                     #{product.owner.correo}
                             </h:column>
                             <h:column>

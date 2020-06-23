@@ -120,7 +120,7 @@ public class ProductoFacade extends AbstractFacade<Producto> {
         return res;
     }
 
-    public List<Producto> findByMultipleFilters(String name, Date date, Categoria category) {
+    public List<Producto> findByMultipleFilters(String name, Date date, Categoria category, String ownerEmail) {
         //Create Criteria Builder
         CriteriaBuilder cb = this.getEntityManager().getCriteriaBuilder();
 
@@ -159,6 +159,17 @@ public class ProductoFacade extends AbstractFacade<Producto> {
                 allConditions = categoryFilter;
             } else {
                 allConditions = cb.and(allConditions, categoryFilter);
+            }
+
+        }
+        
+        if (ownerEmail != null) {
+            Predicate ownerFilter = cb.like(allProducts.get("owner").get("correo"), '%'+ ownerEmail +'%');
+
+            if (allConditions == null) {
+                allConditions = ownerFilter;
+            } else {
+                allConditions = cb.and(allConditions, ownerFilter);
             }
 
         }

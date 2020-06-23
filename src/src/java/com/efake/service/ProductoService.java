@@ -158,10 +158,10 @@ public class ProductoService {
         return dtoList;
     }
     
-    public List<ProductoDTO> findByMultipleFilters(String name, Date date, CategoriaDTO categoryDTO){
+    public List<ProductoDTO> findByMultipleFilters(String name, Date date, CategoriaDTO categoryDTO, String ownerEmail){
         Categoria category = this.categoryFacade.find(categoryDTO.getId());
         
-        List<Producto> lista = this.productFacade.findByMultipleFilters(name, date, category);
+        List<Producto> lista = this.productFacade.findByMultipleFilters(name, date, category, ownerEmail);
         List<ProductoDTO> dtoList = convertToDTO(lista);
 
         return dtoList;
