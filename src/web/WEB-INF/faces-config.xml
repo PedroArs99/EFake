@@ -11,5 +11,8 @@
             <base-name>internacionalization.Efake</base-name>
             <var>intern</var>
         </resource-bundle>
+        <message-bundle>
+            validation.customMessages
+        </message-bundle>
     </application>
 </faces-config>
