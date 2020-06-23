@@ -75,7 +75,8 @@ public class ProductoFacade extends AbstractFacade<Producto> {
         
         q= this.getEntityManager().createNamedQuery("Producto.findAll");
         q.setMaxResults(pageSize);
-        q.setFirstResult(page*pageSize);
+        //Pages are 1 indexed but results are 0 indexed
+        q.setFirstResult((page - 1 )*pageSize);
         productList = q.getResultList();
         
         return productList;
