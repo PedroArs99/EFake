@@ -32,7 +32,7 @@ public class ListProducts {
     private Transport transportBean;
     @Inject
     private UsuarioBean sessionBean;
-    
+
     //Services
     @EJB
     private ProductoService productService;
@@ -40,7 +40,7 @@ public class ListProducts {
     //Attributes
     private List<ProductoDTO> productList;
     private String status;
-    
+
     //Pagination
     private final int MAX_PAGE_SIZE = 10;
     private int numberOfPages;
@@ -52,16 +52,12 @@ public class ListProducts {
     private CategoriaDTO categoryFilter;
     private SubCategoriaDTO subcategoryFilter;
     private String ownerEmailFilter;
-    
 
     //Constructor
-    public ListProducts() {
-    }
-
     @PostConstruct
     public void init() {
         UsuarioDTO sessionUser = sessionBean.getUsuario();
-        
+
         if (sessionUser == null || sessionUser.getEsAdmin() == 0) {
             try {
                 FacesContext.getCurrentInstance().getExternalContext().redirect("../login.jsf");
@@ -95,17 +91,17 @@ public class ListProducts {
 
         return "productList.jsf?faces-redirect=true";
     }
-    
-    public void filterProducts(){
-        
+
+    public void filterProducts() {
+        this.productList = productService.findByMultipleFilters(nameFilter, dateFilter);       
     }
-    
+
     public void changePage(int pageNumber) {
         currentPage = pageNumber;
-        
+
         productList = productService.findAllInRange(pageNumber, MAX_PAGE_SIZE);
     }
-    
+
     //Getter & Setters
     public List<ProductoDTO> getProductList() {
         return productList;
@@ -174,5 +170,5 @@ public class ListProducts {
     public void setOwnerEmailFilter(String ownerEmailFilter) {
         this.ownerEmailFilter = ownerEmailFilter;
     }
-    
+
 }

@@ -14,6 +14,7 @@ import com.efake.entity.Producto;
 import com.efake.entity.Subcategoria;
 import com.efake.entity.Usuario;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -152,6 +153,13 @@ public class ProductoService {
 
     public List<ProductoDTO> findByFilter(String filter) {
         List<Producto> lista = this.productFacade.findByFilter(filter);
+        List<ProductoDTO> dtoList = convertToDTO(lista);
+
+        return dtoList;
+    }
+    
+    public List<ProductoDTO> findByMultipleFilters(String name, Date date){
+        List<Producto> lista = this.productFacade.findByMultipleFilters(name, date);
         List<ProductoDTO> dtoList = convertToDTO(lista);
 
         return dtoList;
