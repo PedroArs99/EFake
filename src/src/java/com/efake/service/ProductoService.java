@@ -1,6 +1,7 @@
 package com.efake.service;
 
 import com.efake.dao.CategoriaFacade;
+import com.efake.dao.KeywordsFacade;
 import com.efake.dao.ProductoFacade;
 import com.efake.dao.SubcategoriaFacade;
 import com.efake.dao.UsuarioFacade;
@@ -10,6 +11,7 @@ import com.efake.dto.SubCategoriaDTO;
 import com.efake.dto.UsuarioDTO;
 import com.efake.dto.ValoracionDTO;
 import com.efake.entity.Categoria;
+import com.efake.entity.Keywords;
 import com.efake.entity.Producto;
 import com.efake.entity.Subcategoria;
 import com.efake.entity.Usuario;
@@ -18,6 +20,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.StringTokenizer;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
@@ -41,6 +44,9 @@ public class ProductoService {
 
     @EJB
     private UsuarioFacade usuarioFacade;
+    
+    @EJB
+    private KeywordsFacade keywordFacade;
 
     //Tool
     private List<ProductoDTO> convertToDTO(List<Producto> listaProducto) {
@@ -191,6 +197,47 @@ public class ProductoService {
         Producto p = new Producto(productoSeleccionado, false);
 
         productFacade.remove(p);
+    }
+
+    public void manageKeywords(String keywordList, ProductoDTO toEditProduct) {
+        //Get Product
+        Producto product = this.productFacade.find(toEditProduct.getId());
+        
+        //Remove all asociations between product and it's kw
+        List<Keywords> productKws = product.getKeywordsList();
+        
+        while(!productKws.isEmpty()){
+           Keywords kw = productKws.get(0);
+           
+           //Remove kw from product
+           productKws.remove(kw);
+           
+           //Remove product from kw
+           kw.getProductoList().remove(product);
+           
+           //Merge kw state with db
+           keywordFacade.edit(kw);
+        }
+        
+        //Get & insert new keywords
+        StringTokenizer st = new StringTokenizer(keywordList, ",");
+
+        while (st.hasMoreElements()) {
+            String nextToken = (String) st.nextElement();
+            Keywords kw = this.keywordFacade.findOrCreate(nextToken);
+            
+            //Add product to kw
+            kw.getProductoList().add(product);
+            
+            //add kw to product
+            productKws.add(kw);
+            
+            this.keywordFacade.edit(kw);
+        }
+        
+        
+        productFacade.edit(product);
+        
     }
 
 }

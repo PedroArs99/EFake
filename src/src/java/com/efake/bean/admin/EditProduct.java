@@ -90,6 +90,7 @@ public class EditProduct {
         }
         
         this.productService.edit(toEditProduct);
+        this.productService.manageKeywords(keywordList, toEditProduct);
         this.transportBean.setProductoSeleccionado(null);
         
         return "productList?faces-redirect=true";

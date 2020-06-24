@@ -1,6 +1,7 @@
 package com.efake.dao;
 
 import com.efake.entity.Keywords;
+import java.util.ArrayList;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -30,6 +31,7 @@ public class KeywordsFacade extends AbstractFacade<Keywords> {
         
         if(k == null){
             k = new Keywords(kw);
+            k.setProductoList(new ArrayList<>());
             this.create(k);
         }
         
