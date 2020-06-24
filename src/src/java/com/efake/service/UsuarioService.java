@@ -17,6 +17,7 @@ import javax.ejb.Stateless;
 /**
  *
  * @author PedroArenas
+ * @authoe Laura Rosón (create, edit, findByCorreo, esMenor, calcularEdad)
  */
 @Stateless
 public class UsuarioService {

@@ -27,6 +27,7 @@ import javax.xml.bind.annotation.XmlTransient;
 /**
  *
  * @author PedroArenas
+ * @author Laura Rosón (arreglos en el getDTO())
  */
 @Entity
 @Table(name = "USUARIO")
