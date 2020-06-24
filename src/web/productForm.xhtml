@@ -1,8 +1,7 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <!--
-    Author: 
-            Juan Medina Moya
+    Author: Juan Medina Moya
 -->
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
@@ -10,16 +9,21 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <h:head>
-         <title>EFake</title>
-        <meta charset="UTF-8"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"/>
-        <link rel="stylesheet" href="/efake/css/styles.css"/>
-        <style>
+        <h:head>
+            <title>Efake</title>
+            <meta charset="UTF-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-            .contact-form .form-control{
-                border-radius:1rem;
-            }
+            <!--Favicon-->
+            <link rel="shortcut icon" href="/efake/img/favicon.png" type="image/png" />
+            <!--AOS-->
+            <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+            <!-- Bootstrap Css-->
+            <h:outputStylesheet library="css" name="bootstrap.css" />
+            <!-- Own Stylesheets --> 
+            <h:outputStylesheet library="css" name="styles.css" />
+        </h:head>
+        <style>
             .contact-form form{
                 padding: 14%;
             }
@@ -51,7 +55,9 @@
                 background-color: #0062cc;
                 border: none;
                 cursor: pointer;
-            }       
+            } 
+            
+            
 
         </style>
     </h:head>
@@ -59,15 +65,16 @@
         <efake:nav/>
         <div class="container contact-form mt-5">
             <h:form>
-                    <c:if test="#{crearProductoBean.isEditar}">
-                           <h3 class="text-center">#{intern['productForm.title.edit']}</h3>
-                    </c:if>
+                <c:if test="#{crearProductoBean.isEditar}">
+                    <h3 class="text-center">#{intern['productForm.title.edit']}</h3>
+                </c:if>
 
-                     <c:if test="#{crearProductoBean.isEditar==false}">
-                        <h3 class="text-center">#{intern['productForm.title.sell']}</h3>
-                    </c:if>
-                <div class="row">
-                    <div  id="first-stage" class="col-md-6 mx-auto">
+                <c:if test="#{crearProductoBean.isEditar==false}">
+                    <h3 class="text-center">#{intern['productForm.title.sell']}</h3>
+                </c:if>
+
+                <div class="row justify-content-md-center">
+                    <div class="col-md-6">
                         <div class="form-group">
                             <h:outputText value="#{intern['productForm.product.name']}"/>
                             <h:inputText class="form-control" value="#{crearProductoBean.productoseleccionado.nombre}" />
@@ -84,50 +91,47 @@
                         </div> 
 
                         <div class="form-group">
-                            <h:outputText value="#{intern['productForm.product.description']}"/>
-                            <h:inputTextarea value="#{crearProductoBean.productoseleccionado.descripcion}" class="form-control"/>
+                            <h:outputText value="#{intern['productForm.product.keywords']}"/>
+                            <h:inputText id="keywords" class="form-control" value="#{crearProductoBean.keywords}"/>
                         </div>
+                    </div>
+
+                    <div class="col-md-6">
                         <div class="form-group">
-                            <h:outputText value="#{intern['productForm.producto.categories']} "/><br/>
-                            <h:selectOneMenu value = "#{crearProductoBean.categoria}">
-                                
+                            <h:outputText value="#{intern['productForm.producto.categories']}"/>
+                            <h:selectOneMenu value = "#{crearProductoBean.categoria}" styleClass="form-control">
                                 <f:selectItems value="#{crearProductoBean.listacategorias}" var="cat" itemValue="#{cat.id}" itemLabel="#{cat.nombre}"/>
                             </h:selectOneMenu>
                         </div>
                         <div class="form-group">
-                            <h:outputText value="#{intern['productForm.product.subcategories']} "/><br/>
-                            <h:selectOneMenu value="#{crearProductoBean.subcategoria}" >
+                            <h:outputText value="#{intern['productForm.product.subcategories']} "/>
+                            <h:selectOneMenu value="#{crearProductoBean.subcategoria}" styleClass="form-control">
                                 <f:selectItem itemValue="" itemLabel="-"></f:selectItem>
                                 <f:selectItems value="#{crearProductoBean.listasubcategoria}" var="cat" itemValue="#{cat.id}" itemLabel="#{cat.nombre}"/>
                             </h:selectOneMenu>
                         </div>
-                          <div class="form-group">
-                             <h:outputText value="#{intern['productForm.product.keywords']}"/>
-                             <h:inputText id="keywords" class="form-control" value="#{crearProductoBean.keywords}"/>
-                        </div>
-
-
-                    </div>
-
-                    <div id="second-stage" class="col-md-6 mx-auto d-none">        
-                      
-                    </div>
-                        <div class="form-group">           
-                            <h:commandButton id="send-button" value="#{intern['productForm.button.send']}" action="#{crearProductoBean.doEditar()}" class="btn btn-primary mx-auto"></h:commandButton>
-                        </div>
                         
-                    
+                        <div class="form-group">
+                            <h:outputText value="#{intern['productForm.product.description']}"/>
+                            <h:inputTextarea style="resize: none" rows="5" value="#{crearProductoBean.productoseleccionado.descripcion}" class="form-control"/>
+                        </div>
                     </div>
+
+                    <div class="form-group col-md-6">           
+                        <h:commandButton id="send-button" value="#{intern['productForm.button.send']}" action="#{crearProductoBean.doEditar()}" class="btn btn-primary mx-auto col-md-12" />
+                    </div>
+
+                </div>
 
             </h:form>
-         </div>
-         <efake:footer />
+        </div>
+        <efake:footer />
 
         <!--Bootstrap -->
         <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-        
+
         <!-- Own Scripts -->
         <script src="/efake/js/createProduct.js"></script>
     </h:body>
