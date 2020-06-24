@@ -20,8 +20,7 @@ import javax.ejb.EJB;
  */
 @Named(value = "transport")
 @SessionScoped
-public class Transport implements Serializable {
-
+public class Transport implements Serializable {    
     //Services
     @EJB
     private CategoryService categoriaService;
@@ -117,11 +116,11 @@ public class Transport implements Serializable {
 
     public String redirectProducto(Integer idProducto) {
         productoSeleccionado = this.productoService.findById(idProducto);
-
+        
         return "producto?faces-redirect=true";
     }
 
-    public String redirectEditUser(UsuarioDTO user) {
+    public String redirectEditUser(UsuarioDTO user){
         toEditUser = user;
 
         return "editUser?faces-redirect=true";

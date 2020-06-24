@@ -137,7 +137,10 @@
                                 </h:commandLink>
                             </h:column>
                             <h:column>
-                                <i class="fas fa-edit"></i>
+                                <h:commandLink styleClass="bg-transparent border-0"
+                                               action="#{listProducts.redirectProducto(product)}">
+                                    <i class="fas fa-edit"></i>
+                                </h:commandLink>
                             </h:column>
                         </h:dataTable>
                     </h:form>

@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:efake="http://java.sun.com/jsf/composite/components"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <h:head>
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+            <title>Efake | Edit Product Info </title>
+
+            <!--Favicon-->
+            <link rel="shortcut icon" href="/efake/img/favicon.png" type="image/png" />
+            <!-- Bootstrap Css-->
+            <h:outputStylesheet library="css" name="bootstrap.css" />
+            <!-- Own Stylesheets --> 
+            <h:outputStylesheet library="css" name="styles.css" />
+        </h:head>
+    </h:head>
+    <h:body class="container d-flex flex-column text-center">
+        <h:form styleClass="my-5" id="form">
+            <img class="d-inline-block align-top" src="https://raw.githubusercontent.com/PedroArs99/EFake/master/img/logo.png" alt="" width="72" height="30"/><br/>
+            <h1 class="h3 mb-3 font-weight-normal">
+                <h:outputText value="Edit Product Info"/>
+            </h1>
+            
+            <div class="row">
+                
+                <div class="col-md-6">
+                    
+                    <h:inputHidden value="#{editProduct.toEditProduct.id}" />
+                    
+                    <div class="form-group">
+                        <h:inputText id="name" value="#{editProduct.toEditProduct.nombre}" class="form-control" pt:placeholder="Name" pt:autofocus="true" required="true">
+                            <f:validateLength minimum="1" maximum="45" />
+                        </h:inputText>
+                        <h:message for="name" styleClass="text-danger" />
+                    </div>
+                    
+                    <div class="form-group">
+                        <h:inputTextarea id="description" value="#{editProduct.toEditProduct.descripcion}" class="form-control" pt:placeholder="Description" required="true"
+                                         style="resize: none" pt:rows="10"/>
+                        <h:message for="description" styleClass="text-danger" />
+                    </div>
+                    
+                    <div class="form-group">
+                        <h:inputText id="price" value="#{editProduct.toEditProduct.precio}" class="form-control" pt:placeholder="Price" required="true">
+                            <f:validateDoubleRange minimum="0.0" />
+                        </h:inputText>
+                        <h:message for="price" styleClass="text-danger" />
+                    </div>
+                    
+                    <div class="form-group">
+                        <h:inputText id="image" value="#{editProduct.toEditProduct.imagen}" class="form-control" pt:placeholder="Image" required="true" />
+                        <h:message for="image" styleClass="text-danger" />
+                    </div>
+                    
+                </div>
+                <div class="col-md-6">
+                    <!--
+                    <div class="form-group">
+                        <h:inputText id="kw" value="#{editProduct.keywordList}" class="form-control" pt:placeholder="Keywords" required="true" />                      
+                    </div>
+                    -->
+                    
+                    <div class="form-group">
+                        <h:selectOneMenu styleClass="form-control" id="category" value="#{editProduct.selectedCategory}">
+                            <f:selectItems value="#{transport.listaCategoria}" var="category"
+                                           itemLabel="#{category.nombre}" itemValue="#{category.id}"/>
+                        </h:selectOneMenu>
+                    </div>
+                    
+                    <h:panelGroup styleClass="form-group" id="subCategorySelector">
+                        <h:selectOneMenu styleClass="form-control" value="#{editProduct.selectedSubcategory}" >
+                            <f:selectItem itemLabel="-" itemValue="-1" />
+                            <f:selectItems value="#{transport.listaSubCategoria}" var="subcategory"
+                                           itemLabel="#{subcategory.nombre}" itemValue="#{subcategory.id}" />
+                        </h:selectOneMenu>
+                    </h:panelGroup>
+                </div> 
+                
+            </div>
+                    
+            <h:commandButton value="Save Changes" styleClass="btn btn-lg btn-block btn-primary" action="#{editProduct.saveChanges()}" />
+
+            <h:commandButton value="Discard Changes" styleClass="btn btn-lg btn-block btn-secondary" action="#{editProduct.discardChanges()}" />
+        </h:form>
+
+        <efake:footer />
+    </h:body>
+</html>
+

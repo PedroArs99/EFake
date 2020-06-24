@@ -4,7 +4,6 @@ import com.efake.bean.login.UsuarioBean;
 import com.efake.bean.session.Transport;
 import com.efake.dto.CategoriaDTO;
 import com.efake.dto.ProductoDTO;
-import com.efake.dto.SubCategoriaDTO;
 import com.efake.dto.UsuarioDTO;
 import com.efake.service.ProductoService;
 import java.util.Date;
@@ -103,7 +102,13 @@ public class ListProducts {
 
         productList = productService.findAllInRange(pageNumber, MAX_PAGE_SIZE);
     }
-
+    
+    public String redirectProducto(ProductoDTO product){
+        transportBean.setProductoSeleccionado(product);
+        
+        return "editProduct?faces-redirect=true";
+    }
+    
     //Getter & Setters
     public List<ProductoDTO> getProductList() {
         return productList;

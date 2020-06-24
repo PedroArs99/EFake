@@ -52,15 +52,15 @@ import javax.xml.bind.annotation.XmlTransient;
 public class Producto implements Serializable {
 
     @Column(name = "1Estrella")
-    private Integer estrella1;
+    private int estrella1;
     @Column(name = "2Estrella")
-    private Integer estrella2; 
+    private int estrella2; 
     @Column(name = "3Estrella")
-    private Integer estrella3;
+    private int estrella3;
     @Column(name = "4Estrella")
-    private Integer estrella4;
+    private int estrella4;
     @Column(name = "5Estrella")
-    private Integer estrella5;
+    private int estrella5;
     
 
     private static final long serialVersionUID = 1L;
@@ -129,8 +129,11 @@ public class Producto implements Serializable {
         if(!stopRecursion){
             this.keywordsList = product.getlistakeywords();
         }
+        if(product.getSubcategoria() != null){
+            this.subcategoria = new Subcategoria();
+            this.subcategoria.setId(product.getSubcategoria().getId());
+        }
         
-        this.subcategoria = new Subcategoria(product.getSubcategoria());
         this.categoria = new Categoria(product.getCategoria());
     }
 

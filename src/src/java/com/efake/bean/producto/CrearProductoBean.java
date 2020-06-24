@@ -159,7 +159,7 @@ public class CrearProductoBean {
                     key.setProductoList(lista);
                     keywordservice.create(key);
                     
-                    lista.add(productoservice.findById(i));
+                    lista.add(productoseleccionado);
                     key.setProductoList(lista);
                     keywordservice.edit(key);   
                     list.add(key);
