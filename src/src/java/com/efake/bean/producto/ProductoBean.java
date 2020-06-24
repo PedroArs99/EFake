@@ -2,7 +2,6 @@ package com.efake.bean.producto;
 
 import com.efake.bean.login.UsuarioBean;
 import com.efake.bean.session.Transport;
-import com.efake.dao.CategoriaFacade;
 import com.efake.dto.KeywordsDTO;
 import com.efake.dto.ProductoDTO;
 import com.efake.dto.UsuarioDTO;
@@ -22,7 +21,7 @@ import javax.inject.Inject;
 
 /**
  *
- * @author Carlos Diestro
+ * @author Carlos Diestro, Laura Rosón (arreglos con DTO)
  */
 @Named(value = "productoBean")
 @RequestScoped
@@ -64,10 +63,6 @@ public class ProductoBean {
     public void init(){
         Map<Integer, Integer> ratingsDictionary;
         producto = transport.getProductoSeleccionado();
-        
-        if(this.usuarioBean.getUsuario() != null){
-            user = this.usuarioBean.getUsuario();
-        }
             
         if(!producto.getListaValoraciones().isEmpty()){
             listaValoraciones = producto.getListaValoraciones();
@@ -79,6 +74,7 @@ public class ProductoBean {
             }
         } else {
             mediaValoraciones = 0.0;
+            listaValoraciones = new ArrayList<>();
             ratings = new ArrayList<>();
             for(int i = 0; i < 6; i++){
                 ratings.add(0);
@@ -86,7 +82,7 @@ public class ProductoBean {
         }
         
         if(usuarioBean.getUsuario() != null && usuarioBean.getUsuario().getEsAdmin() != 1){
-           UsuarioDTO user = this.usuarioBean.getUsuario(); 
+           user = this.usuarioBean.getUsuario(); 
            valorado = this.productoService.rated(listaValoraciones, user);
         } else {
             valorado = true;

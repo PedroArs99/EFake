@@ -4,7 +4,7 @@ import com.efake.entity.Subcategoria;
 
 /**
  *
- * @author carlo
+ * @author Carlos Diestro
  */
 public class SubCategoriaDTO {
     //Attributes

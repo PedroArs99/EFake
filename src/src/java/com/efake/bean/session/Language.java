@@ -7,7 +7,6 @@ import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ValueChangeEvent;
 
 /**
  *
@@ -17,7 +16,7 @@ import javax.faces.event.ValueChangeEvent;
 @SessionScoped
 public class Language implements Serializable {
 
-    private String localeCode;
+    private String localeCode = "en";
 
     private static Map<String, Object> countries;
 

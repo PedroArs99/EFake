@@ -3,6 +3,7 @@
     Author: Calors Diestro (Dropdown de categorias)
     Author: Pedro Arenas (Esquema general)
     Author: Lorenzo De Linares (Formulario de búsqueda)
+    Author: Laura Rosón (Menu del usuario)
 -->
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -34,7 +35,7 @@
                     <li class="nav-item dropdown mr-3">
                         <a class="nav-link dropdown-toggle" href="#" id="categoriesDropdown" role="button"
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Categories
+                            #{intern['nav.category.nombre']}
                         </a>
                         <h:form>
                             <div id="categoriesDiv" class="dropdown-menu" aria-labelledby="categoriesDropdown">
@@ -49,36 +50,37 @@
 
                     <h:form class="form-inline my-2 my-lg-0">
                         <div class="form-group">
-                            <h:inputText class="form-control mr-3" value="#{transport.search}" a:placeholder="Search" a:type="search" />
-                            <h:commandButton value="Search" class="btn btn-primary my-2 my-sm-0" action="#{productoBuscarBean.doBuscar()}" />
+                            <h:inputText class="form-control mr-3" value="#{transport.search}" a:placeholder="#{intern['nav.buscar']}" a:type="search" />
+                            <h:commandButton value="#{intern['nav.buscar']}" class="btn btn-primary my-2 my-sm-0" action="#{productoBuscarBean.doBuscar()}" />
                         </div>
                     </h:form>
                 </ul>
                 <h:form>
                     <c:if test="#{menuBean.usuario==null}">
                         <div>
-                            <a href="signup.jsf" class="mr-3 text-darkgrey">I don't have an account</a>
-                            <a href="login.jsf" class="btn btn-secondary">Login</a>
+                            <a href="signup.jsf" class="mr-3 text-darkgrey">#{intern['nav.signup']}</a>
+                            <a href="login.jsf" class="btn btn-secondary">#{intern['nav.login']}</a>
                         </div>
                     </c:if>
                     <c:if test="#{menuBean.usuario!=null}">
 
                         <div class="dropdown">
                             <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Welcome, #{menuBean.usuario.nombre}
+                                #{intern['nav.bienvenida']}, #{menuBean.usuario.nombre}
                             </button>
                             <div class="dropdown-menu dropdown-menu-right">
                                 <c:if test="#{menuBean.usuario.esAdmin == 0}">
-                                    <h:commandLink class="dropdown-item" action="signup" value="Edit my profile"/>
-                                    <h:commandLink class="dropdown-item" action="#{transport.redirectCategory(null)}" value="My products"/>
-                                    <!--a class="dropdown-item" href="MyProducts">My products</a-->                                    
-                                    <h:commandLink class="dropdown-item" action="#{transport.sellProduct()}" value="Sell a new product"/>
+                                    <h:commandLink class="dropdown-item" action="signup" value="#{intern['menu.editarPerfil']}"/>
+                                    <h:commandLink class="dropdown-item" action="#{transport.redirectCategory(null)}" value="#{intern['menu.misProductos']}"/>                                
+                                    <h:commandLink class="dropdown-item" action="#{transport.sellProduct()}" value="#{intern['menu.venderProducto']}"/>
                                 </c:if>
                                 <c:if test="#{menuBean.usuario.esAdmin == 1}">
-                                    <h:link class="dropdown-item" outcome="adminPages/dashboard" value="Administration Panel"/>
+                                    <a href="/efake/adminPages/dashboard.jsf" class="dropdown-item">
+                                       #{intern['menu.panelAdministrador']} 
+                                    </a>
                                 </c:if>
                                 <div class="dropdown-divider"></div>
-                                <h:commandLink class="dropdown-item" action="#{menuBean.doLogOut()}" value="Sign Out"/>     
+                                <h:commandLink class="dropdown-item" action="#{menuBean.doLogOut()}" value="#{intern['menu.signout']}"/>     
                             </div>
                         </div>
 

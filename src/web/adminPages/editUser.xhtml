@@ -3,12 +3,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+      xmlns:efake="http://java.sun.com/jsf/composite/components"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <meta charset="utf-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
-        <title>Sign Up</title>
+        <title>Efake | #{intern['adminPages.editUser.title']}</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"/>
         <link rel="stylesheet" href="/efake/css/styles.css"/>
         <style>
@@ -81,7 +81,7 @@
             }
         </style>
     </h:head>
-    <h:body class="text-center">
+    <h:body class="d-flex flex-column text-center">
         <h:panelGroup styleClass="list-group-item list-group-item-success my-3"
                       rendered="#{editUser.status != null}">
             <i class="fas fa-check" /> #{editUser.status}
@@ -89,17 +89,56 @@
         <h:form class="form-signin">
             <img class="d-inline-block align-top" src="https://raw.githubusercontent.com/PedroArs99/EFake/master/img/logo.png" alt="" width="72" height="30"/><br/>
             <h1 class="h3 mb-3 font-weight-normal">
-                <h:outputText value="Edit profile"/>
+                <h:outputText value="#{intern['adminPages.editUser.title']}"/>
             </h1>
-            <h:inputText value="#{editUser.toEditUser.nombre}" class="form-control" pt:placeholder="First name" pt:autofocus="true" required="true"/>
-            <h:inputText value="#{editUser.toEditUser.apellidos}" class="form-control" pt:placeholder="Last name" required="true"/><br/>
-            <h:inputText value="#{editUser.toEditUser.correo}" class="form-control" pt:placeholder="Email address" required="true"/><br />
-            <h:inputText value="#{editUser.toEditUser.telefono}" class="form-control" pt:placeholder="Phone number" required="true"/><br/>
-            <h6>Do you want to change user's password?</h6>
-            <h:inputSecret value="#{editUser.firstPassword}" class="form-control" pt:placeholder="New Password" />
-            <h:inputSecret value="#{editUser.secondPassword}" class="form-control" pt:placeholder="Confirm Password" />
-            <h:commandButton value="Edit User" styleClass="btn btn-lg btn-block btn-primary" action="#{editUser.saveChanges()}" />
-        </h:form>           
+
+            <div class="form-group">
+                <h:inputText id="name" value="#{editUser.toEditUser.nombre}" class="form-control" pt:placeholder="#{intern['adminPages.editUser.fnamepl']}" pt:autofocus="true" required="true">
+                    <f:validateLength minimum="1" maximum="45" />
+                </h:inputText>
+                <h:message for="name" styleClass="text-danger" />
+            </div>
+
+            <div class="form-group">
+                <h:inputText id="lastName" value="#{editUser.toEditUser.apellidos}" class="form-control" pt:placeholder="#{intern['adminPages.editUser.lnamepl']}" required="true">
+                    <f:validateLength minimum="1" maximum="100" />
+                </h:inputText>
+                <h:message for="lastName" styleClass="text-danger" />
+            </div>
+
+            <div class="form-group">
+                <h:inputText id="email" value="#{editUser.toEditUser.correo}" class="form-control" pt:placeholder="#{intern['adminPages.editUser.emailpl']}" required="true">
+                    <f:validateLength minimum="1" maximum="100" />
+                </h:inputText>
+                <h:message for="email" styleClass="text-danger" />
+            </div>
+
+            <div class="form-group">
+                <h:inputText id="phone" value="#{editUser.toEditUser.telefono}" class="form-control" pt:placeholder="#{intern['adminPages.editUser.phonepl']}" required="true">
+                    <f:validateLength minimum="1" maximum="13" />
+                </h:inputText>
+                <h:message for="phone" styleClass="text-danger" />
+            </div>
+
+            <h6>#{intern['adminPages.editUser.pwdMessage']}</h6>
+
+            <div class="form-group">
+                <h:inputSecret value="#{editUser.firstPassword}" class="form-control" pt:placeholder="#{intern['adminPages.editUser.pwd1pl']}" />
+            </div>
+
+            <div class="form-group">
+                <h:inputSecret value="#{editUser.secondPassword}" class="form-control" pt:placeholder="#{intern['adminPages.editUser.pwd2pl']}" />
+            </div>
+
+            <h:commandButton value="#{intern['adminPages.editUser.saveButton']}" styleClass="btn btn-lg btn-block btn-primary" action="#{editUser.saveChanges()}" />
+
+            <h:link styleClass="btn btn-lg btn-block btn-secondary" outcome="userList" >
+                #{intern['adminPages.editUser.cancelButton']}
+            </h:link>
+
+        </h:form>
+
+        <efake:footer />
     </h:body>
 </html>
 

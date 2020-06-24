@@ -34,7 +34,7 @@
         <h:panelGroup id="busqueda">
             <div class="px-3 my-5">
                 <div class="row mb-3 container">
-                    <h1>Search results for: #{productoBuscarBean.filtro}</h1>
+                    <h1>#{intern['busqueda.resultados']}: #{productoBuscarBean.filtro}</h1>
                     <h:panelGroup id="listaProductos" class="search_grid">
                         <ui:repeat value="#{productoBuscarBean.productList}" var="product">
                             <efake:product_woanimation productId="#{product.id}"

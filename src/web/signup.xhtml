@@ -1,14 +1,18 @@
+<!--
+    Author: Laura Rosón
+-->
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:efake="http://java.sun.com/jsf/composite/components"
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <h:head>
         <meta charset="utf-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
-        <title>Sign Up</title>
+        <title>#{intern['signup.titulo']}</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"/>
         <link rel="stylesheet" href="/efake/css/styles.css"/>
         <style>
@@ -86,10 +90,10 @@
             <img class="d-inline-block align-top" src="https://raw.githubusercontent.com/PedroArs99/EFake/master/img/logo.png" alt="" width="72" height="30"/><br/>
             <h1 class="h3 mb-3 font-weight-normal">
                 <c:if test="#{usuarioBean.usuario == null}">
-                    <h:outputText value="Please sign up"/>
+                    <h:outputText value="#{intern['signup.cabecera.signup']}"/>
                 </c:if>
                 <c:if test="#{usuarioBean.usuario != null}">
-                    <h:outputText value="Edit your profile"/>
+                    <h:outputText value="#{intern['singup.cabecera.modifyProfile']}"/>
                 </c:if>                    
             </h1>
 
@@ -97,15 +101,15 @@
                 <div class="alert alert-danger">#{signUpBean.status}</div>
             </c:if>
 
-            <h:inputText value="#{signUpBean.usuario.nombre}" class="form-control" a:placeholder="First name" a:autofocus="true" required="true"/>
-            <h:inputText value="#{signUpBean.usuario.apellidos}" class="form-control" a:placeholder="Last name" required="true"/><br/>
+            <h:inputText value="#{signUpBean.usuario.nombre}" class="form-control" a:placeholder="#{intern['signup.nombre']}" a:autofocus="true" required="true"><f:validateLength minimum="1" maximum="45"/></h:inputText>
+            <h:inputText value="#{signUpBean.usuario.apellidos}" class="form-control" a:placeholder="#{intern['signup.apellido']}" required="true"><f:validateLength minimum="1" maximum="100"/></h:inputText><br/>
 
 
-            <h:inputText value="#{signUpBean.usuario.correo}" class="form-control" a:placeholder="Email address" required="true"/>
+            <h:inputText value="#{signUpBean.usuario.correo}" class="form-control" a:placeholder="#{intern['signup.correo']}" required="true"><f:validateLength minimum="1" maximum="100"/></h:inputText>
 
             <c:if test="#{usuarioBean.usuario == null}">
-                <h:inputSecret value="#{signUpBean.contrasena}" class="form-control" a:placeholder="Password" required="true"/><br/>
-                <h:inputText class="form-control" a:placeholder="Birth date: DD-MM-YYYY" required="true" value="#{signUpBean.nacimiento}">
+                <h:inputSecret value="#{signUpBean.contrasena}" class="form-control" a:placeholder="#{intern['signup.contrasena']}" required="true"/><br/>
+                <h:inputText class="form-control" a:placeholder="#{intern['signup.nacimiento']}" required="true" value="#{signUpBean.nacimiento}">
                     <f:convertDateTime pattern = "dd-mm-yyyy" />
                 </h:inputText><br/>
             </c:if>        
@@ -114,23 +118,23 @@
                 <h:outputText value="#{signUpBean.usuario.edad}" class="form-control" a:readonly="true" style="text-align:left"/>
             </c:if>
 
-            <h:inputText value="#{signUpBean.usuario.telefono}" class="form-control" a:placeholder="Phone number" required="true"/><br/>
+            <h:inputText value="#{signUpBean.usuario.telefono}" class="form-control" a:placeholder="#{intern['signup.telefono']}"><f:validateLength maximum="13"/></h:inputText><br/>
 
             <c:if test="#{usuarioBean.usuario == null}">
-                <h:commandButton class="btn btn-lg btn-primary btn-block" value="Sign up" action="#{signUpBean.doSignUp()}"/><br/>
-                <h:link outcome="login" value="I already have an account"/><br/><br/>
+                <h:commandButton class="btn btn-lg btn-primary btn-block" value="#{intern['signup.botonRegistrar']}" action="#{signUpBean.doSignUp()}"/><br/>
+                <h:link outcome="login" value="#{intern['signup.linkYaTengoCuenta']}"/><br/><br/>
 
-                <p>By clicking
-                    <em>Sign up</em> you agree to our terms of service
-                </p>
+                <p>#{intern['signup.aviso']}</p>
             </c:if>
             <c:if test="#{usuarioBean.usuario != null}">
-                <h:link outcome="changePassword" value="Do you want to change your password?"/><br/><br/>
-                <h:commandButton class="btn btn-lg btn-primary btn-block" value="Edit my profile" action="#{signUpBean.doEditProfile()}"/><br/>
+                <h:link outcome="changePassword" value="#{intern['signup.cambiarContrasena']}"/><br/><br/>
+                <h:commandButton class="btn btn-lg btn-primary btn-block" value="#{intern['signup.botonEditarPerfil']}" action="#{signUpBean.doEditProfile()}"/><br/>
             </c:if> 
 
-            <p class="mt-5 mb-3 text-muted">Copyrigth © 2020 eFake Inc. All Rights Reserved.</p>
-        </h:form>           
+            
+            <efake:footer />
+            <!--p class="mt-5 mb-3 text-muted"></p-->
+        </h:form>
     </h:body>
 </html>
 

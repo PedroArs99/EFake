@@ -22,7 +22,7 @@ import javax.inject.Inject;
 
 /**
  *
- * @author Carlos Diestro
+ * @author Carlos Diestro, Laura Rosón (Arreglos DTO)
  */
 @Named(value = "productoCategoriaBean")
 @RequestScoped
