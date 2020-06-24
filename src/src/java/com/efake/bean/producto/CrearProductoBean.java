@@ -27,7 +27,7 @@ import javax.inject.Inject;
 
 /**
  *
- * @author JuMed
+ * @author Juan Medina Moya 
  */
 @Named(value = "crearProductoBean")
 @RequestScoped
