@@ -26,9 +26,8 @@ import javax.ejb.Stateless;
 
 /**
  *
- * @author PedroArenas (findMostRated, count, findAllInRange, remove)
- * @author Carlos Diestro (getProductRatings, getMeanRating, getRatingList,
- * findById, findByCategory)
+ * @author PedroArenas
+ * @author Carlos Diestro
  */
 @Stateless
 public class ProductoService {
@@ -44,7 +43,7 @@ public class ProductoService {
 
     @EJB
     private UsuarioFacade usuarioFacade;
-    
+
     @EJB
     private KeywordsFacade keywordFacade;
 
@@ -163,10 +162,10 @@ public class ProductoService {
 
         return dtoList;
     }
-    
-    public List<ProductoDTO> findByMultipleFilters(String name, Date date, CategoriaDTO categoryDTO, String ownerEmail){
+
+    public List<ProductoDTO> findByMultipleFilters(String name, Date date, CategoriaDTO categoryDTO, String ownerEmail) {
         Categoria category = this.categoryFacade.find(categoryDTO.getId());
-        
+
         List<Producto> lista = this.productFacade.findByMultipleFilters(name, date, category, ownerEmail);
         List<ProductoDTO> dtoList = convertToDTO(lista);
 
@@ -174,9 +173,21 @@ public class ProductoService {
     }
 
     public void create(ProductoDTO productoDTO) {
-        Producto p = new Producto(productoDTO, false);
+        this.create(productoDTO, null);
+    }
 
-        productFacade.create(p);
+    public void create(ProductoDTO productoDTO, String keywordList) {
+        //Create Product
+        Producto product = new Producto(productoDTO, false);
+        productFacade.create(product);
+
+        if (keywordList != null) {
+            //Get & insert new keywords
+            insertNewKeywords(product, keywordList);
+
+            productFacade.edit(product);
+        }
+
     }
 
     public void edit(ProductoDTO productoDTO) {
@@ -202,42 +213,50 @@ public class ProductoService {
     public void manageKeywords(String keywordList, ProductoDTO toEditProduct) {
         //Get Product
         Producto product = this.productFacade.find(toEditProduct.getId());
-        
+
         //Remove all asociations between product and it's kw
-        List<Keywords> productKws = product.getKeywordsList();
-        
-        while(!productKws.isEmpty()){
-           Keywords kw = productKws.get(0);
-           
-           //Remove kw from product
-           productKws.remove(kw);
-           
-           //Remove product from kw
-           kw.getProductoList().remove(product);
-           
-           //Merge kw state with db
-           keywordFacade.edit(kw);
-        }
-        
+        removeKeywords(product);
+
         //Get & insert new keywords
+        insertNewKeywords(product, keywordList);
+
+        productFacade.edit(product);
+
+    }
+
+    private void removeKeywords(Producto product) {
+        List<Keywords> productKws = product.getKeywordsList();
+
+        while (!productKws.isEmpty()) {
+            Keywords kw = productKws.get(0);
+
+            //Remove kw from product
+            productKws.remove(kw);
+
+            //Remove product from kw
+            kw.getProductoList().remove(product);
+
+            //Merge kw state with db
+            keywordFacade.edit(kw);
+        }
+    }
+
+    private void insertNewKeywords(Producto product, String keywordList) {
+        List<Keywords> productKws = product.getKeywordsList();
         StringTokenizer st = new StringTokenizer(keywordList, ",");
 
         while (st.hasMoreElements()) {
             String nextToken = (String) st.nextElement();
             Keywords kw = this.keywordFacade.findOrCreate(nextToken);
-            
+
             //Add product to kw
             kw.getProductoList().add(product);
-            
+
             //add kw to product
             productKws.add(kw);
-            
+
             this.keywordFacade.edit(kw);
         }
-        
-        
-        productFacade.edit(product);
-        
     }
 
 }

@@ -1,4 +1,7 @@
 <?xml version='1.0' encoding='UTF-8' ?>
+<!--
+    Author: Pedro Arenas
+-->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
@@ -10,7 +13,7 @@
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
             <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-            <title>Efake | Edit Product Info </title>
+            <title>Efake | #{intern['adminPages.editProduct.title']} </title>
 
             <!--Favicon-->
             <link rel="shortcut icon" href="/efake/img/favicon.png" type="image/png" />
@@ -24,7 +27,7 @@
         <h:form styleClass="my-5" id="form">
             <img class="d-inline-block align-top" src="https://raw.githubusercontent.com/PedroArs99/EFake/master/img/logo.png" alt="" width="72" height="30"/><br/>
             <h1 class="h3 mb-3 font-weight-normal">
-                <h:outputText value="Edit Product Info"/>
+                <h:outputText value="#{intern['adminPages.editProduct.title']}"/>
             </h1>
             
             <div class="row">
@@ -34,27 +37,27 @@
                     <h:inputHidden value="#{editProduct.toEditProduct.id}" />
                     
                     <div class="form-group">
-                        <h:inputText id="name" value="#{editProduct.toEditProduct.nombre}" class="form-control" pt:placeholder="Name" pt:autofocus="true" required="true">
+                        <h:inputText id="name" value="#{editProduct.toEditProduct.nombre}" class="form-control" pt:placeholder="#{intern['adminPages.editProduct.namePl']}" pt:autofocus="true" required="true">
                             <f:validateLength minimum="1" maximum="45" />
                         </h:inputText>
                         <h:message for="name" styleClass="text-danger" />
                     </div>
                     
                     <div class="form-group">
-                        <h:inputTextarea id="description" value="#{editProduct.toEditProduct.descripcion}" class="form-control" pt:placeholder="Description" required="true"
+                        <h:inputTextarea id="description" value="#{editProduct.toEditProduct.descripcion}" class="form-control" pt:placeholder="#{intern['adminPages.editProduct.descriptionPl']}" required="true"
                                          style="resize: none" pt:rows="10"/>
                         <h:message for="description" styleClass="text-danger" />
                     </div>
                     
                     <div class="form-group">
-                        <h:inputText id="price" value="#{editProduct.toEditProduct.precio}" class="form-control" pt:placeholder="Price" required="true">
+                        <h:inputText id="price" value="#{editProduct.toEditProduct.precio}" class="form-control" pt:placeholder="#{intern['adminPages.editProduct.pricePl']}" required="true">
                             <f:validateDoubleRange minimum="0.0" />
                         </h:inputText>
                         <h:message for="price" styleClass="text-danger" />
                     </div>
                     
                     <div class="form-group">
-                        <h:inputText id="image" value="#{editProduct.toEditProduct.imagen}" class="form-control" pt:placeholder="Image" required="true" />
+                        <h:inputText id="image" value="#{editProduct.toEditProduct.imagen}" class="form-control" pt:placeholder="#{intern['adminPages.editProduct.imagePl']}" required="true" />
                         <h:message for="image" styleClass="text-danger" />
                     </div>
                     
@@ -62,7 +65,7 @@
                 <div class="col-md-6">
                     
                     <div class="form-group">
-                        <h:inputText id="kw" value="#{editProduct.keywordList}" class="form-control" pt:placeholder="Keywords" />                         
+                        <h:inputText id="kw" value="#{editProduct.keywordList}" class="form-control" pt:placeholder="#{intern['keywordsPl']}" />                         
                     </div>
                    
                     
@@ -84,9 +87,9 @@
                 
             </div>
                     
-            <h:commandButton value="Save Changes" styleClass="btn btn-lg btn-block btn-primary" action="#{editProduct.saveChanges()}" />
+            <h:commandButton value="#{intern['adminPages.editProduct.saveButton']}" styleClass="btn btn-lg btn-block btn-primary" action="#{editProduct.saveChanges()}" />
 
-            <h:commandButton value="Discard Changes" styleClass="btn btn-lg btn-block btn-secondary" action="#{editProduct.discardChanges()}" />
+            <h:commandButton value="#{intern['adminPages.editProduct.discardButton']}" styleClass="btn btn-lg btn-block btn-secondary" action="#{editProduct.discardChanges()}" />
         </h:form>
 
         <efake:footer />

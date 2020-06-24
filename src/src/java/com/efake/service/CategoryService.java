@@ -2,9 +2,7 @@ package com.efake.service;
 
 import com.efake.dao.CategoriaFacade;
 import com.efake.dto.CategoriaDTO;
-import com.efake.dto.SubCategoriaDTO;
 import com.efake.entity.Categoria;
-import com.efake.entity.Subcategoria;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;

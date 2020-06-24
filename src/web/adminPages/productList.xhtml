@@ -12,7 +12,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-        <title>Efake | Product List </title>
+        <title>Efake | #{intern['adminPages.productList.title']} </title>
 
         <!--Favicon-->
         <link rel="shortcut icon" href="/efake/img/favicon.png" type="image/png" />
@@ -30,13 +30,13 @@
                 <nav class="col-md-2 d-none d-md-block bg-transparent sidebar border-right border-thin">
                     <div class="sidebar-sticky">
                         <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-                            Find Product
+                            #{intern['adminPages.productList.leftNavTitle']}
                         </h6>
                         <ul class="nav flex-column">
                             <h:form>
                                 <li class="nav-item ml-3">
                                     <div class="form-group">
-                                        <label>Name</label>
+                                        <label>#{intern['adminPages.productList.namePl']}</label>
                                         <h:inputText styleClass="form-control" id="name" value="#{listProducts.nameFilter}">
                                             <f:ajax render="form:productList" event="keyup" listener="#{listProducts.filterProducts()}" 
                                                     execute="name date category email" />
@@ -46,7 +46,7 @@
 
                                 <li class="nav-item ml-3">
                                     <div class="form-group">
-                                        <label>Date</label>
+                                        <label>#{intern['adminPages.productList.datePl']}</label>
                                         <h:inputText styleClass="form-control" id="date" value="#{listProducts.dateFilter}">
                                             <f:ajax render="form:productList" event="keyup" listener="#{listProducts.filterProducts()}" 
                                                     execute="name date category email" />
@@ -57,10 +57,10 @@
 
                                 <li class="nav-item ml-3">
                                     <div class="form-group">
-                                        <label>Category</label>
+                                        <label>#{intern['adminPages.productList.categoryPl']}</label>
 
                                         <h:selectOneMenu styleClass="form-control" id="category" value="#{listProducts.categoryIdFilter}">
-                                            <f:selectItem itemLabel="All" itemValue="-1" />
+                                            <f:selectItem itemLabel="#{intern['adminPages.productList.allLabel']}" itemValue="-1" />
                                             <f:selectItems value="#{transport.listaCategoria}" var="category"
                                                            itemLabel="#{category.nombre}" itemValue="#{category.id}"/>
                                             <f:ajax render="form:productList" listener="#{listProducts.filterProducts()}" 
@@ -73,7 +73,7 @@
 
                                 <li class="nav-item ml-3">
                                     <div class="form-group">
-                                        <label>Owner Email</label>
+                                        <label>#{intern['adminPages.productList.ownerPl']}</label>
                                         <h:inputText styleClass="form-control" id="email" value="#{listProducts.ownerEmailFilter}">
                                             <f:ajax render="form:productList" event="keyup" listener="#{listProducts.filterProducts()}" 
                                                     execute="name date category email" />
@@ -94,7 +94,7 @@
                 <!-- Product List -->
                 <main role="main" class="col-md-9  col-lg-10 px-4">
                     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
-                        <h1 class="h2">Product List</h1>
+                        <h1 class="h2">#{intern['adminPages.productList.title']}</h1>
                     </div>
 
                     <h:panelGroup styleClass="list-group-item list-group-item-success my-3"
@@ -108,26 +108,26 @@
                                      var="product"
                                      id="productList">
                             <h:column>
-                                <f:facet name="header">Name</f:facet>
+                                <f:facet name="header">#{intern['adminPages.productList.namePl']}</f:facet>
                                     #{product.nombre}
                             </h:column>
                             <h:column>
-                                <f:facet name="header">Price</f:facet>
+                                <f:facet name="header">#{intern['adminPages.productList.pricePl']}</f:facet>
                                     #{product.precio}
                             </h:column>
                             <h:column>
-                                <f:facet name="header">Date</f:facet>
+                                <f:facet name="header">#{intern['adminPages.productList.datePl']}</f:facet>
                                 <h:outputText value="#{product.fecha}">
                                     <f:convertDateTime pattern="dd.MM.yyyy" />
                                 </h:outputText>
                             </h:column>
                             <h:column>
-                                <f:facet name="header">Category</f:facet>
+                                <f:facet name="header">#{intern['adminPages.productList.categoryPl']}</f:facet>
                                     #{product.categoria.nombre}
                             </h:column>
 
                             <h:column>
-                                <f:facet name="header">Owner</f:facet>
+                                <f:facet name="header">#{intern['adminPages.productList.ownerPl']}</f:facet>
                                     #{product.owner.correo}
                             </h:column>
                             <h:column>
@@ -159,7 +159,7 @@
                         </ul>
                     </h:form>
                     <h:panelGroup layout="block" id="pagination" styleClass="text-center">
-                        Current page: #{listProducts.currentPage}
+                        #{intern['adminPages.productList.currentLabel']}: #{listProducts.currentPage}
                     </h:panelGroup>
                 </main>
             </div>

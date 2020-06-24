@@ -47,7 +47,8 @@ public class stats {
 
     //Attributes
     private BarChartModel barChart;
-
+    
+    //Constructor
     @PostConstruct
     public void init() {
         UsuarioDTO sessionUser = sessionBean.getUsuario();
@@ -62,7 +63,8 @@ public class stats {
             this.drawGlobalStats();
         }
     }
-
+    
+    //Bean Methods
     public void drawGlobalStats() {
         Map<String, Integer> globalStats = statsService.getBasicStats();
         drawBarChart("Global Stats", globalStats, true);
@@ -87,11 +89,13 @@ public class stats {
         SortedMap<String, Integer> monthStats = statsService.getMonthlyRatingStats();
         drawBarChart("New Ratings maded in the last month", monthStats, false);
     }
-
+    
+    //Getters & setters
     public BarChartModel getBarChart() {
         return barChart;
     }
-
+    
+    //Private methods
     private void drawBarChart(String chartTitle, Map<String, Integer> stats, boolean manyColors) {
         List<String> labels = new ArrayList<>(stats.keySet());
         List<Number> values = new ArrayList<>(stats.values());

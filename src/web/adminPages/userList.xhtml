@@ -12,7 +12,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-        <title>Efake | User List </title>
+        <title>Efake | #{intern['adminPages.userList.title']} </title>
 
         <!--Favicon-->
         <link rel="shortcut icon" href="/efake/img/favicon.png" type="image/png" />
@@ -29,13 +29,13 @@
             <nav class="col-md-2 d-none d-md-block bg-transparent sidebar border-right border-thin">
                 <div class="sidebar-sticky">
                     <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-                        Find User
+                        #{intern['adminPages.userList.leftNavTitle']}
                     </h6>
                     <ul class="nav flex-column">
                         <h:form>
                             <li class="nav-item ml-3">
                                 <div class="form-group">
-                                    <label>Email</label>
+                                    <label>#{intern['adminPages.userList.emailPl']}</label>
                                     <h:inputText styleClass="form-control" id="email" value="#{listUsers.emailFilter}">
                                         <f:ajax render="form:userTable" event="keyup" listener="#{listUsers.filterUsers()}" 
                                                 execute="email name surname age lastLogin" />
@@ -44,7 +44,7 @@
                             </li>
                             <li class="nav-item ml-3">
                                 <div class="form-group">
-                                    <label>Name</label>
+                                    <label>#{intern['adminPages.userList.namePl']}</label>
                                     <h:inputText styleClass="form-control" id="name" value="#{listUsers.nameFilter}">
                                         <f:ajax render="form:userTable" event="keyup" listener="#{listUsers.filterUsers()}" 
                                                 execute="email name surname age lastLogin" />
@@ -53,7 +53,7 @@
                             </li>
                             <li class="nav-item ml-3">
                                 <div class="form-group">
-                                    <label>Surname</label>
+                                    <label>#{intern['adminPages.userList.surnamePl']}</label>
                                     <h:inputText styleClass="form-control" id="surname" value="#{listUsers.surnameFilter}">
                                         <f:ajax render="form:userTable" event="keyup" listener="#{listUsers.filterUsers()}" 
                                                 execute="email name surname age lastLogin" />
@@ -62,7 +62,7 @@
                             </li>
                             <li class="nav-item ml-3">
                                 <div class="form-group">
-                                    <label>Age</label>
+                                    <label>#{intern['adminPages.userList.agePl']}</label>
                                     <h:inputText styleClass="form-control col-md-4" id="age" value="#{listUsers.ageFilter}">
                                         <f:ajax render="form:userTable" event="keyup" listener="#{listUsers.filterUsers()}" 
                                                 execute="email name surname age lastLogin" />
@@ -71,7 +71,7 @@
                             </li>
                             <li class="nav-item ml-3">
                                 <div class="form-group">
-                                    <label>Last Login</label>
+                                    <label>#{intern['adminPages.userList.lastLogInPl']}</label>
                                     <h:inputText styleClass="form-control" id="lastLogin" value="#{listUsers.lastLoginFilter}">
                                         <f:ajax render="form:userTable" event="keyup" listener="#{listUsers.filterUsers()}" 
                                                 execute="email name surname age lastLogin" />
@@ -92,7 +92,7 @@
             <!-- User List -->
             <main role="main" class="col-md-9  col-lg-9 p-3">
                 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
-                    <h1 class="h2">#{intern['adminPages.userList.userList']}</h1>
+                    <h1 class="h2">#{intern['adminPages.userList.title']}</h1>
                 </div>
 
               
@@ -103,27 +103,27 @@
                                  var="user"
                                  id="userTable">
                         <h:column>
-                            <f:facet name="header">Email</f:facet>
+                            <f:facet name="header">#{intern['adminPages.userList.emailPl']}</f:facet>
                                 #{user.correo}
                         </h:column>
                         <h:column>
-                            <f:facet name="header">Name</f:facet>
+                            <f:facet name="header">#{intern['adminPages.userList.namePl']}</f:facet>
                                 #{user.nombre}
                         </h:column>
                         <h:column>
-                            <f:facet name="header">Surname</f:facet>
+                            <f:facet name="header">#{intern['adminPages.userList.surnamePl']}</f:facet>
                                 #{user.apellidos}
                         </h:column>
                         <h:column>
-                            <f:facet name="header">Age</f:facet>
+                            <f:facet name="header">#{intern['adminPages.userList.agePl']}</f:facet>
                                 #{user.edad}
                         </h:column>
                         <h:column>
-                            <f:facet name="header">Phone Number</f:facet>
+                            <f:facet name="header">#{intern['adminPages.userList.phonePl']}</f:facet>
                                 #{user.telefono}
                         </h:column>
                         <h:column>
-                            <f:facet name="header">Last Login</f:facet>
+                            <f:facet name="header">#{intern['adminPages.userList.lastLogInPl']}</f:facet>
                             <h:outputText value="#{user.ultimaEntrada}">   
                                 <f:convertDateTime pattern="dd.MM.yyyy" />
                             </h:outputText>
@@ -160,7 +160,7 @@
                     </ul>
                 </h:form>
                 <h:panelGroup layout="block" id="pagination" styleClass="text-center">
-                    Current page: #{listUsers.currentPage}
+                    #{intern['adminPages.userList.currentLabel']}: #{listUsers.currentPage}
                 </h:panelGroup>
 
             </main>

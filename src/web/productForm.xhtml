@@ -90,14 +90,14 @@
                         <div class="form-group">
                             <h:outputText value="#{intern['productForm.producto.categories']} "/><br/>
                             <h:selectOneMenu value = "#{crearProductoBean.categoria}">
-                                <f:selectItem itemValue="" itemLabel="--TODOS--"></f:selectItem>
+                                
                                 <f:selectItems value="#{crearProductoBean.listacategorias}" var="cat" itemValue="#{cat.id}" itemLabel="#{cat.nombre}"/>
                             </h:selectOneMenu>
                         </div>
                         <div class="form-group">
                             <h:outputText value="#{intern['productForm.product.subcategories']} "/><br/>
                             <h:selectOneMenu value="#{crearProductoBean.subcategoria}" >
-                                <f:selectItem itemValue="" itemLabel="--TODOS--"></f:selectItem>
+                                <f:selectItem itemValue="" itemLabel="-"></f:selectItem>
                                 <f:selectItems value="#{crearProductoBean.listasubcategoria}" var="cat" itemValue="#{cat.id}" itemLabel="#{cat.nombre}"/>
                             </h:selectOneMenu>
                         </div>

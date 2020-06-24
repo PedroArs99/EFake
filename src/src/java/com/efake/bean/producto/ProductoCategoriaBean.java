@@ -43,9 +43,9 @@ public class ProductoCategoriaBean {
     private CategoriaDTO categoria;
     private List<ProductoDTO> listaProductos, listaMisProductos;
     private List<SubCategoriaDTO> listaSubCategoriasByCategoria;
+    private String status;
     
-    public ProductoCategoriaBean() {
-    }
+    
     
     
     @PostConstruct
@@ -62,6 +62,9 @@ public class ProductoCategoriaBean {
         if(usuario != null){
            listaMisProductos = this.productoService.findByUsuario(usuario); 
         }
+        
+        this.status = transport.getStatus();
+        transport.setStatus(null);
         
     }
     
@@ -101,5 +104,15 @@ public class ProductoCategoriaBean {
     public void doFiltrarBySubcategoria(SubCategoriaDTO subcategoria){
         this.listaProductos = this.productoService.findBySubCategoria(subcategoria);
     }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+    
+    
     
 }

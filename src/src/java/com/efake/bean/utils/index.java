@@ -26,14 +26,12 @@ public class index {
     private List<ProductoDTO> mostRatedProductList;
     
     //Constructor
-    public index() {
-    }
-    
     @PostConstruct
     public void init(){
         this.mostRatedProductList = productoService.findMostRated(NUMBER_OF_MOST_RATED);
     }
-
+    
+    //Getters & Setters
     public List<ProductoDTO> getMostRatedProductList() {
         return mostRatedProductList;
     }

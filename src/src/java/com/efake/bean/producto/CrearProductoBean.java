@@ -137,58 +137,13 @@ public class CrearProductoBean {
     }   
 
     public String doEditar() {
-        if (!this.isEditar) {//when create
-          
-            List<KeywordsDTO> list = new ArrayList<>();
-            List<ProductoDTO> lista = new ArrayList<>();
-           
+        if (!this.isEditar) {//when create 
             productoseleccionado.setOwner(usuariolog);
             productoseleccionado.setFecha(new Date());
             productoseleccionado.setCategoria(categoryservice.find(this.categoria));
             productoseleccionado.setSubcategoria(subcategoryservice.find(this.subcategoria));
-            productoseleccionado.setListaKeywords(list);
-            productoservice.create(productoseleccionado);
+            productoservice.create(productoseleccionado, this.keywords);
             
-           // StringTokenizer st = new StringTokenizer(this.keywords, ",");
-            String[] split = this.keywords.split(",");
-            for(int i = 0 ; i<split.length; i++) {
-                KeywordsDTO k = keywordservice.find(split[i]);
-                if (k==null){
-                    KeywordsDTO key = new KeywordsDTO();
-                    key.setPalabra(split[i]);
-                    key.setProductoList(lista);
-                    keywordservice.create(key);
-                    
-                    lista.add(productoseleccionado);
-                    key.setProductoList(lista);
-                    keywordservice.edit(key);   
-                    list.add(key);
-                    lista.remove(productoseleccionado);
-                }else{
-                    lista=k.getProductoList();
-                    lista.add(productoseleccionado);
-                    k.setProductoList(lista);
-                    keywordservice.edit(k);
-                    list.add(k);
-                    
-                }
-                
-              
-               
-            }
-            this.productoseleccionado.setListaKeywords(list);
-   
-          /* while (st.hasMoreTokens()) {
-            KeywordsDTO k = keywordservice.findOrCreate(st.nextToken());
-            
-            productoseleccionado.getListaKeywords().add(k);
-            k.getProductoList().add(productoseleccionado);
-            
-            keywordservice.edit(k);
-            }*/
-           
-            productoservice.edit(productoseleccionado);
-  
         } else {//when edit
             //Manage Keywords
             List<KeywordsDTO> kwList = productoseleccionado.getListaKeywords();
@@ -241,8 +196,9 @@ public class CrearProductoBean {
             productoservice.edit(productoseleccionado);
         }
         
+        transport.setStatus("Product Created successfully");
         
-        return "index";
+        return "productGrid?faces-redirect=true";
     }
 
 }

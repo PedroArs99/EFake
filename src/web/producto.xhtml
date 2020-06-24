@@ -54,13 +54,15 @@
                 </h5>
                 <p class="product-description">#{productoBean.descripcion} </p>
 
+                <c:if test="#{productoBean.canEditDelete()}">
+                    <h:form>
+                        <div class="action">
+                            <h:commandButton id="modify-button" value="#{intern['productPage.product.modify']}" class="btn btn-primary mr-3" action="#{transport.modifyProcut(productoBean.id)}"/>
+                            <h:commandButton id="delete-button" value="#{intern['productPage.product.delete']}" class="btn btn-primary" action="#{transport.deleteProduct(productoBean.id)}"/>
+                        </div>
+                    </h:form>
+                </c:if>
 
-                <h:form>
-                    <div class="action">
-                        <h:commandButton id="modify-button" value="#{intern['productPage.product.modify']}" class="btn btn-primary mr-3" action="#{transport.modifyProcut(productoBean.id)}"/>
-                        <h:commandButton id="delete-button" value="#{intern['productPage.product.delete']}" class="btn btn-primary" action="#{transport.deleteProduct(productoBean.id)}"/>
-                    </div>
-                </h:form>
             </div>
 
         </div>

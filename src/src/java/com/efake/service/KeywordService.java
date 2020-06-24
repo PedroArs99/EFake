@@ -18,33 +18,33 @@ import javax.ejb.Stateless;
 @Stateless
 public class KeywordService {
 
-   @EJB
+    @EJB
     KeywordsFacade keywordsfacade;
-   
-    public KeywordsDTO findOrCreate(String keyword){
+
+    public KeywordsDTO findOrCreate(String keyword) {
         Keywords k = keywordsfacade.findOrCreate(keyword);
-        
-        
+
         return k.getDTO();
     }
 
-    public void edit(KeywordsDTO k){
+    public void edit(KeywordsDTO k) {
         Keywords keyword = new Keywords(k);
 
         keywordsfacade.edit(keyword);
-    } 
-    
-    public KeywordsDTO find(String keyword){
+    }
+
+    public KeywordsDTO find(String keyword) {
         Keywords k = keywordsfacade.find(keyword);
-        if(k==null){
+        if (k == null) {
             return null;
-        }else{
+        } else {
             return k.getDTO();
         }
     }
-    public void create(KeywordsDTO k){
+
+    public void create(KeywordsDTO k) {
         Keywords keyword = new Keywords(k);
         keywordsfacade.create(keyword);
-    } 
+    }
 
 }

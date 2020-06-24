@@ -98,6 +98,10 @@ public class ProductoBean {
         
     }
        
+    public boolean canEditDelete(){
+        return (usuarioBean.getUsuario() != null) && ((usuarioBean.getUsuario().equals(owner)) || (usuarioBean.getUsuario().getEsAdmin() == 1));
+    }
+    
     public Object[] createDummyArray(int size){
         return new Object[size];
     }
